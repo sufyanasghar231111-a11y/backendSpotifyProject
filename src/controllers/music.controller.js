@@ -16,6 +16,7 @@ async function music(req,res) {
     })
     
     res.status(201).json({
+      success:true,
       message:"Successful create music",
       user:{
         id:user._id,
@@ -36,6 +37,7 @@ async function album(req,res){
       })
 
       res.status(201).json({
+        success:true,
         message:"Successful Created",
         title:user.title,
         album:album,
