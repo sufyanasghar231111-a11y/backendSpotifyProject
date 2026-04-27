@@ -28,10 +28,11 @@ async function music(req,res) {
 }
 
 async function album(req,res){
-      let {title, album} =req.body
+      let {title, album,artistName} =req.body
 
       const user= await albumExport.create({
         title,
+        artistName,
         album,
         artist:req.user.id
       })
@@ -40,10 +41,10 @@ async function album(req,res){
         success:true,
         message:"Successful Created",
         title:user.title,
+        name:user.artistName,
         album:album,
         artist:req.user.id
       })
-
 }
 
 module.exports={music, album}

@@ -5,6 +5,11 @@ const albumModel= new mongoose.Schema({
         type:String,
         required:true
     },
+    artistName:{
+        type:String,
+        required:true
+    },
+
     album:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'music'
