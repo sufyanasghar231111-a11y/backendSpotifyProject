@@ -1,4 +1,3 @@
-
 const jwt=require('jsonwebtoken')
 
 async function authartist(req,res,next) {
@@ -17,11 +16,9 @@ async function authartist(req,res,next) {
               message:"Unauthorized user"
             })
           }
-
           req.user=decoded
           next()
         }
-
           catch(e){
       console.log(e);
       res.status(500).json({
@@ -30,6 +27,5 @@ async function authartist(req,res,next) {
       
     }
 }
-
 
 module.exports={authartist}

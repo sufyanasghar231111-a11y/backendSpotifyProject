@@ -26,11 +26,8 @@ async function music(req,res) {
     })
 }
 
-
 async function album(req,res){
-  
       let {title, album} =req.body
-            
 
       const user= await albumExport.create({
         title,

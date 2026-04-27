@@ -8,11 +8,9 @@ const routeMusic=require('../src/routes/music.route')
 const app= express()
 app.use(express.json())
 
-
 app.use(cookie())
 app.use('/api/auth', router)
 
-app.use('/api/creator',routeMusic)
- 
+app.use('/api/creator',routeMusic) 
 
 module.exports=app
