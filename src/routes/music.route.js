@@ -14,4 +14,6 @@ routeMusic.post('/album', middleware.authartist ,  controlAlbum.album )
 routeMusic.get('/getMusic', middleware.getMusic,getController.getMusic )
 routeMusic.get('/singleMusic/:id', getController.single)
 
+routeMusic.get('/allAlbum', getController.allAlbum)
+
 module.exports=routeMusic

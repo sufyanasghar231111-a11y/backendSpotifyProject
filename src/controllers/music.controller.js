@@ -3,6 +3,7 @@ const albumExport=require('../models/album.model')
 const jwt=require('jsonwebtoken')
 const uploadFile=require('../services/storage.service')
 
+
 async function music(req,res) {
   
     let {title}=req.body
@@ -83,4 +84,30 @@ async function single(req,res) {
     }
 }
 
-module.exports={music, album, getMusic,single}
+async function allAlbum(req,res){
+
+  try{
+
+    const  page= parseInt(req.query.page) || 1
+    const limit=5
+    const skip=(page-1)*limit
+
+    const album=await albumExport.find().populate('album', 'uri title').populate('artist', 'username')
+    .skip(skip)
+    .limit(limit)
+
+    res.status(200).json({
+      message:"Successful get album",
+      album
+    })
+  }
+
+  catch(err){
+    res.status(500).json({
+      message:"No Album is here"
+    })
+  }
+}
+
+
+module.exports={music, album, getMusic,single,allAlbum}
