@@ -32,35 +32,32 @@ async function authartist(req,res,next) {
 
 
 
-async function getMusic(req,res){
-  let token=req.cookies.token
+async function getMusic(req,res,next){
+  try{
+
+    let token=req.cookies.token
     if(!token){
-    return  res.status(401).json({
+      return  res.status(401).json({
         message:"unauthorized"
       })
     }
-
+    
     const decoded=jwt.verify(token, process.env.SECRET_JWT)
     if(decoded.role !== 'user'){
-     return res.status(401).json({
+      return res.status(401).json({
         message:'Unauthorized'
       })
     }
-
-    const page= parseInt(req.query.page) || 1
-    const limit= 5;
-    const skip=(page-1)*limit
-
-    const music=await musicSchema
-    .find().populate('artist', 'username email')
-    .skip(skip)
-    .limit(limit)
-
-
-    res.status(200).json({
-      message:"Music fetched successfully",
-      music
+    req.user=decoded
+    next()
+  }
+  catch(err){
+    res.status(401).json({
+      message:"Unauthorized"
     })
+  }
+
+
 
 }
 

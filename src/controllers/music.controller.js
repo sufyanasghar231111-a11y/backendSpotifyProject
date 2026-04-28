@@ -47,4 +47,40 @@ async function album(req,res){
       })
 }
 
-module.exports={music, album}
+
+async function getMusic(req,res){
+  const page= parseInt(req.query.page) || 1
+      const limit= 5;
+      const skip=(page-1)*limit
+  
+      const music=await musicSchema
+      .find().populate('artist', 'username email')
+      .skip(skip)
+      .limit(limit)
+  
+  
+      res.status(200).json({
+        message:"Music fetched successfully",
+        music
+      })
+}
+
+
+async function single(req,res) {
+    try{
+        let {id}=req.params
+        const detail= await musicSchema.findById({_id:id}).populate('artist', 'username')
+        res.status(200).json({
+            message:"Successfull get by single",
+            detail
+        })
+    }
+
+    catch(err){
+        res.status(500).json({
+            message:"Not exist"
+        })
+    }
+}
+
+module.exports={music, album, getMusic,single}
