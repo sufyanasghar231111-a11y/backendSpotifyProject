@@ -109,5 +109,22 @@ async function allAlbum(req,res){
   }
 }
 
+async function detail(req,res){
+ try{
+  let {id} =req.params
+  const detailFetch=await albumExport.findById({_id:id}).populate('album', 'uri title ').populate('artist', 'username')
+  res.status(200).json({
+    message:'Successfull fetch detail',
+    detailFetch
+  })
+ } 
+ catch(e){
+  res.status(500).json({
+    message:"NO Album is required",
+    Error:e.message
+  })
+ }
+}
 
-module.exports={music, album, getMusic,single,allAlbum}
+
+module.exports={music, album, getMusic,single,allAlbum,detail}

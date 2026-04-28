@@ -12,7 +12,7 @@ const albumModel= new mongoose.Schema({
 
     album:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'music'+ Date.now()
+        ref:'music'
     }],
     artist:{
         type:mongoose.Schema.Types.ObjectId,
