@@ -126,5 +126,9 @@ async function detail(req,res){
  }
 }
 
+async function particularArtist(req,res){
+  // const token
+}
 
-module.exports={music, album, getMusic,single,allAlbum,detail}
+
+module.exports={music, album, getMusic,single,allAlbum,detail,particularArtist}
