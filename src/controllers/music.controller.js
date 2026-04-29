@@ -163,7 +163,7 @@ async function deleteMusic(req,res){
 
 catch(e){
   res.status(500).json({
-message:"Successful delete music",
+message:"NO music is found",
   })
 }
 }
