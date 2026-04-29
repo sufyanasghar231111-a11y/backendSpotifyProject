@@ -20,5 +20,4 @@ routeMusic.get('/particularAlbum', middleware.authartist, getController.particul
 routeMusic.delete('/deleteMusic/:albumId/:musicId', middleware.authartist, getController.deleteMusic )
 
 routeMusic.patch('/updateMusic/:albumId',  middleware.authartist , getController.updateMusic)
-routeMusic.patch('/updateAlbumMusic/:albumId/:musicId',  middleware.authartist , getController.updateAlbumMusic )
 module.exports=routeMusic

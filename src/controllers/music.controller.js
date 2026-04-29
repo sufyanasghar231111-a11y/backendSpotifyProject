@@ -129,7 +129,7 @@ async function particularArtist(req,res){
 
   
 
-    const myalbum=await albumExport.find({artist:req.user.id}).populate('album', 'uri title ').populate('artist', 'username')
+    const myalbum=await albumExport.find({artist:req.user.id}).populate('artist', 'username')
     
 
     res.status(200).json({
@@ -204,22 +204,6 @@ catch(err){
 }
 }
 
-async function updateAlbumMusic(req,res){
-  const {albumId,musicId}=req.params
-  const {title,uri}=req.body
-  const albumMuisc= await albumExport.findByIdAndUpdate(musicId, {
-    $set:{
-      title,
-      uri 
-    }
-  },
-  {new:true}
-).populate('album')
 
-  res.status(200).json({
-    message:"successful update Album",
-    albumMuisc
-  })
-}
 
-module.exports={music, Album, getMusic,single,allAlbum,detail,particularArtist,deleteMusic,updateMusic,updateAlbumMusic}
+module.exports={music, Album, getMusic,single,allAlbum,detail,particularArtist,deleteMusic,updateMusic}
