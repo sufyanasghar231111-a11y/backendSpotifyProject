@@ -142,21 +142,36 @@ async function particularArtist(req,res){
 }
 
 async function deleteMusic(req,res){
-  let {albumId, musicId}=req.params
+  try{
 
-  const deleteMusicByAlbum=await albumExport.findByIdAndUpdate(albumId,{
-    $pull:{
-      album:new mongoose.Types.ObjectId(musicId)
-    }
-  },
-{new:true}
-)
-
-
+    let {albumId, musicId}=req.params
+    
+    const deleteMusicByAlbum=await albumExport.findByIdAndUpdate(albumId,{
+      $pull:{
+        album:new mongoose.Types.ObjectId(musicId)
+      }
+    },
+    {new:true}
+  )
+  
+  
   res.status(200).json({
     message:"Successful delete music",
     deleteMusicByAlbum
   })
 }
+
+catch(e){
+  res.status(500).json({
+message:"Successful delete music",
+  })
+}
+}
+
+
+
+
+
+
 
 module.exports={music, Album, getMusic,single,allAlbum,detail,particularArtist,deleteMusic}
