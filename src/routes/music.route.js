@@ -9,14 +9,13 @@ const getController=require('../controllers/music.controller')
 
 
 routeMusic.post('/music', middleware.authartist ,  upload.single('file'), controlMusic.music)
-routeMusic.post('/album', middleware.authartist ,  controlAlbum.album )
+routeMusic.post('/album', middleware.authartist ,  controlAlbum.Album )
 
 routeMusic.get('/getMusic', middleware.getMusic,getController.getMusic )
 routeMusic.get('/singleMusic/:id', getController.single)
-
 routeMusic.get('/allAlbum', getController.allAlbum)
 routeMusic.get('/allAlbum/:id', getController.detail)
-
 routeMusic.get('/particularAlbum', middleware.authartist, getController.particularArtist)
 
+routeMusic.delete('/deleteMusic/:albumId/:musicId', middleware.authartist, getController.deleteMusic )
 module.exports=routeMusic

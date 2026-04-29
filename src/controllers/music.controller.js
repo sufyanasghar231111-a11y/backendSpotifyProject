@@ -2,6 +2,7 @@ const musicSchema=require('../models/music.model')
 const albumExport=require('../models/album.model')
 const jwt=require('jsonwebtoken')
 const uploadFile=require('../services/storage.service')
+const mongoose=require('mongoose')
 
 
 async function music(req,res) {
@@ -28,7 +29,7 @@ async function music(req,res) {
     })
 }
 
-async function album(req,res){
+async function Album(req,res){
       let {title, album,artistName} =req.body
 
       const user= await albumExport.create({
@@ -48,7 +49,6 @@ async function album(req,res){
       })
 }
 
-
 async function getMusic(req,res){
   const page= parseInt(req.query.page) || 1
       const limit= 5;
@@ -65,7 +65,6 @@ async function getMusic(req,res){
         music
       })
 }
-
 
 async function single(req,res) {
     try{
@@ -142,5 +141,22 @@ async function particularArtist(req,res){
 
 }
 
+async function deleteMusic(req,res){
+  let {albumId, musicId}=req.params
 
-module.exports={music, album, getMusic,single,allAlbum,detail,particularArtist}
+  const deleteMusicByAlbum=await albumExport.findByIdAndUpdate(albumId,{
+    $pull:{
+      album:new mongoose.Types.ObjectId(musicId)
+    }
+  },
+{new:true}
+)
+
+
+  res.status(200).json({
+    message:"Successful delete music",
+    deleteMusicByAlbum
+  })
+}
+
+module.exports={music, Album, getMusic,single,allAlbum,detail,particularArtist,deleteMusic}
