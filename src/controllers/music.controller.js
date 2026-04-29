@@ -152,7 +152,7 @@ async function deleteMusic(req,res){
       }
     },
     {new:true}
-  )
+  ).populate('album', 'title uri')
   
   
   res.status(200).json({
