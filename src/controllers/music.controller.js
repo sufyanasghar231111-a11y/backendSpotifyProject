@@ -204,5 +204,22 @@ catch(err){
 }
 }
 
+async function updateAlbumMusic(req,res){
+  const {albumId,musicId}=req.params
+  const {title,uri}=req.body
+  const albumMuisc= await albumExport.findByIdAndUpdate(musicId, {
+    $set:{
+      title,
+      uri 
+    }
+  },
+  {new:true}
+).populate('album')
 
-module.exports={music, Album, getMusic,single,allAlbum,detail,particularArtist,deleteMusic,updateMusic}
+  res.status(200).json({
+    message:"successful update Album",
+    albumMuisc
+  })
+}
+
+module.exports={music, Album, getMusic,single,allAlbum,detail,particularArtist,deleteMusic,updateMusic,updateAlbumMusic}
