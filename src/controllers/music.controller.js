@@ -169,7 +169,39 @@ message:"NO music is found",
 }
 
 async function updateMusic(req,res){
-  
+
+  try{
+
+    const {albumId}=req.params
+    
+    const {title, artistName}=req.body
+    const updateContent= await albumExport.findByIdAndUpdate(albumId,{
+      $set:{
+        title,
+        artistName
+      }
+    },
+    {new:true}
+  )
+
+  if(!albumId){
+    res.status(404).json({
+      message:"Album not found"
+    })
+  }
+
+  res.status(200).json({
+    message:"successful update MyAlbum",
+    updateContent
+  })
+}
+
+catch(err){
+  res.status(500).json({
+    message:"Failed to update Album",
+    Error:err.message
+  })
+}
 }
 
 
