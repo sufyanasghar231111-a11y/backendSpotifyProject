@@ -168,10 +168,9 @@ message:"NO music is found",
 }
 }
 
+async function updateMusic(req,res){
+  
+}
 
 
-
-
-
-
-module.exports={music, Album, getMusic,single,allAlbum,detail,particularArtist,deleteMusic}
+module.exports={music, Album, getMusic,single,allAlbum,detail,particularArtist,deleteMusic,updateMusic}
