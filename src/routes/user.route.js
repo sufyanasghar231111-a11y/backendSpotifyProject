@@ -8,5 +8,6 @@ router.post('/playlist', middleware.getMusic , userController.playlist)
 router.get('/particularUserPlaylist', middleware.getMusic, userController.particularUserPlaylist)
 
 router.delete('/deleteMusic/:particularId/:musicId', middleware.getMusic,userController.deleteMusic )
+router.patch('/updateMusic/:particularId/:musicId', middleware.getMusic,userController.pushMusic )
 
 module.exports={router}

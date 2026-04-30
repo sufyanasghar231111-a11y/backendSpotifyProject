@@ -73,4 +73,8 @@ async function deleteMusic(req,res){
     }
 }
 
-module.exports={playlist,particularUserPlaylist,deleteMusic}
+async function pushMusic(req,res){
+
+}
+
+module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic}
