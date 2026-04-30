@@ -130,4 +130,8 @@ async function getSingleMusic(req,res){
     }
 }
 
-module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic}
+async function favoriteMusic(req,res){
+
+}
+
+module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic,favoriteMusic}
