@@ -11,7 +11,7 @@ const getController=require('../controllers/music.controller')
 routeMusic.post('/music', middleware.authartist ,  upload.single('file'), controlMusic.music)
 routeMusic.post('/album', middleware.authartist ,  controlAlbum.Album )
 
-routeMusic.get('/getMusic', middleware.getMusic,getController.getMusic )
+routeMusic.get('/getMusic' , getController.getMusic )
 routeMusic.get('/singleMusic/:id', getController.single)
 routeMusic.get('/allAlbum', getController.allAlbum)
 routeMusic.get('/allAlbum/:id', getController.detail)
