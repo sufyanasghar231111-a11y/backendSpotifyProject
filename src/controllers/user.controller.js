@@ -77,6 +77,12 @@ async function pushMusic(req,res){
 try{
     const {particularId,musicId}=req.params
 
+    if(!particularId || !musicId){
+        res.status(400).json({
+            message:"Field required or missing "
+        })
+    }
+
     const update= await userSchema.findByIdAndUpdate(particularId,{
         $push:{
             music:new mongoose.Types.ObjectId(musicId)
