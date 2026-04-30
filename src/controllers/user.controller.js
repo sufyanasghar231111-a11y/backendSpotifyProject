@@ -1,4 +1,5 @@
 const userSchema=require('../models/playlist.model')
+const mongoose=require('mongoose')
 
 async function playlist(req,res) {
 
@@ -46,5 +47,30 @@ async function particularUserPlaylist(req,res){
     }
 }
 
+async function deleteMusic(req,res){
+    try{
+        const {particularId,musicId}=req.params   
+        const deleteParticularMusic=await userSchema.findByIdAndUpdate(particularId,{
+            $pull:{
+               music: new mongoose.Types.ObjectId(musicId)
+            
+            }
+        },
 
-module.exports={playlist,particularUserPlaylist}
+        {new:true}
+    )
+
+    res.status(200).json({
+        message:"Successful delete Music",
+        deleteParticularMusic
+    })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"the server encouter an unexpected condition",
+            error:err.message
+        })
+    }
+}
+
+module.exports={playlist,particularUserPlaylist,deleteMusic}
