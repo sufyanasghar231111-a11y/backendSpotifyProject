@@ -98,4 +98,30 @@ catch(err){
 }
 }
 
-module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic}
+async function getSingleMusic(req,res){
+    try{
+
+        const {particularId,musicId}=req.params
+        const findMusic=await userSchema.findOne(
+           {_id: particularId,
+           user: req.user.id}
+        ).populate('music')
+
+        const singleMusic=await findMusic.music.find(
+            (m)=> m._id.toString()=== musicId
+        )
+        
+        res.status(200).json({
+            message:"successful find it",
+            singleMusic
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"problem to your request ",
+            error:err.message
+        })
+    }
+}
+
+module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic}
