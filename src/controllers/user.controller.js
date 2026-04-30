@@ -57,7 +57,7 @@ async function deleteMusic(req,res){
             }
         },
 
-        {new:true}
+        {returnDocument:'after'}
     )
 
     res.status(200).json({
@@ -74,7 +74,28 @@ async function deleteMusic(req,res){
 }
 
 async function pushMusic(req,res){
+try{
+    const {particularId,musicId}=req.params
 
+    const update= await userSchema.findByIdAndUpdate(particularId,{
+        $push:{
+            music:new mongoose.Types.ObjectId(musicId)
+        }
+    },
+
+    {returnDocument:"after"}
+)
+    res.status(200).json({
+        message:"Successfull update Music",
+        update
+    })
+}
+catch(err){
+    res.status(500).json({
+        message:"the server encouter an unexpected condition",
+        error:err.message
+    })
+}
 }
 
 module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic}
