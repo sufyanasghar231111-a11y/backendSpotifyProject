@@ -1,6 +1,7 @@
 const userSchema=require('../models/playlist.model')
 const mongoose=require('mongoose')
 const favSchema=require('../models/fav.models')
+const musicSchema=require('../models/music.model')
 
 async function playlist(req,res) {
 
@@ -135,6 +136,23 @@ async function particularFav(req,res){
     try{
 
         let {favorite}=req.body
+
+
+         if(!favorite){
+            return res.status(400).json({
+                message:"Favorite is required"
+            })
+        }
+
+        const exist= await musicSchema.findById(favorite)
+
+          if(!exist){
+            return res.status(404).json({
+                message:"Item not found"
+            })
+        }
+
+
         const createFav=await favSchema.create({
             favorite,
             user:req.user.id
