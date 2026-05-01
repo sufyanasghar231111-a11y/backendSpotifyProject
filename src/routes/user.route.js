@@ -10,6 +10,10 @@ router.get('/particularUserPlaylist', middleware.getMusic, userController.partic
 router.delete('/deleteMusic/:particularId/:musicId', middleware.getMusic,userController.deleteMusic )
 router.patch('/updateMusic/:particularId/:musicId', middleware.getMusic,userController.pushMusic )
 router.get('/getMusic/:particularId/:musicId', middleware.getMusic,userController.getSingleMusic )
+
+router.post('/particularUserFavorite', middleware.getMusic,userController.particularFav )
+
+
 router.get('/fav/:favId/:favoriteId', middleware.getMusic,userController.favoriteMusic )
 
 

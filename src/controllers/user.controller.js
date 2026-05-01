@@ -131,6 +131,27 @@ async function getSingleMusic(req,res){
     }
 }
 
+async function particularFav(req,res){
+    try{
+
+        let {favorite}=req.body
+        const createFav=await favSchema.create({
+            favorite,
+            user:req.user.id
+        })
+        res.status(201).json({
+            message:"Successfull Create music",
+            createFav
+        })
+    }
+    catch(e){
+        res.status(500).json({
+            message:"the server encouter an unexpected condition",
+            error:e.message
+        })
+    }
+}
+
 
 
 async function favoriteMusic(req,res){
@@ -147,4 +168,4 @@ async function favoriteMusic(req,res){
     })
 }
 
-module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic,favoriteMusic}
+module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic,favoriteMusic,particularFav}
