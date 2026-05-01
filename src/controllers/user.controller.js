@@ -171,18 +171,35 @@ async function particularFav(req,res){
 }
 
 async function getUserFav(req,res){
-    
+    try{
+
+        const getUserFavoritesMusic=await favSchema.find({user:req.user.id}).populate('favorite', 'uri title')
+        
+        res.status(200).json({
+            message:"successful get particular data",
+            getUserFavoritesMusic
+        })
+    }
+    catch(e){
+        res.status(500).json({
+            message:"Error in you",
+            error:e.message
+        })
+    }
 }
 
 
 async function favoriteMusic(req,res){
     const {favId, favoriteId}=req.params;
-    const addToFav=await favSchema.findByIdAndUpdate(favId, {
+    const addToFav=await favSchema.findOneAndUpdate(
+        {_id: favId, user: new mongoose.Types.ObjectId(req.user.id) },
+         {
         $addToSet:{
-            user:req.user.id,
-            favorite:new mongoose.Types.ObjectId
+            favorite:favoriteId
         }
-    })
+    },
+    {new:true}
+)
     res.status(200).json({
         message:"successful push into favorite",
         addToFav
