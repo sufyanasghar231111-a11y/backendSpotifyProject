@@ -1,5 +1,6 @@
 const userSchema=require('../models/playlist.model')
 const mongoose=require('mongoose')
+const favSchema=require('../models/fav.models')
 
 async function playlist(req,res) {
 
@@ -130,8 +131,20 @@ async function getSingleMusic(req,res){
     }
 }
 
-async function favoriteMusic(req,res){
 
+
+async function favoriteMusic(req,res){
+    const {favId, favoriteId}=req.params;
+    const addToFav=await favSchema.findByIdAndUpdate(favId, {
+        $addToSet:{
+            user:req.user.id,
+            favorite:new mongoose.Types.ObjectId
+        }
+    })
+    res.status(200).json({
+        message:"successful push into favorite",
+        addToFav
+    })
 }
 
 module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic,favoriteMusic}
