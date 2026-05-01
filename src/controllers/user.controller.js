@@ -170,6 +170,9 @@ async function particularFav(req,res){
     }
 }
 
+async function getUserFav(req,res){
+    
+}
 
 
 async function favoriteMusic(req,res){
@@ -186,4 +189,4 @@ async function favoriteMusic(req,res){
     })
 }
 
-module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic,favoriteMusic,particularFav}
+module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic,favoriteMusic,particularFav,getUserFav}

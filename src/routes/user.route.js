@@ -13,6 +13,7 @@ router.get('/getMusic/:particularId/:musicId', middleware.getMusic,userControlle
 
 router.post('/particularUserFavorite', middleware.getMusic,userController.particularFav )
 
+router.get('/getUserFavorite',middleware.getMusic,userController.getUserFav )
 
 router.get('/fav/:favId/:favoriteId', middleware.getMusic,userController.favoriteMusic )
 
