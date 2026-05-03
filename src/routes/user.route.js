@@ -16,6 +16,8 @@ router.post('/particularUserFavorite', middleware.getMusic,userController.partic
 router.get('/getUserFavorite',middleware.getMusic,userController.getUserFav )
 
 router.patch('/fav/:favId/:favoriteId', middleware.getMusic,userController.favoriteMusic )
+router.delete('/deleteFav/:favId/:favoriteId',middleware.getMusic, userController.deleteFavMusic )
+router.get('/singleFavMusic/:favId/:favoriteId', middleware.getMusic, userController.singleFav)
 
 
 module.exports={router}

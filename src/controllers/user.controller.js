@@ -206,4 +206,24 @@ async function favoriteMusic(req,res){
     })
 }
 
-module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic,favoriteMusic,particularFav,getUserFav}
+async function deleteFavMusic(req,res){
+    const {favId,favoriteId}=req.params
+    const deleteFavMus= await favSchema.findByIdAndUpdate(favId,{
+        $pull:{
+            favorite: new mongoose.Types.ObjectId(favoriteId)
+        }
+    },
+    {returnDocument:'after'}
+
+)
+res.status(200).json({
+    message:"Successful Delete fav Music",
+    deleteFavMus
+})
+}
+
+async function singleFav(req,res){
+
+}
+
+module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic,favoriteMusic,particularFav,getUserFav,deleteFavMusic,singleFav}
