@@ -223,6 +223,21 @@ res.status(200).json({
 }
 
 async function singleFav(req,res){
+let {favId, favoriteId}=req.params
+
+const singleFav= await favSchema.findOne({
+    _id:favId,
+    user:req.user.id
+})
+
+const getBySingle=await singleFav.favorite.find(
+    (m) => m._id.toString()=== favoriteId
+)
+
+res.status(200).json({
+    message:"successful get by single",
+    getBySingle
+})
 
 }
 
