@@ -190,45 +190,66 @@ async function getUserFav(req,res){
 
 
 async function favoriteMusic(req,res){
-    const {favId, favoriteId}=req.params;
-    const addToFav=await favSchema.findOneAndUpdate(
-        {_id: favId, user: new mongoose.Types.ObjectId(req.user.id) },
-         {
-        $addToSet:{
-            favorite:favoriteId
-        }
-    },
-    {new:true}
-)
-    res.status(200).json({
-        message:"successful push into favorite",
-        addToFav
-    })
+    try{
+
+        const {favId, favoriteId}=req.params;
+        const addToFav=await favSchema.findOneAndUpdate(
+            {_id: favId, user: new mongoose.Types.ObjectId(req.user.id) },
+            {
+                $addToSet:{
+                    favorite:favoriteId
+                }
+            },
+            {new:true}
+        )
+        res.status(200).json({
+            message:"successful push into favorite",
+            addToFav
+        })
+    }
+    catch(e){
+        res.status(500).json({
+            message:"the server encouter an unexpected condition",
+            error:e.message
+        })
+    }
 }
 
 async function deleteFavMusic(req,res){
-    const {favId,favoriteId}=req.params
-    const deleteFavMus= await favSchema.findByIdAndUpdate(favId,{
-        $pull:{
-            favorite: new mongoose.Types.ObjectId(favoriteId)
-        }
-    },
-    {returnDocument:'after'}
+    try{
 
-)
-res.status(200).json({
-    message:"Successful Delete fav Music",
-    deleteFavMus
-})
+        const {favId,favoriteId}=req.params
+        const deleteFavMus= await favSchema.findByIdAndUpdate(favId,{
+            $pull:{
+                favorite: new mongoose.Types.ObjectId(favoriteId)
+            }
+        },
+        {returnDocument:'after'}
+        
+    )
+    res.status(200).json({
+        message:"Successful Delete fav Music",
+        deleteFavMus
+    })
+}
+catch(e){
+    res.status(500).json({
+        message:'the server encouter an unexpected condition',
+        error:e.message
+    })
+}
 }
 
 async function singleFav(req,res){
-let {favId, favoriteId}=req.params
 
-const singleFav= await favSchema.findOne({
-    _id:favId,
+    try{
+
+        let {favId, favoriteId}=req.params
+        
+        const singleFav= await favSchema.findOne({
+            _id:favId,
     user:req.user.id
-})
+}).populate('favorite')
 
 const getBySingle=await singleFav.favorite.find(
     (m) => m._id.toString()=== favoriteId
@@ -238,7 +259,13 @@ res.status(200).json({
     message:"successful get by single",
     getBySingle
 })
-
+}
+catch(e){
+    res.status(500).json({
+        message:"the server encouter an unexpected condition",
+        error:e.message
+    })
+}
 }
 
 module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic,favoriteMusic,particularFav,getUserFav,deleteFavMusic,singleFav}
