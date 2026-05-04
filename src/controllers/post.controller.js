@@ -30,9 +30,16 @@ async function register(req,res) {
     const token = jwt.sign({
         id:user._id,
         role:user.role
-    },process.env.SECRET_JWT)
+    },process.env.SECRET_JWT,{
+        expiresIn:'1h'
+    })
 
-    res.cookie('token', token)
+    res.cookie('token', token,{
+        httpOnly:true,
+        secure:false,
+        sameSite:'lax',
+        maxAge:60 * 60 *1000
+    })
 
     res.status(201).json({
         success:true,
@@ -46,9 +53,11 @@ async function register(req,res) {
 }
 
 async function login(req,res) {
-    const {username, email, password, role}=req.body
+    try{
 
-    const user= await postSchema.findOne({
+        const {username, email, password, role}=req.body
+        
+        const user= await postSchema.findOne({
         $or:[
             {username},
             {email}
@@ -71,8 +80,15 @@ async function login(req,res) {
     const token=  jwt.sign({
         id:user._id,
         role:user.role
-    }, process.env.SECRET_JWT)
-    res.cookie('token', token)
+    }, process.env.SECRET_JWT, {
+        expiresIn:'1h'
+    })
+    res.cookie('token', token,{
+        httpOnly:true,
+        secure:true,
+        sameSite:'lax',
+        maxAge:1*10*10*1000
+    })
 
     res.status(201).json({
         success:true,
@@ -80,8 +96,13 @@ async function login(req,res) {
         username:user.username,
         email:user.email,
         role:user.role,
-
     })
+}
+catch(e){
+    res.status(500).json({
+        message:"Invalid"
+    })
+}
 }
 
 module.exports={register,login}
