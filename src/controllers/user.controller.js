@@ -188,7 +188,6 @@ async function getUserFav(req,res){
     }
 }
 
-
 async function favoriteMusic(req,res){
     try{
 
@@ -221,10 +220,10 @@ async function deleteFavMusic(req,res){
         const {favId,favoriteId}=req.params
         const deleteFavMus= await favSchema.findByIdAndUpdate(favId,{
             $pull:{
-                favorite: new mongoose.Types.ObjectId(favoriteId)
+                favorite: favoriteId
             }
         },
-        {returnDocument:'after'}
+        {new:true}
         
     )
     res.status(200).json({
@@ -243,7 +242,6 @@ catch(e){
 async function singleFav(req,res){
 
     try{
-
         let {favId, favoriteId}=req.params
         
         const singleFav= await favSchema.findOne({

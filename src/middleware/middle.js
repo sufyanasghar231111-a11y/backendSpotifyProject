@@ -30,8 +30,6 @@ async function authartist(req,res,next) {
 }
 
 
-
-
 async function getMusic(req,res,next){
   try{
 
