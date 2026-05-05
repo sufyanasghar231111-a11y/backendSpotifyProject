@@ -12,7 +12,7 @@ async function authartist(req,res,next) {
         try{
           const decoded=jwt.verify(token, process.env.SECRET_JWT)
     
-          if(decoded.role !== 'admin' && decoded.role !== 'artist' ){
+          if(decoded.role !== 'artist' ){
             res.status(403).json({
               message:"Unauthorized user"
             })
@@ -28,7 +28,33 @@ async function authartist(req,res,next) {
       
     }
 }
-
+async function adminMan(req,res,next) {
+    const token=req.cookies.token
+      if(!token){
+          return   res.status(401).json({
+            message:"Unauthorized: Token is not provide"
+          })
+        }
+    
+        try{
+          const decoded=jwt.verify(token, process.env.SECRET_JWT)
+    
+          if(decoded.role !== 'admin' ){
+            res.status(403).json({
+              message:"Unauthorized user"
+            })
+          }
+          req.user=decoded
+          next()
+        }
+          catch(e){
+      console.log(e);
+      res.status(500).json({
+        message:'Unauthorized'
+      })
+      
+    }
+}
 
 async function getMusic(req,res,next){
   try{
@@ -60,4 +86,5 @@ async function getMusic(req,res,next){
 }
 
 
-module.exports={authartist, getMusic}
+
+module.exports={authartist, getMusic,adminMan}

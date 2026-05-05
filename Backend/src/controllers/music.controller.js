@@ -204,6 +204,4 @@ catch(err){
 }
 }
 
-
-
 module.exports={music, Album, getMusic,single,allAlbum,detail,particularArtist,deleteMusic,updateMusic}
