@@ -93,7 +93,6 @@ async function login(req,res) {
         success:true,
         message:"Successful login",
         username:user.username,
-        token,
         email:user.email,
         role:user.role,
     })

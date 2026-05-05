@@ -8,7 +8,7 @@ const middleware=require('../middleware/middle')
 const getController=require('../controllers/music.controller')
 
 
-routeMusic.post('/music', middleware.authartist ,  upload.single('file'), controlMusic.music)
+routeMusic.post('/music',  middleware.authartist ,  upload.single('file'), controlMusic.music)
 routeMusic.post('/album', middleware.authartist ,  controlAlbum.Album )
 
 routeMusic.get('/getMusic' , getController.getMusic )
