@@ -41,8 +41,8 @@ async function getMusic(req,res,next){
     }
     
     const decoded=jwt.verify(token, process.env.SECRET_JWT)
-    if(decoded.role !== 'user'  ){
-      return res.status(401).json({
+    if(decoded.role !== 'user' ){
+      return res.status(403).json({
         message:'Unauthorized'
       })
     }
@@ -59,31 +59,5 @@ async function getMusic(req,res,next){
 
 }
 
-// async function adminRole(req,res,next){
-//   try{
-
-//     const token= req.cookies.token
-//     if(!token){
-//       return  res.status(401).json({
-//         message:"unauthorized"
-//       })
-//     }
-//     const decoded=jwt.verify(token,process.env.SECRET_JWT)
-
-//     if(decoded.role !== 'admin' ){
-//      return res.status(403).json({
-//         message:"Forbidden"
-//       })
-//     }
-//     req.user=decoded
-//     next()
-
-//   }
-//   catch(e){
-//     res.status(500).json({
-//       message:"the error in your data"
-//     })
-//   }
-// }
 
 module.exports={authartist, getMusic}
