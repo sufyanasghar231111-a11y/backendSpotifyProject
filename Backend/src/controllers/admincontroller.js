@@ -56,7 +56,7 @@ async function particularAlbum(req,res) {
     try{
 
         let {id}=req.params
-        const getParticularAlbum=await albumSchema.find({_id:id}).populate('album', 'uri title')
+        const getParticularAlbum=await albumSchema.find({_id:id}).populate('album', 'uri title').populate('artist', 'username email')
         
         res.status(200).json({
             message:"Successful get particular album",
