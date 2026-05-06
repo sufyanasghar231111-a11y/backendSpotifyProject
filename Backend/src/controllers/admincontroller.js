@@ -1,5 +1,7 @@
 
 const postSchema=require('../models/post.model')
+const albumSchema=require('../models/album.model')
+
 async function adminCheckArtist(req,res){
     
     const getArtist= await postSchema.find({role:"artist"})
@@ -31,4 +33,23 @@ async function adminCheckUser(req,res){
     })
 }
 
-module.exports={adminCheckUser,adminCheckArtist}
+async function allAlbum(req,res){
+    try{
+        const getalbum=await albumSchema.find().populate('artist','username email').populate('album')
+
+        res.status(200).json({
+            message:"successful get all album",
+            getalbum
+        })
+    }
+    catch(e){
+        res.status(500).json({
+            message:"The error in your request",
+            error:e.message
+        })
+    }
+}
+
+
+
+module.exports={adminCheckUser,adminCheckArtist,allAlbum}
