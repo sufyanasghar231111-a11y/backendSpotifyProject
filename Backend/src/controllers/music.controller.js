@@ -126,18 +126,13 @@ async function detail(req,res){
 }
 
 async function particularArtist(req,res){
-
   
-
     const myalbum=await albumExport.find({artist:req.user.id}).populate('artist', 'username')
     
-
     res.status(200).json({
       message:"successful get your album",
       myalbum
     })
-
-  
 
 }
 

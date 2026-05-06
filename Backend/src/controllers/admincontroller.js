@@ -10,6 +10,7 @@ async function adminCheckArtist(req,res){
         message:"get all artist",
         data:getArtist.map((elem)=>{
             return {
+                id: elem._id,
             username: elem.username,
             email: elem.email,
             role: elem.role
@@ -39,7 +40,7 @@ async function allAlbum(req,res){
 
         res.status(200).json({
             message:"successful get all album",
-            getalbum
+           allAlbum: getalbum
         })
     }
     catch(e){
@@ -50,6 +51,23 @@ async function allAlbum(req,res){
     }
 }
 
+async function particularAlbum(req,res) {
 
+    try{
 
-module.exports={adminCheckUser,adminCheckArtist,allAlbum}
+        let {id}=req.params
+        const getParticularAlbum=await albumSchema.find({_id:id}).populate('album', 'uri title')
+        
+        res.status(200).json({
+            message:"Successful get particular album",
+            data:getParticularAlbum
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Error in your request"
+        })
+    }
+}
+
+module.exports={adminCheckUser,adminCheckArtist,allAlbum,particularAlbum }

@@ -90,11 +90,13 @@ async function login(req,res) {
     })
 
     res.status(201).json({
+        id: user._id,
         success:true,
         message:"Successful login",
         username:user.username,
         email:user.email,
         role:user.role,
+        
     })
 }
 catch(e){
