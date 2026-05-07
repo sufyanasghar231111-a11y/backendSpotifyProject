@@ -13,4 +13,6 @@ adminroute.delete('/deleteMusic/:dataId/:albumId', middleware.adminMan, routeCon
 adminroute.patch('/blockartist/:id',middleware.adminMan, routeController.blockArtist )
 adminroute.patch('/unblock/:id', middleware.adminMan,routeController.unblockArtist )
 
+adminroute.patch('/blockUser/:id', middleware.adminMan, routeController.blockUser)
+
 module.exports=adminroute

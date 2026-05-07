@@ -1,4 +1,3 @@
-
 const postSchema=require('../models/post.model')
 const albumSchema=require('../models/album.model')
 
@@ -122,7 +121,24 @@ async function blockArtist(req,res) {
 }
 
 async function unblockArtist(req,res){
+    let userId=req.user.id
+    let {id}=req.params
+    const unblock=await postSchema.findByIdAndUpdate(userId, {
+        $pull:{
+            blockedArtists:id
+        }
+    },
+
+    {new: true}
+)
+res.status(200).json({
+    message:"Successful unblock",
+    unblock
+})
+}
+
+async function blockUser(req,res){
     
 }
 
-module.exports={adminCheckUser,adminCheckArtist,allAlbum,particularAlbum,deleteArtistAlbum ,blockArtist,unblockArtist}
+module.exports={adminCheckUser,adminCheckArtist,allAlbum,particularAlbum,deleteArtistAlbum ,blockArtist,unblockArtist,blockUser}
