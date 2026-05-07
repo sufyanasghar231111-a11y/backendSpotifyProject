@@ -167,4 +167,28 @@ async function blockUser(req,res){
     }
 }
 
-module.exports={adminCheckUser,adminCheckArtist,allAlbum,particularAlbum,deleteArtistAlbum ,blockArtist,unblockArtist,blockUser}
+async function unblockUser(req,res){
+    try{
+        const {id}=req.params
+        const userId=req.user.id
+        const unblock=await postSchema.findByIdAndUpdate(userId, {
+            $pull:{
+                blockedArtists:id
+            }
+        },
+    {new:true}
+    )
+    res.status(200).json({
+        message:"Successful unblock user",
+        unblock
+    })
+
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Error in your request or server"
+        })
+    }
+}
+
+module.exports={adminCheckUser,adminCheckArtist,allAlbum,particularAlbum,deleteArtistAlbum ,blockArtist,unblockArtist,blockUser,unblockUser,unblockUser}

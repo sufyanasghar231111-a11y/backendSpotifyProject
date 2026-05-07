@@ -14,5 +14,7 @@ adminroute.patch('/blockartist/:id',middleware.adminMan, routeController.blockAr
 adminroute.patch('/unblock/:id', middleware.adminMan,routeController.unblockArtist )
 
 adminroute.patch('/blockUser/:id', middleware.adminMan, routeController.blockUser)
+adminroute.patch('/unblockuser/:id', middleware.adminMan, routeController.unblockUser)
+
 
 module.exports=adminroute
