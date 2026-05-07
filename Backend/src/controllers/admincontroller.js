@@ -18,6 +18,7 @@ async function adminCheckArtist(req,res){
         })
     })
 }
+
 async function adminCheckUser(req,res){
     
     const getArtist= await postSchema.find({role:"user"})
