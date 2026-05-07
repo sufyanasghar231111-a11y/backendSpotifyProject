@@ -3,8 +3,10 @@ const postSchema=require('../models/post.model')
 const albumSchema=require('../models/album.model')
 
 async function adminCheckArtist(req,res){
+
+    const user=await postSchema.findById(req.user.id)
     
-    const getArtist= await postSchema.find({role:"artist"})
+    const getArtist= await postSchema.find({role:"artist", _id:{ $nin: user.blockedArtists}})
 
     res.status(200).json({
         message:"get all artist",
@@ -94,4 +96,33 @@ async function deleteArtistAlbum(req,res){
     }
 }
 
-module.exports={adminCheckUser,adminCheckArtist,allAlbum,particularAlbum,deleteArtistAlbum }
+async function blockArtist(req,res) {
+    try{
+        let userId=req.user.id
+        let {id}=req.params
+        const block=await postSchema.findByIdAndUpdate(userId,
+           { $addToSet:{
+            blockedArtists:id
+            }
+        },
+        {new:true}
+        )
+
+        res.status(200).json({
+            message:"successfull block",
+            block
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Error in your server or request",
+            error:err.message
+        })
+    }
+}
+
+async function unblockArtist(req,res){
+    
+}
+
+module.exports={adminCheckUser,adminCheckArtist,allAlbum,particularAlbum,deleteArtistAlbum ,blockArtist,unblockArtist}

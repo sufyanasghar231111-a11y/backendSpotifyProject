@@ -10,4 +10,7 @@ adminroute.get('/allalbum', middleware.adminMan, routeController.allAlbum)
 adminroute.get('/artists/:id/album', middleware.adminMan,routeController.particularAlbum)
 adminroute.delete('/deleteMusic/:dataId/:albumId', middleware.adminMan, routeController.deleteArtistAlbum)
 
+adminroute.patch('/blockartist/:id',middleware.adminMan, routeController.blockArtist )
+adminroute.patch('/unblock/:id', middleware.adminMan,routeController.unblockArtist )
+
 module.exports=adminroute

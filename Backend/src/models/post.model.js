@@ -19,7 +19,11 @@ const postSchema= new mongoose.Schema({
         type:String,
         enum:['user', 'artist', 'admin'],
         default:"user"
-    }
+    },
+     blockedArtists: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+    }]
 })
 
 
