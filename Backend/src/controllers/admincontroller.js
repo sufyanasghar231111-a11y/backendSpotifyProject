@@ -21,13 +21,15 @@ async function adminCheckArtist(req,res){
 }
 
 async function adminCheckUser(req,res){
-    
-    const getArtist= await postSchema.find({role:"user"})
+
+    const user=await postSchema.findById(req.user.id)
+    const getArtist= await postSchema.find({role:"user", _id:{$nin:user.blockedArtists}})
 
     res.status(200).json({
         message:"get all user",
         data:getArtist.map((elem)=>{
             return {
+                id:elem._id,
             username: elem.username,
             email: elem.email,
             role: elem.role
@@ -138,7 +140,31 @@ res.status(200).json({
 }
 
 async function blockUser(req,res){
-    
+    try{
+        const {id}=req.params;
+        const userId=req.user.id
+
+        const block=await postSchema.findByIdAndUpdate(userId,{
+            $addToSet:{
+                blockedArtists:id
+            }
+        },
+    {new :true}
+    )
+
+    res.status(200).json({
+        message:"Successful block",
+        block:{
+            blockedArtists:block.blockedArtists
+        }
+    })
+    }
+    catch(e){
+        res.status(500).json({
+            message:"Error in request",
+            error:e.message
+        })
+    }
 }
 
 module.exports={adminCheckUser,adminCheckArtist,allAlbum,particularAlbum,deleteArtistAlbum ,blockArtist,unblockArtist,blockUser}
