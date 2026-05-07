@@ -86,7 +86,7 @@ async function login(req,res) {
         httpOnly:true,
         secure:true,
         sameSite:'lax',
-        maxAge:10*10*1000
+        maxAge:60*60*1000
     })
 
     res.status(201).json({

@@ -57,7 +57,7 @@ async function particularAlbum(req,res) {
     try{
 
         let {id}=req.params
-        const getParticularAlbum=await albumSchema.find({_id:id}).populate('album', 'uri title').populate('artist', 'username email')
+        const getParticularAlbum=await albumSchema.find({artist:id}).populate('album', 'uri title').populate('artist', 'username email')
         
         res.status(200).json({
             message:"Successful get particular album",
@@ -71,4 +71,27 @@ async function particularAlbum(req,res) {
     }
 }
 
-module.exports={adminCheckUser,adminCheckArtist,allAlbum,particularAlbum }
+async function deleteArtistAlbum(req,res){
+    try{
+        let {dataId, albumId}=req.params
+        const deleteMusic=await albumSchema.findByIdAndUpdate(dataId, {
+            $pull:{
+                album: albumId
+            }
+        },
+    {returnDocument:'after'}
+    )
+
+        res.status(200).json({
+            message:"Successful delete music",
+            deleteMusic
+        })
+    }
+    catch(e){
+        res.status(500).json({
+            message:"Error in your request or server"
+        })
+    }
+}
+
+module.exports={adminCheckUser,adminCheckArtist,allAlbum,particularAlbum,deleteArtistAlbum }
