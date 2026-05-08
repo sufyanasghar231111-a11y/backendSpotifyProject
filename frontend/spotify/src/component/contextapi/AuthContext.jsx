@@ -40,6 +40,22 @@ const AuthContext = ({children}) => {
 
     async function handleLogin(e) {
         e.preventDefault()
+        try{
+
+            const checkLogin=await axios.post('http://localhost:3000/api/auth/login',
+                {
+                    email:login.email,
+                    password:login.password
+                }
+            )
+                                    
+            setUser(checkLogin.data)
+
+        }
+        catch(e){
+            console.log(e);
+        }
+
     }
 
     function handleChange(e){

@@ -2,11 +2,14 @@ import React, { useContext } from 'react'
 import {  RiSpotifyFill } from "@remixicon/react";
 import { Link } from 'react-router-dom';
 import { authProvider } from '../contextapi/AuthContext';
+import Home from '../home/Home';
 
 function Login() {
-  let {handleLogin,login,handleChange}=useContext(authProvider)
+  let {handleLogin,login,handleChange,user}=useContext(authProvider)
   return (
     <div className='w-full bg-[#121212] text-white'>
+      {
+        user ? (<Home />):(
         <div className='flex items-center justify-center pt-17'>
       <div className='w-100   flex justify-center pt-7'>
         <div className='text-center'>
@@ -14,7 +17,7 @@ function Login() {
           <h1 className='py-3 font-bold text-5xl'>Welcome back</h1>
           <form onSubmit={handleLogin} className='text-start pt-5'>
             <h1 className='pb-2 font-semibold'>Email</h1>
-            <input name='email' type="email" value={login.email} onChange={handleChange} className='w-full py-2.5 mb-4 px-3  border border-[#7C7C7C] rounded' placeholder='Enter your Email'   />
+            <input name='email' type="text" value={login.email} onChange={handleChange} className='w-full py-2.5 mb-4 px-3  border border-[#7C7C7C] rounded' placeholder='Enter your Email'   />
             <h1 className='pb-2 font-semibold'>Password</h1>
             <input name='password' type="text" value={login.password} onChange={handleChange} className='w-full py-2.5 mb-4 px-3  border border-[#7C7C7C] rounded' placeholder='Enter your Password'     />
             <button className='w-full bg-[#2beb6e] rounded-full py-3 cursor-pointer hover:scale-101 font-bold text-black'>Continue</button>
@@ -25,7 +28,9 @@ function Login() {
           </div>
         </div>
         </div>
-      </div>
+      </div>)
+      }
+        
     </div>
   )
 }
