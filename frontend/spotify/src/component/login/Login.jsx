@@ -3,10 +3,12 @@ import {  RiLoader4Line, RiLoaderLine, RiSpotifyFill } from "@remixicon/react";
 import { Link } from 'react-router-dom';
 import { authProvider } from '../contextapi/AuthContext';
 import Home from '../home/Home';
+import Admin from '../admin/Admin';
 
 function Login() {
   let {handleLogin,login,handleChange,user,loading}=useContext(authProvider)
   // localStorage.clear()
+  
   return (
     <div className='w-full bg-[#121212] text-white'>
       {
@@ -36,6 +38,8 @@ function Login() {
         </div>
       </div>)
       }
+
+     
         
     </div>
   )
