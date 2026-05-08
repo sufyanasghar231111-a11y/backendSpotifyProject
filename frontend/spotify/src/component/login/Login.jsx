@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
-import {  RiSpotifyFill } from "@remixicon/react";
+import {  RiLoader4Line, RiLoaderLine, RiSpotifyFill } from "@remixicon/react";
 import { Link } from 'react-router-dom';
 import { authProvider } from '../contextapi/AuthContext';
 import Home from '../home/Home';
 
 function Login() {
-  let {handleLogin,login,handleChange,user}=useContext(authProvider)
+  let {handleLogin,login,handleChange,user,loading}=useContext(authProvider)
+  // localStorage.clear()
   return (
     <div className='w-full bg-[#121212] text-white'>
       {
@@ -20,7 +21,12 @@ function Login() {
             <input name='email' type="text" value={login.email} onChange={handleChange} className='w-full py-2.5 mb-4 px-3  border border-[#7C7C7C] rounded' placeholder='Enter your Email'   />
             <h1 className='pb-2 font-semibold'>Password</h1>
             <input name='password' type="text" value={login.password} onChange={handleChange} className='w-full py-2.5 mb-4 px-3  border border-[#7C7C7C] rounded' placeholder='Enter your Password'     />
-            <button className='w-full bg-[#2beb6e] rounded-full py-3 cursor-pointer hover:scale-101 font-bold text-black'>Continue</button>
+            {
+              loading ? (
+                <button disabled={loading} className='w-full bg-[#2beb6e] rounded-full py-3 flex items-center opacity-75 cursor-not-allowed justify-center  hover:scale-101 font-bold text-black'><RiLoader4Line className='rotate' /></button>
+              ) : (<button  className='w-full bg-[#2beb6e] rounded-full py-3 flex items-center justify-center cursor-pointer hover:scale-101 font-bold text-black'>Continue</button>)
+            }
+            
           </form>
           <div className='pt-10'>
             <h1 className='text-[#A9B3B3] '>Don’t have an account?</h1>

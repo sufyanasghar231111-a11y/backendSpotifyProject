@@ -6,7 +6,7 @@ import Home from '../home/Home'
 
 function Register() {
   let {handleSumbit,emailreg,setEmailreg,setPasswordreg,passwordreg,setUsername,username,user}=useContext(authProvider)
-// localStorage.clear()
+
   return (
     <div className='text-white'>
       {

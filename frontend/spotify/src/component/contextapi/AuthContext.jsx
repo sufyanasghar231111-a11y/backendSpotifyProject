@@ -12,12 +12,14 @@ const AuthContext = ({children}) => {
     let [username,setUsername]=useState('')
     let [emailreg,setEmailreg]=useState('')
     let [passwordreg,setPasswordreg]=useState('')
+    let [loading, setLoading]=useState(false)
     let [login, setLogin]=useState({
         email:'',
          password:""
     })
    async function handleSumbit(e){
         e.preventDefault()
+        
         try{
             const response=await axios.post('http://localhost:3000/api/auth/register',
                 {
@@ -26,23 +28,26 @@ const AuthContext = ({children}) => {
                     password:passwordreg
                 }
             )
+            
              localStorage.setItem('token', response.data.user.token)
-            setUser(response.data.user || true)
-            setUsername('')
-            setEmailreg('')
-            setPasswordreg('')
-            navigate('/')
+             setUser(response.data.user)
+             setUsername('')
+             setEmailreg('')
+             setPasswordreg('')
+             navigate('/')
             
         }
         catch(err){
             console.log(err);
         }
+
+        
     }
 
     async function handleLogin(e) {
         e.preventDefault()
         try{
-
+            setLoading(true)
             const checkLogin=await axios.post('http://localhost:3000/api/auth/login',
                 {
                     email:login.email,
@@ -56,6 +61,10 @@ const AuthContext = ({children}) => {
         catch(e){
             console.log(e);
         }
+        finally{
+
+            setLoading(false)
+        }
 
     }
 
@@ -66,7 +75,7 @@ const AuthContext = ({children}) => {
         }))
     }
   return (
-    <authProvider.Provider value={{handleSumbit,emailreg,setEmailreg,passwordreg,setPasswordreg,username,setUsername,user,setUser,handleLogin,login, setLogin,handleChange}}>
+    <authProvider.Provider value={{handleSumbit,emailreg,setEmailreg,passwordreg,setPasswordreg,username,setUsername,user,setUser,handleLogin,login, setLogin,handleChange,loading, setLoading}}>
       {children}
     </authProvider.Provider>
   )
