@@ -1,9 +1,10 @@
 import React, { createContext, useState } from 'react'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export const authProvider=createContext()
 const AuthContext = ({children}) => {
-    // let navigate=useNavigate()
+    let navigate=useNavigate()
     let [user,setUser]=useState(()=>{
         let store=localStorage.getItem('token')
         return store ? store:null
@@ -30,7 +31,7 @@ const AuthContext = ({children}) => {
             setUsername('')
             setEmailreg('')
             setPasswordreg('')
-            // navigate('/')
+            navigate('/')
             
         }
         catch(err){
@@ -48,7 +49,7 @@ const AuthContext = ({children}) => {
                     password:login.password
                 }
             )
-                                    
+            localStorage.setItem('token', checkLogin.data.token)                        
             setUser(checkLogin.data)
 
         }
