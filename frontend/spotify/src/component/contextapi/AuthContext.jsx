@@ -74,8 +74,14 @@ const AuthContext = ({children}) => {
             [e.target.name]:e.target.value
         }))
     }
+
+    function handleLogout(){
+        localStorage.removeItem('token')
+        setUser(null)
+    }
+
   return (
-    <authProvider.Provider value={{handleSumbit,emailreg,setEmailreg,passwordreg,setPasswordreg,username,setUsername,user,setUser,handleLogin,login, setLogin,handleChange,loading, setLoading}}>
+    <authProvider.Provider value={{handleSumbit,emailreg,setEmailreg,passwordreg,setPasswordreg,username,setUsername,user,setUser,handleLogin,login, setLogin,handleChange,loading, setLoading,handleLogout}}>
       {children}
     </authProvider.Provider>
   )

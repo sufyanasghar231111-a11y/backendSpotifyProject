@@ -1,23 +1,12 @@
-import React, { useContext } from 'react'
-import { authProvider } from '../contextapi/AuthContext'
+import React from 'react'
 import Login from '../login/Login'
 
 function Admin() {
-  let {user}=useContext(authProvider)
  
-  
-  
   return (
     <div>
 
-    {
-      user?.role === 'admin'? (
-        <div>hello</div>
-      ):(
-        <Login />
-      )
-    }
-    
+    admin
     </div>
   )
 }

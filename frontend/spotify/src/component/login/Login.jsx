@@ -12,7 +12,7 @@ function Login() {
   return (
     <div className='w-full bg-[#121212] text-white'>
       {
-        user ? (<Home />):(
+        user  ? ( user.role === 'admin'? <Admin /> : <Home /> ) :(
         <div className='flex items-center justify-center pt-17'>
       <div className='w-100   flex justify-center pt-7'>
         <div className='text-center'>
