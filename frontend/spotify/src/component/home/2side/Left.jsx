@@ -3,7 +3,7 @@ import React from 'react'
 
 const Left = () => {
   return (
-    <div className='w-[30%]  overflow-hidden max-sm:fixed max-sm:z-30 max-sm:w-[50%]   sticky h-[76vh] left-0   rounded bg-[#282828]  '>
+    <div className='w-[30%] overflow-hidden max-sm:fixed max-sm:z-30 max-sm:w-[50%] sticky h-[76vh] left-0 rounded-lg bg-[#282828]  '>
        <header className=' py-3 px-3 bg-[#1a1a1a]  sticky top-0 z-10 '>
         <div className='flex items-center justify-between'>
         <h1 className='font-semibold'>Your Library</h1>

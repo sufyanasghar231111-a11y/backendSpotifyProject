@@ -13,3 +13,7 @@
     transform: rotate(360deg);
   }
 }
+
+.scroll::-webkit-scrollbar{
+  display: none;
+}
