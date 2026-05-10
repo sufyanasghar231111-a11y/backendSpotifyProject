@@ -1,52 +1,15 @@
 import { RiArrowLeftSLine, RiArrowRightSLine, RiPauseFill, RiPlayFill } from '@remixicon/react'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext } from 'react'
 import HomeContext, { authHome } from '../../contextapi/HomeContext'
 import Album from '../Album'
-import axios from 'axios'
+
 import { Outlet, useLocation } from 'react-router-dom'
 
 const Right = () => {
-   let {setHide,rightRef,leftRef,silderRef}=useContext(authHome)
-    let audioRef=useRef(null)
-    let [playing,setPlaying]=useState(false)
-
-    let location=useLocation()
-   let [music, setMusic]=useState([
-
-   ])
-
-   async function fetchData(){
-    try{
-      let res=await axios.get('http://localhost:3000/api/creator/getMusic')
-      setMusic(res.data.music)
-      console.log(res.data.music);
-      
-    }
-
-    catch(err){
-      console.log(err);
-      
-    }
-   }
-
-   useEffect(()=>{
-    fetchData()
-
-   },[])
+   let {setHide,rightRef,leftRef,silderRef,playing,setPlaying,audioRef,playRef,music}=useContext(authHome)
   
-   function playRef(){
-    let audio=audioRef.current
-    if(!audio) return null
-    if(audio.paused){
-      audio.play()
-      setPlaying(true)
-    }
-    else{
-      audio.pause()
-      setPlaying(false)
-    }
-   }
-
+    let location=useLocation()
+  
   return (
     <div className='w-[70%] max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh]'>
       
@@ -87,8 +50,8 @@ const Right = () => {
     src='https://i.scdn.co/image/ab67616d0000b2736fd2559f0879066633e56c42'
     alt=''
   />
-               <audio ref={audioRef} src={item.uri} type='audio/mp3' controls className='w-full mt-2' /> 
-              <div onClick={playRef} className='absolute bottom-3 right-3
+               <audio ref={audioRef} onEnded={()=>{setPlaying(null)}} src={item.uri} type='audio/mp3' controls className='w-full mt-2' /> 
+              <div onClick={()=>{playRef(item._id)}} className='absolute bottom-3 right-3
               flex items-center justify-center
               w-12 h-12 rounded-full hover:bg-green-600 bg-green-500
               opacity-0 translate-y-4
@@ -96,7 +59,7 @@ const Right = () => {
               group-hover:opacity-100
               transition-all duration-300 ease-out shadow-lg'>
                 {
-                  playing ? (<RiPauseFill className='text-black w-7 h-7' />):(<RiPlayFill className='text-black w-7 h-7' />)
+                  playing === item._id ? (<RiPauseFill className='text-black w-7 h-7' />):(<RiPlayFill className='text-black w-7 h-7' />)
                 }
               </div>
             </div>
@@ -128,8 +91,6 @@ const Right = () => {
               </>
             )
           }
-   
-        
 
       </div>
    
