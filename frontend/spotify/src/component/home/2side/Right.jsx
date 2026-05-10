@@ -1,15 +1,18 @@
 import { RiArrowLeftSLine, RiArrowRightSLine, RiPauseFill, RiPlayFill } from '@remixicon/react'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import HomeContext, { authHome } from '../../contextapi/HomeContext'
 import Album from '../Album'
 
-import { Outlet, useLocation } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 
 const Right = () => {
    let {setHide,rightRef,leftRef,silderRef,playing,setPlaying,audioRef,playRef,music}=useContext(authHome)
   
     let location=useLocation()
-  
+    useEffect(()=>{
+      setPlaying(null)
+    },[location.pathname])
+
   return (
     <div className='w-[70%] max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh]'>
       
@@ -21,12 +24,12 @@ const Right = () => {
       <Outlet />
           { location?.pathname === '/' &&(
               <>
-                 <div className='h-[60vh] relative px-8 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>
+                 <div className='h-[65vh] relative px-8 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>
         <div className=' '>
           <h1 className='text-sm font-semibold text-[#bbb]'>Inspired by your recent activity</h1>
           <div className='flex items-center justify-between'>
        <h1  className='text-2xl font-bold'>Music</h1>
-       <h1 className='font-semibold text-[#a5a5a5] hover:border-b'>Show all</h1>
+       <Link  to='/showall' className='font-semibold text-[#a5a5a5] hover:border-b'>Show all</Link>
           </div>
         <button
         onClick={leftRef}
@@ -45,11 +48,14 @@ const Right = () => {
             p-2 mt-5 cursor-pointer'>
 
             <div className='relative rounded-lg overflow-hidden w-full h-40'>
-                <img
+              <Link to={`/detail/${item._id}`}>
+              
+                <img 
     className='w-full h-40 object-cover rounded'
     src='https://i.scdn.co/image/ab67616d0000b2736fd2559f0879066633e56c42'
     alt=''
-  />
+    />
+    </Link>
                <audio ref={audioRef} onEnded={()=>{setPlaying(null)}} src={item.uri} type='audio/mp3' controls className='w-full mt-2' /> 
               <div onClick={()=>{playRef(item._id)}} className='absolute bottom-3 right-3
               flex items-center justify-center

@@ -3,6 +3,7 @@ import { Routes ,Route } from 'react-router-dom'
 import Login from "./component/login/Login"
 import Register from "./component/register/Register"
 import ShowAll from '../src/component/home/ShowAll'
+import Detail from './component/home/Detail'
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Routes >
         <Route path='/' element={<Login />} >
         <Route path='showall' element={<ShowAll />} />
+        <Route path='/detail/:id' element={<Detail />} />
         </Route>
         <Route path='/register' element={<Register />} />
 

@@ -31,7 +31,6 @@ const HomeContext = ({children}) => {
     try{
       let res=await axios.get('http://localhost:3000/api/creator/getMusic')
       setMusic(res.data.music)
-      console.log(res.data.music);
     }
 
     catch(err){
@@ -44,10 +43,6 @@ const HomeContext = ({children}) => {
    },[])
 
    //playsong
-  function findById(id){
-    const song=music.find(elem => elem._id===id)
-    return song? song.uri:null
-  }
   function playRef(id){
     let audio=audioRef.current
     if(!audio) return null
@@ -63,9 +58,11 @@ const HomeContext = ({children}) => {
       }
     }
     else{
-      audio.src=findById(id)
-      audio.play()
-      setPlaying(id)
+    const song=music.find(elem => elem._id===id)
+audio.src = song.uri;
+audio.play();
+setPlaying(song._id);
+
     }
   }
 
