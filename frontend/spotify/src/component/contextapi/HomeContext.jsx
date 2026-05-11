@@ -12,6 +12,7 @@ const HomeContext = ({children}) => {
     let silderRef=useRef(null)
       let audioRef=useRef(null)
     let [playing,setPlaying]=useState(null)
+    const [page, setPage]=useState(1)
 
     //slider
      function rightRef(){
@@ -29,10 +30,9 @@ const HomeContext = ({children}) => {
   //fetchdata
    async function fetchData(){
     try{
-      let res=await axios.get('http://localhost:3000/api/creator/getMusic')
+      let res=await axios.get(`http://localhost:3000/api/creator/getMusic?page=${page}`)
       setMusic(res.data.music)
     }
-
     catch(err){
       console.log(err);
     }
@@ -40,7 +40,7 @@ const HomeContext = ({children}) => {
 
    useEffect(()=>{
     fetchData()
-   },[])
+   },[page])
 
    //playsong
   function playRef(id){
@@ -68,7 +68,7 @@ setPlaying(song._id);
 
 
   return (
-    <authHome.Provider value={{hidepro, setHidepro,hide,rightRef, silderRef,leftRef, setHide,playing,setPlaying,audioRef,playRef,music, setMusic}}>
+    <authHome.Provider value={{hidepro, setHidepro,hide,rightRef, silderRef,leftRef, setHide,playing,setPlaying,audioRef,playRef,music, setMusic ,page, setPage}}>
       {children}
     </authHome.Provider>
   )

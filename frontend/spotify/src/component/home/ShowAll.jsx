@@ -5,14 +5,16 @@ import { RiPauseFill, RiPlayFill } from '@remixicon/react'
 import { Link } from 'react-router-dom'
 
 const ShowAll = () => {
-  let {playing,setPlaying,audioRef,playRef,music}=useContext(authHome)  
+  let {playing,setPlaying,audioRef,playRef,music,page, setPage}=useContext(authHome)  
+
+  const disable=music.length<8
 
   return (
-    <div className='w-full bg-[#282828] px-5 py-4  h-[65vh] overflow-y-auto'>
+    <div className='w-full bg-[#282828] px-5 max-sm:px-4 py-4  h-[65vh] overflow-y-auto'>
         <h1 className='text-2xl font-bold'>Music </h1>
-        <div className='flex flex-wrap'>
+        <div className='flex max-sm:justify-center max-sm:items-center flex-wrap'>
          {music.map((elem)=>{
-          return   <div key={elem._id} className='shrink-0 rounded-lg group w-55  rounded-lgtransition-all duration-300 hover:bg-white/10 p-2 mt-5 cursor-pointer'>
+          return   <div key={elem._id} className='shrink-0 rounded-lg group lg:w-54 xl:w-55  max-sm:w-70  rounded-lgtransition-all duration-300 hover:bg-white/10 p-2 mt-5 cursor-pointer'>
        <div className='relative rounded-lg overflow-hidden w-full  h-50'>
         <Link to={`/detail/${elem._id}`} >
           <img
@@ -46,8 +48,8 @@ const ShowAll = () => {
          })} 
       </div>
       <div className='flex py-3 gap-3 justify-center'>
-      <button className='px-2 py-2 rounded-lg bg-[#4b4a4a] cursor-pointer'>Prev</button>
-      <button className='px-2 py-2 rounded-lg bg-[#4b4a4a] cursor-pointer'>Next</button>
+      <button disabled={page===1} onClick={()=>{setPage(page-1)}} className={`px-2 py-2 rounded-lg ${page===1? 'opacity-60 cursor-not-allowed':'opacity-100 cursor-pointer'}  bg-[#4b4a4a] `}>Prev</button>
+      <button disabled={disable} onClick={()=>{setPage(page+1)}} className={`px-2 py-2 rounded-lg ${disable? 'opacity-60 cursor-not-allowed':'opacity-100 cursor-pointer'}  bg-[#4b4a4a] `}>Next</button>
       </div>
        </div>
   )

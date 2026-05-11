@@ -8,6 +8,7 @@ import Admin from '../admin/Admin';
 function Login() {
   let {handleLogin,login,handleChange,user,loading}=useContext(authProvider)
   // localStorage.clear()
+  console.log(user);
   
   return (
     <div className='w-full bg-[#121212] text-white'>
