@@ -7,8 +7,8 @@ const imageKit=new ImageKit({
 async function uploadFile(file) {
     try{
         const result= await imageKit.files.upload({
-            file:file.buffer.toString('base64'),
-            fileName:'my-music'+ Date.now()
+            file:file,
+            fileName:'my-music'+ Date.now() +'.mp3',
         })
 
         return result

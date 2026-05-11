@@ -25,7 +25,7 @@ async function register(req,res) {
         email,
         password:hashPassword,
         role
-    })
+        })
 
     const token = jwt.sign({
         id:user._id,
@@ -47,7 +47,8 @@ async function register(req,res) {
         user:{
             username:user.username,
             email:user.email,
-            role:user.role
+            role:user.role,
+            token
         }
     })
 }
@@ -84,7 +85,7 @@ async function login(req,res) {
     })
     res.cookie('token', token,{
         httpOnly:true,
-        secure:true,
+        secure:false,
         sameSite:'lax',
         maxAge:60*60*1000
     })
@@ -96,7 +97,8 @@ async function login(req,res) {
         username:user.username,
         email:user.email,
         role:user.role,
-        
+        password:user.password,
+        token
     })
 }
 catch(e){
@@ -106,4 +108,19 @@ catch(e){
 }
 }
 
-module.exports={register,login}
+async function getUser(req,res){
+    try{
+        const getAuthData=await postSchema.findById(req.user.id)
+        res.status(200).json({
+            message:"Successful get data",
+            getAuthData
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Error in your Response"
+        })
+    }
+}
+
+module.exports={register,login,getUser}

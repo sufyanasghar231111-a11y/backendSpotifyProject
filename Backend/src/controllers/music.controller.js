@@ -10,7 +10,7 @@ async function music(req,res) {
     let {title}=req.body
     let file=req.file
     
-    const result= await uploadFile(file.buffer)
+    const result= await uploadFile(file.buffer.toString('base64'))
     const user= await musicSchema.create({
       artist:req.user.id,
       uri:result.url,
@@ -51,7 +51,7 @@ async function Album(req,res){
 
 async function getMusic(req,res){
   const page= parseInt(req.query.page) || 1
-      const limit= 5;
+      const limit= 8;
       const skip=(page-1)*limit
   
       const music=await musicSchema

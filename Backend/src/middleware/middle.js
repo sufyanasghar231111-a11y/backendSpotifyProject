@@ -13,7 +13,7 @@ async function authartist(req,res,next) {
           const decoded=jwt.verify(token, process.env.SECRET_JWT)
     
           if(decoded.role !== 'artist' ){
-            res.status(403).json({
+          return  res.status(403).json({
               message:"Unauthorized user"
             })
           }
@@ -85,6 +85,25 @@ async function getMusic(req,res,next){
 
 }
 
+async function auth(req,res,next){
+  let token =req.cookies.token
+  if(!token){
+    res.status(401).json({
+      message:"Token is required"
+    })
+  }
+
+  try{
+    let decoded=jwt.verify(token,process.env.SECRET_JWT )
+    req.user=decoded
+    next()
+  }
+  catch(e){
+    res.status(500).json({
+      message:"Invalid token"
+    })
+  }
+}
 
 
-module.exports={authartist, getMusic,adminMan}
+module.exports={authartist, getMusic,adminMan,auth}
