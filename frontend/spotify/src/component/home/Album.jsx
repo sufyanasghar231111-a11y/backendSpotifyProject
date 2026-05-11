@@ -1,7 +1,10 @@
-import React, {  useRef } from 'react'
+import React, {  useContext, useRef } from 'react'
 import { RiArrowLeftSLine, RiArrowRightSLine, RiPlayFill } from '@remixicon/react'
+import { authHome } from '../contextapi/HomeContext'
 
 const Album = () => {
+  let {albumFetch}=useContext(authHome)
+  
     let sliderRef=useRef(null)
 
     function leftRef(){
@@ -35,9 +38,9 @@ const Album = () => {
         <RiArrowLeftSLine />
       </button>
          <div ref={sliderRef} className='flex relative  overflow-x-auto scroll'>
-        {[1,2,3,4,5,6,7].map((item) => (
+        {albumFetch.map((item) => (
           <div
-            key={item}
+            key={item._id}
             className='shrink-0 group w-44 rounded-lg
             transition-all duration-300 hover:bg-white/10
             p-2 mt-5 cursor-pointer'
@@ -52,10 +55,10 @@ const Album = () => {
             </div>
             <div>
               <h1 className='font-semibold hover:underline w-fit'>
-               Test album
+              {item.title}
               </h1>
               <h1 className='pt-1 text-sm font-semibold text-[#bebebe] hover:underline w-fit'>
-                Sufyan
+                {item.artistName}
               </h1>
             </div>
           </div>

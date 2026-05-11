@@ -6,13 +6,12 @@ export const authHome=createContext()
 const HomeContext = ({children}) => {
     let [hidepro, setHidepro]=useState(false)
     let [hide, setHide]=useState(true)
-    let [music, setMusic]=useState([
-
-   ])
+    let [music, setMusic]=useState([])
     let silderRef=useRef(null)
       let audioRef=useRef(null)
     let [playing,setPlaying]=useState(null)
     const [page, setPage]=useState(1)
+    const [albumFetch,setAlbumFetch]=useState([])
 
     //slider
      function rightRef(){
@@ -66,9 +65,21 @@ setPlaying(song._id);
     }
   }
 
+ async function album(){
+    try{
+      const res= await axios.get('http://localhost:3000/api/creator/allAlbum')
+      setAlbumFetch(res.data.album)
+    }catch(err){
+      console.log(err);
+      
+    }
+  }
+useEffect(()=>{
+  album()
+},[])
 
   return (
-    <authHome.Provider value={{hidepro, setHidepro,hide,rightRef, silderRef,leftRef, setHide,playing,setPlaying,audioRef,playRef,music, setMusic ,page, setPage}}>
+    <authHome.Provider value={{hidepro, setHidepro,hide,rightRef, silderRef,leftRef, setHide,playing,setPlaying,audioRef,playRef,music, setMusic ,page, setPage,albumFetch}}>
       {children}
     </authHome.Provider>
   )

@@ -6,11 +6,15 @@ import {authHome} from '../contextapi/HomeContext'
 import Logout from './Logout'
 import Left from './2side/Left'
 import Right from './2side/Right'
+import { authProvider } from '../contextapi/AuthContext'
 
 function Home() {
-  // let {user}=useContext(authProvider)
+  let {user}=useContext(authProvider)
 
   let { setHidepro}=useContext(authHome)
+
+  let name=(user.username.trim().split(' ')[0][0]+ user.username.trim().split(' ').pop()[0]).toUpperCase()
+  
   
   return (
     <div className='w-full  '>
@@ -31,7 +35,7 @@ function Home() {
        </div>
         </div>
           <div onClick={()=>{setHidepro(prev => !prev)}} className=' bg-red-400 cursor-pointer flex items-center justify-center font-semibold rounded-full max-sm:w-5 max-sm:text-[9px] max-sm:h-5 w-9 h-9'>
-            S
+            {name}
           </div>  
           <Logout />
       </div>

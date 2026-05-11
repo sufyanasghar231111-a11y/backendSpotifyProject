@@ -20,14 +20,13 @@ const AuthContext = ({children}) => {
     })
    async function handleSumbit(e){
         e.preventDefault()
-        
         try{
             const response=await axios.post('http://localhost:3000/api/auth/register',
                 {
                     username:username,
                     email:emailreg,
                     password:passwordreg
-                }
+                }, {withCredentials:true}
             )
             
              localStorage.setItem('token', response.data.user.token)
@@ -35,8 +34,7 @@ const AuthContext = ({children}) => {
              setUsername('')
              setEmailreg('')
              setPasswordreg('')
-             navigate('/')
-            
+             navigate('/') 
         }
         catch(err){
             console.log(err);

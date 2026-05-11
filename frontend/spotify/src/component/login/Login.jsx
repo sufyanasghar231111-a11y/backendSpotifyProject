@@ -4,16 +4,15 @@ import { Link } from 'react-router-dom';
 import { authProvider } from '../contextapi/AuthContext';
 import Home from '../home/Home';
 import Admin from '../admin/Admin';
+import Artist from '../artist/Artist'
 
 function Login() {
   let {handleLogin,login,handleChange,user,loading}=useContext(authProvider)
-  // localStorage.clear()
-  console.log(user);
-  
+ 
   return (
     <div className='w-full bg-[#121212] text-white'>
       {
-        user  ? ( user.role === 'admin'? <Admin /> : <Home /> ) :(
+        user  ? ( user.role === 'admin'? (<Admin /> ): (user.role==='user'?(<Home />):(<Artist />)) ) :(
         <div className='flex items-center justify-center pt-17'>
       <div className='w-100   flex justify-center pt-7'>
         <div className='text-center'>
