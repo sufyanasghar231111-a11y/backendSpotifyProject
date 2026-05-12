@@ -88,7 +88,7 @@ async function allAlbum(req,res){
   try{
 
     const  page= parseInt(req.query.page) || 1
-    const limit=5
+    const limit=8
     const skip=(page-1)*limit
 
     const album=await albumExport.find().populate('album', 'uri title').populate('artist', 'username')
@@ -111,7 +111,9 @@ async function allAlbum(req,res){
 async function detail(req,res){
  try{
   let {id} =req.params
-  const detailFetch=await albumExport.findById({_id:id}).populate('album', 'uri title ').populate('artist', 'username')
+  const detailFetch=await albumExport.findById({_id:id}).populate('artist', 'username').populate('album')
+  
+  
   res.status(200).json({
     message:'Successfull fetch detail',
     detailFetch
