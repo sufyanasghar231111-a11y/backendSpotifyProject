@@ -8,7 +8,9 @@ const AlbumDetail = () => {
    async function detail() {
     try{
       let res=await axios.get(`http://localhost:3000/api/creator/allAlbum/${id}`)
-      setDetailData(res.data.detailFetch)       
+      setDetailData(res.data.detailFetch)
+      console.log(res.data.detailFetch);
+             
     }
     catch(e){
       console.log(e);
@@ -20,9 +22,56 @@ const AlbumDetail = () => {
   },[])
 
   return (
-    <div>
-      {detailData.title}      
-    </div>
+       <div className='w-full max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh]'>
+     
+      <div className='w-full flex gap-3 bg-[#282828]  sticky p-6 px-7 '>
+        <div className='flex gap-6 items-center'>
+
+        <div className='border w-30 rounded h-30'>
+        </div>
+        <div>
+          <h1 className='text-5xl font-bold'>{detailData.title}</h1>
+          <h1 className='text-xl font-semibold'>{detailData.artist?.username}</h1>
+        </div>
+        </div>
+      </div>
+       <div className='h-[65vh] relative px-8 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>
+      
+        <div className='flex gap-3'>
+          <button className='px-4 py-1.5 rounded-full bg-red-500 font-semibold cursor-pointer'>Add To Favorites</button>
+          <button className='px-4 py-1.5 rounded-full bg-green-500 font-semibold cursor-pointer'>Add To Playlist</button>
+        </div>
+        <div className='px-3 pt-9 pb-2 border-white/10 border-b'>
+          <div className='flex items-center gap-10'>
+          <h1> #</h1>
+          <h1>Title</h1>
+          </div>
+        </div>
+        <div className='pt-3'>
+          {
+            detailData.album?.map((elem,index)=>{
+              return  <div key={elem._id} className='flex  group hover:bg-white/10 transition-all duration-300  py-3 px-2 rounded-lg w-full  gap-6'>
+            <div  className='relative'>
+              <span className=' group-hover:scale-0  scale-100 absolute top-3 transition-all duration-300 '>{index+1}</span>
+               <span className=' group-hover:scale-100 scale-0  absolute top-3 transition-all duration-300'>p</span>
+            </div>
+            <div className='flex items-center  gap-3'>
+              <div className='w-12 h-12 border rounded'>
+                <audio src={elem.uri} />
+              </div>
+              <div>
+                <h1 className='font-semibold '>{detailData.artist?.username}</h1>
+                <h1 className='text-sm text-white/60'>{elem.title}</h1>
+              </div>
+            </div>
+          </div>
+            })
+          }
+         
+        </div>
+        </div>
+       
+      </div>
   )
 }
 

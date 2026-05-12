@@ -14,17 +14,18 @@ const Right = () => {
       setPage(1)
     },[location.pathname])
     
+    
   return (
     <div className='w-[70%] max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh]'>
+      <Outlet />
       
+          { location?.pathname === '/' &&(
+              <>
       <div className='w-full flex gap-3 bg-[#282828]  sticky p-6 px-7 '>
         <button className='md:hidden' onClick={()=>{setHide(false)}}>show</button>
       <button className='px-4 py-1.5 rounded-full text-sm font-semibold bg-white text-black cursor-pointer'>All</button>
       <button className='px-4 py-1.5 rounded-full text-sm  font-semibold backdrop-blur-2xl bg-white/10 cursor-pointer'>Music</button>
       </div>
-      <Outlet />
-          { location?.pathname === '/' &&(
-              <>
                  <div className='h-[65vh] relative px-8 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>
         <div className=' '>
           <h1 className='text-sm font-semibold text-[#bbb]'>Inspired by your recent activity</h1>
@@ -32,11 +33,11 @@ const Right = () => {
        <h1  className='text-2xl font-bold'>Music</h1>
        <Link  to='/showall' className='font-semibold text-[#a5a5a5] hover:border-b'>Show all</Link>
           </div>
-        <button
+        <button 
         onClick={leftRef}
-        className=' absolute cursor-pointer hover:bg-black/90  left-2  top-1/2 -translate-y-1/2 z-40
+        className={` cursor-pointer absolute  hover:bg-black/90  left-2  top-1/2 -translate-y-1/2 z-40
         w-10 h-10 rounded-full bg-black/70 text-white
-        flex items-center justify-center'>
+        flex items-center justify-center`}>
 
         <RiArrowLeftSLine />
       </button>
@@ -95,10 +96,9 @@ const Right = () => {
        </div>
        </div>
         </div>
-              </>
-            )
-          }
-
+        </>
+)
+}
       </div>
    
 

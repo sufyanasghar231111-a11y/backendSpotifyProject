@@ -22,6 +22,9 @@ const Album = () => {
         })
     }
 
+    let limit= albumFetch.length<8
+    let limit2= albumFetch.length <1
+
     return (
     <div className=' relative'>
         <div className='flex items-center justify-between'>
@@ -32,11 +35,11 @@ const Album = () => {
          <h1 className='font-semibold text-[#a5a5a5] hover:border-b border-white'>Show all</h1>
         </Link>
         </div>
-        <button
+        <button disabled={limit2}
         onClick={leftRef}
-        className=' absolute cursor-pointer hover:bg-black/90  -left-5 top-1/2 -translate-y-1/2 z-20
+        className={` ${limit2 ? 'cursor-pointer':'cursor-not-allowed'} absolute  hover:bg-black/90  -left-5 top-1/2 -translate-y-1/2 z-20
         w-10 h-10 rounded-full bg-black/70 text-white
-        flex items-center justify-center'
+        flex items-center justify-center`}
       >
         <RiArrowLeftSLine />
       </button>
@@ -49,11 +52,14 @@ const Album = () => {
             p-2 mt-5 cursor-pointer'
           >
             <div className=' rounded-lg overflow-hidden w-full h-40'>
+              <Link to={`/albumdetail/${item._id}`}>
+              
               <img
                 className='w-full h-full object-cover'
                 src='https://i.scdn.co/image/ab67616d0000b2736fd2559f0879066633e56c42'
                 alt=''
-              />
+                />
+                </Link>
              
             </div>
             <div>
@@ -68,11 +74,11 @@ const Album = () => {
         ))}
       
        </div>
-        <button
+        <button disabled={limit}
         onClick={rightRef}
-        className=' absolute cursor-pointer hover:bg-black/90 -right-6  top-1/2 -translate-y-1/2 z-20
+        className={` ${limit ?'cursor-pointer':'cursor-not-allowed'} absolute  hover:bg-black/90 -right-6  top-1/2 -translate-y-1/2 z-20
         w-10 h-10 rounded-full bg-black/70 text-white
-        flex items-center justify-center'
+        flex items-center justify-center` }
       >
           <RiArrowRightSLine />
       </button>
