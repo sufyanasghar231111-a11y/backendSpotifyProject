@@ -6,13 +6,14 @@ import Album from '../Album'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 
 const Right = () => {
-   let {setHide,rightRef,leftRef,silderRef,playing,setPlaying,audioRef,playRef,music}=useContext(authHome)
+   let {setHide,rightRef,leftRef,silderRef,playing,setPlaying,audioRef,playRef,music,setPage}=useContext(authHome)
   
     let location=useLocation()
     useEffect(()=>{
       setPlaying(null)
+      setPage(1)
     },[location.pathname])
-
+    
   return (
     <div className='w-[70%] max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh]'>
       

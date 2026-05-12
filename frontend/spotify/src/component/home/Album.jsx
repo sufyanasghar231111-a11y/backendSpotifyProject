@@ -1,6 +1,7 @@
 import React, {  useContext, useRef } from 'react'
 import { RiArrowLeftSLine, RiArrowRightSLine, RiPlayFill } from '@remixicon/react'
 import { authHome } from '../contextapi/HomeContext'
+import { Link } from 'react-router-dom';
 
 const Album = () => {
   let {albumFetch}=useContext(authHome)
@@ -27,7 +28,9 @@ const Album = () => {
         <h1 className='text-2xl font-bold'>
       Album by Artist
         </h1>
+        <Link to='/showallalbum'>
          <h1 className='font-semibold text-[#a5a5a5] hover:border-b border-white'>Show all</h1>
+        </Link>
         </div>
         <button
         onClick={leftRef}

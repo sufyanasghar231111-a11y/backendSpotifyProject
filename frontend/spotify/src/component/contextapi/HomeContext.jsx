@@ -12,7 +12,6 @@ const HomeContext = ({children}) => {
     let [playing,setPlaying]=useState(null)
     const [page, setPage]=useState(1)
     const [albumFetch,setAlbumFetch]=useState([])
-
     //slider
      function rightRef(){
     silderRef.current.scrollBy({
@@ -70,10 +69,10 @@ setPlaying(song._id);
       const res= await axios.get('http://localhost:3000/api/creator/allAlbum')
       setAlbumFetch(res.data.album)
     }catch(err){
-      console.log(err);
-      
+      console.log(err);  
     }
   }
+
 useEffect(()=>{
   album()
 },[])
