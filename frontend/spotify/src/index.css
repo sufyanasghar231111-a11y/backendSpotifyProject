@@ -17,3 +17,23 @@
 .scroll::-webkit-scrollbar{
   display: none;
 }
+
+@keyframes slide {
+  0% {
+    transform: translateX(-100%);
+    width: 30%;
+  }
+
+  50% {
+    width: 60%;
+  }
+
+  100% {
+    transform: translateX(350%);
+    width: 30%;
+  }
+}
+
+.animate-slide {
+  animation: slide 1.4s infinite ease-in-out;
+}

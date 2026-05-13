@@ -14,6 +14,7 @@ const AuthContext = ({children}) => {
     let [emailreg,setEmailreg]=useState('')
     let [passwordreg,setPasswordreg]=useState('')
     let [loading, setLoading]=useState(false)
+    let [loader,setLoader]=useState(true)
     let [login, setLogin]=useState({
         email:'',
          password:""
@@ -68,6 +69,7 @@ const AuthContext = ({children}) => {
 
    async function checkRefresh(){
     try{
+          await new Promise((resolve) => setTimeout(resolve, 3000));
         let res=await axios.get("http://localhost:3000/api/auth/user",
                 { withCredentials: true }
             )
@@ -75,6 +77,9 @@ const AuthContext = ({children}) => {
     }
     catch(e){
         console.log(e);
+    }
+    finally{
+        setLoader(false);
     }
    }
 
@@ -103,7 +108,7 @@ const AuthContext = ({children}) => {
     }
 
   return (
-    <authProvider.Provider value={{handleSumbit,emailreg,setEmailreg,passwordreg,setPasswordreg,username,setUsername,user,setUser,handleLogin,login, setLogin,handleChange,loading, setLoading,handleLogout}}>
+    <authProvider.Provider value={{handleSumbit,emailreg,setEmailreg,passwordreg,setPasswordreg,username,setUsername,user,setUser,handleLogin,login, setLogin,handleChange,loading, setLoading,handleLogout,loader}}>
       {children}
     </authProvider.Provider>
   )
