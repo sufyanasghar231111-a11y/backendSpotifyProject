@@ -6,9 +6,11 @@ import { Link } from 'react-router-dom'
 const Left = () => {
     let {hide,setHide, fav}=useContext(authHome)
     
-    let length=fav.map((elem)=> (
-        elem.favorite.length
-    ))
+    let length=fav.reduce((acc,elem)=>{
+        return acc + elem.favorite?.length
+    },0)
+    
+    
    
 //  async   function createFav(){
 //         try{

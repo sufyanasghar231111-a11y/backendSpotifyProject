@@ -6,7 +6,7 @@ import { RiPauseFill, RiPlayFill } from '@remixicon/react'
 const Detail = () => {
 
   let {id}=useParams()
-  let {playing,playRef,audioRef}=useContext(authHome)
+  let {playing,playRef,audioRef,createFav}=useContext(authHome)
   let [data,setData]=useState([])
   async function fetchSingleMusic(){
     try{
@@ -22,19 +22,15 @@ const Detail = () => {
   },[])
 
 
-  console.log(data);
   const music = {
-    title: 'Blinding Lights',
-    artist: 'The Weeknd',
     cover:
       'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop',
-    audio:
-      'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-    album: 'After Hours',
-    duration: '3:22',
-    release: '2020',
+   
   }
+
   
+ 
+
   return (
     <div className='text-white '>
        <div className=' bg-[#1A1A1A] text-white flex items-center justify-center p-8'>
@@ -68,7 +64,7 @@ const Detail = () => {
             </button>
           <div className='flex gap-2 mt-8'>
             
-            <button className='px-5 py-2.5 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer'>
+            <button onClick={()=>{createFav(data?._id)}} className='px-5 py-2.5 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer'>
               Add Favorite
             </button>
             <button className='px-5 py-2.5 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer'>

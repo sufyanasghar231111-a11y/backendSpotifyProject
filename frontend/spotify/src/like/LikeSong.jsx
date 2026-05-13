@@ -1,33 +1,15 @@
 import { RiHeartFill } from '@remixicon/react'
-import axios from 'axios'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { authHome } from '../component/contextapi/HomeContext'
 
 const LikeSong = () => {
-  let {fav, setFav}=useContext(authHome)
-    async function fetchFav(){
-    try{
-        const res=await axios.get("http://localhost:3000/api/user/getUserFavorite",{ withCredentials:true })
-  setFav(res.data.getUserFavoritesMusic)
-  console.log(res.data.getUserFavoritesMusic);
-  
-    }
-    catch(err){
-        console.log(err);
-    }
-}
-
-useEffect(()=>{
-    fetchFav()
-},[])
-
+  let {fav}=useContext(authHome)
+   
    
   return (
     <div>
        <div>
-       
-            
-           <div className='w-full max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh] flex flex-col'>
+         <div className='w-full max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh] flex flex-col'>
 
         {/* HEADER */}
         <div className='w-full flex gap-3 bg-[#2714f8] sticky p-6 px-7'>
@@ -59,56 +41,46 @@ useEffect(()=>{
 
           <div className='pt-3'>
 
-            {fav.map((song) => {
-                
-              return (
-                <>
-                {song.favorite.map((song, index)=>{
-                    return  <div
-                  key={song._id}
-                  className='flex group hover:bg-white/10 transition-all duration-300 py-3 px-2 rounded-lg w-full gap-6'
-                >
+            {fav?.map((item) =>
+  (item?.favorite ?? []).map((music, index) => (
+    <div
+      key={music._id}
+      className='flex group hover:bg-white/10 transition-all duration-300 py-3 px-2 rounded-lg w-full gap-6'
+    >
+      <div className='relative'>
+        <span className='group-hover:scale-0 scale-100 absolute top-3 transition-all duration-300'>
+          {index + 1}
+        </span>
+      </div>
 
-                  <div className='relative'>
-                    <span className='group-hover:scale-0 scale-100 absolute top-3 transition-all duration-300'>
-                      {index + 1}
-                    </span>
-                  </div>
+      <div className='flex items-center justify-between w-full'>
+        <div className='flex items-center gap-3'>
+          
+          <div className='w-12 h-12 border rounded overflow-hidden'>
+            <img
+              className='w-full h-full object-cover'
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9wl5xfVuzRmBNbqj8mKwsqAKwptQPO3LE7Q&s"
+              alt=""
+            />
 
-                  <div className='flex items-center justify-between w-full'>
+            <audio className='w-full' src={music.uri} controls />
+          </div>
 
-                    <div className='flex items-center gap-3'>
+          <div>
+            <h1 className='font-semibold'>{music.title}</h1>
+            <h1 className='text-sm text-white/60'>
+              {music.artist?.username}
+            </h1>
+          </div>
+        </div>
 
-                      <div className='w-12 h-12 border rounded overflow-hidden'>
-                        <img
-                          className='w-full h-full object-cover'
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9wl5xfVuzRmBNbqj8mKwsqAKwptQPO3LE7Q&s"
-                          alt=""
-                        />
-                        <audio className='w-full' src={song.uri} controls />
-                      </div>
-
-                      <div>
-                        <h1 className='font-semibold'>{song.title}</h1>
-                        <h1 className='text-sm text-white/60'>
-                          {song.artist?.username}
-                        </h1>
-                      </div>
-
-                    </div>
-
-                    <div>
-                      <RiHeartFill className='text-red-500 cursor-pointer w-5 h-5' />
-                    </div>
-
-                  </div>
-
-                </div>
-                })}
-               
-                </>
-              )
-            })}
+        <div>
+          <RiHeartFill className='text-red-500 cursor-pointer w-5 h-5' />
+        </div>
+      </div>
+    </div>
+  ))
+)}
 
           </div>
 

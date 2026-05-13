@@ -78,8 +78,37 @@ useEffect(()=>{
   album()
 },[])
 
+
+ async function fetchFav(){
+    try{
+        const res=await axios.get("http://localhost:3000/api/user/getUserFavorite",{ withCredentials:true })
+  setFav(res.data.getUserFavoritesMusic)
+
+}
+    catch(err){
+        console.log(err);
+    }
+}
+
+useEffect(()=>{
+    fetchFav()
+},[])
+
+ async function createFav(favoriteId){
+    try{
+      const res=await axios.patch(`http://localhost:3000/api/user/fav/${favoriteId}`,{}, {withCredentials:true})
+      setFav(res.data.addToFav.favorite);
+      console.log(fav);
+      
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+  
+
   return (
-    <authHome.Provider value={{hidepro, setHidepro,hide,rightRef, silderRef,leftRef, setHide,playing,setPlaying,audioRef,playRef,music, setMusic ,page, setPage,albumFetch,fav,setFav}}>
+    <authHome.Provider value={{hidepro, setHidepro,hide,rightRef, silderRef,leftRef, setHide,playing,setPlaying,audioRef,playRef,music, setMusic ,page, setPage,albumFetch,fav,setFav,createFav}}>
       {children}
     </authHome.Provider>
   )
