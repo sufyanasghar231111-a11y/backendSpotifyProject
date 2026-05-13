@@ -12,6 +12,7 @@ const HomeContext = ({children}) => {
     let [playing,setPlaying]=useState(null)
     const [page, setPage]=useState(1)
     const [albumFetch,setAlbumFetch]=useState([])
+      let [fav,setFav]=useState([])
     //slider
      function rightRef(){
     silderRef.current.scrollBy({
@@ -78,7 +79,7 @@ useEffect(()=>{
 },[])
 
   return (
-    <authHome.Provider value={{hidepro, setHidepro,hide,rightRef, silderRef,leftRef, setHide,playing,setPlaying,audioRef,playRef,music, setMusic ,page, setPage,albumFetch}}>
+    <authHome.Provider value={{hidepro, setHidepro,hide,rightRef, silderRef,leftRef, setHide,playing,setPlaying,audioRef,playRef,music, setMusic ,page, setPage,albumFetch,fav,setFav}}>
       {children}
     </authHome.Provider>
   )

@@ -6,6 +6,7 @@ import ShowAll from '../src/component/home/ShowAll'
 import Detail from './component/home/Detail'
 import AllAlbum from './component/allalbum/AllAlbum'
 import AlbumDetail from './component/home/AlbumDetail'
+import LikeSong from './like/LikeSong'
 
 
 function App() {
@@ -17,10 +18,9 @@ function App() {
         <Route path='detail/:id' element={<Detail />} />
         <Route path='showallalbum' element={ <AllAlbum /> } />
         <Route path='albumdetail/:id' element={ < AlbumDetail /> } />
-
+        <Route path='like' element={ <LikeSong />} />
         </Route>
         <Route path='/register' element={<Register />} />
-
         </Routes> 
           </div>
   )

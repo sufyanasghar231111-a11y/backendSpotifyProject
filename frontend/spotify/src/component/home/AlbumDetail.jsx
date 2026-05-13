@@ -68,8 +68,8 @@ const AlbumDetail = () => {
                 <audio onEnded={()=>{setPlaying(null)}}  className='w-full ' ref={audioRef}  src={elem.uri} controls  />
               </div>
               <div>
-                <h1 className='font-semibold '>{detailData.artist?.username}</h1>
-                <h1 className='text-sm text-white/60'>{elem.title}</h1>
+                <h1 className='font-semibold'>{elem.title}</h1>
+                <h1 className='text-sm text-white/60 '>{detailData.artist?.username}</h1>
               </div>
             </div>
           </div>

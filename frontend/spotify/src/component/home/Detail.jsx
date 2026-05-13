@@ -62,13 +62,16 @@ const Detail = () => {
               <span></span>
             </div> */}
           </div>
-          <div className='flex gap-4 mt-8'>
-            <button onClick={()=>{playRef(data?._id)}} className='px-7  rounded-full bg-green-500 hover:bg-green-400 transition-all duration-300 font-semibold text-black cursor-pointer'>
+            <button onClick={()=>{playRef(data?._id)}} className='w-fit px-4  py-4 flex items-center justify-center  rounded-full bg-green-500 hover:bg-green-400 transition-all duration-300 font-semibold text-black cursor-pointer'>
              {playing === data?._id ? (<RiPauseFill className='text-white cursor-pointer w-7 h-7' />):(<RiPlayFill className='text-white cursor-pointer w-7 h-7' />)
                 }
             </button>
-
-            <button className='px-6 py-3 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer'>
+          <div className='flex gap-2 mt-8'>
+            
+            <button className='px-5 py-2.5 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer'>
+              Add Favorite
+            </button>
+            <button className='px-5 py-2.5 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer'>
               Add Playlist
             </button>
           </div>

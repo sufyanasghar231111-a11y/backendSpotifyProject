@@ -1,9 +1,28 @@
-import { RiAddLine } from '@remixicon/react'
+import { RiAddLine, RiHeartFill, RiHeartLine } from '@remixicon/react'
 import React, { useContext } from 'react'
 import  { authHome } from '../../contextapi/HomeContext'
+import { Link } from 'react-router-dom'
 
 const Left = () => {
-    let {hide,setHide}=useContext(authHome)
+    let {hide,setHide, fav}=useContext(authHome)
+    
+    let length=fav.map((elem)=> (
+        elem.favorite.length
+    ))
+   
+//  async   function createFav(){
+//         try{
+//             const res=await axios.post('http://localhost:3000/api/user/particularUserFavorite')
+//             setFav(res.data)
+//         }
+//         catch(err){
+//             console.log(err);
+            
+//         }
+//     }
+
+
+
   return (
             <div className={`w-[30%] max-sm:w-[60%] overflow-hidden max-sm:fixed max-sm:z-30 ${hide? "max-sm:-translate-x-full max-sm:opacity-0":"translate-x-0 max-sm:opacity-100"} transition-transform duration-500 ease-out sticky h-[76vh] left-0 rounded-lg bg-[#282828]  `}>
        <header  className=' py-4 max-sm:py-8 px-3 bg-[#1a1a1a]  sticky top-0 z-10 '>
@@ -19,11 +38,14 @@ const Left = () => {
        <div className='h-[60vh]  overflow-y-auto '>
         <div className=' flex items-center px-4 max-sm:px-2 py-2'>
             <div className='flex items-center gap-3'>
-                <div className=' rounded w-13 max-sm:w-10 max-sm:h-10 h-13 bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] bg-white'>
+                <div className='flex items-center justify-center  rounded w-13 max-sm:w-10 max-sm:h-10 h-13 bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] '>
+                    <RiHeartFill className='text-white' />
                 </div>
                 <div className='max-sm:text-sm'>
+                    <Link to={`/like`}  >
                     <h1 className='font-semibold'>Liked Songs</h1>
-                    <h1 className='text-sm max-sm:text-[10px] text-[#a5a5a5] font-semibold'>playlist . 5 songs</h1>
+                    </Link>
+                    <h1 className='text-sm max-sm:text-[10px] text-[#a5a5a5] font-semibold'>playlist . {length} songs</h1>
                 </div>
             </div>
         </div>
