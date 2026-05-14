@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { authHome } from '../contextapi/HomeContext'
-import { RiPauseFill, RiPlayFill } from '@remixicon/react'
+import { RiHeartFill, RiPauseFill, RiPlayFill } from '@remixicon/react'
 const Detail = () => {
 
   let { id } = useParams()
-  let { playing, playRef, audioRef, createFav, deletemusic } = useContext(authHome)
+  let { playing, playRef, audioRef, createFav, deletemusic , fav} = useContext(authHome)
   let [data, setData] = useState([])
   async function fetchSingleMusic() {
     try {
@@ -27,6 +27,10 @@ const Detail = () => {
       'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop',
 
   }
+const isFav = fav.some(user =>
+  user.favorite.some(song => song._id === data?._id)
+)
+  
 
   return (
     <div className='text-white '>
@@ -36,7 +40,18 @@ const Detail = () => {
             src={music.cover}
             className='w-full h-full object-cover'
           />
-          <audio ref={audioRef} src={data?.uri} className='w-full h-full' />
+          <audio ref={(el)=>{
+            if(!audioRef.current){
+              audioRef.current={}
+            }
+
+            if(el){
+              audioRef.current[data._id]=el
+            }
+            else{
+              delete audioRef.current[data._id]
+            }
+          }} src={data?.uri} className='w-full h-full' />
           <div className='absolute inset-0 bg-black/30'></div>
         </div>
 
@@ -60,14 +75,16 @@ const Detail = () => {
             }
           </button>
           <div className='flex gap-2 mt-8'>
+            {
+              isFav ? ( <button  onClick={() => { deletemusic(data?._id) }}  className={`w-12 h-12 flex items-center justify-center rounded-full  border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer`}>
+             <RiHeartFill className='text-red-500 cursor-pointer w-5 h-5' />
+            </button>)
+            :
+            ( <button onClick={() => { createFav(data?._id) }}  className={`w-12 h-12 flex items-center justify-center rounded-full  border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer`}>
+              <RiHeartFill className='text-white cursor-pointer w-5 h-5' />
+            </button>)
+            }
 
-            <button onClick={() => { createFav(data?._id) }} className={`px-5 py-2.5 rounded-full  border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer`}>
-              Add Favorite
-            </button>
-            <button onClick={() => { deletemusic(data?._id) }} className={`px-5 py-2.5 rounded-full  border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer`}>
-              deletemusic
-            </button>
-            
             <button className='px-5 py-2.5 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer'>
               Add Playlist
             </button>

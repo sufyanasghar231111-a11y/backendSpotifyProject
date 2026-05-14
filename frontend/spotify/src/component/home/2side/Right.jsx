@@ -58,7 +58,17 @@ const Right = () => {
     alt=''
     />
     </Link>
-               <audio ref={audioRef} onEnded={()=>{setPlaying(null)}} src={item.uri} type='audio/mp3' controls className='w-full mt-2' /> 
+               <audio ref={(el)=>{
+                if(!audioRef.current){
+                  audioRef.current={}
+                }
+                if(audioRef.current){
+                  audioRef.current[item._id]=el
+                }
+                else{
+                  delete audioRef.current[item._id]
+                }
+               }} onEnded={()=>{setPlaying(null)}} src={item.uri} type='audio/mp3' controls className='w-full mt-2' /> 
               <div onClick={()=>{playRef(item._id)}} className='absolute bottom-3 right-3
               flex items-center justify-center
               w-12 h-12 rounded-full hover:bg-green-600 bg-green-500

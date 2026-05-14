@@ -8,7 +8,7 @@ const HomeContext = ({ children }) => {
   let [hide, setHide] = useState(true)
   let [music, setMusic] = useState([])
   let silderRef = useRef(null)
-  let audioRef = useRef(null)
+  const  audioRef = useRef({})
   let [playing, setPlaying] = useState(null)
   const [page, setPage] = useState(1)
   const [albumFetch, setAlbumFetch] = useState([])
@@ -43,7 +43,7 @@ const HomeContext = ({ children }) => {
 
   //playsong
   function playRef(id) {
-    let audio = audioRef.current
+    let audio = audioRef.current[id]
     if (!audio) return null
 
     if (playing === id) {
@@ -57,17 +57,14 @@ const HomeContext = ({ children }) => {
       }
     }
     else {
-      const song = music.find(elem => elem._id === id)
-      if(!song){
-        audio.pause()
-        setPlaying(null)
-        return 
+        Object.entries(audioRef.current).forEach(([key, audio]) => {
+       if (audio && key !== id) {
+       audio.pause();
       }
-      audio.src = song.uri;
-        setTimeout(()=>{
+  });
+
          audio.play()
-      },0)
-      setPlaying(song._id);
+      setPlaying(id);
 
     }
   }
@@ -113,17 +110,20 @@ const HomeContext = ({ children }) => {
   async function deletemusic(favoriteId){
     try{
       await axios.delete(`http://localhost:3000/api/user/deleteFav/${favoriteId}`, {withCredentials:true})
-      fetchFav()
-      setPlaying(null);
-      if(audioRef.current){
-        audioRef.current.pause();
-      }
+      setFav((prev) =>
+      prev.map((elem)=>({
+        ...prev,
+        favorite:elem.favorite.filter(item =>
+          item._id !==favoriteId
+        )
+      }))
+      )
+      
     }
     catch(err){
       console.log(err);
     }
   }
-
  
 
   return (
