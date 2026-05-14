@@ -30,7 +30,8 @@ const Detail = () => {
 const isFav = fav.some(user =>
   user.favorite.some(song => song._id === data?._id)
 )
-  
+ 
+
 
   return (
     <div className='text-white '>
