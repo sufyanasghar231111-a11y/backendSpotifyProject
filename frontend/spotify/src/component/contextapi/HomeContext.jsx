@@ -83,7 +83,6 @@ useEffect(()=>{
     try{
         const res=await axios.get("http://localhost:3000/api/user/getUserFavorite",{ withCredentials:true })
   setFav(res.data.getUserFavoritesMusic)
-
 }
     catch(err){
         console.log(err);
@@ -96,10 +95,8 @@ useEffect(()=>{
 
  async function createFav(favoriteId){
     try{
-      const res=await axios.patch(`http://localhost:3000/api/user/fav/${favoriteId}`,{}, {withCredentials:true})
-      setFav(res.data.addToFav.favorite);
-      console.log(fav);
-      
+     await axios.patch(`http://localhost:3000/api/user/fav/${favoriteId}`,{}, {withCredentials:true})
+      fetchFav()      
     }
     catch(err){
       console.log(err);
