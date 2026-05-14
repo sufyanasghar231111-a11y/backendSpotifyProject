@@ -1,18 +1,19 @@
-import { RiHeartFill } from '@remixicon/react'
+import { RiHeartFill, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import React, { useContext } from 'react'
 import { authHome } from '../component/contextapi/HomeContext'
 
 const LikeSong = () => {
-  let { fav } = useContext(authHome)
+  let { fav, playing, playRef, audioRef, setPlaying ,deletemusic} = useContext(authHome)
 
 
+  
   return (
     <div>
       <div>
         <div className='w-full max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh] flex flex-col'>
 
           {/* HEADER */}
-          <div className='w-full flex gap-3 bg-[#2714f8] sticky p-6 px-7'>
+          <div className='w-full flex gap-3 bg-[#2C1F54] sticky p-6 px-7'>
             <div className='flex gap-6 items-center'>
 
               <div className='w-40 flex items-center justify-center bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] rounded h-40'>
@@ -42,14 +43,20 @@ const LikeSong = () => {
             <div className='pt-3'>
 
               {fav?.map((item) =>
-                item.favorite?.map((music, index) => (
-                  <div
+                item.favorite?.map((music, index) => {
+
+                  
+                  return <div
                     key={music._id}
                     className='flex group hover:bg-white/10 transition-all duration-300 py-3 px-2 rounded-lg w-full gap-6'
                   >
                     <div className='relative'>
                       <span className='group-hover:scale-0 scale-100 absolute top-3 transition-all duration-300'>
                         {index + 1}
+                      </span>
+                      <span onClick={() => { playRef(music?._id) }} className='group-hover:scale-100 scale-0 absolute top-3.5 -left-1 transition-all duration-300'>
+                          {  playing === music._id ? (<RiPauseFill className='text-white cursor-pointer w-5 h-5' />) : (<RiPlayFill className='text-white cursor-pointer w-5 h-5' />)
+                          }
                       </span>
                     </div>
 
@@ -63,7 +70,7 @@ const LikeSong = () => {
                             alt=""
                           />
 
-                          <audio className='w-full' src={music.uri} controls />
+                          <audio ref={audioRef} onEnded={() => { setPlaying(null) }} className='w-full' src={music?.uri} controls />
                         </div>
 
                         <div>
@@ -73,12 +80,12 @@ const LikeSong = () => {
                           </h1>
                         </div>
                       </div>
-                      <div>
+                      <div onClick={()=>{deletemusic(music._id)}}>
                         <RiHeartFill className='text-red-500 cursor-pointer w-5 h-5' />
                       </div>
                     </div>
                   </div>
-                ))
+                })
               )}
             </div>
           </div>

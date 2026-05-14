@@ -5,35 +5,32 @@ import { authHome } from '../contextapi/HomeContext'
 import { RiPauseFill, RiPlayFill } from '@remixicon/react'
 const Detail = () => {
 
-  let {id}=useParams()
-  let {playing,playRef,audioRef,createFav}=useContext(authHome)
-  let [data,setData]=useState([])
-  async function fetchSingleMusic(){
-    try{
-    const res=await axios.get(`http://localhost:3000/api/creator/singleMusic/${id}`) 
-    setData(res.data.detail)
+  let { id } = useParams()
+  let { playing, playRef, audioRef, createFav, deletemusic } = useContext(authHome)
+  let [data, setData] = useState([])
+  async function fetchSingleMusic() {
+    try {
+      const res = await axios.get(`http://localhost:3000/api/creator/singleMusic/${id}`)
+      setData(res.data.detail)
     }
-    catch(err){
+    catch (err) {
       console.log(err);
     }
   }
-  useEffect(()=>{
+  useEffect(() => {
     fetchSingleMusic()
-  },[])
+  }, [])
 
 
   const music = {
     cover:
       'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop',
-   
-  }
 
-  
- 
+  }
 
   return (
     <div className='text-white '>
-       <div className=' bg-[#1A1A1A] text-white flex items-center justify-center p-8'>
+      <div className=' bg-[#1A1A1A] text-white flex items-center justify-center p-8'>
         <div className='relative  h-[65vh] w-[500px] '>
           <img
             src={music.cover}
@@ -43,7 +40,7 @@ const Detail = () => {
           <div className='absolute inset-0 bg-black/30'></div>
         </div>
 
-        
+
         <div className='p-8 flex flex-col justify-center'>
           <p className='text-sm uppercase tracking-[4px] text-gray-400'>
             Now Playing
@@ -58,15 +55,19 @@ const Detail = () => {
               <span></span>
             </div> */}
           </div>
-            <button onClick={()=>{playRef(data?._id)}} className='w-fit px-4  py-4 flex items-center justify-center  rounded-full bg-green-500 hover:bg-green-400 transition-all duration-300 font-semibold text-black cursor-pointer'>
-             {playing === data?._id ? (<RiPauseFill className='text-white cursor-pointer w-7 h-7' />):(<RiPlayFill className='text-white cursor-pointer w-7 h-7' />)
-                }
-            </button>
+          <button onClick={() => { playRef(data?._id) }} className='w-fit px-4  py-4 flex items-center justify-center  rounded-full bg-green-500 hover:bg-green-400 transition-all duration-300 font-semibold text-black cursor-pointer'>
+            {playing === data?._id ? (<RiPauseFill className='text-white cursor-pointer w-7 h-7' />) : (<RiPlayFill className='text-white cursor-pointer w-7 h-7' />)
+            }
+          </button>
           <div className='flex gap-2 mt-8'>
-            
-            <button onClick={()=>{createFav(data?._id)}} className='px-5 py-2.5 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer'>
+
+            <button onClick={() => { createFav(data?._id) }} className={`px-5 py-2.5 rounded-full  border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer`}>
               Add Favorite
             </button>
+            <button onClick={() => { deletemusic(data?._id) }} className={`px-5 py-2.5 rounded-full  border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer`}>
+              deletemusic
+            </button>
+            
             <button className='px-5 py-2.5 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer'>
               Add Playlist
             </button>
