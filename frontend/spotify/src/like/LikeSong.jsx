@@ -5,8 +5,8 @@ import Input from './Input'
 import { authControl } from '../component/contextapi/AudioControl'
 
 const LikeSong = () => {
-  let { playing, playRef, audioRef, setPlaying, deletemusic, loaderTime, handleTime, duration, currentTime ,handleSeek} = useContext(authControl)
-  let { fav } = useContext(authHome)
+  let { playing, playRef, audioRef, setPlaying, loaderTime, handleTime, duration, currentTime ,handleSeek} = useContext(authControl)
+  let { fav,deletemusic } = useContext(authHome)
 
   return (
     <div>
