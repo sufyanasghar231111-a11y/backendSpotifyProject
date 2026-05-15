@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 // import { authProvider } from '../contextapi/AuthContext'
-import { RiChromeLine, RiHome4Fill, RiHome5Line, RiSearchLine, RiSpotifyFill } from '@remixicon/react'
+import { RiChromeLine, RiHome4Fill, RiHome5Line, RiPlayFill, RiSearchLine, RiSpotifyFill } from '@remixicon/react'
 import { Link } from 'react-router-dom'
 import {authHome} from '../contextapi/HomeContext'
 import Logout from './Logout'
@@ -14,7 +14,7 @@ function Home() {
   let { setHidepro}=useContext(authHome)
 
   let name=(user.username.trim().split(' ')[0][0]+ user.username.trim().split(' ').pop()[0]).toUpperCase()
-  
+
   
   return (
     <div className='w-full  '>
@@ -43,6 +43,8 @@ function Home() {
         <Left />
       <Right />
       </div>
+     
+      
     </div>
   )
 }

@@ -13,6 +13,9 @@ const HomeContext = ({ children }) => {
   const [page, setPage] = useState(1)
   const [albumFetch, setAlbumFetch] = useState([])
   let [fav, setFav] = useState([])
+  let [currentTime, setCurrentTime]=useState(0)
+  let [duration, setDuration]=useState(0)
+
   //slider
   function rightRef() {
     silderRef.current.scrollBy({
@@ -124,10 +127,38 @@ const HomeContext = ({ children }) => {
       console.log(err);
     }
   }
- 
+
+  function handleTime(id){
+    let audio=audioRef.current[id]
+    if(!audio) return 
+      setCurrentTime((prev) => ({
+    ...prev,
+    [id]: audio.currentTime
+  }))
+  }
+
+  function loaderTime(id){
+    let audio=audioRef.current[id]
+    if(!audio) return 
+     setDuration((prev) => ({
+    ...prev,
+    [id]: audio.duration
+  }))
+  }
+
+  function handleSeek(e, id){
+    let audio=audioRef.current[id]
+    if(!audio) return 
+
+     audio.currentTime = e.target.value
+     setCurrentTime((prev) => ({
+    ...prev,
+    [id]: Number(e.target.value)
+  }))
+  }
 
   return (
-    <authHome.Provider value={{ hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, playing, setPlaying, audioRef, playRef, music, setMusic, page, setPage, albumFetch, fav, setFav, createFav,deletemusic }}>
+    <authHome.Provider value={{ hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, playing, setPlaying, audioRef, playRef, music, setMusic, page, setPage, albumFetch, fav, setFav, createFav,deletemusic ,handleSeek,currentTime, setCurrentTime,duration,setDuration,loaderTime,handleTime}}>
       {children}
     </authHome.Provider>
   )
