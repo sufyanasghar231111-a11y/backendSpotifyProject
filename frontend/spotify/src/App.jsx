@@ -21,7 +21,7 @@ function App() {
         <Route path='showallalbum' element={ <AllAlbum /> } />
         <Route path='albumdetail/:id' element={ < AlbumDetail /> } />
         <Route path='like' element={ <LikeSong />} />
-        <Route path='playlist' element={ <PlayUI  />} />
+        <Route path='playlist/:id' element={ <PlayUI  />} />
         </Route>
         <Route path='/register' element={<Register />} />
         </Routes> 

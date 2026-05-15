@@ -7,17 +7,36 @@ import Logout from './Logout'
 import Left from './2side/Left'
 import Right from './2side/Right'
 import { authProvider } from '../contextapi/AuthContext'
+import { authPlay } from '../contextapi/PlayList'
 
 function Home() {
   let {user}=useContext(authProvider)
+  let {hideplay, setHidePlay,handleCreatePlaylist,name,setName}=useContext(authPlay)
 
   let { setHidepro}=useContext(authHome)
 
-  let name=(user.username.trim().split(' ')[0][0]+ user.username.trim().split(' ').pop()[0]).toUpperCase()
+  let fetchname=(user.username.trim().split(' ')[0][0]+ user.username.trim().split(' ').pop()[0]).toUpperCase()
 
   
   return (
-    <div className='w-full  '>
+    <div className='w-full relative '>
+      {
+        hideplay && (
+          <>
+      <div onClick={()=>{setHidePlay(false)}} className='inset-0 cursor-pointer absolute bg-black/50 backdrop:backdrop-blur-sm z-10'></div>
+      <div className='flex top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 items-center justify-center  absolute z-12'>
+      <div className=' w-70  rounded-lg bg-[#353434] flex items-center text-center  pt-5 px-4 flex-col'>
+        <h1 className='font-extrabold text-3xl mb-4'>Your Music, <br /> Your Playlist </h1>
+        <input value={name} onChange={(e)=>{setName(e.target.value)}} type="text" placeholder='Enter your title' className='mt-6 border border-[#797777] text-sm py-2 px-4 rounded-full w-full '  />
+        <div className='py-3  flex w-full  justify-end gap-2 text-sm font-semibold pt-8 '>
+        <button onClick={handleCreatePlaylist} className='border border-[#797777] cursor-pointer rounded-full px-3 py-1'>Create</button>
+        <button onClick={()=>{setHidePlay(false)}} className='border border-[#797777] cursor-pointer rounded-full px-3 py-1'>Cancel</button>
+        </div>
+      </div>
+      </div>
+          </>
+        )
+      }
       <div className='flex lg:px-10 px-5 md:px-7 max-sm:px-3.5  py-2  relative items-center justify-between gap-2 max-sm:gap-1'>
         <div className='flex items-center gap-6 max-sm:gap-2'>
        <RiSpotifyFill className='w-10 max-sm:w-6 max-sm:h-6 h-10' />
@@ -35,7 +54,7 @@ function Home() {
        </div>
         </div>
           <div onClick={()=>{setHidepro(prev => !prev)}} className=' bg-red-400 cursor-pointer flex items-center justify-center font-semibold rounded-full max-sm:w-5 max-sm:text-[9px] max-sm:h-5 w-9 h-9'>
-            {name}
+            {fetchname}
           </div>  
           <Logout />
       </div>
