@@ -103,8 +103,14 @@ console.log(data);
             </div>
           </div>
           <div className='flex items-center gap-2 justify-center pt-10'>
-          <input type="range" onChange={(e)=>{handleSeek(e, data?._id)}} value={currentTime[data._id] || 0} min='0' max={duration[data._id] || 0}  />
-          <h1>{Math.floor((currentTime[data._id] || 0)/60)}: {String(Math.floor((currentTime[data._id] || 0) %60)).padStart(2, '0')}s</h1>
+            {
+              playing === data._id && (
+                <>
+                <input type="range" onChange={(e)=>{handleSeek(e, data?._id)}} value={currentTime[data._id] || 0} min='0' max={duration[data._id] || 0}  />
+                <h1>{Math.floor((currentTime[data._id] || 0)/60)}: {String(Math.floor((currentTime[data._id] || 0) %60)).padStart(2, '0')}s</h1>
+                </>
+              )
+            }
           </div>
             
         </div>

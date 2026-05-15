@@ -34,7 +34,7 @@ const LikeSong = () => {
           {/* LIST */}
           <div className='h-full relative px-8 max-sm:px-3 py-6 bg-gradient-to-b from-[#1a1a1a] to-[#282828] overflow-y-auto'>
             {/* Header */}
-            <div className='sticky top-0 z-10 px-4 pt-6 pb-4 flex items-center justify-between bg-gradient-to-r from-[#1a1a1a]/95 to-[#282828]/95 backdrop-blur-sm border-b border-white/10'>
+            <div className=' top-0 z-10 px-4 pt-6 pb-4 flex items-center justify-between bg-gradient-to-r from-[#1a1a1a]/95 to-[#282828]/95 backdrop-blur-sm border-b border-white/10'>
               <div className='flex items-center gap-6'>
                 <div className='w-10 h-10 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/20'>
                   <span className='text-white font-bold text-lg'>#</span>
@@ -65,13 +65,12 @@ const LikeSong = () => {
                   >
                     {/* Index/Play Button */}
                     <div className='relative flex-shrink-0 w-12 h-12'>
-                      <span className='absolute inset-0 flex items-center justify-center text-white/60 font-bold text-lg group-hover:scale-0 transition-all duration-300 z-10'>
+                      <span className='absolute inset-0 max-sm:hidden flex items-center justify-center text-white/60 font-bold text-lg group-hover:scale-0 transition-all duration-300 z-10'>
                         {index + 1}
                       </span>
                       <button
                         onClick={() => playRef(music?._id)}
-                        className='absolute inset-0 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl scale-0 group-hover:scale-100 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 active:scale-95'
-                      >
+                        className='absolute inset-0 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl scale-0 max-sm:scale-100 group-hover:scale-100 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 active:scale-95' >
                         {playing === music._id ? (
                           <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
                             <path fillRule='evenodd' d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z' clipRule='evenodd' />

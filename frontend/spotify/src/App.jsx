@@ -7,6 +7,8 @@ import Detail from './component/home/Detail'
 import AllAlbum from './component/allalbum/AllAlbum'
 import AlbumDetail from './component/home/AlbumDetail'
 import LikeSong from './like/LikeSong'
+// import PlayList from './component/contextapi/PlayList'
+import PlayUI from './like/PlayUI'
 
 
 function App() {
@@ -19,6 +21,7 @@ function App() {
         <Route path='showallalbum' element={ <AllAlbum /> } />
         <Route path='albumdetail/:id' element={ < AlbumDetail /> } />
         <Route path='like' element={ <LikeSong />} />
+        <Route path='playlist' element={ <PlayUI  />} />
         </Route>
         <Route path='/register' element={<Register />} />
         </Routes> 
