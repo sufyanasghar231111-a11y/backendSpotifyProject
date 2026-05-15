@@ -49,6 +49,14 @@ const HomeContext = ({ children }) => {
     let audio = audioRef.current[id]
     if (!audio) return null
 
+    if(playing && playing !== id){
+      let prev =audioRef.current[playing]
+      if(prev){
+        prev.pause()
+        prev.currentTime=0
+      }
+    }
+
     if (playing === id) {
       if (audio.paused) {
         audio.play()
@@ -63,9 +71,9 @@ const HomeContext = ({ children }) => {
         Object.entries(audioRef.current).forEach(([key, audio]) => {
        if (audio && key !== id) {
        audio.pause();
+       audio.currentTime=0
       }
   });
-
          audio.play()
       setPlaying(id);
 
