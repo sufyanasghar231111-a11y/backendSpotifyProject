@@ -4,9 +4,11 @@ import HomeContext, { authHome } from '../../contextapi/HomeContext'
 import Album from '../Album'
 
 import { Link, Outlet, useLocation } from 'react-router-dom'
+import { authControl } from '../../contextapi/AudioControl'
 
 const Right = () => {
-   let {setHide,rightRef,leftRef,silderRef,playing,setPlaying,audioRef,playRef,music,setPage}=useContext(authHome)
+   let {setHide,rightRef,leftRef,silderRef,music,setPage}=useContext(authHome)
+   let {playing,setPlaying,audioRef,playRef}=useContext(authControl)
   
     let location=useLocation()
     useEffect(()=>{

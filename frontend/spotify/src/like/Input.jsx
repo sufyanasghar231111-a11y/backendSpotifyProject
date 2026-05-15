@@ -1,8 +1,9 @@
-import React, { useContext } from 'react'
-import { authHome } from '../component/contextapi/HomeContext'
+import React from 'react'
+// import { authHome } from '../component/contextapi/HomeContext'
+// import { authControl } from '../component/contextapi/AudioControl'
 
-const Input = ({music}) => {
-    let {currentTime,duration,handleSeek}=useContext(authHome)
+const Input = React.memo(({music,currentTime,duration,handleSeek}) => {
+    
   return (
     <div>
        <div className='flex items-center gap-2'>
@@ -12,6 +13,6 @@ const Input = ({music}) => {
       </div>
     </div>
   )
-}
+})
 
 export default Input

@@ -3,9 +3,11 @@ import { authHome } from '../contextapi/HomeContext'
 import { RiPauseFill, RiPlayFill } from '@remixicon/react'
 
 import { Link } from 'react-router-dom'
+import { authControl } from '../contextapi/AudioControl'
 
 const ShowAll = () => {
-  let {playing,setPlaying,audioRef,playRef,music,page, setPage}=useContext(authHome)  
+  let {playing,setPlaying,audioRef,playRef}=useContext(authControl)  
+  let {music,page, setPage}=useContext(authHome)
 
   const disable=music.length<8
 

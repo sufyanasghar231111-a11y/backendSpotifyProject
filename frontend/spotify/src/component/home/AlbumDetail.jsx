@@ -3,10 +3,12 @@ import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { authHome } from '../contextapi/HomeContext'
+import { authControl } from '../contextapi/AudioControl'
 
 const AlbumDetail = () => {
   let { id } = useParams()
-  let { playRef, playing, audioRef, setPlaying, fav, createFav, deletemusic } = useContext(authHome)
+  let { fav, createFav, deletemusic } = useContext(authHome)
+  let {playRef, playing, audioRef, setPlaying}=useContext(authControl)
   let [detailData, setDetailData] = useState({})
   async function detail() {
     try {
