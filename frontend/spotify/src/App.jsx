@@ -14,6 +14,7 @@ import PlayUI from './like/PlayUI'
 function App() {
   return (
     <div className='w-full bg-[#121212] h-screen'>
+      
       <Routes >
         <Route path='/' element={<Login />} >
         <Route path='showall' element={<ShowAll />} />

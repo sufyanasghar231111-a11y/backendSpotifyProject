@@ -7,11 +7,11 @@ import Logout from './Logout'
 import Left from './2side/Left'
 import Right from './2side/Right'
 import { authProvider } from '../contextapi/AuthContext'
-import { authPlay } from '../contextapi/PlayList'
+
 
 function Home() {
   let {user}=useContext(authProvider)
-  let {hideplay, setHidePlay,handleCreatePlaylist,name,setName}=useContext(authPlay)
+  let {hideplay, setHidePlay,handleCreatePlaylist,name,setName}=useContext(authProvider)
 
   let { setHidepro}=useContext(authHome)
 

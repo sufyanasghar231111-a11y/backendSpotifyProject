@@ -7,6 +7,7 @@ import { authHome } from '../component/contextapi/HomeContext'
 import axios from 'axios'
 import { useParams, useSearchParams } from 'react-router-dom'
 
+
 const PlayUI = () => {
 
   let { duration, handleTime, handleSeek, loaderTime, audioRef, setPlaying, playRef, playing, currentTime } = useContext(authControl)

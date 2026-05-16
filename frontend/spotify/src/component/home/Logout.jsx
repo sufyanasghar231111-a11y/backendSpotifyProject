@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import { authHome } from '../contextapi/HomeContext'
 import { authProvider } from '../contextapi/AuthContext'
 import axios from 'axios'
-// import {authPlay} from '../contextapi/PlayList'
 
 const Logout = () => {
     let {hidepro}=useContext(authHome)

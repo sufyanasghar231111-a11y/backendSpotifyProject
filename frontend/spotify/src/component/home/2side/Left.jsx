@@ -2,11 +2,11 @@ import { RiAddLine, RiHeartFill, RiHeartLine, RiPlayListLine } from '@remixicon/
 import React, { useContext } from 'react'
 import { authHome } from '../../contextapi/HomeContext'
 import { Link } from 'react-router-dom'
-import { authPlay } from '../../contextapi/PlayList'
+import { authProvider } from '../../contextapi/AuthContext'
 
 const Left = () => {
     let { hide, setHide, fav } = useContext(authHome)
-    let { setHidePlay,getPlayList}=useContext(authPlay)
+    let { setHidePlay,getPlayList}=useContext(authProvider)
 
     let length = fav.reduce((acc, elem) => {
         return acc + elem.favorite?.length

@@ -18,8 +18,12 @@ const AuthContext = ({children}) => {
         email:'',
          password:""
     })
-  
-      
+    const [authReady, setAuthReady] = useState(false);
+       let [getPlayList, setGetPlayList]=useState([])
+    let [create,setCreate]=useState([])
+    let [name,setName]=useState('')
+    let [hideplay,setHidePlay]=useState(false)
+
    async function handleSumbit(e){
         e.preventDefault()
         try{
@@ -33,6 +37,7 @@ const AuthContext = ({children}) => {
             
              localStorage.setItem('token', response.data.user.token)
              setUser(response.data.user)
+             
              setUsername('')
              setEmailreg('')
              setPasswordreg('')
@@ -56,6 +61,7 @@ const AuthContext = ({children}) => {
             )
             // localStorage.setItem('token', checkLogin.data.token)                        
             setUser(checkLogin.data)
+            setAuthReady(true)
             
         }
         catch(e){
@@ -75,6 +81,7 @@ const AuthContext = ({children}) => {
                 { withCredentials: true }
             )
             setUser(res.data.getAuthData)
+            setAuthReady(true)
 
     }
     catch(e){
@@ -97,11 +104,41 @@ const AuthContext = ({children}) => {
             [e.target.name]:e.target.value
         }))
     }
+    
+    
+  async  function handleGetPlayList(){
+        try{
+            
+            const res=await axios.get('http://localhost:3000/api/user/particularUserPlaylist', {withCredentials:true})            
+            setGetPlayList(res.data.particular || [])
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+
+   useEffect(() => {
+    if (!authReady ||!user?._id)  return;
+
+    handleGetPlayList();
+
+}, [user?._id,authReady]);
+
+    async function handleCreatePlaylist(){
+        try{
+            const res=await axios.post('http://localhost:3000/api/user/playlist', {name}, {withCredentials:true})
+            setCreate(res.data.createPlaylist)
+            await handleGetPlayList()
+        }
+        catch(err){
+            console.log(err);   
+        }
+    }
 
    
 
   return (
-    <authProvider.Provider value={{handleSumbit,emailreg,setEmailreg,passwordreg,setPasswordreg,username,setUsername,user,setUser,handleLogin,login, setLogin,handleChange,loading, setLoading,loader}}>
+    <authProvider.Provider value={{handleSumbit,emailreg,setEmailreg,passwordreg,setPasswordreg,username,setUsername,user,setUser,handleLogin,login, setLogin,handleChange,loading, setLoading,loader,authReady, setAuthReady,getPlayList,handleCreatePlaylist,create,name,setName,hideplay,setHidePlay,setGetPlayList,handleGetPlayList}}>
       {children}
     </authProvider.Provider>
   )
