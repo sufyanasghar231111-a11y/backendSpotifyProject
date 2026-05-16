@@ -2,14 +2,13 @@ import React, { createContext, useEffect, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+
+
 export const authProvider=createContext()
 const AuthContext = ({children}) => {
     let navigate=useNavigate()
     let [user,setUser]=useState(null)
-    // ()=>{
-    //     let store=localStorage.getItem('token')
-    //     return store ? store:null
-    // }
+    
     let [username,setUsername]=useState('')
     let [emailreg,setEmailreg]=useState('')
     let [passwordreg,setPasswordreg]=useState('')
@@ -19,6 +18,8 @@ const AuthContext = ({children}) => {
         email:'',
          password:""
     })
+  
+      
    async function handleSumbit(e){
         e.preventDefault()
         try{
@@ -55,7 +56,7 @@ const AuthContext = ({children}) => {
             )
             // localStorage.setItem('token', checkLogin.data.token)                        
             setUser(checkLogin.data)
-
+            
         }
         catch(e){
             console.log(e);
@@ -69,12 +70,12 @@ const AuthContext = ({children}) => {
 
    async function checkRefresh(){
     try{
-        //   await new Promise((resolve) => setTimeout(resolve, 3000));
+          await new Promise((resolve) => setTimeout(resolve, 3000));
         let res=await axios.get("http://localhost:3000/api/auth/user",
                 { withCredentials: true }
             )
             setUser(res.data.getAuthData)
-            setUser(null);
+
     }
     catch(e){
         console.log(e);
@@ -86,7 +87,9 @@ const AuthContext = ({children}) => {
 
    useEffect(()=>{
     checkRefresh()
+   
    },[])
+
 
     function handleChange(e){
         setLogin(prev => ({
@@ -95,21 +98,10 @@ const AuthContext = ({children}) => {
         }))
     }
 
-   async function handleLogout(){
-        try{
-            await axios.post('http://localhost:3000/api/auth/logout',
-                {},
-                {withCredentials:true}
-            )
-        }
-        catch(e){
-            console.log(e);
-        }
-        setUser(null)
-    }
+   
 
   return (
-    <authProvider.Provider value={{handleSumbit,emailreg,setEmailreg,passwordreg,setPasswordreg,username,setUsername,user,setUser,handleLogin,login, setLogin,handleChange,loading, setLoading,handleLogout,loader}}>
+    <authProvider.Provider value={{handleSumbit,emailreg,setEmailreg,passwordreg,setPasswordreg,username,setUsername,user,setUser,handleLogin,login, setLogin,handleChange,loading, setLoading,loader}}>
       {children}
     </authProvider.Provider>
   )

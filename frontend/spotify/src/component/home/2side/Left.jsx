@@ -11,7 +11,7 @@ const Left = () => {
     let length = fav.reduce((acc, elem) => {
         return acc + elem.favorite?.length
     }, 0)
-
+   
     return (
         <div className={`w-[30%] max-sm:w-[60%] overflow-hidden max-sm:fixed max-sm:z-30 ${hide ? "max-sm:-translate-x-full max-sm:opacity-0" : "translate-x-0 max-sm:opacity-100"} transition-transform duration-500 ease-out sticky h-[76vh] left-0 rounded-lg bg-[#282828]  `}>
             <header className=' py-4 max-sm:py-8 px-3 bg-[#1a1a1a]  sticky top-0 z-10 '>
@@ -39,7 +39,7 @@ const Left = () => {
                     </div>
                 </div>
                 {
-                    getPlayList.map((elem, index)=>{
+                    getPlayList?.map((elem, index)=>{
                         
                         return  <div key={elem?._id}  className=' flex items-center px-4 max-sm:px-2 py-2'>
                             <Link to={`/playlist/${elem._id}?index=${index+1}`} >
@@ -50,7 +50,7 @@ const Left = () => {
                         </div>
                         <div className='max-sm:text-sm'>
                             <h1 className='font-semibold'>{elem.name} </h1>
-                            <h1 className='text-sm max-sm:text-[10px] text-[#a5a5a5] font-semibold'>playlist {index+1} . 3 songs</h1>
+                            <h1 className='text-sm max-sm:text-[10px] text-[#a5a5a5] font-semibold'>playlist {index+1} . {elem.music?.length || 0} songs</h1>
                         </div>
                     </div>
                 </Link>
