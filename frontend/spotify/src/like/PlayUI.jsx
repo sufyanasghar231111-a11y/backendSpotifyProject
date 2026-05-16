@@ -1,18 +1,47 @@
 import { RiHeartFill, RiPlayListLine } from '@remixicon/react'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { authPlay } from '../component/contextapi/PlayList'
 import { authControl } from '../component/contextapi/AudioControl'
 import Input from '../like/Input'
 import { authHome } from '../component/contextapi/HomeContext'
+import axios from 'axios'
+import { useParams, useSearchParams } from 'react-router-dom'
 
 const PlayUI = () => {
   let { getPlayList } = useContext(authPlay)
   let { duration, handleTime, handleSeek, loaderTime, audioRef, setPlaying, playRef, playing, currentTime } = useContext(authControl)
   let { fav, deletemusic, createFav } = useContext(authHome)
 
-  let index = getPlayList.map((elem, index) => {
-    return index + 1
-  })
+  let [separate, setSeparate]=useState({})
+  let {id}=useParams()
+  const [params]=useSearchParams()
+  const number=params.get('index')
+ async function handleSeparate(){
+    try{
+      const res=await axios.get(`http://localhost:3000/api/user/separate/${id}`, {withCredentials:true})
+      console.log(res);
+      setSeparate(res.data.getSinglePlaylist)
+      
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+
+  useEffect(()=>{
+    handleSeparate()
+  },[id])
+
+  console.log(separate);
+  
+
+  // let index = separate.map((elem, index) => {
+  //   return index + 1
+  // })
+
+  console.log(separate);
+  
+
 
   return (
     <div className='w-full max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh] flex flex-col'>
@@ -24,12 +53,11 @@ const PlayUI = () => {
           </div>
           <div>
             <h1 className='text-xl font-semibold'>
-              {getPlayList?.[0].name}
+              {separate?.name}
             </h1>
-            <h1 className='text-7xl font-extrabold'>PlayList #{index}</h1>
-            <h1>{getPlayList?.[0].user?.username}</h1>
+            <h1 className='text-7xl font-extrabold'>PlayList # {number}</h1>
+            <h1>{separate?.user?.username}</h1>
           </div>
-
         </div>
       </div>
       <div className='h-full relative px-8 max-sm:px-3 py-6 bg-gradient-to-b from-[#1a1a1a] to-[#282828] overflow-y-auto'>
@@ -56,8 +84,7 @@ const PlayUI = () => {
 
         {/* Music List */}
         <div className='space-y-2 pt-4'>
-          {getPlayList?.map((item) =>
-            item.music?.map((music, index) => {
+          { separate?.music?.map((music, index) => {
               const favId = fav.some(elem => {
                 return elem.favorite.some(song => song._id === music._id)
               })
@@ -93,7 +120,6 @@ const PlayUI = () => {
                       />
 
                       <div className='absolute inset-0 bg-gradient-to-t from-black/50 to-transparent animate-pulse' />
-
                     </div>
                     <div className='min-w-0 flex-1'>
                       <h3 className='font-bold text-white text-sm truncate group-hover:text-purple-400 transition-colors'>
@@ -134,7 +160,6 @@ const PlayUI = () => {
                       )
                     }
 
-
                   </button>
                 </div>
 
@@ -148,8 +173,7 @@ const PlayUI = () => {
                   }}
                   onEnded={() => {
                     setPlaying(null);
-                    currentTime(0);
-                    duration(0);
+                  
                   }}
                   onLoadedMetadata={() => loaderTime(music._id)}
                   onTimeUpdate={() => handleTime(music._id)}
@@ -157,10 +181,9 @@ const PlayUI = () => {
                   preload='metadata'
                   className='hidden'
                 />
-
               </div>
             })
-          )}
+          }
         </div>
       </div>
     </div>

@@ -69,11 +69,12 @@ const AuthContext = ({children}) => {
 
    async function checkRefresh(){
     try{
-          await new Promise((resolve) => setTimeout(resolve, 3000));
+        //   await new Promise((resolve) => setTimeout(resolve, 3000));
         let res=await axios.get("http://localhost:3000/api/auth/user",
                 { withCredentials: true }
             )
             setUser(res.data.getAuthData)
+            setUser(null);
     }
     catch(e){
         console.log(e);

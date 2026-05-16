@@ -40,16 +40,17 @@ const Left = () => {
                 </div>
                 {
                     getPlayList.map((elem, index)=>{
+                        
                         return  <div key={elem?._id}  className=' flex items-center px-4 max-sm:px-2 py-2'>
-                            <Link to={`/playlist/${elem._id}`} >
+                            <Link to={`/playlist/${elem._id}?index=${index+1}`} >
                     <div className='flex items-center gap-3'>
                         
                         <div className='flex items-center justify-center  rounded w-13 max-sm:w-10 max-sm:h-10 h-13 bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] '>
                             <RiPlayListLine />
                         </div>
                         <div className='max-sm:text-sm'>
-                            <h1 className='font-semibold'>Your PlayList #{index+1}</h1>
-                            <h1 className='text-sm max-sm:text-[10px] text-[#a5a5a5] font-semibold'>playlist . 3 songs</h1>
+                            <h1 className='font-semibold'>{elem.name} </h1>
+                            <h1 className='text-sm max-sm:text-[10px] text-[#a5a5a5] font-semibold'>playlist {index+1} . 3 songs</h1>
                         </div>
                     </div>
                 </Link>
