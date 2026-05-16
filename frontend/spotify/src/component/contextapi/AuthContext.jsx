@@ -4,144 +4,144 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-export const authProvider=createContext()
-const AuthContext = ({children}) => {
-    let navigate=useNavigate()
-    let [user,setUser]=useState(null)
-    
-    let [username,setUsername]=useState('')
-    let [emailreg,setEmailreg]=useState('')
-    let [passwordreg,setPasswordreg]=useState('')
-    let [loading, setLoading]=useState(false)
-    let [loader,setLoader]=useState(true)
-    let [login, setLogin]=useState({
-        email:'',
-         password:""
+export const authProvider = createContext()
+const AuthContext = ({ children }) => {
+    let navigate = useNavigate()
+    let [user, setUser] = useState(null)
+
+    let [username, setUsername] = useState('')
+    let [emailreg, setEmailreg] = useState('')
+    let [passwordreg, setPasswordreg] = useState('')
+    let [loading, setLoading] = useState(false)
+    let [loader, setLoader] = useState(true)
+    let [login, setLogin] = useState({
+        email: '',
+        password: ""
     })
     const [authReady, setAuthReady] = useState(false);
-       let [getPlayList, setGetPlayList]=useState([])
-    let [create,setCreate]=useState([])
-    let [name,setName]=useState('')
-    let [hideplay,setHidePlay]=useState(false)
+    let [getPlayList, setGetPlayList] = useState([])
+    let [create, setCreate] = useState([])
+    let [name, setName] = useState('')
+    let [hideplay, setHidePlay] = useState(false)
 
-   async function handleSumbit(e){
+    async function handleSumbit(e) {
         e.preventDefault()
-        try{
-            const response=await axios.post('http://localhost:3000/api/auth/register',
+        try {
+            const response = await axios.post('http://localhost:3000/api/auth/register',
                 {
-                    username:username,
-                    email:emailreg,
-                    password:passwordreg
-                }, {withCredentials:true}
+                    username: username,
+                    email: emailreg,
+                    password: passwordreg
+                }, { withCredentials: true }
             )
-            
-             localStorage.setItem('token', response.data.user.token)
-             setUser(response.data.user)
-             
-             setUsername('')
-             setEmailreg('')
-             setPasswordreg('')
-             navigate('/') 
+
+            localStorage.setItem('token', response.data.user.token)
+            setUser(response.data.user)
+
+            setUsername('')
+            setEmailreg('')
+            setPasswordreg('')
+            navigate('/')
         }
-        catch(err){
+        catch (err) {
             console.log(err);
         }
     }
 
     async function handleLogin(e) {
         e.preventDefault()
-        try{
+        try {
             setLoading(true)
-            const checkLogin=await axios.post('http://localhost:3000/api/auth/login',
+            const checkLogin = await axios.post('http://localhost:3000/api/auth/login',
                 {
-                    email:login.email,
-                    password:login.password
+                    email: login.email,
+                    password: login.password
                 },
-              { withCredentials: true }
+                { withCredentials: true }
             )
-            // localStorage.setItem('token', checkLogin.data.token)                        
+
             setUser(checkLogin.data)
             setAuthReady(true)
-            
+
         }
-        catch(e){
+        catch (e) {
             console.log(e);
         }
-        finally{
+        finally {
 
             setLoading(false)
         }
 
     }
 
-   async function checkRefresh(){
-    try{
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-        let res=await axios.get("http://localhost:3000/api/auth/user",
+    async function checkRefresh() {
+        try {
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+            let res = await axios.get("http://localhost:3000/api/auth/user",
                 { withCredentials: true }
             )
             setUser(res.data.getAuthData)
             setAuthReady(true)
 
+        }
+        catch (e) {
+            console.log(e);
+        }
+        finally {
+            setLoader(false);
+        }
     }
-    catch(e){
-        console.log(e);
-    }
-    finally{
-        setLoader(false);
-    }
-   }
 
-   useEffect(()=>{
-    checkRefresh()
-   
-   },[])
+    useEffect(() => {
+        checkRefresh()
+
+    }, [])
 
 
-    function handleChange(e){
+    function handleChange(e) {
         setLogin(prev => ({
             ...prev,
-            [e.target.name]:e.target.value
+            [e.target.name]: e.target.value
         }))
     }
-    
-    
-  async  function handleGetPlayList(){
-        try{
-            
-            const res=await axios.get('http://localhost:3000/api/user/particularUserPlaylist', {withCredentials:true})            
+
+
+    async function handleGetPlayList() {
+        try {
+
+            const res = await axios.get('http://localhost:3000/api/user/particularUserPlaylist', { withCredentials: true })
             setGetPlayList(res.data.particular || [])
         }
-        catch(e){
+        catch (e) {
             console.log(e);
         }
     }
 
-   useEffect(() => {
-    if (!authReady ||!user?._id)  return;
+    useEffect(() => {
+        if (!authReady || !user) return;
 
-    handleGetPlayList();
+        handleGetPlayList();
 
-}, [user?._id,authReady]);
+    }, [user, authReady]);
 
-    async function handleCreatePlaylist(){
-        try{
-            const res=await axios.post('http://localhost:3000/api/user/playlist', {name}, {withCredentials:true})
+    async function handleCreatePlaylist() {
+        try {
+            const res = await axios.post('http://localhost:3000/api/user/playlist', { name }, { withCredentials: true })
             setCreate(res.data.createPlaylist)
             await handleGetPlayList()
         }
-        catch(err){
-            console.log(err);   
+        catch (err) {
+            console.log(err);
         }
     }
 
-   
 
-  return (
-    <authProvider.Provider value={{handleSumbit,emailreg,setEmailreg,passwordreg,setPasswordreg,username,setUsername,user,setUser,handleLogin,login, setLogin,handleChange,loading, setLoading,loader,authReady, setAuthReady,getPlayList,handleCreatePlaylist,create,name,setName,hideplay,setHidePlay,setGetPlayList,handleGetPlayList}}>
-      {children}
-    </authProvider.Provider>
-  )
+
+    return (
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, loader, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList }}>
+            {children}
+        </authProvider.Provider>
+    )
 }
 
 export default AuthContext
