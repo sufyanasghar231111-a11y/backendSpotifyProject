@@ -7,14 +7,14 @@ async function playlist(req,res) {
 
     try{
         let {name,music,user}=req.body
-        if(!name || !music){
-          return  res.status(400).json({
-                message:"Name and Music is required"
-            })
-        }
+        // if(!name || !music){
+        //   return  res.status(400).json({
+        //         message:"Name and Music is required"
+        //     })
+        // }
         const createPlaylist=await userSchema.create({
         name,
-        music,
+        music:[],
        user:req.user.id
     })
     
@@ -36,7 +36,7 @@ catch(e){
 async function particularUserPlaylist(req,res){
     
     try{
-        const particular=await userSchema.find({user:req.user.id}).populate('music', 'title uri')
+        const particular=await userSchema.find({user:req.user.id}).populate('music', 'title uri').populate('user')
         res.status(200).json({
             message:"successful get playlist",
             particular
@@ -45,6 +45,42 @@ async function particularUserPlaylist(req,res){
     catch(err){
         res.status(500).json({
             message:"Error in particularUser"
+        })
+    }
+}
+
+async function separate(req,res){
+    try{
+        let {id}=req.params
+        
+        const getSinglePlaylist=await userSchema.findOne({ _id: id, user:req.user.id }).populate('user')
+
+        res.status(200).json({
+            message:'Successful get Music',
+            getSinglePlaylist
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Error in your response"
+        })
+    }
+}
+
+async function deletePlaylistComplete(req,res){
+    try{
+        let {id}=req.params
+        const deletePlatlist=await userSchema.deleteOne({_id:id, user:req.user.id})
+        res.status(200).json({
+            message:"Successful delete",
+            deletePlatlist
+        })
+
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Error in your response",
+            error:e.message
         })
     }
 }
@@ -139,7 +175,6 @@ async function particularFav(req,res){
 
         let {favorite}=req.body
 
-
          if(!favorite){
             return res.status(400).json({
                 message:"Favorite is required"
@@ -175,13 +210,16 @@ async function particularFav(req,res){
 async function getUserFav(req,res){
     try{
 
-        const getUserFavoritesMusic=await favSchema.find({user:req.user.id}).populate('favorite', 'uri title')
+        const getUserFavoritesMusic=await favSchema.find({user:req.user.id}).populate('favorite', 'uri title artist').populate('user').populate({path:'favorite',populate:{path:"artist"}})
         
         res.status(200).json({
             success:true,
             message:"successful get particular data",
             getUserFavoritesMusic
         })
+
+        
+        
     }
     catch(e){
         res.status(500).json({
@@ -194,16 +232,16 @@ async function getUserFav(req,res){
 async function favoriteMusic(req,res){
     try{
 
-        const {favId, favoriteId}=req.params;
+        const { favoriteId}=req.params;
         const addToFav=await favSchema.findOneAndUpdate(
-            {_id: favId, user: new mongoose.Types.ObjectId(req.user.id) },
+            {  user: req.user.id },
             {
                 $addToSet:{
                     favorite:favoriteId
                 }
             },
-            {new:true}
-        )
+            {returnDocument:'after'}
+        ).populate('favorite', 'uri title artist').populate('user').populate({path:'favorite', populate:{path:'artist'}})
         res.status(200).json({
             message:"successful push into favorite",
             addToFav
@@ -220,13 +258,15 @@ async function favoriteMusic(req,res){
 async function deleteFavMusic(req,res){
     try{
 
-        const {favId,favoriteId}=req.params
-        const deleteFavMus= await favSchema.findByIdAndUpdate(favId,{
+        const {favoriteId}=req.params
+        const deleteFavMus= await favSchema.findOneAndUpdate(
+            {user:req.user.id},
+            {
             $pull:{
                 favorite: favoriteId
             }
         },
-        {new:true}
+        {returnDocument:'after'}
         
     )
     res.status(200).json({
@@ -269,4 +309,4 @@ catch(e){
 }
 }
 
-module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic,favoriteMusic,particularFav,getUserFav,deleteFavMusic,singleFav}
+module.exports={playlist,particularUserPlaylist,deleteMusic,pushMusic,getSingleMusic,favoriteMusic,particularFav,getUserFav,deleteFavMusic,singleFav,separate,deletePlaylistComplete}
