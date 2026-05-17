@@ -80,4 +80,5 @@ const AudioControl = ({children}) => {
   )
 }
 
-export default React.memo(AudioControl)
+
+export default AudioControl

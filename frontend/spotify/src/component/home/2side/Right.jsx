@@ -112,9 +112,8 @@ const Right = () => {
       )
       }
     </div>
-
-
   )
 }
+
 
 export default Right

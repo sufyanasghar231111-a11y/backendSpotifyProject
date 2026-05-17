@@ -33,7 +33,7 @@ const PlayUI = () => {
     setSeparate({})
     handleSeparate()
   }, [id])
-  
+
    function handleSeek(e, id){
     let audio=audioRef.current[id]
     if(!audio) return 
@@ -191,5 +191,8 @@ const PlayUI = () => {
     </div>
   )
 }
+
+
+
 
 export default PlayUI

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import axios from 'axios'
 import { authProvider } from './AuthContext'
 
@@ -18,18 +18,19 @@ const HomeContext = ({ children }) => {
 
 
   //slider
-  function rightRef() {
+ const  rightRef = useCallback(()=> {
     silderRef.current.scrollBy({
       left: 300,
       behavior: 'smooth'
     })
-  }
-  function leftRef() {
+  },[])
+
+  const  leftRef = useCallback(()=> {
     silderRef.current.scrollBy({
       left: -300,
       behavior: 'smooth'
     })
-  }
+  },[])
   //fetchdata
   async function fetchData() {
     try {
@@ -61,7 +62,7 @@ const HomeContext = ({ children }) => {
   }, [])
 
 
-  async function fetchFav() {
+ const fetchFav = useCallback( async (favoriteId)=>{
     try {
       const res = await axios.get("http://localhost:3000/api/user/getUserFavorite", { withCredentials: true })
       setFav(res.data.getUserFavoritesMusic)
@@ -69,14 +70,15 @@ const HomeContext = ({ children }) => {
     catch (err) {
       console.log(err);
     }
-  }
+  },[])
 
   useEffect(() => {
     if (!authReady || !user) return
     fetchFav()
   }, [authReady, user])
 
-  async function createFav(favoriteId) {
+  const createFav = useCallback( async (favoriteId)=>{
+
     try {
       await axios.patch(`http://localhost:3000/api/user/fav/${favoriteId}`, {}, { withCredentials: true })
       fetchFav()
@@ -84,14 +86,15 @@ const HomeContext = ({ children }) => {
     catch (err) {
       console.log(err);
     }
-  }
+  },[fetchFav])
+ 
 
-  async function deletemusic(favoriteId) {
+    const deletemusic = useCallback( async (favoriteId)=>{
     try {
       await axios.delete(`http://localhost:3000/api/user/deleteFav/${favoriteId}`, { withCredentials: true })
       setFav((prev) =>
         prev.map((elem) => ({
-          ...prev,
+          ...elem,
           favorite: elem.favorite.filter(item =>
             item._id !== favoriteId
           )
@@ -102,15 +105,17 @@ const HomeContext = ({ children }) => {
     catch (err) {
       console.log(err);
     }
-  }
+  },[])
 
-
+  const value=useMemo(()=>({
+    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, setPage, albumFetch, fav, setFav, createFav, deletemusic 
+  }),[hidepro,hide,silderRef,music,page,albumFetch,fav,rightRef,leftRef,createFav,deletemusic])
 
   return (
-    <authHome.Provider value={{ hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, setPage, albumFetch, fav, setFav, createFav, deletemusic }}>
+    <authHome.Provider value={value}>
       {children}
     </authHome.Provider>
   )
 }
 
-export default React.memo(HomeContext)
+export default HomeContext
