@@ -1,4 +1,4 @@
-import React, { createContext, useRef, useState } from 'react'
+import React, { createContext, useCallback, useMemo, useRef, useState } from 'react'
 
 export const authControl=createContext()
 const AudioControl = ({children}) => {
@@ -9,7 +9,7 @@ const AudioControl = ({children}) => {
       let [duration, setDuration]=useState(0)
         let [playing, setPlaying] = useState(null)
 
-     function playRef(id) {
+     const  playRef = useCallback((id)=> {
     let audio = audioRef.current[id]
     if (!audio) return null
 
@@ -40,29 +40,28 @@ const AudioControl = ({children}) => {
   });
          audio.play()
       setPlaying(id);
-
     }
-  }
+  },[playing,audioRef])
 
-      function handleTime(id){
+      const handleTime= useCallback((id) =>{
     let audio=audioRef.current[id]
     if(!audio) return 
       setCurrentTime((prev) => ({
     ...prev,
     [id]: audio.currentTime
   }))
-  }
+  },[audioRef])
 
-  function loaderTime(id){
+  const  loaderTime= useCallback((id)=>{
     let audio=audioRef.current[id]
     if(!audio) return 
      setDuration((prev) => ({
     ...prev,
     [id]: audio.duration
   }))
-  }
+  },[audioRef])
 
-  function handleSeek(e, id){
+  const  handleSeek= useCallback((e, id)=>{
     let audio=audioRef.current[id]
     if(!audio) return 
 
@@ -71,10 +70,15 @@ const AudioControl = ({children}) => {
     ...prev,
     [id]: Number(e.target.value)
   }))
-  }
+  },[audioRef])
+
+
+  const value=useMemo(()=>({
+    handleSeek,handleTime,loaderTime,playing,setCurrentTime,setDuration,setPlaying,currentTime,duration,playRef,audioRef
+  }),[handleSeek, handleTime,loaderTime,playRef,duration,currentTime,playing,audioRef])
 
   return (
-    <authControl.Provider value={{handleSeek,handleTime,loaderTime,playing,setCurrentTime,setDuration,setPlaying,currentTime,duration,playRef,audioRef}}>
+    <authControl.Provider value={value}>
       {children}
     </authControl.Provider>
   )

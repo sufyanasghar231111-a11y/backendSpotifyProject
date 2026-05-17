@@ -14,7 +14,7 @@ const AuthContext = ({ children }) => {
     let [passwordreg, setPasswordreg] = useState('')
     let [loading, setLoading] = useState(false)
     let [loader, setLoader] = useState(true)
-    let [playlistLoader, setPlaylistLoader]=useState(false)
+    let [playlistLoader, setPlaylistLoader] = useState(false)
     let [login, setLogin] = useState({
         email: '',
         password: ""
@@ -109,40 +109,40 @@ const AuthContext = ({ children }) => {
 
     async function handleGetPlayList() {
         try {
-             setPlaylistLoader(true)
-             await new Promise((resolve) => setTimeout(resolve, 3000));
+            setPlaylistLoader(true)
+            await new Promise((resolve) => setTimeout(resolve, 3000));
             const res = await axios.get('http://localhost:3000/api/user/particularUserPlaylist', { withCredentials: true })
             setGetPlayList(res.data.particular || [])
         }
         catch (e) {
             console.log(e);
         }
-        finally{
+        finally {
             setPlaylistLoader(false)
         }
-       
+
     }
 
     useEffect(() => {
         if (!authReady || !user) return;
         handleGetPlayList();
-        
+
     }, [user, authReady]);
 
     async function handleCreatePlaylist() {
         try {
-           
+
             const res = await axios.post('http://localhost:3000/api/user/playlist', { name }, { withCredentials: true })
             setCreate(res.data.createPlaylist)
             await handleGetPlayList()
         }
         catch (err) {
             console.log(err);
-        }    
+        }
     }
 
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, loader, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList ,setPlaylistLoader,playlistLoader}}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, loader, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader }}>
             {children}
         </authProvider.Provider>
     )

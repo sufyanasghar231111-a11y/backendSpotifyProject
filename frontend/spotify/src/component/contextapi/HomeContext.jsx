@@ -62,7 +62,7 @@ const HomeContext = ({ children }) => {
   }, [])
 
 
- const fetchFav = useCallback( async (favoriteId)=>{
+ const fetchFav = useCallback( async ()=>{
     try {
       const res = await axios.get("http://localhost:3000/api/user/getUserFavorite", { withCredentials: true })
       setFav(res.data.getUserFavoritesMusic)
