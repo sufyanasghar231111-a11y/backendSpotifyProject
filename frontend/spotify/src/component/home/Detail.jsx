@@ -34,7 +34,6 @@ const isFav = fav.some(user =>
   user.favorite.some(song => song._id === data?._id)
 )
  
-console.log(data);
 
 
   return (

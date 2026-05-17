@@ -1,5 +1,6 @@
-import React, { createContext, useEffect, useRef, useState } from 'react'
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios'
+import { authProvider } from './AuthContext'
 
 
 export const authHome = createContext()
@@ -9,13 +10,11 @@ const HomeContext = ({ children }) => {
   let [hide, setHide] = useState(true)
   let [music, setMusic] = useState([])
   let silderRef = useRef(null)
-
-  
-  
   
   const [page, setPage] = useState(1)
   const [albumFetch, setAlbumFetch] = useState([])
   let [fav, setFav] = useState([])
+  let {user,authReady}=useContext(authProvider)
  
 
   //slider
@@ -73,8 +72,9 @@ const HomeContext = ({ children }) => {
   }
 
   useEffect(() => {
-    fetchFav()
-  }, [])
+    if(!authReady || !user) return 
+     fetchFav()
+  }, [authReady, user])
 
   async function createFav(favoriteId) {
     try {

@@ -6,11 +6,13 @@ import { authProvider } from '../../contextapi/AuthContext'
 
 const Left = () => {
     let { hide, setHide, fav } = useContext(authHome)
-    let { setHidePlay,getPlayList}=useContext(authProvider)
+    let { setHidePlay,getPlayList,setPlaylistLoader,playlistLoader}=useContext(authProvider)
 
     let length = fav.reduce((acc, elem) => {
         return acc + elem.favorite?.length
     }, 0)
+
+    
    
     return (
         <div className={`w-[30%] max-sm:w-[60%] overflow-hidden max-sm:fixed max-sm:z-30 ${hide ? "max-sm:-translate-x-full max-sm:opacity-0" : "translate-x-0 max-sm:opacity-100"} transition-transform duration-500 ease-out sticky h-[76vh] left-0 rounded-lg bg-[#282828]  `}>
@@ -23,9 +25,7 @@ const Left = () => {
                 <div className='pt-5'>
                     <button className='bg-white/10 rounded-full max-sm:px-2 max-sm:text-sm px-4 py-1 max-sm:py-0.5 font-semibold   cursor-pointer'>Playlist</button>
                 </div>
-            </header>
-            <div className='h-[60vh]  overflow-y-auto '>
-                <div className=' flex items-center px-4 max-sm:px-2 py-2'>
+                <div className=' flex items-center pt-4 max-sm:px-2 py-2'>
                     <div className='flex items-center gap-3'>
                         <div className='flex items-center justify-center  rounded w-13 max-sm:w-10 max-sm:h-10 h-13 bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] '>
                             <RiHeartFill className='text-white' />
@@ -38,8 +38,11 @@ const Left = () => {
                         </div>
                     </div>
                 </div>
-                {
-                    getPlayList?.map((elem, index)=>{
+            </header>
+            <div className='h-[60vh] relative pb-7 pt-2 overflow-y-auto '>
+                
+                { getPlayList.length> 1 ? (
+                     getPlayList?.map((elem, index)=>{
                         
                         return  <div key={elem?._id}  className=' flex items-center px-4 max-sm:px-2 py-2'>
                             <Link to={`/playlist/${elem._id}?index=${index+1}`} >
@@ -56,7 +59,25 @@ const Left = () => {
                 </Link>
                 </div>
                     })
+                ):(
+                    <div className=' absolute top-30 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xl z-9 font-semibold'>Your playlist library  is empty. Start by creating a playlist.</div>
+                )
+                   
                 }
+
+               {
+  playlistLoader && (
+    <div className='absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-black/60 backdrop-blur-sm '>
+      
+      <div className='w-12 h-12 border-4 border-white/20 border-t-green-500 rounded-full animate-spin'></div>
+
+      <p className='text-white text-lg font-medium tracking-wide animate-pulse'>
+        Loading Playlist...
+      </p>
+
+    </div>
+  )
+}
                
             </div>
 
