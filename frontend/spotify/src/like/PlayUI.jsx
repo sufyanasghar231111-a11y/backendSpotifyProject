@@ -10,9 +10,10 @@ import { useParams, useSearchParams } from 'react-router-dom'
 
 const PlayUI = () => {
 
-  let { duration, handleTime, handleSeek, loaderTime, audioRef, setPlaying, playRef, playing, currentTime } = useContext(authControl)
+  let { duration, handleTime, loaderTime, audioRef, setPlaying, playRef, playing } = useContext(authControl)
   let { fav, deletemusic, createFav } = useContext(authHome)
 
+  let [currentTime, setCurrentTime]=useState(0)
   let [separate, setSeparate] = useState({})
   let { id } = useParams()
   const [params] = useSearchParams()
@@ -32,6 +33,17 @@ const PlayUI = () => {
     setSeparate({})
     handleSeparate()
   }, [id])
+  
+   function handleSeek(e, id){
+    let audio=audioRef.current[id]
+    if(!audio) return 
+
+     audio.currentTime = e.target.value
+     setCurrentTime((prev) => ({
+    ...prev,
+    [id]: Number(e.target.value)
+  }))
+  }
 
   return (
     <div className='w-full max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh] flex flex-col'>

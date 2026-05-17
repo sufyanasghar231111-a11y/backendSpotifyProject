@@ -10,12 +10,12 @@ const HomeContext = ({ children }) => {
   let [hide, setHide] = useState(true)
   let [music, setMusic] = useState([])
   let silderRef = useRef(null)
-  
+
   const [page, setPage] = useState(1)
   const [albumFetch, setAlbumFetch] = useState([])
   let [fav, setFav] = useState([])
-  let {user,authReady}=useContext(authProvider)
- 
+  let { user, authReady } = useContext(authProvider)
+
 
   //slider
   function rightRef() {
@@ -45,7 +45,7 @@ const HomeContext = ({ children }) => {
     fetchData()
   }, [page])
 
- 
+
 
   async function album() {
     try {
@@ -72,8 +72,8 @@ const HomeContext = ({ children }) => {
   }
 
   useEffect(() => {
-    if(!authReady || !user) return 
-     fetchFav()
+    if (!authReady || !user) return
+    fetchFav()
   }, [authReady, user])
 
   async function createFav(favoriteId) {
@@ -86,31 +86,31 @@ const HomeContext = ({ children }) => {
     }
   }
 
-  async function deletemusic(favoriteId){
-    try{
-      await axios.delete(`http://localhost:3000/api/user/deleteFav/${favoriteId}`, {withCredentials:true})
+  async function deletemusic(favoriteId) {
+    try {
+      await axios.delete(`http://localhost:3000/api/user/deleteFav/${favoriteId}`, { withCredentials: true })
       setFav((prev) =>
-      prev.map((elem)=>({
-        ...prev,
-        favorite:elem.favorite.filter(item =>
-          item._id !==favoriteId
-        )
-      }))
+        prev.map((elem) => ({
+          ...prev,
+          favorite: elem.favorite.filter(item =>
+            item._id !== favoriteId
+          )
+        }))
       )
-      
+
     }
-    catch(err){
+    catch (err) {
       console.log(err);
     }
   }
 
- 
+
 
   return (
-    <authHome.Provider value={{ hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, setPage, albumFetch, fav, setFav, createFav,deletemusic }}>
+    <authHome.Provider value={{ hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, setPage, albumFetch, fav, setFav, createFav, deletemusic }}>
       {children}
     </authHome.Provider>
   )
 }
 
-export default HomeContext
+export default React.memo(HomeContext)

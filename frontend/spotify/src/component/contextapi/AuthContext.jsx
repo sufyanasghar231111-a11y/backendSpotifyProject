@@ -138,11 +138,8 @@ const AuthContext = ({ children }) => {
         }
         catch (err) {
             console.log(err);
-        }
-         
+        }    
     }
-
-
 
     return (
         <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, loader, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList ,setPlaylistLoader,playlistLoader}}>
@@ -151,4 +148,4 @@ const AuthContext = ({ children }) => {
     )
 }
 
-export default AuthContext
+export default React.memo(AuthContext)
