@@ -1,19 +1,19 @@
 import { RiAddLine, RiHeartFill, RiHeartLine, RiPlayListLine } from '@remixicon/react'
-import React, { useContext, useMemo } from 'react'
+import React, { useContext } from 'react'
 import { authHome } from '../../contextapi/HomeContext'
 import { Link } from 'react-router-dom'
 import { authProvider } from '../../contextapi/AuthContext'
 
 const Left = () => {
-    let { hide, setHide, fav } = useContext(authHome)
+    let { hide, setHide } = useContext(authHome)
     let { setHidePlay, getPlayList, playlistLoader } = useContext(authProvider)
 
-    const length = useMemo(() => {
-        return fav.reduce((acc, elem) => {
-            return acc + (elem.favorite?.length || 0)
-        }, 0)
+    // const length = useMemo(() => {
+    //     return fav.reduce((acc, elem) => {
+    //         return acc + (elem.favorite?.length || 0)
+    //     }, 0)
 
-    }, [fav])
+    // }, [fav])
 
     return (
         <div className={`w-[30%] max-sm:w-[60%] overflow-hidden max-sm:fixed max-sm:z-30 ${hide ? "max-sm:-translate-x-full max-sm:opacity-0" : "translate-x-0 max-sm:opacity-100"} transition-transform duration-500 ease-out sticky h-[76vh] left-0 rounded-lg bg-[#282828]  `}>

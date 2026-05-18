@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { authHome } from '../contextapi/HomeContext'
 import axios from 'axios'
@@ -7,14 +7,25 @@ import { RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListLine } from '@remixicon
 import { authProvider } from '../contextapi/AuthContext'
 
 const Audioplay = () => {
-  
-  let { createFav, deletemusic , fav, data, setData} = useContext(authHome)
+   let { id } = useParams()
+  let { createFav, deletemusic , fav,data, setData} = useContext(authHome)
   let { playing, playRef, audioRef,loaderTime,handleSeek,handleTime,currentTime ,duration, setPlaying}=useContext(authControl)
   
   let {setHidePlaylist}=useContext(authProvider)
 
-  console.log(data._id);
-  
+
+  async function fetchSingleMusic() {
+    try {
+      const res = await axios.get(`http://localhost:3000/api/creator/singleMusic/${id}`)
+      setData(res.data.detail)
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+    fetchSingleMusic()
+  }, [])
 
 
   const music = {
@@ -28,8 +39,6 @@ const isFav = fav.some(user =>
   return (
     <>
     <div className='relative  h-[70vh] w-[60%] '>
-      
-   
       
           <div className='w-full h-full'>
           <img

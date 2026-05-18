@@ -6,14 +6,14 @@ import Input from '../like/Input'
 import { authHome } from '../component/contextapi/HomeContext'
 import axios from 'axios'
 import { useParams, useSearchParams } from 'react-router-dom'
-import { authProvider } from '../component/contextapi/AuthContext'
+// import { authProvider } from '../component/contextapi/AuthContext'
 
 
 const PlayUI = () => {
 
   let { duration, handleTime, loaderTime, audioRef, setPlaying, playRef, playing } = useContext(authControl)
   let { fav, deletemusic, createFav } = useContext(authHome)
-  let {separate,setSeparate}=useContext(authProvider)
+  let {separate,setSeparate}=useContext(authHome)
 
   let [currentTime, setCurrentTime]=useState(0)
   
