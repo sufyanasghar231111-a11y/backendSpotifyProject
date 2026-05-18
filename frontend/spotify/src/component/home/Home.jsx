@@ -10,8 +10,9 @@ import { authProvider } from '../contextapi/AuthContext'
 
 
 function Home() {
-  let {user}=useContext(authProvider)
-  let {hideplay, setHidePlay,handleCreatePlaylist,name,setName,getPlayList,hideplaylist,setHidePlaylist}=useContext(authProvider)
+ 
+  let {user,hideplay, setHidePlay,handleCreatePlaylist,name,setName,getPlayList,hideplaylist,setHidePlaylist}=useContext(authProvider)
+  let {patchApi}=useContext(authHome)
    
 
   let { setHidepro}=useContext(authHome)
@@ -52,20 +53,17 @@ function Home() {
                   getPlayList?.map((elem, index) => {
                     return (
                       
-                        <div className='group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-white/10 hover:scale-[1.02] cursor-pointer'>
-      
-                          {/* Playlist Icon */}
+                        <div onClick={()=>{patchApi(elem._id)}} key={elem._id} className='group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-white/10 hover:scale-[1.02] cursor-pointer'>
+                          
                           <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold'>
                             {index + 1}
                           </div>
-      
-                          {/* Name */}
+                          
                           <h1 className='text-sm font-semibold text-gray-200 group-hover:text-white truncate'>
                             {elem.name}
                           </h1>
-      
+
                         </div>
-                      
                     )
                   })
                 ) : (

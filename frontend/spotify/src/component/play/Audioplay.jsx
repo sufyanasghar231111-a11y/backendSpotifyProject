@@ -7,25 +7,14 @@ import { RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListLine } from '@remixicon
 import { authProvider } from '../contextapi/AuthContext'
 
 const Audioplay = () => {
-  let { id } = useParams()
-  let { createFav, deletemusic , fav} = useContext(authHome)
-  let { playing, playRef, audioRef,loaderTime,handleSeek,handleTime,currentTime ,duration, setPlaying}=useContext(authControl)
-  let [data, setData] = useState([])
-
-  let {setHidePlaylist}=useContext(authProvider)
   
-  async function fetchSingleMusic() {
-    try {
-      const res = await axios.get(`http://localhost:3000/api/creator/singleMusic/${id}`)
-      setData(res.data.detail)
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
-  useEffect(() => {
-    fetchSingleMusic()
-  }, [])
+  let { createFav, deletemusic , fav, data, setData} = useContext(authHome)
+  let { playing, playRef, audioRef,loaderTime,handleSeek,handleTime,currentTime ,duration, setPlaying}=useContext(authControl)
+  
+  let {setHidePlaylist}=useContext(authProvider)
+
+  console.log(data._id);
+  
 
 
   const music = {

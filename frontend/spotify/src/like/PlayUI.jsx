@@ -6,15 +6,17 @@ import Input from '../like/Input'
 import { authHome } from '../component/contextapi/HomeContext'
 import axios from 'axios'
 import { useParams, useSearchParams } from 'react-router-dom'
+import { authProvider } from '../component/contextapi/AuthContext'
 
 
 const PlayUI = () => {
 
   let { duration, handleTime, loaderTime, audioRef, setPlaying, playRef, playing } = useContext(authControl)
   let { fav, deletemusic, createFav } = useContext(authHome)
+  let {separate,setSeparate}=useContext(authProvider)
 
   let [currentTime, setCurrentTime]=useState(0)
-  let [separate, setSeparate] = useState({})
+  
   let { id } = useParams()
   const [params] = useSearchParams()
   const number = params.get('index')
@@ -90,6 +92,8 @@ const PlayUI = () => {
             const favId = fav.some(elem => {
               return elem.favorite.some(song => song._id === music._id)
             })
+            console.log(separate)
+            
             return <div key={music._id}
               className='group flex items-center p-4 rounded-2xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/10'>
               <div className='relative flex-shrink-0 w-12 h-12'>
@@ -131,7 +135,7 @@ const PlayUI = () => {
                   </div>
                 </div>
               </div>
-
+              
               {/* Duration & Controls */}
               <div className='flex items-center gap-4'>
                 <span className='text-sm text-white/60 font-medium min-w-[40px] text-center'>
@@ -186,6 +190,7 @@ const PlayUI = () => {
             </div>
           })
           }
+          
         </div>
       </div>
     </div>
