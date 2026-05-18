@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 // import { authProvider } from '../contextapi/AuthContext'
 import { RiChromeLine, RiHome4Fill, RiHome5Line, RiPlayFill, RiSearchLine, RiSpotifyFill } from '@remixicon/react'
 import { Link } from 'react-router-dom'
-import {authHome} from '../contextapi/HomeContext'
+import { authHome } from '../contextapi/HomeContext'
 import Logout from './Logout'
 import Left from './2side/Left'
 import Right from './2side/Right'
@@ -10,156 +10,159 @@ import { authProvider } from '../contextapi/AuthContext'
 
 
 function Home() {
- 
-  let {user,hideplay, setHidePlay,handleCreatePlaylist,name,setName,getPlayList,hideplaylist,setHidePlaylist}=useContext(authProvider)
-  let {patchApi,setHidepro,data, deleteApi,separate}=useContext(authHome)
 
-  let fetchname=(user.username.trim().split(' ')[0][0]+ user.username.trim().split(' ').pop()[0]).toUpperCase()
+  let { user, hideplay, setHidePlay, handleCreatePlaylist, name, setName, getPlayList, hideplaylist, setHidePlaylist } = useContext(authProvider)
+  let { patchApi, setHidepro, data, deleteApi, separate } = useContext(authHome)
+
+  let fetchname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
 
   // console.log(separate);
-  
+
   return (
     <div className='w-full relative '>
-        {
+      {
         hideplaylist && (
           <>
-          <div onClick={()=>{setHidePlaylist(false)}} className='w-full cursor-pointer h-full inset-0 bg-black/50 backdrop:backdrop-blur-sm  absolute z-14 '></div>
-          <div className='absolute top-1/2 left-1/2 z-15 -translate-x-1/2 -translate-y-1/2'>
-            
-            <div className='w-72 max-h-80 overflow-hidden rounded-2xl border border-white/10 bg-[#1e1e1e]/95 backdrop-blur-xl shadow-2xl animate-in fade-in zoom-in-95 duration-200'>
-      
-              {/* Header */}
-              <div className='sticky top-0 z-10 border-b border-white/10 bg-[#252525] px-4 py-3'>
-              <div className='flex items-center justify-between'>
+            <div onClick={() => { setHidePlaylist(false) }} className='w-full cursor-pointer h-full inset-0 bg-black/50 backdrop:backdrop-blur-sm  absolute z-14 '></div>
+            <div className='absolute top-1/2 left-1/2 z-15 -translate-x-1/2 -translate-y-1/2'>
 
-                <h1 className='text-lg font-bold text-white'>
-                  Your Playlists
-                </h1>
-                <h1 onClick={()=>{setHidePlaylist(false)}}>
-                  X
-                </h1>
-              </div>
-                <p className='text-xs text-gray-400 mt-1'>
-                  Select a playlist
-                </p>
-              </div>
-      
-              {/* Playlist */}
-              <div className='max-h-64 overflow-y-auto p-2 custom-scroll'>
-      
-                {getPlayList.length > 0 ? (
-                  getPlayList?.map((elem, index) => {
-                const separateId=   separate?.music.some((elem)=>
-                  elem._id === elem._id
-                  )
-                  console.log(separateId);
-                  
-                    
-                    return (
-                      <>
-                      {
-                        separateId ? (
-                          <div onClick={()=>{deleteApi(elem._id,data._id )
-                          setHidePlaylist(false)
-                        }} key={elem._id} className='group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-white/10 hover:scale-[1.02] cursor-pointer'>
-                          
-                          <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold'>
-                            {index + 1}
-                          </div>
-                          
-                          <h1 className='text-sm font-semibold text-gray-200 group-hover:text-white truncate'>
-                            {elem.name} hello
-                          </h1>
+              <div className='w-72 max-h-80 overflow-hidden rounded-2xl border border-white/10 bg-[#1e1e1e]/95 backdrop-blur-xl shadow-2xl animate-in fade-in zoom-in-95 duration-200'>
 
-                        </div>
-                        ):(
-                          <div onClick={()=>{patchApi(elem._id,data._id )
-                          setHidePlaylist(false)
-                        }} key={elem._id} className='group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-white/10 hover:scale-[1.02] cursor-pointer'>
-                          
-                          <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold'>
-                            {index + 1}
-                          </div>
-                          
-                          <h1 className='text-sm font-semibold text-gray-200 group-hover:text-white truncate'>
-                            {elem.name}
-                          </h1>
+                {/* Header */}
+                <div className='sticky top-0 z-10 border-b border-white/10 bg-[#252525] px-4 py-3'>
+                  <div className='flex items-center justify-between'>
 
-                        </div>
-                        )
-                      }
-                        
-                      </>
-                    )
-                  })
-                ) : (
-                  <div className='flex flex-col items-center justify-center text-center py-16 px-4'>
-                    
-                    <div className='mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10 text-3xl'>
-                      🎵
-                    </div>
-      
-                    <h1 className='text-white font-semibold text-lg'>
-                      No playlists yet
+                    <h1 className='text-lg font-bold text-white'>
+                      Your Playlists
                     </h1>
-      
-                    <p className='text-sm text-gray-400 mt-2 leading-5'>
-                      Your playlist library is empty.
-                      <br />
-                      Start by creating a playlist.
-                    </p>
+                    <h1 onClick={() => { setHidePlaylist(false) }}>
+                      X
+                    </h1>
                   </div>
-                )}
+                  <p className='text-xs text-gray-400 mt-1'>
+                    Select a playlist
+                  </p>
+                </div>
+
+                {/* Playlist */}
+                <div className='max-h-64 overflow-y-auto p-2 custom-scroll'>
+
+                  {getPlayList.length > 0 ? (
+                    getPlayList?.map((elem, index) => {
+                      const separateId = elem?.music?.some((song) =>
+                        song._id === data._id
+                      )
+
+
+                      return (
+                        <>
+                          {
+                            separateId ? (
+                              <div onClick={() => {
+                                deleteApi(elem._id, data._id)
+                                setHidePlaylist(false)
+                              }} key={elem._id} className='group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-white/10 hover:scale-[1.02] cursor-pointer'>
+
+                                <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold'>
+                                  {index + 1}
+                                </div>
+
+                                <h1 className='text-sm font-semibold text-gray-200 group-hover:text-white truncate'>
+                                  {separateId && (
+                                    <span className="ml-2 text-xs text-green-400">In playlist</span>
+                                  )}
+                                </h1>
+
+                              </div>
+                            ) : (
+                              <div onClick={() => {
+                                patchApi(elem._id, data._id)
+                                setHidePlaylist(false)
+                              }} key={elem._id} className='group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-white/10 hover:scale-[1.02] cursor-pointer'>
+
+                                <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold'>
+                                  {index + 1}
+                                </div>
+
+                                <h1 className='text-sm font-semibold text-gray-200 group-hover:text-white truncate'>
+                                  {elem.name}
+                                </h1>
+
+                              </div>
+                            )
+                          }
+
+                        </>
+                      )
+                    })
+                  ) : (
+                    <div className='flex flex-col items-center justify-center text-center py-16 px-4'>
+
+                      <div className='mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10 text-3xl'>
+                        🎵
+                      </div>
+
+                      <h1 className='text-white font-semibold text-lg'>
+                        No playlists yet
+                      </h1>
+
+                      <p className='text-sm text-gray-400 mt-2 leading-5'>
+                        Your playlist library is empty.
+                        <br />
+                        Start by creating a playlist.
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
           </>
         )
       }
       {
         hideplay && (
           <>
-      <div onClick={()=>{setHidePlay(false)}} className='inset-0 cursor-pointer absolute bg-black/50 backdrop:backdrop-blur-sm z-10'></div>
-      <div className='flex top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 items-center justify-center  absolute z-12'>
-      <div className=' w-70  rounded-lg bg-[#353434] flex items-center text-center  pt-5 px-4 flex-col'>
-        <h1 className='font-extrabold text-3xl mb-4'>Your Music, <br /> Your Playlist </h1>
-        <input value={name} onChange={(e)=>{setName(e.target.value)}} type="text" placeholder='Enter your title' className='mt-6 border border-[#797777] text-sm py-2 px-4 rounded-full w-full '  />
-        <div className='py-3  flex w-full  justify-end gap-2 text-sm font-semibold pt-8 '>
-        <button onClick={handleCreatePlaylist} className='border border-[#797777] cursor-pointer rounded-full px-3 py-1'>Create</button>
-        <button onClick={()=>{setHidePlay(false)}} className='border border-[#797777] cursor-pointer rounded-full px-3 py-1'>Cancel</button>
-        </div>
-      </div>
-      </div>
+            <div onClick={() => { setHidePlay(false) }} className='inset-0 cursor-pointer absolute bg-black/50 backdrop:backdrop-blur-sm z-10'></div>
+            <div className='flex top-1/2 left-1/2 -translate-x-1/2  -translate-y-1/2 items-center justify-center  absolute z-12'>
+              <div className=' w-70  rounded-lg bg-[#353434] flex items-center text-center  pt-5 px-4 flex-col'>
+                <h1 className='font-extrabold text-3xl mb-4'>Your Music, <br /> Your Playlist </h1>
+                <input value={name} onChange={(e) => { setName(e.target.value) }} type="text" placeholder='Enter your title' className='mt-6 border border-[#797777] text-sm py-2 px-4 rounded-full w-full ' />
+                <div className='py-3  flex w-full  justify-end gap-2 text-sm font-semibold pt-8 '>
+                  <button onClick={handleCreatePlaylist} className='border border-[#797777] cursor-pointer rounded-full px-3 py-1'>Create</button>
+                  <button onClick={() => { setHidePlay(false) }} className='border border-[#797777] cursor-pointer rounded-full px-3 py-1'>Cancel</button>
+                </div>
+              </div>
+            </div>
           </>
         )
       }
       <div className='flex lg:px-10 px-5 md:px-7 max-sm:px-3.5  py-2  relative items-center justify-between gap-2 max-sm:gap-1'>
         <div className='flex items-center gap-6 max-sm:gap-2'>
-       <RiSpotifyFill className='w-10 max-sm:w-6 max-sm:h-6 h-10' />
-       <div className='flex items-center gap-4 max-sm:gap-2'>
-       <Link to='/' className='px-2 py-2 max-sm:px-1 max-sm:py-1 rounded-full bg-[#282828]'><RiHome4Fill  className='lg:w-8 md:w-6 w-5 h-5 lg:h-8 md:h-6 max-sm:w-5 max-sm:h-5 text-white' /></Link>
-       <div className='w-100 max-sm:w-50  flex bg-[#282828] items-center gap-2 max-sm:gap-1 px-2.5 max-sm:px-1 max-sm:py-1  py-3 rounded-full'>
-        <div>
-          <RiSearchLine className='text-[#898881] max-sm:w-4 max-sm:h-4' />
+          <RiSpotifyFill className='w-10 max-sm:w-6 max-sm:h-6 h-10' />
+          <div className='flex items-center gap-4 max-sm:gap-2'>
+            <Link to='/' className='px-2 py-2 max-sm:px-1 max-sm:py-1 rounded-full bg-[#282828]'><RiHome4Fill className='lg:w-8 md:w-6 w-5 h-5 lg:h-8 md:h-6 max-sm:w-5 max-sm:h-5 text-white' /></Link>
+            <div className='w-100 max-sm:w-50  flex bg-[#282828] items-center gap-2 max-sm:gap-1 px-2.5 max-sm:px-1 max-sm:py-1  py-3 rounded-full'>
+              <div>
+                <RiSearchLine className='text-[#898881] max-sm:w-4 max-sm:h-4' />
+              </div>
+              <input type="text" className='outline-0 rounded-full max-sm:text-sm w-full px-1.5 ' placeholder='What you want to play? ' />
+              <div className='border-l  px-2 border-[#706e6e]'>
+                <RiChromeLine className='text-[#898881] max-sm:w-4 max-sm:h-4' />
+              </div>
+            </div>
+          </div>
         </div>
-       <input type="text" className='outline-0 rounded-full max-sm:text-sm w-full px-1.5 ' placeholder='What you want to play? ' />
-       <div className='border-l  px-2 border-[#706e6e]'>
-        <RiChromeLine className='text-[#898881] max-sm:w-4 max-sm:h-4' />
-       </div>
-       </div>
-       </div>
+        <div onClick={() => { setHidepro(prev => !prev) }} className=' bg-red-400 cursor-pointer flex items-center justify-center font-semibold rounded-full max-sm:w-5 max-sm:text-[9px] max-sm:h-5 w-9 h-9'>
+          {fetchname}
         </div>
-          <div onClick={()=>{setHidepro(prev => !prev)}} className=' bg-red-400 cursor-pointer flex items-center justify-center font-semibold rounded-full max-sm:w-5 max-sm:text-[9px] max-sm:h-5 w-9 h-9'>
-            {fetchname}
-          </div>  
-          <Logout />
+        <Logout />
       </div>
       <div className='flex relative px-2 gap-3 justify-between w-full'>
         <Left />
-      <Right />
+        <Right />
       </div>
-     
-      
+
+
     </div>
   )
 }

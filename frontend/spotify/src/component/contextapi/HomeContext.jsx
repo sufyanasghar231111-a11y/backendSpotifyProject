@@ -129,15 +129,15 @@ const HomeContext = ({ children }) => {
 
       const deleteApi=useCallback(async (id,dataId)=>{
         try{
-          const res=await axios.delete(`http://localhost:3000/api/user/deleteMusic/${id}/${dataId}`, {}, {withCredentials:true})
-          setSeparate(res.data.update)
+          const res=await axios.delete(`http://localhost:3000/api/user/deleteMusic/${id}/${dataId}`, {withCredentials:true})
+          setSeparate(res.data.deleteParticularMusic)
           await handleGetPlayList()
         }
         catch(err){
           console.log(err);
           
         }
-      })
+      },[])
       
   const value=useMemo(()=>({
     hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page,patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic ,data, setData,separate, setSeparate,deleteApi
