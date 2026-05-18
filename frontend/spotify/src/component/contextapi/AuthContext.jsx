@@ -112,7 +112,7 @@ const AuthContext = ({ children }) => {
     async function handleGetPlayList() {
         try {
             setPlaylistLoader(true)
-            await new Promise((resolve) => setTimeout(resolve, 3000));
+            await new Promise((resolve) => setTimeout(resolve, 1000));
             const res = await axios.get('http://localhost:3000/api/user/particularUserPlaylist', { withCredentials: true })
             setGetPlayList(res.data.particular || [])
         }

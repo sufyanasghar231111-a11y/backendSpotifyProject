@@ -11,11 +11,11 @@ import { useParams, useSearchParams } from 'react-router-dom'
 
 const PlayUI = () => {
 
-  let { duration, handleTime, loaderTime, audioRef, setPlaying, playRef, playing } = useContext(authControl)
+  let { duration, handleTime, loaderTime, audioRef, setPlaying, playRef, playing,currentTime, setCurrentTime, handleSeek } = useContext(authControl)
   let { fav, deletemusic, createFav } = useContext(authHome)
   let {separate,setSeparate}=useContext(authHome)
 
-  let [currentTime, setCurrentTime]=useState(0)
+  let []=useState(0)
   
   let { id } = useParams()
   const [params] = useSearchParams()
@@ -36,16 +36,7 @@ const PlayUI = () => {
     handleSeparate()
   }, [id])
 
-   function handleSeek(e, id){
-    let audio=audioRef.current[id]
-    if(!audio) return 
-
-     audio.currentTime = e.target.value
-     setCurrentTime((prev) => ({
-    ...prev,
-    [id]: Number(e.target.value)
-  }))
-  }
+ 
 
   return (
     <div className='w-full max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh] flex flex-col'>
@@ -92,7 +83,7 @@ const PlayUI = () => {
             const favId = fav.some(elem => {
               return elem.favorite.some(song => song._id === music._id)
             })
-            console.log(separate)
+            
             
             return <div key={music._id}
               className='group flex items-center p-4 rounded-2xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/10'>

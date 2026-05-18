@@ -18,7 +18,7 @@ const HomeContext = ({ children }) => {
   const [albumFetch, setAlbumFetch] = useState([])
   let [fav, setFav] = useState([])
   let [separate, setSeparate] = useState({})
-  let { user, authReady } = useContext(authProvider)
+  let { user, authReady,handleGetPlayList } = useContext(authProvider)
 
   //slider
  const  rightRef = useCallback(()=> {
@@ -120,15 +120,28 @@ const HomeContext = ({ children }) => {
               const res=await axios.patch(`http://localhost:3000/api/user/updateMusic/${id}/${dataId}`,{}, {withCredentials:true}
               )
               setSeparate(res.data.update)
+              await handleGetPlayList()
           }
           catch(err){
               console.log(err);
           }
       },[])
 
+      const deleteApi=useCallback(async (id,dataId)=>{
+        try{
+          const res=await axios.delete(`http://localhost:3000/api/user/deleteMusic/${id}/${dataId}`, {}, {withCredentials:true})
+          setSeparate(res.data.update)
+          await handleGetPlayList()
+        }
+        catch(err){
+          console.log(err);
+          
+        }
+      })
+      
   const value=useMemo(()=>({
-    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page,patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic ,data, setData,separate, setSeparate
-  }),[hidepro,hide,silderRef,music,page,albumFetch,fav,rightRef,leftRef,createFav,deletemusic,patchApi,data,separate])
+    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page,patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic ,data, setData,separate, setSeparate,deleteApi
+  }),[hidepro,hide,silderRef,music,page,albumFetch,fav,rightRef,leftRef,createFav,deletemusic,patchApi,data,separate,deleteApi])
 
   return (
     <authHome.Provider value={value}>

@@ -12,11 +12,11 @@ import { authProvider } from '../contextapi/AuthContext'
 function Home() {
  
   let {user,hideplay, setHidePlay,handleCreatePlaylist,name,setName,getPlayList,hideplaylist,setHidePlaylist}=useContext(authProvider)
-  let {patchApi,setHidepro,data}=useContext(authHome)
-   
+  let {patchApi,setHidepro,data, deleteApi,separate}=useContext(authHome)
 
   let fetchname=(user.username.trim().split(' ')[0][0]+ user.username.trim().split(' ').pop()[0]).toUpperCase()
 
+  // console.log(separate);
   
   return (
     <div className='w-full relative '>
@@ -49,9 +49,33 @@ function Home() {
       
                 {getPlayList.length > 0 ? (
                   getPlayList?.map((elem, index) => {
+                const separateId=   separate?.music.some((elem)=>
+                  elem._id === elem._id
+                  )
+                  console.log(separateId);
+                  
+                    
                     return (
-                      
-                        <div onClick={()=>{patchApi(elem._id,data._id )}} key={elem._id} className='group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-white/10 hover:scale-[1.02] cursor-pointer'>
+                      <>
+                      {
+                        separateId ? (
+                          <div onClick={()=>{deleteApi(elem._id,data._id )
+                          setHidePlaylist(false)
+                        }} key={elem._id} className='group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-white/10 hover:scale-[1.02] cursor-pointer'>
+                          
+                          <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold'>
+                            {index + 1}
+                          </div>
+                          
+                          <h1 className='text-sm font-semibold text-gray-200 group-hover:text-white truncate'>
+                            {elem.name} hello
+                          </h1>
+
+                        </div>
+                        ):(
+                          <div onClick={()=>{patchApi(elem._id,data._id )
+                          setHidePlaylist(false)
+                        }} key={elem._id} className='group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-white/10 hover:scale-[1.02] cursor-pointer'>
                           
                           <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold'>
                             {index + 1}
@@ -62,6 +86,10 @@ function Home() {
                           </h1>
 
                         </div>
+                        )
+                      }
+                        
+                      </>
                     )
                   })
                 ) : (

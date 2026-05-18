@@ -24,6 +24,7 @@ const Audioplay = () => {
     }
   }
   useEffect(() => {
+    
     fetchSingleMusic()
   }, [])
 
@@ -39,7 +40,7 @@ const isFav = fav.some(user =>
   return (
     <>
     <div className='relative  h-[70vh] w-[60%] '>
-      
+
           <div className='w-full h-full'>
           <img
             src={music.cover}
