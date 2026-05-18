@@ -8,10 +8,10 @@ const Left = () => {
     let { hide, setHide, fav } = useContext(authHome)
     let { setHidePlay, getPlayList, playlistLoader } = useContext(authProvider)
 
-    const  length = useMemo(()=>{
-     return   fav.reduce((acc, elem) => {
-           return acc + (elem.favorite?.length || 0)
-       }, 0)
+    const length = useMemo(() => {
+        return fav.reduce((acc, elem) => {
+            return acc + (elem.favorite?.length || 0)
+        }, 0)
 
     }, [fav])
 
@@ -41,9 +41,8 @@ const Left = () => {
                 </div>
             </header>
             <div className='h-[60vh] relative pb-7 pt-2 overflow-y-auto '>
-                {getPlayList.length > 1 ? (
+                {getPlayList.length > 0 ? (
                     getPlayList?.map((elem, index) => {
-
                         return <div key={elem?._id} className=' flex items-center px-4 max-sm:px-2 py-2'>
                             <Link to={`/playlist/${elem._id}?index=${index + 1}`} >
                                 <div className='flex items-center gap-3'>
@@ -77,6 +76,6 @@ const Left = () => {
     )
 }
 const MemoLeft = React.memo(Left)
-MemoLeft.whyDidYouRender=true
+MemoLeft.whyDidYouRender = true
 
 export default MemoLeft

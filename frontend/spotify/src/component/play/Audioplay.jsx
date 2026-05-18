@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { authHome } from '../contextapi/HomeContext'
 import axios from 'axios'
 import { authControl } from '../contextapi/AudioControl'
-import { RiHeartFill, RiPauseFill, RiPlayFill } from '@remixicon/react'
+import { RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListLine } from '@remixicon/react'
+import { authProvider } from '../contextapi/AuthContext'
 
 const Audioplay = () => {
   let { id } = useParams()
   let { createFav, deletemusic , fav} = useContext(authHome)
   let { playing, playRef, audioRef,loaderTime,handleSeek,handleTime,currentTime ,duration, setPlaying}=useContext(authControl)
   let [data, setData] = useState([])
+
+  let {setHidePlaylist}=useContext(authProvider)
   
   async function fetchSingleMusic() {
     try {
@@ -36,6 +39,9 @@ const isFav = fav.some(user =>
   return (
     <>
     <div className='relative  h-[70vh] w-[60%] '>
+      
+   
+      
           <div className='w-full h-full'>
           <img
             src={music.cover}
@@ -75,7 +81,7 @@ const isFav = fav.some(user =>
             {playing === data?._id ? (<RiPauseFill className='text-white cursor-pointer w-7 h-7' />) : (<RiPlayFill className='text-white cursor-pointer w-7 h-7' />)
             }
           </button>
-          <div className='flex gap-2 mt-8'>
+          <div className='flex  gap-2 mt-8'>
             {
               isFav ? ( <button  onClick={() => { deletemusic(data?._id) }}  className={`w-12 h-12 flex items-center justify-center rounded-full  border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer`}>
              <RiHeartFill className='text-red-500 cursor-pointer w-5 h-5' />
@@ -85,10 +91,12 @@ const isFav = fav.some(user =>
               <RiHeartFill className='text-white cursor-pointer w-5 h-5' />
             </button>)
             }
-
-            <button className='px-5 py-2.5 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer'>
+           
+              
+            <button onClick={()=>{setHidePlaylist(true)}} className='px-5 py-2.5 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer'>
               Add Playlist
             </button>
+            
           </div>
           <div className='mt-3 space-y-4 text-gray-400'>
             <div className='flex justify-between border-b border-white/10 pb-2'>
@@ -114,3 +122,7 @@ const isFav = fav.some(user =>
 
 
 export default Audioplay
+
+
+
+ 
