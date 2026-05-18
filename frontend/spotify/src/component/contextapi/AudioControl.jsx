@@ -8,6 +8,7 @@ const AudioControl = ({children}) => {
     let [currentTime, setCurrentTime]=useState(0)
       let [duration, setDuration]=useState(0)
         let [playing, setPlaying] = useState(null)
+        let lastUpdateRed=useRef(0)
 
      const  playRef = useCallback((id)=> {
     let audio = audioRef.current[id]
@@ -41,16 +42,19 @@ const AudioControl = ({children}) => {
          audio.play()
       setPlaying(id);
     }
-  },[playing,audioRef])
+  },[playing])
 
       const handleTime= useCallback((id) =>{
+        const now =Date.now()
+        if(now-lastUpdateRed.current<300) return;
+        lastUpdateRed.current=now
     let audio=audioRef.current[id]
     if(!audio) return 
       setCurrentTime((prev) => ({
     ...prev,
     [id]: audio.currentTime
   }))
-  },[audioRef])
+  },[])
 
   const  loaderTime= useCallback((id)=>{
     let audio=audioRef.current[id]
@@ -59,7 +63,7 @@ const AudioControl = ({children}) => {
     ...prev,
     [id]: audio.duration
   }))
-  },[audioRef])
+  },[])
 
   const  handleSeek= useCallback((e, id)=>{
     let audio=audioRef.current[id]
@@ -70,7 +74,7 @@ const AudioControl = ({children}) => {
     ...prev,
     [id]: Number(e.target.value)
   }))
-  },[audioRef])
+  },[])
 
 
   const value=useMemo(()=>({

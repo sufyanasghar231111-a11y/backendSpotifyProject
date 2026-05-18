@@ -120,7 +120,6 @@ const AuthContext = ({ children }) => {
         finally {
             setPlaylistLoader(false)
         }
-
     }
 
     useEffect(() => {
@@ -131,7 +130,7 @@ const AuthContext = ({ children }) => {
 
     async function handleCreatePlaylist() {
         try {
-
+            
             const res = await axios.post('http://localhost:3000/api/user/playlist', { name }, { withCredentials: true })
             setCreate(res.data.createPlaylist)
             await handleGetPlayList()

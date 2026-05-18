@@ -12,7 +12,7 @@ const ShowAll = () => {
   const disable=music.length<8
 
   return (
-    <div className='w-full bg-[#282828] px-5 max-sm:px-4 py-4  h-[65vh] overflow-y-auto'>
+    <div className='w-full bg-[#282828] px-4 max-sm:px-4 py-4  h-[65vh] overflow-y-auto'>
         <h1 className='text-2xl font-bold'>Music </h1>
         <div className='flex max-sm:justify-center max-sm:items-center flex-wrap'>
          {music.map((elem)=>{

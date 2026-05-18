@@ -75,6 +75,7 @@ const HomeContext = ({ children }) => {
   useEffect(() => {
     if (!authReady || !user) return
     fetchFav()
+    
   }, [authReady, user])
 
   const createFav = useCallback( async (favoriteId)=>{
