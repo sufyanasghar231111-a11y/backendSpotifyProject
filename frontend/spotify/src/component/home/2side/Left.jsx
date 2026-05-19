@@ -5,18 +5,18 @@ import { Link } from 'react-router-dom'
 import { authProvider } from '../../contextapi/AuthContext'
 
 const Left = () => {
-    let { hide, setHide , fav} = useContext(authHome)
+    let { hide, setHide, fav } = useContext(authHome)
     let { setHidePlay, getPlayList, playlistLoader } = useContext(authProvider)
 
     const length = useMemo(() => {
         return fav.reduce((acc, elem) => {
             return acc + (elem.favorite?.length || 0)
         }, 0)
-        
+
     }, [fav])
 
     return (
-        <div className={`w-[30%] max-sm:w-[60%] overflow-hidden max-sm:fixed max-sm:z-30 ${hide ? "max-sm:-translate-x-full max-sm:opacity-0" : "translate-x-0 max-sm:opacity-100"} transition-transform duration-500 ease-out sticky h-[76vh] left-0 rounded-lg bg-[#282828]  `}>
+        <div className={`w-[30%] max-sm:w-[60%] overflow-hidden max-sm:fixed max-sm:z-30 ${hide ? "max-sm:-translate-x-full max-sm:opacity-0" : "translate-x-0 max-sm:opacity-100"} transition-transform duration-500 ease-out  h-[76vh]  rounded-lg bg-[#282828] flex flex-col `}>
             <header className=' py-4 max-sm:py-8 px-3 bg-[#1a1a1a]  sticky top-0 z-10 '>
                 <div className='flex relative items-center justify-between'>
                     <h1 className='font-semibold max-sm:text-[13px]'>Your Library</h1>
@@ -51,7 +51,7 @@ const Left = () => {
                                     </div>
                                     <div className='max-sm:text-sm'>
                                         <h1 className='font-semibold'>{elem.name} </h1>
-                                        <h1 className='text-sm max-sm:text-[10px] text-[#a5a5a5] font-semibold'>playlist {index + 1} . <span className={`${elem.music?.length> 0 ? " text-green-500":"text-red-500"}` }>{elem.music?.length || 0} songs</span></h1>
+                                        <h1 className='text-sm max-sm:text-[10px] text-[#a5a5a5] font-semibold'>playlist {index + 1} . <span className={`${elem.music?.length > 0 ? " text-green-500" : "text-red-500"}`}>{elem.music?.length || 0} songs</span></h1>
                                     </div>
                                 </div>
                             </Link>
@@ -78,4 +78,4 @@ const Left = () => {
 
 
 
-export default React.memo(Left)
+export default Left
