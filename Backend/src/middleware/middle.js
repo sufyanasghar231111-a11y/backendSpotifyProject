@@ -89,7 +89,7 @@ async function getMusic(req,res,next){
 async function auth(req,res,next){
   let token =req.cookies.token
   if(!token){
-    res.status(401).json({
+   return res.status(401).json({
       message:"Token is required"
     })
   }
