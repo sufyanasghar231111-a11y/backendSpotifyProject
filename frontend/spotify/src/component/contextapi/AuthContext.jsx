@@ -25,8 +25,9 @@ const AuthContext = ({ children }) => {
     let [name, setName] = useState('')
     let [hideplay, setHidePlay] = useState(false)
     let [hideplaylist, setHidePlaylist]=useState(false)
+    let [hideAlbumPlaylist,setHideAlbumPlaylist]=useState(false)
      
-let [hideControl,setHideControl]=useState(false)  
+let [hideControl,setHideControl]=useState(true)  
     
 
     async function handleSumbit(e) {
@@ -101,6 +102,18 @@ let [hideControl,setHideControl]=useState(false)
         checkRefresh()
 
     }, [])
+     async function handleLogout(){
+        try{
+            await axios.post('http://localhost:3000/api/auth/logout',
+                {},
+                {withCredentials:true}
+            )
+        }
+        catch(e){
+            console.log(e);
+        }
+        setUser(null)
+    }
 
 
     function handleChange(e) {
@@ -146,7 +159,7 @@ let [hideControl,setHideControl]=useState(false)
     
 
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, loader, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader,hideplaylist, setHidePlaylist,hideControl,setHideControl }}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, loader, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader,hideplaylist, setHidePlaylist,hideControl,setHideControl,handleLogout,hideAlbumPlaylist,setHideAlbumPlaylist }}>
             {children}
         </authProvider.Provider>
     )
