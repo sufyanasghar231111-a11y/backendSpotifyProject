@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 // import { authProvider } from '../contextapi/AuthContext'
 import { RiChromeLine, RiHome4Fill, RiHome5Line, RiPlayFill, RiSearchLine, RiSpotifyFill } from '@remixicon/react'
 import { Link } from 'react-router-dom'
@@ -7,16 +7,17 @@ import Logout from './Logout'
 import Left from './2side/Left'
 import Right from './2side/Right'
 import { authProvider } from '../contextapi/AuthContext'
+import { authControl } from '../contextapi/AudioControl'
 
 
 function Home() {
 
-  let { user, hideplay, setHidePlay, handleCreatePlaylist, name, setName, getPlayList, hideplaylist, setHidePlaylist } = useContext(authProvider)
-  let { patchApi, setHidepro, data, deleteApi, separate } = useContext(authHome)
+  let { user, hideplay, setHidePlay, handleCreatePlaylist, name, setName, getPlayList, hideplaylist, setHidePlaylist,hideControl } = useContext(authProvider)
+  let { patchApi, setHidepro, data, deleteApi,music } = useContext(authHome)
+  let {playing, currentTime, duration,handleSeek}=useContext(authControl)
 
   let fetchname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
-
-  // console.log(separate);
+ 
 
   return (
     <div className='w-full relative '>
@@ -160,8 +161,29 @@ function Home() {
         <Left />
         <Right />
       </div>
-
-
+      <div className='flex items-center justify-center pt-6'>
+        {
+          hideControl ? (
+            <div>
+              hello
+            </div>
+          ):(
+            <div>
+           {
+          music.map((dataId)=>{
+            return <>
+            {playing === dataId._id && (
+          <input type="range" name="music"  onChange={(e)=>{handleSeek(e,dataId._id)}} value={currentTime[dataId?._id]} min='0' max={duration[dataId?._id]}  />
+        )}
+            </>
+          })
+        }
+        </div>
+          )
+        }
+        
+        
+      </div>
     </div>
   )
 }

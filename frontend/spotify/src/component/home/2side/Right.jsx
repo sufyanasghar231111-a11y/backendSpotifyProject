@@ -5,16 +5,20 @@ import Album from '../Album'
 
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { authControl } from '../../contextapi/AudioControl'
+import { authProvider } from '../../contextapi/AuthContext'
 
 const Right = () => {
+  let {hideControl,setHideControl}=useContext(authProvider)
   let { setHide, rightRef, leftRef, silderRef, music, setPage } = useContext(authHome)
-  let { playing, setPlaying, audioRef, playRef } = useContext(authControl)
+  let { playing, setPlaying, audioRef, playRef ,loaderTime,handleTime, currentTime,duration} = useContext(authControl)
 
   let location = useLocation()
   useEffect(() => {
     setPlaying(null)
     setPage(1)
   }, [location.pathname])
+
+  
 
 
   return (
@@ -70,7 +74,10 @@ const Right = () => {
                         else {
                           delete audioRef.current[item._id]
                         }
-                      }} onEnded={() => { setPlaying(null) }} src={item.uri} type='audio/mp3' controls className='w-full mt-2' />
+                      }} onEnded={() => { setPlaying(null)
+                        currentTime(0)
+                        duration(0)
+                       }} onTimeUpdate={()=>{handleTime(item._id)}} onLoadedMetadata={()=>{loaderTime(item._id)}} onClick={()=>{setHideControl(true)}}  src={item.uri} type='audio/mp3' controls className='w-full mt-2' />
                       <div onClick={() => { playRef(item._id) }} className='absolute bottom-3 right-3
               flex items-center justify-center
               w-12 h-12 rounded-full hover:bg-green-600 bg-green-500
