@@ -8,7 +8,7 @@ import { authControl } from '../../contextapi/AudioControl'
 import { authProvider } from '../../contextapi/AuthContext'
 
 const Right = () => {
-  let {hideControl,setHideControl}=useContext(authProvider)
+  let {setHideControl}=useContext(authProvider)
   let { setHide, rightRef, leftRef, silderRef, music, setPage } = useContext(authHome)
   let { playing, setPlaying, audioRef, playRef ,loaderTime,handleTime, currentTime,duration} = useContext(authControl)
 
@@ -16,6 +16,7 @@ const Right = () => {
   useEffect(() => {
     setPlaying(null)
     setPage(1)
+    setHideControl(true)
   }, [location.pathname])
 
   

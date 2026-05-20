@@ -28,6 +28,7 @@ const AuthContext = ({ children }) => {
     let [hideAlbumPlaylist,setHideAlbumPlaylist]=useState(false)
      
 let [hideControl,setHideControl]=useState(true)  
+let [detailData, setDetailData] = useState({})
     
 
     async function handleSumbit(e) {
@@ -159,7 +160,7 @@ let [hideControl,setHideControl]=useState(true)
     
 
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, loader, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader,hideplaylist, setHidePlaylist,hideControl,setHideControl,handleLogout,hideAlbumPlaylist,setHideAlbumPlaylist }}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, loader, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader,hideplaylist, setHidePlaylist,hideControl,setHideControl,handleLogout,hideAlbumPlaylist,setHideAlbumPlaylist,detailData, setDetailData }}>
             {children}
         </authProvider.Provider>
     )

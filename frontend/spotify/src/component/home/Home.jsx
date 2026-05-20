@@ -14,7 +14,7 @@ import AlbumToPlaylist from '../../like/AlbumToPlaylist'
 
 function Home() {
 
-  let { user, hideplay, setHidePlay, handleCreatePlaylist, name, setName, hideControl } = useContext(authProvider)
+  let { user, hideplay, setHidePlay, handleCreatePlaylist, name, setName, hideControl ,detailData} = useContext(authProvider)
   let {  setHidepro,music } = useContext(authHome)
   let {playing, currentTime, duration,handleSeek}=useContext(authControl)
 
@@ -24,7 +24,12 @@ function Home() {
   return (
     <div className='w-full relative '>
       <AddToPlaylist />
+      {
+      detailData.album?.map((elem)=>
       
+        <AlbumToPlaylist elem={elem}  />
+      )
+      }
       {
         hideplay && (
           <>

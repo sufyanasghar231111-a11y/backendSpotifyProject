@@ -12,7 +12,7 @@ const AlbumDetail = () => {
   let {setHideAlbumPlaylist}=useContext(authProvider)
   let { fav, createFav, deletemusic } = useContext(authHome)
   let {playRef, playing, audioRef, setPlaying}=useContext(authControl)
-  let [detailData, setDetailData] = useState({})
+  let {detailData, setDetailData}=useContext(authProvider)
   async function detail() {
     try {
       let res = await axios.get(`http://localhost:3000/api/creator/allAlbum/${id}`)
@@ -87,7 +87,7 @@ const AlbumDetail = () => {
                   </div>
                   <div className='flex items-center gap-6'>
                     <button onClick={()=>{setHideAlbumPlaylist(true)}}>Add To Playlist</button>
-                    <AlbumToPlaylist elem={elem}  />
+                    
                     {
                       isFav ? (<button onClick={() => { deletemusic(elem?._id) }} className={`w-12 h-12 flex items-center justify-center rounded-full  border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer`}>
                         <RiHeartFill className='text-red-500 cursor-pointer w-5 h-5' />
