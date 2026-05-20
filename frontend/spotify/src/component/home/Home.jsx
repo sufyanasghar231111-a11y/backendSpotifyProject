@@ -10,6 +10,7 @@ import { authProvider } from '../contextapi/AuthContext'
 import { authControl } from '../contextapi/AudioControl'
 import AddToPlaylist from '../../like/AddToPlaylist'
 import AlbumToPlaylist from '../../like/AlbumToPlaylist'
+import SureForLogOut from '../login/SureForLogOut'
 
 
 function Home() {
@@ -23,6 +24,7 @@ function Home() {
 
   return (
     <div className='w-full relative '>
+      <SureForLogOut />
       <AddToPlaylist />
       {
       detailData.album?.map((elem)=>
