@@ -13,7 +13,7 @@ const AuthContext = ({ children }) => {
     let [emailreg, setEmailreg] = useState('')
     let [passwordreg, setPasswordreg] = useState('')
     let [loading, setLoading] = useState(false)
-    let [loader, setLoader] = useState(true)
+    
     let [playlistLoader, setPlaylistLoader] = useState(false)
     let [login, setLogin] = useState({
         email: '',
@@ -94,9 +94,11 @@ let [hideSure, setHideSure]=useState(false)
         }
         catch (e) {
             console.log(e);
+            setUser(null)
         }
         finally {
-            setLoader(false);
+           
+            setAuthReady(true)
         }
     }
 
@@ -161,7 +163,7 @@ let [hideSure, setHideSure]=useState(false)
     
 
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, loader, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader,hideplaylist, setHidePlaylist,hideControl,setHideControl,handleLogout,hideAlbumPlaylist,setHideAlbumPlaylist,detailData, setDetailData,hideSure, setHideSure }}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader,hideplaylist, setHidePlaylist,hideControl,setHideControl,handleLogout,hideAlbumPlaylist,setHideAlbumPlaylist,detailData, setDetailData,hideSure, setHideSure }}>
             {children}
         </authProvider.Provider>
     )

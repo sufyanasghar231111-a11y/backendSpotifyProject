@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Routes ,Route } from 'react-router-dom'
 import Login from "./component/login/Login"
 import Register from "./component/register/Register"
@@ -7,24 +7,59 @@ import Detail from './component/home/Detail'
 import AllAlbum from './component/allalbum/AllAlbum'
 import AlbumDetail from './component/home/AlbumDetail'
 import LikeSong from './like/LikeSong'
-// import PlayList from './component/contextapi/PlayList'
 import PlayUI from './like/PlayUI'
+import ProtectedRoute from './component/contextapi/ProtectedRoute'
+import Home from './component/home/Home'
+import { authProvider } from './component/contextapi/AuthContext'
+import UserProfile from './component/login/UserProfile'
 
 
 function App() {
+  let {authReady}=useContext(authProvider)
+    if (!authReady) return <div className="h-screen overflow-hidden bg-[#0f0f0f] flex items-center justify-center relative">
+        <div className="absolute w-[500px] h-[500px] bg-green-500/20 blur-3xl rounded-full animate-pulse"></div>
+        <div className="relative z-10 flex flex-col items-center gap-6">
+
+          <div className="relative">
+            <div className="absolute inset-0 rounded-full bg-green-500 blur-xl opacity-50 animate-ping"></div>
+
+            <div className="w-24 h-24 rounded-full bg-[#1db954] flex items-center justify-center text-black text-4xl font-bold shadow-2xl">
+              S
+            </div>
+          </div>
+
+          <div className="text-center">
+            <h1 className="text-white text-2xl font-semibold tracking-wide">
+              Spotify Clone
+            </h1>
+
+            <p className="text-white/50 text-sm mt-1">
+              Loading your music...
+            </p>
+          </div>
+
+          <div className="w-64 h-1 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-full bg-green-500 animate-slide loader rounded-full"></div>
+          </div>
+        </div>
+      </div>;
   return (
-    <div className='w-full bg-[#121212] h-screen'>
-      
+
+    <div className='w-full bg-[#121212] text-white h-screen'>  
       <Routes >
-        <Route path='/' element={<Login />} >
+        <Route path='/' element={<Login />} />
+         <Route path='/register' element={<Register />} />
+         <Route element={<ProtectedRoute />} >
+         <Route element={<Home />}>
         <Route path='showall' element={<ShowAll />} />
         <Route path='detail/:id' element={<Detail />} />
         <Route path='showallalbum' element={ <AllAlbum /> } />
         <Route path='albumdetail/:id' element={ < AlbumDetail /> } />
         <Route path='like' element={ <LikeSong />} />
         <Route path='playlist/:id' element={ <PlayUI  />} />
-        </Route>
-        <Route path='/register' element={<Register />} />
+        <Route path='profile' element={<UserProfile />} />
+         </Route>
+         </Route>
         </Routes> 
           </div>
   )

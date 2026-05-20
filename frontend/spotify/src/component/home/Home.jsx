@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react'
-// import { authProvider } from '../contextapi/AuthContext'
+import React, { useContext } from 'react'
 import { RiChromeLine, RiHome4Fill, RiHome5Line, RiPlayFill, RiSearchLine, RiSpotifyFill } from '@remixicon/react'
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import { authHome } from '../contextapi/HomeContext'
 import Logout from './Logout'
 import Left from './2side/Left'
@@ -11,6 +10,7 @@ import { authControl } from '../contextapi/AudioControl'
 import AddToPlaylist from '../../like/AddToPlaylist'
 import AlbumToPlaylist from '../../like/AlbumToPlaylist'
 import SureForLogOut from '../login/SureForLogOut'
+import UserProfile from '../login/UserProfile'
 
 
 function Home() {
@@ -28,7 +28,7 @@ function Home() {
       <AddToPlaylist />
       {
       detailData.album?.map((elem)=>
-      
+        
         <AlbumToPlaylist elem={elem}  />
       )
       }
@@ -72,15 +72,17 @@ function Home() {
       </div>
       <div className='flex relative px-2 gap-3 justify-between w-full'>
         <Left />
+        
         <Right />
+        
       </div>
-      <div className='flex items-center justify-center pt-6'>
+      <div className='flex items-center justify-center pt-10'>
         {
           hideControl ? (
             <div className='flex items-center gap-1'>
-              <h1>00:00</h1>
-             <input type="range" disabled className="cursor-not-allowed opacity-50"/>
-             <h1>00:00</h1>
+              <h1 className='text-xs font-mono text-gray-400 w-12 text-right select-none'>00:00</h1>
+             <input type="range" disabled className="cursor-not-allowed opacity-50 h-1.5 bg-gray-700 rounded-lg appearance-none "/>
+             <h1 className='text-xs font-mono text-gray-400 w-12 text-right select-none'>00:00</h1>
 
             </div>
           ):(
@@ -90,9 +92,9 @@ function Home() {
             return <>
             {playing === dataId._id && (
               <>
-              <h1>{Math.floor((currentTime[dataId._id] ||0)/60)}: {String(Math.floor((currentTime[dataId._id] || 0))%60).padStart(2, '0')}</h1>
-          <input type="range" name="music"  onChange={(e)=>{handleSeek(e,dataId._id)}} value={currentTime[dataId?._id] || 0} min='0' max={duration[dataId?._id] || 0}  />
-              <h1>{Math.floor((duration[dataId._id] ||0)/60)}: {String(Math.floor((duration[dataId._id] || 0))%60).padStart(2, '0')}</h1>
+              <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((currentTime[dataId._id] ||0)/60)}: {String(Math.floor((currentTime[dataId._id] || 0))%60).padStart(2, '0')}</h1>
+          <input type="range" name="music" className='h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-green-500 hover:accent-green-400'  onChange={(e)=>{handleSeek(e,dataId._id)}} value={currentTime[dataId?._id] || 0} min='0' max={duration[dataId?._id] || 0}  />
+              <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((duration[dataId._id] ||0)/60)}: {String(Math.floor((duration[dataId._id] || 0))%60).padStart(2, '0')}</h1>
           
               </>
         )}
