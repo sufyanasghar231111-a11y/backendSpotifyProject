@@ -46,7 +46,6 @@ const ShowAll = () => {
               </h1>
             </div>
       </div>
-          
          })} 
       </div>
       <div className='flex py-3 gap-3 justify-center'>
