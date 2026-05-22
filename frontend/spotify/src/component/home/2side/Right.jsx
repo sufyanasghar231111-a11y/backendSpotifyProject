@@ -6,6 +6,7 @@ import Album from '../Album'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { authControl } from '../../contextapi/AudioControl'
 import { authProvider } from '../../contextapi/AuthContext'
+import LinkForShowAlll from './LinkForShowAlll'
 
 const Right = () => {
   let {setHideControl}=useContext(authProvider)
@@ -20,7 +21,7 @@ const Right = () => {
   }, [location.pathname])
 
   
-console.log(music);
+
 
 
   return (
@@ -35,12 +36,12 @@ console.log(music);
             <button className='px-4 py-1.5 rounded-full text-sm  font-semibold backdrop-blur-2xl bg-white/10 cursor-pointer'>Music</button>
           </div>
           <div className='h-[65vh] relative px-8 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>
-            <div className=' '>
+           
               <h1 className='text-sm font-semibold text-[#bbb]'>Inspired by your recent activity</h1>
               <div className='flex items-center justify-between'>
-                <h1 className='text-2xl font-bold'>Music</h1>
-                <Link to='/showall' className='font-semibold text-[#a5a5a5] hover:border-b'>Show all</Link>
-              </div>
+                             <h1 className='text-2xl font-bold'>Music</h1>
+                             <Link to='showall' className='font-semibold text-[#a5a5a5]  hover:border-b'>Show all</Link>
+                           </div>
               <button
                 onClick={leftRef}
                 className={` cursor-pointer absolute  hover:bg-black/90  left-2  top-1/2 -translate-y-1/2 z-40
@@ -108,20 +109,18 @@ console.log(music);
                 onClick={rightRef}
                 className='absolute cursor-pointer hover:bg-black/90 right-2 max-sm:right-0  top-1/2 -translate-y-1/2 z-20
         w-10 h-10 rounded-full bg-black/70 text-white
-        flex items-center justify-center'
-              >
+        flex items-center justify-center' >
                 <RiArrowRightSLine />
               </button>
               <div className='pt-10 px-2'>
                 <Album />
               </div>
-            </div>
+          
           </div>
         </>
         )
        }
-         
-       
+
     </div>
   )
 }

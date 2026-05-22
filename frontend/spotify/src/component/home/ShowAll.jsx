@@ -12,7 +12,7 @@ const ShowAll = () => {
   const disable=music.length<8
 
   return (
-    <div className='w-full bg-[#282828] px-4 max-sm:px-4 py-4  h-[65vh] overflow-y-auto'>
+    <div className='w-full bg-[#282828] relative px-4 max-sm:px-4 py-4  h-[80vh] overflow-y-auto'>
         <h1 className='text-2xl font-bold'>Music </h1>
         <div className='flex max-sm:justify-center max-sm:items-center flex-wrap'>
          {music.map((elem)=>{
@@ -48,7 +48,7 @@ const ShowAll = () => {
       </div>
          })} 
       </div>
-      <div className='flex py-3 gap-3 justify-center'>
+      <div className='flex  absolute bottom-8 left-1/2 -translate-x-1/2 py-3 gap-3 justify-center'>
       <button disabled={page===1} onClick={()=>{setPage(page-1)}} className={`px-2 py-2 rounded-lg ${page===1? 'opacity-60 cursor-not-allowed':'opacity-100 cursor-pointer'}  bg-[#4b4a4a] `}>Prev</button>
       <button disabled={disable} onClick={()=>{setPage(page+1)}} className={`px-2 py-2 rounded-lg ${disable? 'opacity-60 cursor-not-allowed':'opacity-100 cursor-pointer'}  bg-[#4b4a4a] `}>Next</button>
       </div>
