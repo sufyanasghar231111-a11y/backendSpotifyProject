@@ -1,20 +1,24 @@
 const musicSchema=require('../models/music.model')
 const albumExport=require('../models/album.model')
 const jwt=require('jsonwebtoken')
-const uploadFile=require('../services/storage.service')
+const {uploadFile,uploadThumbnail}=require('../services/storage.service')
 const mongoose=require('mongoose')
 
 
 async function music(req,res) {
   
     let {title}=req.body
-    let file=req.file
+    let file=req.files.file[0]
+    let image=req.files.image[0]
     
     const result= await uploadFile(file.buffer.toString('base64'))
+    const result1=await uploadThumbnail(image.buffer.toString('base64'))
+    
     const user= await musicSchema.create({
       artist:req.user.id,
       uri:result.url,
       title,
+      image:result1.url
     })
     
     res.status(201).json({
@@ -24,7 +28,8 @@ async function music(req,res) {
         id:user._id,
         title:user.title,
         uri:user.uri,
-        artist:req.user.id
+        artist:req.user.id,
+        image:user.image
       }
     })
 }
