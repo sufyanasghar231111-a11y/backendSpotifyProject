@@ -20,6 +20,7 @@ const Right = () => {
   }, [location.pathname])
 
   
+console.log(music);
 
 
   return (
@@ -58,10 +59,10 @@ const Right = () => {
 
                     <div className='relative rounded-lg overflow-hidden w-full h-40'>
                       <Link to={`/detail/${item._id}`}>
-
+                      
                         <img
                           className='w-full h-40 object-cover rounded'
-                          src='https://i.scdn.co/image/ab67616d0000b2736fd2559f0879066633e56c42'
+                          src={item.image}
                           alt=''
                         />
                       </Link>

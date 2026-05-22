@@ -112,7 +112,7 @@ const PlayUI = () => {
                   <div className='relative w-14 h-14 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-purple-500/20 transition-all duration-300'>
                     <img
                       className='w-full h-full object-cover'
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9wl5xfVuzRmBNbqj8mKwsqAKwptQPO3LE7Q&s"
+                      src={music.image}
                       alt=""
                     />
 

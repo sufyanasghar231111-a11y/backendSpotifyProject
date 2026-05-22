@@ -21,7 +21,7 @@ const ShowAll = () => {
         <Link to={`/detail/${elem._id}`} >
           <img
     className='w-full h-full object-cover rounded'
-    src='https://i.scdn.co/image/ab67616d0000b2736fd2559f0879066633e56c42'
+    src={elem.image}
     alt=''/>
     </Link>
      <audio ref={audioRef}  src={elem.uri}  onEnded={()=>{setPlaying(null)}} type='audio/mp3' controls className='w-full mt-2' />

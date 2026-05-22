@@ -29,11 +29,6 @@ const Audioplay = () => {
   }, [])
 
 
-  const music = {
-    cover:
-      'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop',
-
-  }
 const isFav = fav.some(user =>
   user.favorite.some(song => song._id === data?._id)
 )
@@ -43,7 +38,7 @@ const isFav = fav.some(user =>
 
           <div className='w-full h-full'>
           <img
-            src={music.cover}
+            src={data?.image}
             className='w-full h-full object-cover'
           />
 
