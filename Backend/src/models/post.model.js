@@ -23,7 +23,12 @@ const postSchema= new mongoose.Schema({
      blockedArtists: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
-    }]
+    }],
+    
+    pfp:{
+        type:String,
+        default:''
+    }
 })
 
 

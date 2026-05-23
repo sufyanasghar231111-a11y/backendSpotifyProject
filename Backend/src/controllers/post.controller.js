@@ -2,9 +2,22 @@ const postSchema=require('../models/post.model')
 const jwt= require('jsonwebtoken')
 const cookies=require('cookie-parser')
 const bcrypt=require('bcryptjs')
+const uploadPfp=require('../services/auth.service')
 
 async function register(req,res) {
     const {username, email, password , role='user'}=req.body
+   let imagUrl=''
+
+    if(req.file){
+         const result=await uploadPfp(req.file.buffer)
+         imagUrl=result.url
+    }
+
+// if (!pfp) {
+//     return res.status(400).json({
+//         message: "No file uploaded"
+//     })
+// }
     const alreadyExist= await postSchema.findOne({
         $or:[
             {username},
@@ -19,12 +32,13 @@ async function register(req,res) {
     }
 
     const hashPassword= await bcrypt.hash(password,10)
-    
+   
     const user=await postSchema.create({
         username,
         email,
         password:hashPassword,
-        role
+        role,
+        pfp:imagUrl
         })
 
     const token = jwt.sign({
@@ -48,7 +62,8 @@ async function register(req,res) {
             username:user.username,
             email:user.email,
             role:user.role,
-            token
+            token,
+            pfp:imagUrl
         }
     })
 }

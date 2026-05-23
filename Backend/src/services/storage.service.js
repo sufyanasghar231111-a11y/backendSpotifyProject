@@ -7,7 +7,6 @@ const imageKit=new ImageKit({
 
 })
 
-console.log(typeof imageKit.upload)
 
 async function uploadFile(file) {
     try{
