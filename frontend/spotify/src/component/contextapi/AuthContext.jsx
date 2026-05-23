@@ -29,8 +29,7 @@ const AuthContext = ({ children }) => {
     let [hideControl, setHideControl] = useState(true)
     let [detailData, setDetailData] = useState({})
     let [hideSure, setHideSure] = useState(false)
-    let [pfpInput, setPfpInput]=useState(null)
-    let [preview,setPreview]=useState(null)
+    
     
 
 
@@ -161,31 +160,23 @@ const AuthContext = ({ children }) => {
         }
     }
 
-    async function updatePfp() {
+    async function updatePfp(file) {
         try {
             const formData=new FormData()
-            formData.append('pfp', pfpInput)
+            formData.append('pfp', file)
             const res = await axios.put('http://localhost:3000/api/auth/updatepfp',formData, {withCredentials:true} )
             setUser(prev => ({
                 ...prev,
                 pfp:res.data.pfp
             }))
-
-            setPfpInput(null)
         }
         catch (err) {
             console.log(err);
         }
     }
 
-    
-
-
-    
-
-
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, hideControl, setHideControl, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure,pfpInput, setPfpInput,updatePfp,preview,setPreview }}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, hideControl, setHideControl, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure,updatePfp }}>
             {children}
         </authProvider.Provider>
     )

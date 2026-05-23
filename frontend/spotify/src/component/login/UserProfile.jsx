@@ -4,7 +4,7 @@ import { authProvider } from '../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 
 const UserProfile = () => {
-  let {getPlayList,user, setPfpInput}=useContext(authProvider)
+  let {getPlayList,user,updatePfp}=useContext(authProvider)
 
   const trimname=(user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
 
@@ -21,7 +21,7 @@ const UserProfile = () => {
           <img src={user.pfp} className='w-full h-full absolute scale-105 z-20 inset-0 object-cover' />
           <input  name="profileImage" accept="image/*"  onChange={(elem)=>{
             let file=elem.target.files[0]
-            setPfpInput(file)
+            updatePfp(file)
           }} type="file" className='absolute inset-0 z-30  w-full h-full opacity-0 cursor-pointer' />
           
         </div>
