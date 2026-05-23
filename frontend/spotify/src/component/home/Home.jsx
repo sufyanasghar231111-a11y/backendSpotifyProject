@@ -19,7 +19,9 @@ function Home() {
   let {  setHidepro,music } = useContext(authHome)
   let {playing, currentTime, duration,handleSeek}=useContext(authControl)
 
+
   let fetchname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
+  
  
 
   return (
@@ -65,8 +67,12 @@ function Home() {
             </div>
           </div>
         </div>
-        <div onClick={() => { setHidepro(prev => !prev) }} className=' bg-red-400 cursor-pointer flex items-center justify-center font-semibold rounded-full max-sm:w-5 max-sm:text-[9px] max-sm:h-5 w-9 h-9'>
+        <div onClick={() => { setHidepro(prev => !prev) }} className=' bg-red-400 overflow-hidden  flex items-center justify-center relative cursor-pointer  font-semibold rounded-full max-sm:w-5 max-sm:text-[9px] max-sm:h-5 w-9 h-9'>
+          <span className='absolute z-0 text-white   '>
           {fetchname}
+          </span>
+          {/* <img src={preview} className='absolute inset-0 w-full h-full scale-105 object-cover z-10' alt="" /> */}
+
         </div>
         <Logout />
       </div>

@@ -4,7 +4,7 @@ import { authProvider } from '../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 
 const UserProfile = () => {
-  let {getPlayList,user}=useContext(authProvider)
+  let {getPlayList,user, setPfpInput}=useContext(authProvider)
 
   const trimname=(user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
 
@@ -15,8 +15,15 @@ const UserProfile = () => {
       <div className='w-full flex gap-6 items-center bg-gradient-to-br from-[#4a4a4a] to-[#2b2b2b] sticky top-0 py-5 px-8 shadow-lg'>
 
         {/* Avatar */}
-        <div className='shadow-2xl shadow-black bg-[#2f2f2f] rounded-full w-32 h-32 flex items-center justify-center'>
-          <span className='text-4xl font-bold text-[#aaa]'>{trimname}</span>
+        <div className='shadow-2xl shadow-black  relative overflow-hidden   bg-[#2f2f2f] rounded-full w-32 h-32 flex items-center justify-center'>
+          
+          <span className='text-4xl absolute font-bold text-[#aaa]'>{trimname}</span>
+          <img src={user.pfp} className='w-full h-full absolute scale-105 z-20 inset-0 object-cover' />
+          <input  name="profileImage" accept="image/*"  onChange={(elem)=>{
+            let file=elem.target.files[0]
+            setPfpInput(file)
+          }} type="file" className='absolute inset-0 z-30  w-full h-full opacity-0 cursor-pointer' />
+          
         </div>
 
         {/* Info */}

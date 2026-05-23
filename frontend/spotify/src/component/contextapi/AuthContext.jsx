@@ -13,7 +13,7 @@ const AuthContext = ({ children }) => {
     let [emailreg, setEmailreg] = useState('')
     let [passwordreg, setPasswordreg] = useState('')
     let [loading, setLoading] = useState(false)
-    
+
     let [playlistLoader, setPlaylistLoader] = useState(false)
     let [login, setLogin] = useState({
         email: '',
@@ -24,13 +24,15 @@ const AuthContext = ({ children }) => {
     let [create, setCreate] = useState([])
     let [name, setName] = useState('')
     let [hideplay, setHidePlay] = useState(false)
-    let [hideplaylist, setHidePlaylist]=useState(false)
-    let [hideAlbumPlaylist,setHideAlbumPlaylist]=useState(false)
-     
-let [hideControl,setHideControl]=useState(true)  
-let [detailData, setDetailData] = useState({})
-let [hideSure, setHideSure]=useState(false)
+    let [hideplaylist, setHidePlaylist] = useState(false)
+    let [hideAlbumPlaylist, setHideAlbumPlaylist] = useState(false)
+    let [hideControl, setHideControl] = useState(true)
+    let [detailData, setDetailData] = useState({})
+    let [hideSure, setHideSure] = useState(false)
+    let [pfpInput, setPfpInput]=useState(null)
+    let [preview,setPreview]=useState(null)
     
+
 
     async function handleSumbit(e) {
         e.preventDefault()
@@ -89,14 +91,13 @@ let [hideSure, setHideSure]=useState(false)
             )
             setUser(res.data.getAuthData)
             setAuthReady(true)
-
         }
         catch (e) {
             console.log(e);
             setUser(null)
         }
         finally {
-           
+
             setAuthReady(true)
         }
     }
@@ -105,14 +106,14 @@ let [hideSure, setHideSure]=useState(false)
         checkRefresh()
 
     }, [])
-     async function handleLogout(){
-        try{
+    async function handleLogout() {
+        try {
             await axios.post('http://localhost:3000/api/auth/logout',
                 {},
-                {withCredentials:true}
+                { withCredentials: true }
             )
         }
-        catch(e){
+        catch (e) {
             console.log(e);
         }
         setUser(null)
@@ -150,7 +151,7 @@ let [hideSure, setHideSure]=useState(false)
 
     async function handleCreatePlaylist() {
         try {
-            
+
             const res = await axios.post('http://localhost:3000/api/user/playlist', { name }, { withCredentials: true })
             setCreate(res.data.createPlaylist)
             await handleGetPlayList()
@@ -159,10 +160,32 @@ let [hideSure, setHideSure]=useState(false)
             console.log(err);
         }
     }
+
+    async function updatePfp() {
+        try {
+            const formData=new FormData()
+            formData.append('pfp', pfpInput)
+            const res = await axios.put('http://localhost:3000/api/auth/updatepfp',formData, {withCredentials:true} )
+            setUser(prev => ({
+                ...prev,
+                pfp:res.data.pfp
+            }))
+
+            setPfpInput(null)
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
     
 
+
+    
+
+
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader,hideplaylist, setHidePlaylist,hideControl,setHideControl,handleLogout,hideAlbumPlaylist,setHideAlbumPlaylist,detailData, setDetailData,hideSure, setHideSure }}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, hideControl, setHideControl, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure,pfpInput, setPfpInput,updatePfp,preview,setPreview }}>
             {children}
         </authProvider.Provider>
     )
