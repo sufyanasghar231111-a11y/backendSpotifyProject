@@ -6,12 +6,12 @@ import Album from '../Album'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { authControl } from '../../contextapi/AudioControl'
 import { authProvider } from '../../contextapi/AuthContext'
-import LinkForShowAlll from './LinkForShowAlll'
+
 
 const Right = () => {
-  let {setHideControl}=useContext(authProvider)
+  let { setHideControl } = useContext(authProvider)
   let { setHide, rightRef, leftRef, silderRef, music, setPage } = useContext(authHome)
-  let { playing, setPlaying, audioRef, playRef ,loaderTime,handleTime, currentTime,duration} = useContext(authControl)
+  let { playing, setPlaying, audioRef, playRef, loaderTime, handleTime, currentTime, duration } = useContext(authControl)
 
   let location = useLocation()
   useEffect(() => {
@@ -20,28 +20,25 @@ const Right = () => {
     setHideControl(true)
   }, [location.pathname])
 
-  
-
-
 
   return (
     <div className='w-[70%] max-sm:w-full ml-auto  rounded-lg overflow-hidden h-[76vh]'>
-       <Outlet />
-       {
-        location.pathname=== '/' && (
-        <>
-         <div className='w-full flex gap-3 bg-[#282828]  sticky p-6 px-7 '>
-            <button className='md:hidden' onClick={() => { setHide(false) }}>show</button>
-            <button className='px-4 py-1.5 rounded-full text-sm font-semibold bg-white text-black cursor-pointer'>All</button>
-            <button className='px-4 py-1.5 rounded-full text-sm  font-semibold backdrop-blur-2xl bg-white/10 cursor-pointer'>Music</button>
-          </div>
-          <div className='h-[65vh] relative px-8 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>
-           
+      <Outlet />
+      {
+        location.pathname === '/' && (
+          <>
+            <div className='w-full flex gap-3 bg-[#282828]  sticky p-6 px-7 '>
+              <button className='md:hidden' onClick={() => { setHide(false) }}>show</button>
+              <button className='px-4 py-1.5 rounded-full text-sm font-semibold bg-white text-black cursor-pointer'>All</button>
+              <button className='px-4 py-1.5 rounded-full text-sm  font-semibold backdrop-blur-2xl bg-white/10 cursor-pointer'>Music</button>
+            </div>
+            <div className='h-[65vh] relative px-8 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>
+
               <h1 className='text-sm font-semibold text-[#bbb]'>Inspired by your recent activity</h1>
               <div className='flex items-center justify-between'>
-                             <h1 className='text-2xl font-bold'>Music</h1>
-                             <Link to='showall' className='font-semibold text-[#a5a5a5]  hover:border-b'>Show all</Link>
-                           </div>
+                <h1 className='text-2xl font-bold'>Music</h1>
+                <Link to='showall' className='font-semibold text-[#a5a5a5]  hover:border-b'>Show all</Link>
+              </div>
               <button
                 onClick={leftRef}
                 className={` cursor-pointer absolute  hover:bg-black/90  left-2  top-1/2 -translate-y-1/2 z-40
@@ -60,7 +57,7 @@ const Right = () => {
 
                     <div className='relative rounded-lg overflow-hidden w-full h-40'>
                       <Link to={`/detail/${item._id}`}>
-                      
+
                         <img
                           className='w-full h-40 object-cover rounded'
                           src={item.image}
@@ -77,10 +74,11 @@ const Right = () => {
                         else {
                           delete audioRef.current[item._id]
                         }
-                      }} onEnded={() => { setPlaying(null)
+                      }} onEnded={() => {
+                        setPlaying(null)
                         currentTime(0)
                         duration(0)
-                       }} onTimeUpdate={()=>{handleTime(item._id)}} onLoadedMetadata={()=>{loaderTime(item._id)}}   src={item.uri} type='audio/mp3' controls className='w-full mt-2' />
+                      }} onTimeUpdate={() => { handleTime(item._id) }} onLoadedMetadata={() => { loaderTime(item._id) }} src={item.uri} type='audio/mp3' controls className='w-full mt-2' />
                       <div onClick={() => { playRef(item._id) }} className='absolute bottom-3 right-3
               flex items-center justify-center
               w-12 h-12 rounded-full hover:bg-green-600 bg-green-500
@@ -89,7 +87,7 @@ const Right = () => {
               group-hover:opacity-100
               transition-all duration-300 ease-out shadow-lg'>
                         {
-                          playing === item._id ? (<RiPauseFill onClick={()=>{setHideControl(true)}} className='text-black w-7 h-7' />) : (<RiPlayFill onClick={()=>{setHideControl(false)}} className='text-black w-7 h-7' />)
+                          playing === item._id ? (<RiPauseFill onClick={() => { setHideControl(true) }} className='text-black w-7 h-7' />) : (<RiPlayFill onClick={() => { setHideControl(false) }} className='text-black w-7 h-7' />)
                         }
                       </div>
                     </div>
@@ -115,11 +113,11 @@ const Right = () => {
               <div className='pt-10 px-2'>
                 <Album />
               </div>
-          
-          </div>
-        </>
+
+            </div>
+          </>
         )
-       }
+      }
 
     </div>
   )
