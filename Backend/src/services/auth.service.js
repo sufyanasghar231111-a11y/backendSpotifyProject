@@ -8,9 +8,7 @@ const imagekit=new ImageKit({
 
 async function uploadPfp(buffer){
     try{
-        
-
-        const result=await imagekit.files.upload({
+         const result=await imagekit.upload({
             file:buffer,
             fileName:'UserImage'+Date.now()
         })

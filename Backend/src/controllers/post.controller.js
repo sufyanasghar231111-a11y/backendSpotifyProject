@@ -13,11 +13,7 @@ async function register(req,res) {
          imagUrl=result.url
     }
 
-// if (!pfp) {
-//     return res.status(400).json({
-//         message: "No file uploaded"
-//     })
-// }
+
     const alreadyExist= await postSchema.findOne({
         $or:[
             {username},
@@ -113,7 +109,8 @@ async function login(req,res) {
         email:user.email,
         role:user.role,
         password:user.password,
-        token
+        token,
+        pfp:user.pfp
     })
 }
 catch(e){
@@ -138,4 +135,32 @@ async function getUser(req,res){
     }
 }
 
-module.exports={register,login,getUser}
+async function updatePfp(req,res){
+    try{
+         if (!req.file) {
+            return res.status(400).json({
+                message: "No file uploaded"
+            })
+        }
+        
+        const result=await uploadPfp(req.file.buffer)
+        const user=await postSchema.findByIdAndUpdate(
+            req.user.id,{
+                pfp:result.url
+            },
+            {new:true}
+        )
+
+        res.status(200).json({
+            message:"successfull update image",
+            pfp: user.pfp
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Invalid Pfp"
+        })
+    }
+}
+
+module.exports={register,login,getUser,updatePfp}

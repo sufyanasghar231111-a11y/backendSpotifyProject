@@ -20,4 +20,6 @@ router.post('/logout', (req,res)=>{
     })
 })
 
+router.put('/updatepfp',upload.single('pfp') ,middleware.getMusic, routerLogin.updatePfp )
+
 module.exports=router
