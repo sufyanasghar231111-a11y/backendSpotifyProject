@@ -6,13 +6,19 @@ const uploadPfp=require('../services/auth.service')
 
 async function register(req,res) {
     const {username, email, password , role='user'}=req.body
-   let imagUrl=''
+         
+        if (!username || !email || !password ) {
+  return res.status(400).json({
+    success: false,
+    message: "All fields required"
+  });
+}
 
+   let imagUrl=''
     if(req.file){
          const result=await uploadPfp(req.file.buffer)
          imagUrl=result.url
     }
-
 
     const alreadyExist= await postSchema.findOne({
         $or:[
@@ -67,6 +73,13 @@ async function register(req,res) {
 async function login(req,res) {
     try{
         const {username, email, password, role}=req.body
+
+        if (!email || !password) {
+  return res.status(400).json({
+    success: false,
+    message: "All fields required"
+  });
+}
         
         const user= await postSchema.findOne({
         $or:[
