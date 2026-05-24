@@ -34,6 +34,11 @@ const AuthContext = ({ children }) => {
     let [updateprofile, setUpdateprofile] = useState(null)
     let [preview, setPreview] = useState(null)
 
+    useEffect(()=>{
+        if(user?.username){
+            setUpdatename(user.username)
+        }
+    },[user])
 
 
     async function handleSumbit(e) {
