@@ -11,6 +11,7 @@ import AddToPlaylist from '../../like/AddToPlaylist'
 import AlbumToPlaylist from '../../like/AlbumToPlaylist'
 import SureForLogOut from '../login/SureForLogOut'
 import UserProfile from '../login/UserProfile'
+import UpdateProfile from '../login/UpdateProfile'
 
 
 function Home() {
@@ -28,6 +29,7 @@ function Home() {
     <div className='w-full relative '>
       <SureForLogOut />
       <AddToPlaylist />
+      <UpdateProfile />
       {
         detailData.album?.map((elem) =>
 

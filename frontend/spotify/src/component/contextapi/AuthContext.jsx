@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,8 +29,10 @@ const AuthContext = ({ children }) => {
     let [hideControl, setHideControl] = useState(true)
     let [detailData, setDetailData] = useState({})
     let [hideSure, setHideSure] = useState(false)
-    
-    
+    let [updatename, setUpdatename] = useState('')
+    let [hideProfileDetail, setHideProfileDetail] = useState(false)
+    let [updateprofile, setUpdateprofile]=useState(null)
+
 
 
     async function handleSumbit(e) {
@@ -160,15 +162,19 @@ const AuthContext = ({ children }) => {
         }
     }
 
-    async function updatePfp(file) {
+    async function updatePfp(e) {
+        e.preventDefault()
         try {
-            const formData=new FormData()
-            formData.append('pfp', file)
-            const res = await axios.put('http://localhost:3000/api/auth/updatepfp',formData, {withCredentials:true} )
+            const formData = new FormData()
+            formData.append('pfp', updateprofile)
+            formData.append('username', updatename)
+            const res = await axios.put('http://localhost:3000/api/auth/updatepfp',  formData, { withCredentials: true })
             setUser(prev => ({
                 ...prev,
-                pfp:res.data.pfp
+                pfp: res.data.pfp,
+                username: res.data.username
             }))
+            setHideProfileDetail(false)
         }
         catch (err) {
             console.log(err);
@@ -176,7 +182,7 @@ const AuthContext = ({ children }) => {
     }
 
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, hideControl, setHideControl, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure,updatePfp }}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, hideControl, setHideControl, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail,updateprofile, setUpdateprofile }}>
             {children}
         </authProvider.Provider>
     )

@@ -1,10 +1,10 @@
-import { RiPlayListLine } from '@remixicon/react'
+import { RiCamera4Line, RiPencilLine, RiPlayListLine } from '@remixicon/react'
 import React, { useContext } from 'react'
 import { authProvider } from '../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 
 const UserProfile = () => {
-  let {getPlayList,user,updatePfp}=useContext(authProvider)
+  let {getPlayList,user,setHideProfileDetail, setUpdateprofile}=useContext(authProvider)
 
   const trimname=(user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
 
@@ -15,15 +15,21 @@ const UserProfile = () => {
       <div className='w-full flex gap-6 items-center bg-gradient-to-br from-[#4a4a4a] to-[#2b2b2b] sticky top-0 py-5 px-8 shadow-lg'>
 
         {/* Avatar */}
-        <div className='shadow-2xl shadow-black  relative overflow-hidden   bg-[#2f2f2f] rounded-full w-32 h-32 flex items-center justify-center'>
-          
+        <div onClick={()=>{setHideProfileDetail(true)}}>
+
+        <div className='shadow-2xl shadow-black group  relative overflow-hidden   bg-[#2f2f2f] rounded-full w-32 h-32 flex items-center justify-center'>
+          <div className='absolute flex items-center opacity-0 group-hover:opacity-100 justify-center flex-col z-40'>
+            <RiPencilLine  className='text-white' />
+            <h1 className='font-semibold text-sm'>Choose photo</h1>
+          </div>
           <span className='text-4xl absolute font-bold text-[#aaa]'>{trimname}</span>
           <img src={user.pfp} className='w-full h-full absolute scale-105 z-20 inset-0 object-cover' />
           <input  name="profileImage" accept="image/*"  onChange={(elem)=>{
             let file=elem.target.files[0]
-            updatePfp(file)
-          }} type="file" className='absolute inset-0 z-30  w-full h-full opacity-0 cursor-pointer' />
+            setUpdateprofile(file)
+          }} type="file" className='absolute inset-0 z-50  w-full h-full opacity-0 cursor-pointer' />
           
+        </div>
         </div>
 
         {/* Info */}
