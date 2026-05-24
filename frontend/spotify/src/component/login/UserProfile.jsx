@@ -1,10 +1,10 @@
 import { RiCamera4Line, RiPencilLine, RiPlayListLine } from '@remixicon/react'
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { authProvider } from '../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 
 const UserProfile = () => {
-  let { getPlayList, user, setHideProfileDetail, setUpdateprofile, setPreview } = useContext(authProvider)
+  let { getPlayList, user, setHideProfileDetail, setUpdateprofile, setPreview,playlistLoader } = useContext(authProvider)
 
 
   const trimname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
@@ -51,11 +51,11 @@ const UserProfile = () => {
       </div>
 
       {/* CONTENT */}
-      <div className='h-[65vh] overflow-y-auto bg-[#181818] px-6 py-6 pb-30'>
+      <div className='h-[65vh] overflow-y-auto relative bg-[#181818] px-6 py-6 pb-30'>
 
         <h1 className='text-xl font-semibold mb-4'>Playlists</h1>
 
-        <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5'>
+        <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 relative'>
           {
             getPlayList.length > 0 ? (
               getPlayList.map((elem, index) => {
@@ -80,7 +80,7 @@ const UserProfile = () => {
                 )
               })
             ) : (
-              <div className='flex flex-col items-center justify-center text-center py-16 px-4'>
+              <div className='flex flex-col items-center  top-25 left-1/2  -translate-x-1/2 -translate-y-1/2 absolute justify-center text-center py-10 px-4'>
 
                 <div className='mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10 text-3xl'>
                   🎵
@@ -101,6 +101,16 @@ const UserProfile = () => {
 
 
         </div>
+          {
+                    playlistLoader && (
+                        <div className='absolute inset-0  z-20 flex flex-col items-center justify-center gap-4 bg-gradient-to-b from-[#1f1f1f]/95 to-[#0f0f0f]/95 backdrop-blur-3xl'>
+                            <div className='w-12 h-12 border-4 border-white/20 border-t-green-500 rounded-full animate-spin'></div>
+                            <p className='text-white text-lg font-medium tracking-wide animate-pulse'>
+                                Loading Playlist...
+                            </p>
+                        </div>
+                    )
+                }
       </div>
     </div>
   )

@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 
-
 export const authProvider = createContext()
 const AuthContext = ({ children }) => {
     let navigate = useNavigate()
@@ -15,6 +14,7 @@ const AuthContext = ({ children }) => {
     let [loading, setLoading] = useState(false)
 
     let [playlistLoader, setPlaylistLoader] = useState(false)
+  
     let [login, setLogin] = useState({
         email: '',
         password: ""
@@ -79,6 +79,7 @@ const AuthContext = ({ children }) => {
 
             setUser(checkLogin.data)
             setAuthReady(true)
+            await handleGetPlayList();
 
         }
         catch (e) {
@@ -138,7 +139,7 @@ const AuthContext = ({ children }) => {
     async function handleGetPlayList() {
         try {
             setPlaylistLoader(true)
-            await new Promise((resolve) => setTimeout(resolve, 1000));
+            await new Promise((resolve) => setTimeout(resolve, 500));
             const res = await axios.get('http://localhost:3000/api/user/particularUserPlaylist', { withCredentials: true })
             setGetPlayList(res.data.particular || [])
         }
@@ -151,10 +152,10 @@ const AuthContext = ({ children }) => {
     }
 
     useEffect(() => {
-        if (!authReady || !user) return;
+        if ( !authReady ) return;
         handleGetPlayList();
 
-    }, [user, authReady]);
+    }, [ authReady]);
 
     async function handleCreatePlaylist() {
         try {

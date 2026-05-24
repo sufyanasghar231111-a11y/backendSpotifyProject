@@ -11,11 +11,11 @@ import { useParams, useSearchParams } from 'react-router-dom'
 
 const PlayUI = () => {
 
-  let { duration, handleTime, loaderTime, audioRef, setPlaying, playRef, playing,currentTime, setCurrentTime, handleSeek } = useContext(authControl)
+  let { duration, handleTime, loaderTime, audioRef, setPlaying, playRef, playing,currentTime, handleSeek } = useContext(authControl)
   let { fav, deletemusic, createFav } = useContext(authHome)
   let {separate,setSeparate}=useContext(authHome)
 
-  let []=useState(0)
+  
   
   let { id } = useParams()
   const [params] = useSearchParams()
