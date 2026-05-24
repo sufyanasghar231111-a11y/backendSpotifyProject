@@ -15,24 +15,24 @@ import UserProfile from '../login/UserProfile'
 
 function Home() {
 
-  let { user, hideplay, setHidePlay, handleCreatePlaylist, name, setName, hideControl ,detailData} = useContext(authProvider)
-  let {  setHidepro,music } = useContext(authHome)
-  let {playing, currentTime, duration,handleSeek}=useContext(authControl)
+  let { user, hideplay, setHidePlay, handleCreatePlaylist, name, setName, hideControl, detailData } = useContext(authProvider)
+  let { setHidepro, music } = useContext(authHome)
+  let { playing, currentTime, duration, handleSeek } = useContext(authControl)
 
 
   let fetchname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
-  
- 
+
+
 
   return (
     <div className='w-full relative '>
       <SureForLogOut />
       <AddToPlaylist />
       {
-      detailData.album?.map((elem)=>
-        
-        <AlbumToPlaylist elem={elem}  />
-      )
+        detailData.album?.map((elem) =>
+
+          <AlbumToPlaylist elem={elem} />
+        )
       }
       {
         hideplay && (
@@ -69,45 +69,45 @@ function Home() {
         </div>
         <div onClick={() => { setHidepro(prev => !prev) }} className=' bg-red-400 overflow-hidden  flex items-center justify-center relative cursor-pointer  font-semibold rounded-full max-sm:w-5 max-sm:text-[9px] max-sm:h-5 w-9 h-9'>
           <span className='absolute z-0 text-white   '>
-          {fetchname}
+            {fetchname}
           </span>
-          {/* <img src={preview} className='absolute inset-0 w-full h-full scale-105 object-cover z-10' alt="" /> */}
+          <img src={user.pfp} className='absolute inset-0 w-full h-full scale-110 object-cover z-10' alt="" />
 
         </div>
         <Logout />
       </div>
       <div className='flex relative px-2 gap-3 justify-between w-full'>
         <Left />
-        
+
         <Right />
-        
+
       </div>
       <div className='flex items-center justify-center pt-10'>
         {
           hideControl ? (
             <div className='flex items-center gap-1'>
               <h1 className='text-xs font-mono text-gray-400 w-12 text-right select-none'>00:00</h1>
-             <input type="range" disabled className="cursor-not-allowed opacity-50 h-1.5 bg-gray-700 rounded-lg appearance-none "/>
-             <h1 className='text-xs font-mono text-gray-400 w-12 text-right select-none'>00:00</h1>
+              <input type="range" disabled className="cursor-not-allowed opacity-50 h-1.5 bg-gray-700 rounded-lg appearance-none " />
+              <h1 className='text-xs font-mono text-gray-400 w-12 text-right select-none'>00:00</h1>
 
             </div>
-          ):(
+          ) : (
             <div className='flex items-center gap-2'>
-           {
-          music.map((dataId)=>{
-            return <>
-            {playing === dataId._id && (
-              <>
-              <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((currentTime[dataId._id] ||0)/60)}: {String(Math.floor((currentTime[dataId._id] || 0))%60).padStart(2, '0')}</h1>
-          <input type="range" name="music" className='h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-green-500 hover:accent-green-400'  onChange={(e)=>{handleSeek(e,dataId._id)}} value={currentTime[dataId?._id] || 0} min='0' max={duration[dataId?._id] || 0}  />
-              <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((duration[dataId._id] ||0)/60)}: {String(Math.floor((duration[dataId._id] || 0))%60).padStart(2, '0')}</h1>
-          
-              </>
-        )}
-            </>
-          })
-        }
-        </div>
+              {
+                music.map((dataId) => {
+                  return <>
+                    {playing === dataId._id && (
+                      <>
+                        <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((currentTime[dataId._id] || 0) / 60)}: {String(Math.floor((currentTime[dataId._id] || 0)) % 60).padStart(2, '0')}</h1>
+                        <input type="range" name="music" className='h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-green-500 hover:accent-green-400' onChange={(e) => { handleSeek(e, dataId._id) }} value={currentTime[dataId?._id] || 0} min='0' max={duration[dataId?._id] || 0} />
+                        <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((duration[dataId._id] || 0) / 60)}: {String(Math.floor((duration[dataId._id] || 0)) % 60).padStart(2, '0')}</h1>
+
+                      </>
+                    )}
+                  </>
+                })
+              }
+            </div>
           )
         }
       </div>
