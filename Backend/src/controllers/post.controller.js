@@ -74,7 +74,7 @@ async function login(req,res) {
     try{
         const {username, email, password, role}=req.body
 
-        if (!email || !password) {
+        if ( ! email || !password ) {
   return res.status(400).json({
     success: false,
     message: "All fields required"
@@ -150,6 +150,7 @@ async function getUser(req,res){
 
 async function updatePfp(req,res){
     try{
+        let {username}=req.body
          if (!req.file) {
             return res.status(400).json({
                 message: "No file uploaded"
@@ -159,6 +160,7 @@ async function updatePfp(req,res){
         const result=await uploadPfp(req.file.buffer)
         const user=await postSchema.findByIdAndUpdate(
             req.user.id,{
+                username,
                 pfp:result.url
             },
             {new:true}
@@ -166,7 +168,8 @@ async function updatePfp(req,res){
 
         res.status(200).json({
             message:"successfull update image",
-            pfp: user.pfp
+            pfp: user.pfp,
+            username
         })
     }
     catch(err){
@@ -175,5 +178,6 @@ async function updatePfp(req,res){
         })
     }
 }
+
 
 module.exports={register,login,getUser,updatePfp}
