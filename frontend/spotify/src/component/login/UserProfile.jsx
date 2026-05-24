@@ -1,12 +1,13 @@
 import { RiCamera4Line, RiPencilLine, RiPlayListLine } from '@remixicon/react'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { authProvider } from '../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 
 const UserProfile = () => {
-  let {getPlayList,user,setHideProfileDetail, setUpdateprofile}=useContext(authProvider)
+  let { getPlayList, user, setHideProfileDetail, setUpdateprofile, setPreview } = useContext(authProvider)
 
-  const trimname=(user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
+
+  const trimname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
 
   return (
     <div className='w-full ml-auto rounded-xl overflow-hidden h-[76vh] bg-[#1f1f1f] text-white'>
@@ -15,21 +16,24 @@ const UserProfile = () => {
       <div className='w-full flex gap-6 items-center bg-gradient-to-br from-[#4a4a4a] to-[#2b2b2b] sticky top-0 py-5 px-8 shadow-lg'>
 
         {/* Avatar */}
-        <div onClick={()=>{setHideProfileDetail(true)}}>
+        <div onClick={() => { setHideProfileDetail(true) }}>
 
-        <div className='shadow-2xl shadow-black group  relative overflow-hidden   bg-[#2f2f2f] rounded-full w-32 h-32 flex items-center justify-center'>
-          <div className='absolute flex items-center opacity-0 group-hover:opacity-100 justify-center flex-col z-40'>
-            <RiPencilLine  className='text-white' />
-            <h1 className='font-semibold text-sm'>Choose photo</h1>
+          <div className='shadow-2xl shadow-black group  relative overflow-hidden   bg-[#2f2f2f] rounded-full w-32 h-32 flex items-center justify-center'>
+            <div className='absolute flex items-center opacity-0 group-hover:opacity-100 justify-center flex-col z-40'>
+              <RiPencilLine className='text-white' />
+              <h1 className='font-semibold text-sm'>Choose photo</h1>
+            </div>
+            <span className='text-4xl absolute font-bold text-[#aaa]'>{trimname}</span>
+            <img src={user.pfp} className='w-full h-full absolute scale-105 z-20 inset-0 object-cover' />
+            <input name="profileImage" accept="image/*" onChange={(elem) => {
+              let file = elem.target.files[0]
+              setUpdateprofile(file)
+              if (file) {
+                setPreview(URL.createObjectURL(file))
+              }
+            }} type="file" className='absolute inset-0 z-50  w-full h-full opacity-0 cursor-pointer' />
+
           </div>
-          <span className='text-4xl absolute font-bold text-[#aaa]'>{trimname}</span>
-          <img src={user.pfp} className='w-full h-full absolute scale-105 z-20 inset-0 object-cover' />
-          <input  name="profileImage" accept="image/*"  onChange={(elem)=>{
-            let file=elem.target.files[0]
-            setUpdateprofile(file)
-          }} type="file" className='absolute inset-0 z-50  w-full h-full opacity-0 cursor-pointer' />
-          
-        </div>
         </div>
 
         {/* Info */}
@@ -53,48 +57,48 @@ const UserProfile = () => {
 
         <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5'>
           {
-            getPlayList.length>0 ? (
+            getPlayList.length > 0 ? (
               getPlayList.map((elem, index) => {
-            return (
-              <div
-                key={elem._id}
-                className='bg-[#222] hover:bg-[#2c2c2c] transition-all duration-300 rounded-lg p-3 cursor-pointer shadow-md'
-              >
-                <Link to={`/playlist/${elem._id}?index=${index+1}`}>
-                <div className='w-full flex items-center justify-center h-40 bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] rounded-md mb-3' > 
-                <RiPlayListLine className='text-white w-20 h-20' />
-                </div>
-                <h1 className='text-base font-semibold truncate'>
-                  {elem.name}
-                </h1>
-
-                <h1 className='text-sm text-[#a9a9a9]'>
-                {elem.user.username}
-                </h1>
-                </Link>
-              </div>
-            )
-          })
-            ):(
-              <div className='flex flex-col items-center justify-center text-center py-16 px-4'>
-
-                      <div className='mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10 text-3xl'>
-                        🎵
+                return (
+                  <div
+                    key={elem._id}
+                    className='bg-[#222] hover:bg-[#2c2c2c] transition-all duration-300 rounded-lg p-3 cursor-pointer shadow-md'
+                  >
+                    <Link to={`/playlist/${elem._id}?index=${index + 1}`}>
+                      <div className='w-full flex items-center justify-center h-40 bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] rounded-md mb-3' >
+                        <RiPlayListLine className='text-white w-20 h-20' />
                       </div>
-
-                      <h1 className='text-white font-semibold text-lg'>
-                        No playlists yet
+                      <h1 className='text-base font-semibold truncate'>
+                        {elem.name}
                       </h1>
 
-                      <p className='text-sm text-gray-400 mt-2 leading-5'>
-                        Your playlist library is empty.
-                        <br />
-                        Start by creating a playlist.
-                      </p>
-                    </div>
+                      <h1 className='text-sm text-[#a9a9a9]'>
+                        {elem.user.username}
+                      </h1>
+                    </Link>
+                  </div>
+                )
+              })
+            ) : (
+              <div className='flex flex-col items-center justify-center text-center py-16 px-4'>
+
+                <div className='mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10 text-3xl'>
+                  🎵
+                </div>
+
+                <h1 className='text-white font-semibold text-lg'>
+                  No playlists yet
+                </h1>
+
+                <p className='text-sm text-gray-400 mt-2 leading-5'>
+                  Your playlist library is empty.
+                  <br />
+                  Start by creating a playlist.
+                </p>
+              </div>
             )
           }
-          
+
 
         </div>
       </div>
