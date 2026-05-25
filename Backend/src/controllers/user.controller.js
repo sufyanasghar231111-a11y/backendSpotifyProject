@@ -339,7 +339,7 @@ async function createLibrary(req,res){
 async function getLibrary(req,res){
     try{
 
-        const getLib=await librarySchema.find().populate('music').populate({path:'music',populate:{path:"artist"}})
+        const getLib=await librarySchema.find({user:req.user.id}).populate('music').populate({path:'music',populate:{path:"artist"}})
         res.status(200).json({
             message:"successful get",
             getLib

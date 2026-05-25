@@ -6,7 +6,11 @@ const librarySchema=new mongoose.Schema({
          type:mongoose.Schema.Types.ObjectId,
         ref:'music'
        }
-    ]
+    ],
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'user'
+    }
 })
 
 
