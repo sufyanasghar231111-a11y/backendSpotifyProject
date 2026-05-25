@@ -151,11 +151,11 @@ async function getUser(req,res){
 async function updatePfp(req,res){
     try{
         let {username}=req.body
-         if (!req.file) {
-            return res.status(400).json({
-                message: "No file uploaded"
-            })
-        }
+        //  if (!req.file) {
+        //     return res.status(400).json({
+        //         message: "No file uploaded"
+        //     })
+        // }
         
         const result=await uploadPfp(req.file.buffer)
         const user=await postSchema.findByIdAndUpdate(
@@ -179,5 +179,31 @@ async function updatePfp(req,res){
     }
 }
 
+async function removePfp(req,res){
+    try{
+        let imageurl=''
+        if(req.file){
+            const pfp=await uploadPfp(req.file.buffer)
+            imageurl=pfp
+        }
+        let deletePfp=await postSchema.findByIdAndUpdate(
+            req.user.id,{
+                pfp:imageurl
+            }
+        )
 
-module.exports={register,login,getUser,updatePfp}
+        res.status(200).json({
+            message:"successful delete pfp",
+            deletePfp
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Error in your request",
+            error:err.message
+        })
+    }
+    
+}
+
+module.exports={register,login,getUser,updatePfp,removePfp}
