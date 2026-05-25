@@ -2,6 +2,7 @@ const userSchema = require('../models/playlist.model')
 const mongoose = require('mongoose')
 const favSchema = require('../models/fav.models')
 const musicSchema = require('../models/music.model')
+const librarySchema=require('../models/Library.model')
 
 async function playlist(req, res) {
 
@@ -314,4 +315,61 @@ async function singleFav(req, res) {
     }
 }
 
-module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete }
+async function createLibrary(req,res){
+    try{
+
+        let {music}=req.body
+
+        const createLib=await librarySchema.create({
+            music,
+            user:req.user.id
+        })
+        res.status(201).json({
+            message:"successful post lib",
+            createLib
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Error in request"
+        })
+    }
+}
+
+async function getLibrary(req,res){
+    try{
+
+        const getLib=await librarySchema.find().populate('music').populate({path:'music',populate:{path:"artist"}})
+        res.status(200).json({
+            message:"successful get ",
+            getLib
+        })
+    }
+    catch(e){
+        res.status(500).json({
+            message:"Error in request"
+        })
+    }
+}
+
+async function addTolab(req,res){
+    let {id}=req.params
+    try{
+        const library=await librarySchema.findByIdAndUpdate(req.user.id,
+            {
+                id:id
+            }
+        )
+        res.status(200).json({
+            message:"Successful get user",
+            library
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Error in your res"
+        })
+    }
+}
+
+module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete,addTolab,createLibrary,getLibrary }
