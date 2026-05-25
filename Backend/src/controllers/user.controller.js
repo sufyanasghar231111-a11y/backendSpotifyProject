@@ -341,7 +341,7 @@ async function getLibrary(req,res){
 
         const getLib=await librarySchema.find().populate('music').populate({path:'music',populate:{path:"artist"}})
         res.status(200).json({
-            message:"successful get ",
+            message:"successful get",
             getLib
         })
     }
@@ -353,11 +353,44 @@ async function getLibrary(req,res){
 }
 
 async function addTolab(req,res){
-    let {id}=req.params
+    let {getLib}=req.params
+    let {musicId}=req.params
     try{
-        const library=await librarySchema.findByIdAndUpdate(req.user.id,
+        const library=await librarySchema.findByIdAndUpdate(
             {
-                id:id
+               _id:getLib,
+                user:req.user.id
+            },
+            {
+                $addToSet:{
+                    music:musicId
+                }
+            }
+        )
+        res.status(200).json({
+            message:"Successful get user",
+            library
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Error in your res"
+        })
+    }
+}
+async function deleteLab(req,res){
+    let {getLib}=req.params
+    let {musicId}=req.params
+    try{
+        const library=await librarySchema.findByIdAndUpdate(
+            {
+               _id:getLib,
+                user:req.user.id
+            },
+            {
+                $pull:{
+                    music:musicId
+                }
             }
         )
         res.status(200).json({
@@ -372,4 +405,4 @@ async function addTolab(req,res){
     }
 }
 
-module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete,addTolab,createLibrary,getLibrary }
+module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete,addTolab,createLibrary,getLibrary,deleteLab }

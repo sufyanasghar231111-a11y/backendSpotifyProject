@@ -25,7 +25,8 @@ router.get('/singleFavMusic/:favId/:favoriteId', middleware.getMusic, userContro
 
 router.post('/createLibrary', middleware.getMusic, userController.createLibrary )
 router.get('/getLibrary',middleware.getMusic, userController.getLibrary )
-router.patch('/addTolab/:id', middleware.getMusic, userController.addTolab )
+router.patch('/addTolab/:getLib/:musicId', middleware.getMusic, userController.addTolab )
+router.delete('/deleteLab/:getLib/:musicId', middleware.getMusic, userController.deleteLab )
 
 
 module.exports={router}
