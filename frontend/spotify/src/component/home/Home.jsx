@@ -73,7 +73,12 @@ function Home() {
           <span className='absolute z-0 text-white   '>
             {fetchname}
           </span>
-          <img src={user.pfp} className='absolute inset-0 w-full h-full scale-110 object-cover z-10' alt="" />
+          {user?.pfp && 
+          (
+
+            <img src={user?.pfp} className='absolute inset-0 w-full h-full scale-110  object-cover z-10' alt="" />
+          )
+          }
 
         </div>
         <Logout />

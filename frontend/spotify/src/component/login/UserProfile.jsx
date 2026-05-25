@@ -18,10 +18,11 @@ const UserProfile = () => {
         {/* Avatar */}
         <div onClick={() => { setHideProfileDetail(true) }}>
 
-          <div className='shadow-2xl shadow-black group  relative overflow-hidden   bg-[#2f2f2f] rounded-full w-32 h-32 flex items-center justify-center'>
-            <div className='absolute flex items-center opacity-0 group-hover:opacity-100 justify-center flex-col z-40'>
-              <RiPencilLine className='text-white' />
-              <h1 className='font-semibold text-sm'>Choose photo</h1>
+          <div className='shadow-2xl shadow-black group  relative overflow-hidden group text-white   bg-[#2f2f2f] rounded-full w-32 h-32 flex items-center justify-center'>
+            <div className=' absolute w-full h-full inset-0  z-45 group-hover:bg-black/50 '></div>
+            <div className='absolute flex items-center opacity-0 group-hover:opacity-100 justify-center flex-col z-50'>
+              <RiPencilLine className='text-white  w-8 h-8  ' />
+              <h1 className='font-semibold text-sm '>Choose photo</h1>
             </div>
             <span className='text-4xl absolute font-bold text-[#aaa]'>{trimname}</span>
             <img src={user.pfp} className='w-full h-full absolute scale-105 z-20 inset-0 object-cover' />
@@ -52,7 +53,6 @@ const UserProfile = () => {
 
       {/* CONTENT */}
       <div className='h-[65vh] overflow-y-auto relative bg-[#181818] px-6 py-6 pb-30'>
-
         <h1 className='text-xl font-semibold mb-4'>Playlists</h1>
 
         <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 relative'>
