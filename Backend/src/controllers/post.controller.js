@@ -189,7 +189,9 @@ async function removePfp(req,res){
         let deletePfp=await postSchema.findByIdAndUpdate(
             req.user.id,{
                 pfp:imageurl
-            }
+            },
+
+            {returnDocument: 'after'}
         )
 
         res.status(200).json({
