@@ -73,22 +73,22 @@ const Left = () => {
                 }
 
                 <div>
-                 {
-                    [0,1,2,3,4,5].map((elem) => {
-                        return <div className=' flex items-center px-4 max-sm:px-2 py-2'>
-                            <Link >
-                                <div className='flex items-center gap-3'>
-                                    <div className='flex items-center justify-center  rounded w-13 max-sm:w-10 max-sm:h-10 h-13 bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] '>
-                                        <img className='w-full h-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVBmvQ0vWIbzrOhkQyUhU-iQ2M2NYbm9lnzg&s" alt="" />
+                    {
+                        [0, 1, 2, 3, 4, 5].map((elem) => {
+                            return <div className=' flex items-center px-4 max-sm:px-2 py-2'>
+                                <Link >
+                                    <div className='flex items-center gap-3'>
+                                        <div className='flex items-center justify-center  rounded w-13 max-sm:w-10 max-sm:h-10 h-13 bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] '>
+                                            <img className='w-full h-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVBmvQ0vWIbzrOhkQyUhU-iQ2M2NYbm9lnzg&s" alt="" />
+                                        </div>
+                                        <div className='max-sm:text-sm'>
+                                            <h1 className='font-semibold'>Byebyebye wav </h1>
+                                            <h1 className='text-sm max-sm:text-[10px] text-[#a5a5a5] font-semibold'> Single. sufyan</h1>
+                                        </div>
                                     </div>
-                                    <div className='max-sm:text-sm'>
-                                        <h1 className='font-semibold'>Byebyebye wav </h1>
-                                        <h1 className='text-sm max-sm:text-[10px] text-[#a5a5a5] font-semibold'> Single. sufyan</h1>
-                                    </div>
-                                </div>
-                            </Link>
-                        </div>
-                    })}
+                                </Link>
+                            </div>
+                        })}
                 </div>
             </div>
         </div>
