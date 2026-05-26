@@ -74,7 +74,7 @@ const Left = () => {
 
                 <div>
                  {
-                    [0,1,2].map((elem) => {
+                    [0,1,2,3,4,5].map((elem) => {
                         return <div className=' flex items-center px-4 max-sm:px-2 py-2'>
                             <Link >
                                 <div className='flex items-center gap-3'>
