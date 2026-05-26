@@ -339,7 +339,7 @@ async function createLibrary(req,res){
 async function getLibrary(req,res){
     try{
 
-        const getLib=await librarySchema.find({user:req.user.id}).populate('music').populate({path:'music',populate:{path:"artist"}})
+        const getLib=await librarySchema.find({user:req.user.id}).populate('music').populate({path:'music',populate:{path:"artist"}}).populate('user')
         res.status(200).json({
             message:"successful get",
             getLib
@@ -353,18 +353,21 @@ async function getLibrary(req,res){
 }
 
 async function addTolab(req,res){
-    let {getLib}=req.params
+    
     let {musicId}=req.params
     try{
-        const library=await librarySchema.findByIdAndUpdate(
+        const library=await librarySchema.findOneAndUpdate(
             {
-               _id:getLib,
                 user:req.user.id
             },
             {
                 $addToSet:{
                     music:musicId
                 }
+            },
+            {
+                upsert:true,
+                returnDocument:'after'
             }
         )
         res.status(200).json({
@@ -379,12 +382,12 @@ async function addTolab(req,res){
     }
 }
 async function deleteLab(req,res){
-    let {getLib}=req.params
+    // let {getLib}=req.params
     let {musicId}=req.params
     try{
-        const library=await librarySchema.findByIdAndUpdate(
+        const library=await librarySchema.findOneAndUpdate(
             {
-               _id:getLib,
+            //    _id:getLib,
                 user:req.user.id
             },
             {
@@ -400,7 +403,8 @@ async function deleteLab(req,res){
     }
     catch(err){
         res.status(500).json({
-            message:"Error in your res"
+            message:"Error in your res",
+            error:err.message
         })
     }
 }
