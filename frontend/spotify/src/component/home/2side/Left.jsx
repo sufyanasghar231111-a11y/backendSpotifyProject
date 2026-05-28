@@ -76,7 +76,7 @@ const Left = () => {
                     {
                         library.map((elem) => (
                            elem.music.map((item)=>{
-                            return <div className=' flex items-center px-4 max-sm:px-2 py-2'>
+                            return <div key={item._id} className=' flex items-center px-4 max-sm:px-2 py-2'>
                                 <Link >
                                     <div className='flex items-center gap-3'>
                                         <div className='flex items-center justify-center  overflow-hidden rounded w-13 max-sm:w-10 max-sm:h-10 h-13 bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] '>

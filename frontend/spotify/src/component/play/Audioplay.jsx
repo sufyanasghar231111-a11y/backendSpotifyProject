@@ -3,15 +3,15 @@ import { Link, useParams } from 'react-router-dom'
 import { authHome } from '../contextapi/HomeContext'
 import axios from 'axios'
 import { authControl } from '../contextapi/AudioControl'
-import { RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListLine } from '@remixicon/react'
+import { RiAddCircleLine, RiCheckLine, RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListAddLine, RiPlayListLine } from '@remixicon/react'
 import { authProvider } from '../contextapi/AuthContext'
 
 const Audioplay = () => {
-   let { id } = useParams()
-  let { createFav, deletemusic , fav,data, setData} = useContext(authHome)
-  let { playing, playRef, audioRef,loaderTime,handleSeek,handleTime,currentTime ,duration, setPlaying}=useContext(authControl)
-  
-  let {setHidePlaylist}=useContext(authProvider)
+  let { id } = useParams()
+  let { createFav, deletemusic, fav, data, setData } = useContext(authHome)
+  let { playing, playRef, audioRef, loaderTime, handleSeek, handleTime, currentTime, duration, setPlaying } = useContext(authControl)
+
+  let { setHidePlaylist, addToLibrary, removeTolibrary, library } = useContext(authProvider)
 
 
   async function fetchSingleMusic() {
@@ -24,92 +24,143 @@ const Audioplay = () => {
     }
   }
   useEffect(() => {
-    
+
     fetchSingleMusic()
   }, [])
 
 
-const isFav = fav.some(user =>
-  user.favorite.some(song => song._id === data?._id)
-)
+  const isFav = fav.some(user =>
+    user.favorite.some(song => song._id === data?._id)
+  )
+  const lib = library.some(user =>
+    user.music.some(song => song._id === data?._id)
+  )
   return (
     <>
-    <div className='relative  h-[70vh] w-[60%] '>
+      <div className='relative  h-[70vh] w-[60%] '>
 
-          <div className='w-full h-full'>
+        <div className='w-full h-full'>
           <img
             src={data?.image}
             className='w-full h-full object-cover'
           />
 
-          </div>
-          <audio ref={(el)=>{
-            if(!audioRef?.current){
-              audioRef.current={}
-            }
-
-            if(el){
-              audioRef.current[data._id]=el
-            }
-            else{
-              delete audioRef.current[data._id]
-            }
-          }} src={data?.uri}  onTimeUpdate={()=>{handleTime(data._id)}} onLoadedMetadata={()=>{loaderTime(data._id)}} onEnded={()=>{setPlaying(null)
-            currentTime(0)
-            duration(0)
-          }}  preload='metadata'
-                       className='w-full h-full' />
-          <div className='absolute inset-0 bg-black/30'></div>
         </div>
+        <audio ref={(el) => {
+          if (!audioRef?.current) {
+            audioRef.current = {}
+          }
 
-        <div className='px-8 py-2 flex flex-col w-[40%] justify-center'>
-          <p className='text-sm uppercase tracking-[4px] text-gray-400'>
-            Now Playing
-          </p>
-          <h1 className='text-4xl md:text-5xl font-bold mt-3'>
-            {data?.title}
-          </h1>
-          <p className='text-xl text-gray-300 mt-3'>{data.artist?.username}</p>
-          
-          <button onClick={() => { playRef(data?._id) }} className='w-fit px-4 mt-4  py-4 flex items-center justify-center  rounded-full bg-green-500 hover:bg-green-400 transition-all duration-300 font-semibold text-black cursor-pointer'>
-            {playing === data?._id ? (<RiPauseFill className='text-white cursor-pointer w-7 h-7' />) : (<RiPlayFill className='text-white cursor-pointer w-7 h-7' />)
-            }
-          </button>
-          <div className='flex  gap-2 mt-8'>
-            {
-              isFav ? ( <button  onClick={() => { deletemusic(data?._id) }}  className={`w-12 h-12 flex items-center justify-center rounded-full  border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer`}>
-             <RiHeartFill className='text-red-500 cursor-pointer w-5 h-5' />
-            </button>)
-            :
-            ( <button onClick={() => { createFav(data?._id) }}  className={`w-12 h-12 flex items-center justify-center rounded-full  border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer`}>
-              <RiHeartFill className='text-white cursor-pointer w-5 h-5' />
-            </button>)
-            }
-           
-              
-            <button onClick={()=>{setHidePlaylist(true)}} className='px-5 py-2.5 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer'>
+          if (el) {
+            audioRef.current[data._id] = el
+          }
+          else {
+            delete audioRef.current[data._id]
+          }
+        }} src={data?.uri} onTimeUpdate={() => { handleTime(data._id) }} onLoadedMetadata={() => { loaderTime(data._id) }} onEnded={() => {
+          setPlaying(null)
+          currentTime(0)
+          duration(0)
+        }} preload='metadata'
+          className='w-full h-full' />
+        <div className='absolute inset-0 bg-black/30'></div>
+      </div>
+
+      <div className='px-8 py-2 flex flex-col w-[40%] justify-center'>
+        <p className='text-sm uppercase tracking-[4px] text-gray-400'>
+          Now Playing
+        </p>
+        <h1 className='text-4xl md:text-5xl font-bold mt-3'>
+          {data?.title}
+        </h1>
+        <p className='text-xl text-gray-300 mt-3'>{data.artist?.username}</p>
+
+        <button onClick={() => { playRef(data?._id) }} className='w-fit px-4 mt-4  py-4 flex items-center justify-center  rounded-full bg-green-500 hover:bg-green-400 transition-all duration-300 font-semibold text-black cursor-pointer'>
+          {playing === data?._id ? (<RiPauseFill className='text-white cursor-pointer w-7 h-7' />) : (<RiPlayFill className='text-white cursor-pointer w-7 h-7' />)
+          }
+        </button>
+        <div className="flex items-center justify-center gap-4 mt-8">
+          {/* Favorite Button */}
+          <div className="relative group">
+            
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black/80 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">
+              Add Favorite
+            </span>
+
+            {isFav ? (
+              <button
+                onClick={() => deletemusic(data?._id)}
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/20 active:scale-95 transition-all duration-300 cursor-pointer"
+              >
+                <RiHeartFill className="text-red-500 w-5 h-5" />
+              </button>
+            ) : (
+              <button
+                onClick={() => createFav(data?._id)}
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/20 active:scale-95 transition-all duration-300 cursor-pointer"
+              >
+                <RiHeartFill className="text-white w-5 h-5" />
+              </button>
+            )}
+          </div>
+
+          {/* Library Button */}
+          <div className="relative group">
+            
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black/80 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">
+              Add Library
+            </span>
+
+            {lib ? (
+              <button
+                onClick={() => removeTolibrary(data?._id)}
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/20 active:scale-95 transition-all duration-300 cursor-pointer"
+              >
+                <RiCheckLine className="text-green-500 w-5 h-5" />
+              </button>
+            ) : (
+              <button
+                onClick={() => addToLibrary(data?._id)}
+                className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/20 active:scale-95 transition-all duration-300 cursor-pointer"
+              >
+                <RiAddCircleLine className="text-white w-5 h-5" />
+              </button>
+            )}
+          </div>
+
+          {/* Playlist Button */}
+          <div className="relative group">
+            
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black/80 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">
               Add Playlist
-            </button>
-            
-          </div>
-          <div className='mt-3 space-y-4 text-gray-400'>
-            <div className='flex justify-between border-b border-white/10 pb-2'>
-              <span>Duration</span>
-              <span>{Math.floor((duration[data._id]||0)/60)}: {String(Math.floor((duration[data._id] || 0) )%60).padStart(2, '0')}</span>
+            </span>
+          <button
+            onClick={() => setHidePlaylist(true)}
+            className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 hover:bg-white/20 active:scale-95 transition-all duration-300 cursor-pointer"
+            >
+            <RiPlayListAddLine className="text-white w-5 h-5" />
+          </button>
             </div>
-          </div>
-          <div className='flex items-center gap-2 justify-center pt-10'>
-            {
-              playing === data._id && (
-                <>
-                <input type="range" onChange={(e)=>{handleSeek(e, data?._id)}} value={currentTime[data._id] || 0} min='0' max={duration[data._id] || 0}  />
-                <h1>{Math.floor((currentTime[data._id] || 0)/60)}: {String(Math.floor((currentTime[data._id] || 0) %60)).padStart(2, '0')}s</h1>
-                </>
-              )
-            }
-          </div>
-            
         </div>
+        <div className='mt-3 space-y-4 text-gray-400'>
+          <div className='flex justify-between border-b border-white/10 pb-2'>
+            <span>Duration</span>
+            <span>{Math.floor((duration[data._id] || 0) / 60)}: {String(Math.floor((duration[data._id] || 0)) % 60).padStart(2, '0')}</span>
+          </div>
+        </div>
+        
+        <div className={`flex items-center  gap-2 justify-center pt-10`}>
+          {
+            playing === data._id && (
+              <>
+                <input type="range" onChange={(e) => { handleSeek(e, data?._id) }} value={currentTime[data._id] || 0} min='0' max={duration[data._id] || 0} />
+                <h1>{Math.floor((currentTime[data._id] || 0) / 60)}: {String(Math.floor((currentTime[data._id] || 0) % 60)).padStart(2, '0')}s</h1>
+              </>
+            )
+          }
+        </div>
+
+      </div>
     </>
   )
 }
@@ -119,4 +170,3 @@ export default Audioplay
 
 
 
- 

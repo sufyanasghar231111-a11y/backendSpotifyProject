@@ -81,6 +81,7 @@ const AuthContext = ({ children }) => {
             setUser(checkLogin.data)
             setAuthReady(true)
             await handleGetPlayList();
+            await getLibrary()
 
         }
         catch (e) {
@@ -222,8 +223,28 @@ const AuthContext = ({ children }) => {
         getLibrary()
     },[])
 
+    async function addToLibrary(id){
+        try{
+            const res=await axios.patch(`http://localhost:3000/api/user/addTolab/${id}`,{}, {withCredentials:true})
+            
+            await getLibrary()
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+    async function removeTolibrary(id){
+        try{
+            const res=await axios.delete(`http://localhost:3000/api/user/deleteLab/${id}`, {withCredentials:true})
+            await getLibrary()
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, hideControl, setHideControl, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview,removePfp,imageref, library }}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, hideControl, setHideControl, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview,removePfp,imageref, library,addToLibrary ,removeTolibrary,getLibrary}}>
             {children}
         </authProvider.Provider>
     )
