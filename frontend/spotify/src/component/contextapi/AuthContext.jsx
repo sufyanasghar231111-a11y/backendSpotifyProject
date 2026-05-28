@@ -33,6 +33,7 @@ const AuthContext = ({ children }) => {
     let [updateprofile, setUpdateprofile] = useState(null)
     let [preview, setPreview] = useState(null)
     let imageref=useRef()
+    let [library, setLibrary]=useState([])
 
     useEffect(()=>{
         if(user?.username){
@@ -207,8 +208,22 @@ const AuthContext = ({ children }) => {
         }
     }
 
+    async function getLibrary() {
+        try{
+            const res=await axios.get('http://localhost:3000/api/user/getLibrary', {withCredentials:true})
+            setLibrary(res.data.getLib)
+            
+        }
+        catch(e){
+            console.log(e);
+        }
+    }
+    useEffect(()=>{
+        getLibrary()
+    },[])
+
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, hideControl, setHideControl, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview,removePfp,imageref }}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, hideControl, setHideControl, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview,removePfp,imageref, library }}>
             {children}
         </authProvider.Provider>
     )

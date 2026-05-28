@@ -3,11 +3,11 @@ import { authHome } from '../component/contextapi/HomeContext'
 import { authProvider } from '../component/contextapi/AuthContext'
 
 const AddToPlaylist = () => {
-    let {getPlayList, hideplaylist, setHidePlaylist}=useContext(authProvider)
-    let { patchApi, data, deleteApi } = useContext(authHome)
+  let { getPlayList, hideplaylist, setHidePlaylist } = useContext(authProvider)
+  let { patchApi, data, deleteApi } = useContext(authHome)
   return (
     <div>
-          {
+      {
         hideplaylist && (
           <>
             <div onClick={() => { setHidePlaylist(false) }} className='w-full cursor-pointer h-full inset-0 bg-black/50 backdrop:backdrop-blur-sm  absolute z-100 '></div>
@@ -17,18 +17,36 @@ const AddToPlaylist = () => {
 
                 {/* Header */}
                 <div className='sticky top-0 z-10 border-b border-white/10 bg-[#252525] px-4 py-3'>
+
                   <div className='flex items-center justify-between'>
 
-                    <h1 className='text-lg font-bold text-white'>
-                      Your Playlists
+                    <div>
+                      <h1 className='text-lg font-bold text-white'>
+                        Your Playlists
+                      </h1>
+
+                      <p className='text-xs text-gray-400 mt-1'>
+                        Select a playlist
+                      </p>
+                    </div>
+
+                    <h1
+                      onClick={() => { setHidePlaylist(false) }}
+                      className='cursor-pointer text-white text-lg hover:text-gray-300 transition'
+                    >
+                      ✕
                     </h1>
-                    <h1 onClick={() => { setHidePlaylist(false) }}>
-                      X
-                    </h1>
+
                   </div>
-                  <p className='text-xs text-gray-400 mt-1'>
-                    Select a playlist
-                  </p>
+
+                  <div className='mt-4'>
+                    <button
+                      className='bg-green-500 cursor-pointer hover:bg-green-400 active:scale-95 transition-all duration-200 text-black font-semibold px-4 py-2 rounded-full text-sm shadow-lg shadow-green-500/20'
+                    >
+                      Add to Library
+                    </button>
+                  </div>
+
                 </div>
 
                 {/* Playlist */}
