@@ -11,7 +11,7 @@ const Audioplay = () => {
   let { createFav, deletemusic, fav, data, setData } = useContext(authHome)
   let { playing, playRef, audioRef, loaderTime, handleSeek, handleTime, currentTime, duration, setPlaying } = useContext(authControl)
 
-  let { setHidePlaylist, addToLibrary, removeTolibrary, library } = useContext(authProvider)
+  let { setHidePlaylist, addToLibrary, removeTolibrary, library,setHideControl } = useContext(authProvider)
 
 
   async function fetchSingleMusic() {
@@ -76,7 +76,7 @@ const Audioplay = () => {
         <p className='text-xl text-gray-300 mt-3'>{data.artist?.username}</p>
 
         <button onClick={() => { playRef(data?._id) }} className='w-fit px-4 mt-4  py-4 flex items-center justify-center  rounded-full bg-green-500 hover:bg-green-400 transition-all duration-300 font-semibold text-black cursor-pointer'>
-          {playing === data?._id ? (<RiPauseFill className='text-white cursor-pointer w-7 h-7' />) : (<RiPlayFill className='text-white cursor-pointer w-7 h-7' />)
+          {playing === data?._id ? (<RiPauseFill onClick={()=>{setHideControl(true)}} className='text-white cursor-pointer w-7 h-7' />) : (<RiPlayFill onClick={()=>{setHideControl(false)}} className='text-white cursor-pointer w-7 h-7' />)
           }
         </button>
         <div className="flex items-center justify-center gap-4 mt-8">
@@ -149,7 +149,7 @@ const Audioplay = () => {
           </div>
         </div>
         
-        <div className={`flex items-center  gap-2 justify-center pt-10`}>
+        {/* <div className={`flex items-center  gap-2 justify-center pt-10`}>
           {
             playing === data._id && (
               <>
@@ -158,7 +158,7 @@ const Audioplay = () => {
               </>
             )
           }
-        </div>
+        </div> */}
 
       </div>
     </>
