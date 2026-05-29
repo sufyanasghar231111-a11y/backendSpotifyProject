@@ -3,10 +3,12 @@ import React, { useContext } from 'react'
 import { authHome } from '../component/contextapi/HomeContext'
 import Input from './Input'
 import { authControl } from '../component/contextapi/AudioControl'
+import { authProvider } from '../component/contextapi/AuthContext'
 
 const LikeSong = () => {
-  let { playing, playRef, audioRef, setPlaying, loaderTime, handleTime, duration, currentTime ,handleSeek} = useContext(authControl)
+  let { playing, playRef, audioRef, setPlaying, loaderTime, handleTime, duration, currentTime } = useContext(authControl)
   let { fav,deletemusic } = useContext(authHome)
+  let {setHideControl}=useContext(authProvider)
 
   return (
     <div>
@@ -72,11 +74,11 @@ const LikeSong = () => {
                         onClick={() => playRef(music?._id)}
                         className='absolute inset-0 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl scale-0 max-sm:scale-100 group-hover:scale-100 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 active:scale-95' >
                         {playing === music._id ? (
-                          <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
+                          <svg onClick={()=>{setHideControl(true)}} className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
                             <path fillRule='evenodd' d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z' clipRule='evenodd' />
                           </svg>
                         ) : (
-                          <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
+                          <svg onClick={()=>{setHideControl(false)}} className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
                             <path fillRule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z' clipRule='evenodd' />
                           </svg>
                         )}
@@ -111,10 +113,7 @@ const LikeSong = () => {
                         {Math.floor((duration[music._id] || 0) / 60)}:{String(Math.floor((duration[music._id] || 0) % 60)).padStart(2, '0')}
                       </span>
 
-                      {playing === music._id && (
-                        
-                        <Input key={music._id} duration={duration} handleTime={handleTime} handleSeek={handleSeek} currentTime={currentTime}  music={music} />
-                      )}
+                      
 
                       {/* Delete/Like Button */}
                       <button

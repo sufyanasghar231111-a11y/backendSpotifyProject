@@ -25,11 +25,12 @@ const AudioControl = ({children}) => {
     if (playing === id) {
       if (audio.paused) {
         audio.play()
-        setPlaying(true)
+        setPlaying(id)
+        
       }
       else {
         audio.pause()
-        setPlaying(false)
+        setPlaying(null)
       }
     }
     else {

@@ -47,7 +47,9 @@ function Home() {
       </div>
       {/* footer */}
       <footer>
+
      <Footer />
+     
       </footer>
     </div>
   )
