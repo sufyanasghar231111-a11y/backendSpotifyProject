@@ -59,7 +59,7 @@ async function getMusic(req,res){
       const limit= 8;
       const skip=(page-1)*limit
       let filter={}
-      const search=req.query.search
+      const search=req.query.search 
       const genre=req.query.genre
 
       if(search){
@@ -69,7 +69,6 @@ async function getMusic(req,res){
       if(genre){
         filter.genre=genre
       }
-      
       
       const music=await musicSchema
       .find(filter).populate('artist', 'username email')
