@@ -1,29 +1,23 @@
 import React, { useContext } from 'react'
 import { RiChromeLine, RiHome4Fill, RiHome5Line, RiPauseFill, RiPlayFill, RiSearchLine, RiSpotifyFill } from '@remixicon/react'
 import { Link, Outlet } from 'react-router-dom'
-import { authHome } from '../contextapi/HomeContext'
 import Logout from './Logout'
 import Left from './2side/Left'
 import Right from './2side/Right'
 import { authProvider } from '../contextapi/AuthContext'
-import { authControl } from '../contextapi/AudioControl'
 import AddToPlaylist from '../../like/AddToPlaylist'
 import AlbumToPlaylist from '../../like/AlbumToPlaylist'
 import SureForLogOut from '../login/SureForLogOut'
 import UserProfile from '../login/UserProfile'
 import UpdateProfile from '../login/UpdateProfile'
+import Footer from './2side/Footer'
+import Nav from './2side/Nav'
 
 
 function Home() {
 
-  let { user, hideplay, setHidePlay, handleCreatePlaylist, name, setName, hideControl, detailData } = useContext(authProvider)
-  let { setHidepro, music } = useContext(authHome)
-  let { playing, currentTime, duration, handleSeek } = useContext(authControl)
-
-
-  let fetchname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
-
-
+  let { hideplay, setHidePlay, handleCreatePlaylist, name, setName, detailData } = useContext(authProvider)
+ 
   return (
     <div className='w-full relative '>
       <SureForLogOut />
@@ -52,80 +46,16 @@ function Home() {
           </>
         )
       }
-      <div className='flex lg:px-10 px-5 md:px-7 max-sm:px-3.5  py-2  relative items-center justify-between gap-2 max-sm:gap-1'>
-        <div className='flex items-center gap-6 max-sm:gap-2'>
-          <RiSpotifyFill className='w-10 max-sm:w-6 max-sm:h-6 h-10' />
-          <div className='flex items-center gap-4 max-sm:gap-2'>
-            <Link to='/' className='px-2 py-2 max-sm:px-1 max-sm:py-1 rounded-full bg-[#282828]'><RiHome4Fill className='lg:w-8 md:w-6 w-5 h-5 lg:h-8 md:h-6 max-sm:w-5 max-sm:h-5 text-white' /></Link>
-            <div className='w-100 max-sm:w-50  flex bg-[#282828] items-center gap-2 max-sm:gap-1 px-2.5 max-sm:px-1 max-sm:py-1  py-3 rounded-full'>
-              <div>
-                <RiSearchLine className='text-[#898881] max-sm:w-4 max-sm:h-4' />
-              </div>
-              <input type="text" className='outline-0 rounded-full max-sm:text-sm w-full px-1.5 ' placeholder='What you want to play? ' />
-              <div className='border-l  px-2 border-[#706e6e]'>
-                <RiChromeLine className='text-[#898881] max-sm:w-4 max-sm:h-4' />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div onClick={() => { setHidepro(prev => !prev) }} className=' bg-red-400 overflow-hidden  flex items-center justify-center relative cursor-pointer  font-semibold rounded-full max-sm:w-5 max-sm:text-[9px] max-sm:h-5 w-9 h-9'>
-          <span className='absolute z-0 text-white   '>
-            {fetchname}
-          </span>
-          {user?.pfp && 
-          (
 
-            <img src={user?.pfp} className='absolute inset-0 w-full h-full scale-110  object-cover z-10' alt="" />
-          )
-          }
-
-        </div>
-        <Logout />
-      </div>
+      <Nav />
+      
       <div className='flex relative px-2 gap-3 justify-between w-full'>
         <Left />
-
         <Right />
-
       </div>
-      <div className='flex items-center justify-center '>
-        {
-          hideControl ? (
-            <div className='flex items-center gap-1 pt-8'>
-              <h1 className='text-xs font-mono text-gray-400 w-12 text-right select-none'>00:00</h1>
-              <input type="range" disabled className="cursor-not-allowed opacity-50 h-1.5 bg-gray-700 rounded-lg appearance-none " />
-              <h1 className='text-xs font-mono text-gray-400 w-12 text-right select-none'>00:00</h1>
-
-            </div>
-          ) : (
-            <div className='flex items-center gap-25 pt-5 justify-between'>
-              {
-                music.map((dataId) => {
-                  return <>
-                    {playing === dataId._id && (
-                      <>
-                      <div className='-pt-10'>
-                        <h1 className='text-green-500 font-mono'>{dataId.title}</h1>
-                        <h1 className='text-sm text-[#807f7f] font-mono'>{dataId.artist?.username}</h1>
-                      </div>
-                      <div className='flex items-center justify-center gap-3'>
-                        {/* <div onClick={()=>{playRef(dataId._id)}} className='flex items-center justify-center gap-1'>
-                          {playing === dataId._id ? (<RiPauseFill  onClick={()=>{setHideControl(true)}} />):(<RiPlayFill onClick={()=>{setHideControl(true)}}  />)}
-                        </div> */}
-                        <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((currentTime[dataId._id] || 0) / 60)}: {String(Math.floor((currentTime[dataId._id] || 0)) % 60).padStart(2, '0')}</h1>
-                        <input type="range" name="music" className='h-1.5 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-green-500 hover:accent-green-400' onChange={(e) => { handleSeek(e, dataId._id) }} value={currentTime[dataId?._id] || 0} min='0' max={duration[dataId?._id] || 0} />
-                        <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((duration[dataId._id] || 0) / 60)}: {String(Math.floor((duration[dataId._id] || 0)) % 60).padStart(2, '0')}</h1>
-                      </div>
-
-                      </>
-                    )}
-                  </>
-                })
-              }
-            </div>
-          )
-        }
-      </div>
+      <footer>
+     <Footer />
+      </footer>
     </div>
   )
 }

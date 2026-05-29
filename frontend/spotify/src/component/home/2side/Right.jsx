@@ -78,7 +78,7 @@ const Right = () => {
                         setPlaying(null)
                         currentTime(0)
                         duration(0)
-                      }} onTimeUpdate={() => { handleTime(item._id) }} onLoadedMetadata={() => { loaderTime(item._id) }} src={item.uri} type='audio/mp3' controls className='w-full mt-2 ' />
+                      }} onTimeUpdate={() => { handleTime(item._id) }} onLoadedMetadata={() => { loaderTime(item._id) }} src={item.uri} type='audio/mp3' controls className='w-full mt-2' />
                       <div onClick={() => { playRef(item._id) }} className='absolute bottom-3 right-3
               flex items-center justify-center
               w-12 h-12 rounded-full hover:bg-green-600 bg-green-500
