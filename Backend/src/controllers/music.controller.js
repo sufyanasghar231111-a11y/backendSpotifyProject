@@ -58,12 +58,23 @@ async function getMusic(req,res){
   const page= parseInt(req.query.page) || 1
       const limit= 8;
       const skip=(page-1)*limit
-  
+      let filter={}
+      const search=req.query.search
+      const genre=req.query.genre
+
+      if(search){
+        filter.title={ $regex: search , $options:'i' }
+      }
+
+      if(genre){
+        filter.genre=genre
+      }
+      
+      
       const music=await musicSchema
-      .find().populate('artist', 'username email')
+      .find(filter).populate('artist', 'username email')
       .skip(skip)
       .limit(limit)
-  
   
       res.status(200).json({
         message:"Music fetched successfully",
