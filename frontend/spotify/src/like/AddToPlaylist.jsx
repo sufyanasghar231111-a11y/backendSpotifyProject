@@ -10,8 +10,8 @@ const AddToPlaylist = () => {
       {
         hideplaylist && (
           <>
-            <div onClick={() => { setHidePlaylist(false) }} className='w-full cursor-pointer h-full inset-0 bg-black/50 backdrop:backdrop-blur-sm  absolute z-100 '></div>
-            <div className='absolute top-1/2 left-1/2 z-110 -translate-x-1/2 -translate-y-1/2'>
+            <div onClick={() => { setHidePlaylist(false) }} className='w-full cursor-pointer h-full inset-0 bg-black/50 backdrop:backdrop-blur-sm  absolute z-160 '></div>
+            <div className='absolute top-1/2 left-1/2 z-161 -translate-x-1/2 -translate-y-1/2'>
 
               <div className='w-72 max-h-80 overflow-hidden rounded-2xl border border-white/10 bg-[#1e1e1e]/95 backdrop-blur-xl shadow-2xl animate-in fade-in zoom-in-95 duration-200'>
 
