@@ -11,6 +11,8 @@ const HomeContext = ({ children }) => {
   let [hide, setHide] = useState(true)
   let [music, setMusic] = useState([])
      let [data, setData] = useState([])
+     let [searchMusic, setSearchMusic]=useState([])
+     let [Issearch, setIssearch]=useState([])
  
   let silderRef = useRef(null)
 
@@ -19,6 +21,8 @@ const HomeContext = ({ children }) => {
   let [fav, setFav] = useState([])
   let [separate, setSeparate] = useState({})
   let { user, authReady,handleGetPlayList } = useContext(authProvider)
+  let [searchinput,setSearchinput]=useState('')
+  let [loader,setLoader]=useState(false)
 
   //slider
  const  rightRef = useCallback(()=> {
@@ -37,17 +41,34 @@ const HomeContext = ({ children }) => {
   //fetchdata
   async function fetchData() {
     try {
-      let res = await axios.get(`http://localhost:3000/api/creator/getMusic?page=${page}`)
-      setMusic(res.data.music)
+      setLoader(true)
+        if (searchinput.trim()) {
+      setSearchMusic([])
+      setIssearch(true)
+    }
+
+      //  await new Promise((resolve) => setTimeout(resolve, 100));
+      let res = await axios.get(`http://localhost:3000/api/creator/getMusic?page=${page}&search=${searchinput}`)
+      if(searchinput.trim()){
+        setSearchMusic(res.data.music)
+        setIssearch(true)
+      }
+      else{
+        setMusic(res.data.music)
+        setIssearch(false)
+      }
     }
     catch (err) {
       console.log(err);
+    }
+    finally{
+      setLoader(false)
     }
   }
 
   useEffect(() => {
     fetchData()
-  }, [page])
+  }, [page, searchinput])
 
 
 
@@ -140,8 +161,8 @@ const HomeContext = ({ children }) => {
       },[])
       
   const value=useMemo(()=>({
-    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page,patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic ,data, setData,separate, setSeparate,deleteApi
-  }),[hidepro,hide,silderRef,music,page,albumFetch,fav,rightRef,leftRef,createFav,deletemusic,patchApi,data,separate,deleteApi])
+    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page,patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic ,data, setData,separate, setSeparate,deleteApi,searchinput,setSearchinput,searchMusic,Issearch, setIssearch,loader
+  }),[hidepro,hide,silderRef,music,page,albumFetch,fav,rightRef,leftRef,createFav,deletemusic,patchApi,data,separate,deleteApi,searchinput,searchMusic,Issearch,loader])
 
   return (
     <authHome.Provider value={value}>

@@ -35,6 +35,7 @@ const AuthContext = ({ children }) => {
     let imageref=useRef()
     let [library, setLibrary]=useState([])
     let [hideSearch,setHideSearch]=useState(false)
+    
 
     useEffect(()=>{
         if(user?.username){
