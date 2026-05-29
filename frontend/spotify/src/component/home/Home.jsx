@@ -13,6 +13,7 @@ import UpdateProfile from '../login/UpdateProfile'
 import Footer from './2side/Footer'
 import Nav from './2side/Nav'
 import CreatePlaylist from '../../like/CreatePlaylist'
+import SearchBar from '../library/SearchBar'
 
 
 function Home() {
@@ -27,6 +28,7 @@ function Home() {
       <AddToPlaylist />
       {/* updatepfp */}
       <UpdateProfile />
+      <SearchBar />
 
       {
         detailData.album?.map((elem) =>

@@ -34,6 +34,7 @@ const AuthContext = ({ children }) => {
     let [preview, setPreview] = useState(null)
     let imageref=useRef()
     let [library, setLibrary]=useState([])
+    let [hideSearch,setHideSearch]=useState(false)
 
     useEffect(()=>{
         if(user?.username){
@@ -243,8 +244,9 @@ const AuthContext = ({ children }) => {
         }
     }
 
+
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, hideControl, setHideControl, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview,removePfp,imageref, library,addToLibrary ,removeTolibrary,getLibrary}}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, hideControl, setHideControl, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview,removePfp,imageref, library,addToLibrary ,removeTolibrary,getLibrary,hideSearch,setHideSearch}}>
             {children}
         </authProvider.Provider>
     )

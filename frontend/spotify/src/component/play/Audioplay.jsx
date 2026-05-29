@@ -9,7 +9,7 @@ import { authProvider } from '../contextapi/AuthContext'
 const Audioplay = () => {
   let { id } = useParams()
   let { createFav, deletemusic, fav, data, setData } = useContext(authHome)
-  let { playing, playRef, audioRef, loaderTime, handleSeek, handleTime, currentTime, duration, setPlaying } = useContext(authControl)
+  let { playing, playRef, audioRef, loaderTime, handleTime, currentTime, duration, setPlaying } = useContext(authControl)
 
   let { setHidePlaylist, addToLibrary, removeTolibrary, library,setHideControl } = useContext(authProvider)
 
