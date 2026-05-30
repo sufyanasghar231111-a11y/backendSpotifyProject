@@ -62,6 +62,13 @@ const HomeContext = ({ children }) => {
   }
 
   useEffect(() => {
+    if(searchinput.trim().length<2){
+      setSearchMusic([])
+      setIssearch(false)
+      fetchData()
+      return
+    }
+
     const timer = setTimeout(() => {
       fetchData()
     }, 300)
@@ -80,7 +87,9 @@ const HomeContext = ({ children }) => {
   }
 
   useEffect(() => {
+    
     album()
+
   }, [])
 
 

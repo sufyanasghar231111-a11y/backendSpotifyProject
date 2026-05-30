@@ -3,13 +3,19 @@ import { RiChromeLine, RiHome4Fill, RiHome5Line, RiPauseFill, RiPlayFill, RiSear
 import { authHome } from '../../contextapi/HomeContext'
 import { authProvider } from '../../contextapi/AuthContext'
 import Logout from '../Logout'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Nav() {
     let { user,setHideSearch} = useContext(authProvider)
-      let { setHidepro,searchinput,setSearchinput } = useContext(authHome)
+      let { setHidepro,searchinput,setSearchinput ,} = useContext(authHome)
+      let navigate=useNavigate()
      
       let fetchname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
+      function handleSubmit(e){
+        e.preventDefault();
+        if(!searchinput.trim()) return
+        navigate(`/searchmusic/${searchinput}`)
+      }
   return (
         <nav  className='flex lg:px-10 px-5 md:px-7 max-sm:px-3.5  py-2  relative items-center z-150 justify-between gap-2 max-sm:gap-1'>
         <div className='flex items-center gap-6 max-sm:gap-2'>
@@ -20,7 +26,9 @@ function Nav() {
               <div onClick={()=>{setHideSearch(true)}}>
                 <RiSearchLine className='text-[#898881] cursor-pointer hover:scale-105 transition-all duration-300 hover:text-[#dbd9d9] max-sm:w-4 max-sm:h-4' />
               </div>
-              <input type="text" value={searchinput} onChange={(elem)=>{setSearchinput(elem.target.value)}} className='outline-0 rounded-full max-sm:text-sm w-full px-1.5 py-3 ' placeholder='What you want to play? ' />
+              <form onSubmit={handleSubmit} className='w-full'>
+              <input  type="text" value={searchinput} onChange={(elem)=>{setSearchinput(elem.target.value)}} className='outline-0 rounded-full max-sm:text-sm w-full px-1.5 py-3 ' placeholder='What you want to play? ' />
+              </form>
               <div className='border-l  px-2 border-[#706e6e]'>
                 <RiChromeLine className='text-[#898881] max-sm:w-4 max-sm:h-4' />
               </div>

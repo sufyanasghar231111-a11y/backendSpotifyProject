@@ -13,6 +13,7 @@ import Home from './component/home/Home'
 import { authProvider } from './component/contextapi/AuthContext'
 import UserProfile from './component/login/UserProfile'
 import LoadingAnimation from './component/home/LoadingAnimation'
+import Musicforsearch from './component/library/Musicforsearch'
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         <Route path='like' element={ <LikeSong />} />
         <Route path='playlist/:id' element={ <PlayUI  />} />
         <Route path='profile' element={<UserProfile />} />
+        <Route path='searchmusic/:query' element={<Musicforsearch />} />
          </Route>
          </Route>
         </Routes> 
