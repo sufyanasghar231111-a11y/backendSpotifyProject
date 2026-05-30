@@ -7,6 +7,7 @@ async function createRecent(req,res){
         let {songs,album}=req.body || {}
         const create=await recentWatchSchema.create({
             songs,
+            album,
             user:req.user.id
         })
 
@@ -25,7 +26,7 @@ async function createRecent(req,res){
 
 async function getRecent(req,res){
     try{
-        const get=await recentWatchSchema.find().sort({createdAt:-1}).populate('songs').populate({path:'songs', populate:{path:'artist'}})
+        const get=await recentWatchSchema.find().sort({createdAt:-1}).populate('songs').populate({path:'songs', populate:{path:'artist'}}).populate('album')
         res.status(200).json({
             message:"successful get",
             get
@@ -48,7 +49,8 @@ async function updateRecent(req,res){
             ,
             {
                 $pull:
-                {songs:id }
+                {songs:id,
+                    album:id }
             }
         )
       
@@ -56,9 +58,11 @@ async function updateRecent(req,res){
             {user:req.user.id},
             {
                 $push:{
-                    songs:{_id:id}   
+                    songs:id,
+                    album:id  
                 }    
             },
+
             {
                 new:true
             }
@@ -82,7 +86,8 @@ async function deleteRecent(req,res){
             {user:req.user.id},
             {
                 $pull:{
-                    songs:id   
+                    songs:id  ,
+                    album:id 
                 }
             },
             {
