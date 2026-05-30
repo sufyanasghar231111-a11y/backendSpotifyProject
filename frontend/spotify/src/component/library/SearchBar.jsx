@@ -44,7 +44,7 @@ function SearchBar() {
                                                 showsearch?.map((elem) => {
                                                     return <Link key={elem._id} onClick={()=>{setHideSearch(false)
                                                         setSearchinput('')
-                                                    }} to={`/searchmusic/${elem.title}`} >
+                                                    }} to={`/detail/${elem._id}`} >
                                                      <div  className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3  flex items-center'>
                                                         <h1 className='px-2.5 py-2.5 rounded-full bg-[#282828]'><RiSearchLine /></h1>
                                                         <h1 className='font-semibold '>{elem.title}</h1>
