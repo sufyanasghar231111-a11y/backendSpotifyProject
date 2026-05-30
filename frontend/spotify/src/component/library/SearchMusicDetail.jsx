@@ -5,6 +5,7 @@ import {RiAddCircleLine, RiMoreLine, RiPlayCircleFill} from '@remixicon/react'
 
 const SearchMusicDetail = () => {
     const { query } = useParams()
+
     
       let [result, setResults]=useState([])
       useEffect(()=>{
@@ -12,7 +13,7 @@ const SearchMusicDetail = () => {
         const res = await axios.get(
           `http://localhost:3000/api/creator/getMusic?search=${query}`
         )
-    
+
         setResults(res.data.music)
       }
     
