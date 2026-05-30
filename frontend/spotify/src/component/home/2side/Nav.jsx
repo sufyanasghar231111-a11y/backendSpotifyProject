@@ -15,6 +15,8 @@ function Nav() {
         e.preventDefault();
         if(!searchinput.trim()) return
         navigate(`/searchmusic/${searchinput}`)
+        setHideSearch(false)
+        setSearchinput('')
       }
   return (
         <nav  className='flex lg:px-10 px-5 md:px-7 max-sm:px-3.5  py-2  relative items-center z-150 justify-between gap-2 max-sm:gap-1'>
