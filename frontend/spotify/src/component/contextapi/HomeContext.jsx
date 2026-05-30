@@ -10,50 +10,45 @@ const HomeContext = ({ children }) => {
   let [hidepro, setHidepro] = useState(false)
   let [hide, setHide] = useState(true)
   let [music, setMusic] = useState([])
-     let [data, setData] = useState([])
-     let [searchMusic, setSearchMusic]=useState([])
-     let [Issearch, setIssearch]=useState([])
- 
+  let [data, setData] = useState([])
+  let [searchMusic, setSearchMusic] = useState([])
+  let [Issearch, setIssearch] = useState(false)
+
   let silderRef = useRef(null)
 
   const [page, setPage] = useState(1)
   const [albumFetch, setAlbumFetch] = useState([])
   let [fav, setFav] = useState([])
   let [separate, setSeparate] = useState({})
-  let { user, authReady,handleGetPlayList } = useContext(authProvider)
-  let [searchinput,setSearchinput]=useState('')
-  let [loader,setLoader]=useState(false)
+  let { user, authReady, handleGetPlayList } = useContext(authProvider)
+  let [searchinput, setSearchinput] = useState('')
+  let [loader, setLoader] = useState(false)
 
   //slider
- const  rightRef = useCallback(()=> {
+  const rightRef = useCallback(() => {
     silderRef.current.scrollBy({
       left: 300,
       behavior: 'smooth'
     })
-  },[])
+  }, [])
 
-  const  leftRef = useCallback(()=> {
+  const leftRef = useCallback(() => {
     silderRef.current.scrollBy({
       left: -300,
       behavior: 'smooth'
     })
-  },[])
+  }, [])
   //fetchdata
   async function fetchData() {
     try {
       setLoader(true)
-        if (searchinput.trim()) {
-      setSearchMusic([])
-      setIssearch(true)
-    }
 
-      //  await new Promise((resolve) => setTimeout(resolve, 100));
       let res = await axios.get(`http://localhost:3000/api/creator/getMusic?page=${page}&search=${searchinput}`)
-      if(searchinput.trim()){
+      if (searchinput.trim()) {
         setSearchMusic(res.data.music)
         setIssearch(true)
       }
-      else{
+      else {
         setMusic(res.data.music)
         setIssearch(false)
       }
@@ -61,13 +56,16 @@ const HomeContext = ({ children }) => {
     catch (err) {
       console.log(err);
     }
-    finally{
+    finally {
       setLoader(false)
     }
   }
 
   useEffect(() => {
-    fetchData()
+    const timer = setTimeout(() => {
+      fetchData()
+    }, 300)
+    return () => clearInterval(timer)
   }, [page, searchinput])
 
 
@@ -86,7 +84,7 @@ const HomeContext = ({ children }) => {
   }, [])
 
 
- const fetchFav = useCallback( async ()=>{
+  const fetchFav = useCallback(async () => {
     try {
       const res = await axios.get("http://localhost:3000/api/user/getUserFavorite", { withCredentials: true })
       setFav(res.data.getUserFavoritesMusic)
@@ -94,15 +92,15 @@ const HomeContext = ({ children }) => {
     catch (err) {
       console.log(err);
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     if (!authReady || !user) return
     fetchFav()
-    
+
   }, [authReady, user])
 
-  const createFav = useCallback( async (favoriteId)=>{
+  const createFav = useCallback(async (favoriteId) => {
 
     try {
       await axios.patch(`http://localhost:3000/api/user/fav/${favoriteId}`, {}, { withCredentials: true })
@@ -111,10 +109,10 @@ const HomeContext = ({ children }) => {
     catch (err) {
       console.log(err);
     }
-  },[fetchFav])
- 
+  }, [fetchFav])
 
-    const deletemusic = useCallback( async (favoriteId)=>{
+
+  const deletemusic = useCallback(async (favoriteId) => {
     try {
       await axios.delete(`http://localhost:3000/api/user/deleteFav/${favoriteId}`, { withCredentials: true })
       setFav((prev) =>
@@ -130,39 +128,39 @@ const HomeContext = ({ children }) => {
     catch (err) {
       console.log(err);
     }
-  },[])
+  }, [])
 
 
   // playlist patchapi for push and pull for delete api
- 
 
-  const patchApi = useCallback( async (id,dataId)=>{
-          try{
-              const res=await axios.patch(`http://localhost:3000/api/user/updateMusic/${id}/${dataId}`,{}, {withCredentials:true}
-              )
-              setSeparate(res.data.update)
-              await handleGetPlayList()
-          }
-          catch(err){
-              console.log(err);
-          }
-      },[])
 
-      const deleteApi=useCallback(async (id,dataId)=>{
-        try{
-          const res=await axios.delete(`http://localhost:3000/api/user/deleteMusic/${id}/${dataId}`, {withCredentials:true})
-          setSeparate(res.data.deleteParticularMusic)
-          await handleGetPlayList()
-        }
-        catch(err){
-          console.log(err);
-          
-        }
-      },[])
-      
-  const value=useMemo(()=>({
-    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page,patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic ,data, setData,separate, setSeparate,deleteApi,searchinput,setSearchinput,searchMusic,Issearch, setIssearch,loader
-  }),[hidepro,hide,silderRef,music,page,albumFetch,fav,rightRef,leftRef,createFav,deletemusic,patchApi,data,separate,deleteApi,searchinput,searchMusic,Issearch,loader])
+  const patchApi = useCallback(async (id, dataId) => {
+    try {
+      const res = await axios.patch(`http://localhost:3000/api/user/updateMusic/${id}/${dataId}`, {}, { withCredentials: true }
+      )
+      setSeparate(res.data.update)
+      await handleGetPlayList()
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }, [])
+
+  const deleteApi = useCallback(async (id, dataId) => {
+    try {
+      const res = await axios.delete(`http://localhost:3000/api/user/deleteMusic/${id}/${dataId}`, { withCredentials: true })
+      setSeparate(res.data.deleteParticularMusic)
+      await handleGetPlayList()
+    }
+    catch (err) {
+      console.log(err);
+
+    }
+  }, [])
+
+  const value = useMemo(() => ({
+    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic, data, setData, separate, setSeparate, deleteApi, searchinput, setSearchinput, searchMusic, Issearch, setIssearch, loader
+  }), [hidepro, hide, silderRef, music, page, albumFetch, fav, rightRef, leftRef, createFav, deletemusic, patchApi, data, separate, deleteApi, searchinput, searchMusic, Issearch, loader])
 
   return (
     <authHome.Provider value={value}>

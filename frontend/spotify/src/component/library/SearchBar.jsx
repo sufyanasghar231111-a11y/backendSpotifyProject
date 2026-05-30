@@ -52,7 +52,7 @@ function SearchBar() {
                                 }
 
                                 {
-                                    loader && (
+                                    loader && searchinput.trim().length < 2 && (
                                         <div className=' absolute w-100  h-90 z-150 bg-black inset-0'>
                                             <div className='flex flex-col justify-center w-full h-full items-center gap-4'>
                                                 <div className='w-10 h-10 border-[3px] border-[#1DB954] border-t-transparent rounded-full animate-spin'></div>
@@ -65,6 +65,7 @@ function SearchBar() {
                                     )
                                 }
                                 {
+                                    !loader &&
                                     searchinput.trim() !== '' && searchMusic.length === 0 && (
                                         <div> <div className='flex flex-col items-center justify-center py-14 text-center text-[#8a8a8a]'>
 
