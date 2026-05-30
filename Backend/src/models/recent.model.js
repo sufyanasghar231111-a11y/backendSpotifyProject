@@ -1,14 +1,20 @@
 const mongoose=require('mongoose')
 
 const recentSchema=new mongoose.Schema({
-    music:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'music'
-    }],
+      songs:[{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'music'
+        }],
+
     album:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'album'
-    }]
+    }],
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'user'
+    }
 }, {timestamps:true})
 
-module.exports=mongoose.model('recent', recentSchema)
+const recentWatchSchema=mongoose.model('recent', recentSchema)
+module.exports=recentWatchSchema
