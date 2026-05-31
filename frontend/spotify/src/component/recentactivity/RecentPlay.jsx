@@ -6,18 +6,39 @@ const RecentPlay = () => {
   let {recentActivity,deleteData}=useContext(authRecent)
 
   const items=[
-   ...( recentActivity?.[0]?.songs.map(item => ({
-    ...item,
+   ...( recentActivity?.[0]?.songs.map(i => ({
+    ...i.item,
+    createdAt:i.createdAt,
     type:'songs'
    })) || []),
    ...(
-    recentActivity?.[0]?.album.map(item =>({
-      ...item,
+    recentActivity?.[0]?.album.map(i =>({
+      ...i.item,
+    createdAt:i.createdAt,
       type:"album"
     }))
     || [] )
   ]
+
+  function timeAgo(date){
+    let now=new Date()
+    let diff= Math.floor((now-new Date(date))/1000)
+
+    if(diff <60 ) return `${diff} sec ago`
+    let min=Math.floor(diff/60)
+
+    if(min <60 ) return `${min} min ago`
+    let hr=Math.floor(min/60)
+
+    if(hr<24) return `${hr} hr ago`
+
+    let day=Math.floor(hr/24)
+    return `${day} day ago`
+  }
+
+
   return (
+
     <div className="pb-5">
   <h2 className="text-xl font-bold mb-4">Recently Played</h2>
 
@@ -40,7 +61,8 @@ const RecentPlay = () => {
         </div>
         <div className='flex items-center justify-between'>
         <div>
-
+          <div>
+          <div>
         <h3 className="mt-2 truncate">{item.title}</h3>
         <p className="text-sm text-gray-400 truncate">
           {
@@ -53,7 +75,11 @@ const RecentPlay = () => {
             )
           }
         </p>
-
+          </div>
+          <div>
+            {timeAgo(item.createdAt)}
+          </div>
+          </div>
         </div>
         </div>
       </div>
