@@ -79,7 +79,7 @@ async function updateRecent(req,res){
         })
     }
 }
-async function updateRecent(req,res){
+async function updateRecentAlbum(req,res){
     try{
         const {id}=req.params
 
@@ -88,7 +88,7 @@ async function updateRecent(req,res){
             ,
             {
                 $pull:
-                {songs:id}
+                {album:id}
             }
         )
       
@@ -96,7 +96,7 @@ async function updateRecent(req,res){
             {user:req.user.id},
             {
                 $push:{
-                    songs:{
+                    album:{
                         $each:[id],
                         $position:0
                     }
@@ -150,4 +150,4 @@ async function deleteRecent(req,res){
 
 
 
-module.exports={createRecent, getRecent,updateRecent,deleteRecent}
+module.exports={createRecent, getRecent,updateRecent,deleteRecent,updateRecentAlbum}
