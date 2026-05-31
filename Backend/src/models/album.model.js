@@ -17,6 +17,10 @@ const albumModel= new mongoose.Schema({
     artist:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'user'
+    },
+    albumPic:{
+        type:String,
+        default:''
     }
 })
 

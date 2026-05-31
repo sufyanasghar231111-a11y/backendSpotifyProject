@@ -26,7 +26,7 @@ async function createRecent(req,res){
 
 async function getRecent(req,res){
     try{
-        const get=await recentWatchSchema.find().sort({createdAt:-1}).populate('songs').populate({path:'songs', populate:{path:'artist'}}).populate('album')
+        const get=await recentWatchSchema.find().sort({createdAt:-1}).populate('songs').populate({path:'songs', populate:{path:'artist'}}).populate('album').populate({path:"album", populate:{path:'artist'}})
         res.status(200).json({
             message:"successful get",
             get
@@ -79,6 +79,7 @@ async function updateRecent(req,res){
         })
     }
 }
+
 async function deleteRecent(req,res){
     try{
         const {id}=req.params

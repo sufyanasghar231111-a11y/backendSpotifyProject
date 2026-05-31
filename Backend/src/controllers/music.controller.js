@@ -3,6 +3,7 @@ const albumExport=require('../models/album.model')
 const jwt=require('jsonwebtoken')
 const {uploadFile,uploadThumbnail}=require('../services/storage.service')
 const mongoose=require('mongoose')
+const uploadalbumPic=require('../services/album.service')
 
 
 async function music(req,res) {
@@ -36,12 +37,17 @@ async function music(req,res) {
 
 async function Album(req,res){
       let {title, album,artistName} =req.body
-
+      let image=''
+      if(req.file){
+        const result=await uploadalbumPic(req.file.buffer)
+        image=result.url
+      }
       const user= await albumExport.create({
         title,
         artistName,
         album,
-        artist:req.user.id
+        artist:req.user.id,
+        image
       })
 
       res.status(201).json({
@@ -50,7 +56,8 @@ async function Album(req,res){
         title:user.title,
         name:user.artistName,
         album:album,
-        artist:req.user.id
+        artist:req.user.id,
+        image
       })
 }
 
