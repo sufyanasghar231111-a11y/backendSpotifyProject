@@ -5,6 +5,7 @@ import { authProvider } from '../contextapi/AuthContext'
 import { RiArrowLeftSLine, RiArrowRightSLine, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import { Link } from 'react-router-dom'
 import Album from '../home/Album'
+import RecentPlay from '../recentactivity/RecentPlay'
 
 
 const RightsideMusic = () => {
@@ -93,7 +94,9 @@ const RightsideMusic = () => {
               <div className='pt-10 px-2'>
                 <Album />
               </div>
-
+              <div className='pt-10 px-2 '>
+                <RecentPlay />
+              </div>
             </div>
   )
 }
