@@ -49,8 +49,7 @@ async function updateRecent(req,res){
             ,
             {
                 $pull:
-                {songs:id,
-                    album:id }
+                {songs:id}
             }
         )
       
@@ -58,8 +57,49 @@ async function updateRecent(req,res){
             {user:req.user.id},
             {
                 $push:{
-                    songs:id,
-                    album:id  
+                    songs:{
+                        $each:[id],
+                        $position:0
+                    }
+                }    
+            },
+            {
+                new:true
+            }
+        )
+        res.status(200).json({
+            message:"successful update",
+            update
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Error in Res",
+            error:err.message
+        })
+    }
+}
+async function updateRecent(req,res){
+    try{
+        const {id}=req.params
+
+        await recentWatchSchema.findOneAndUpdate(
+            {user:req.user.id}
+            ,
+            {
+                $pull:
+                {songs:id}
+            }
+        )
+      
+        const update=await recentWatchSchema.findOneAndUpdate(
+            {user:req.user.id},
+            {
+                $push:{
+                    songs:{
+                        $each:[id],
+                        $position:0
+                    }
                 }    
             },
 
