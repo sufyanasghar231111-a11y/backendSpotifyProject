@@ -17,8 +17,45 @@ async  function fetchRecent(){
   useEffect(()=>{
     fetchRecent()
   },[])
+
+
+  async function update(id){
+    try{
+      const res=await axios.patch(`http://localhost:3000/api/moreuser/updaterecent/${id}`, {} ,{withCredentials:true})
+      setRecentActivity(res.data.update)
+      await fetchRecent()
+    }
+    catch(err){
+      console.log(err);
+      
+    }
+  }
+  async function updateAlbum(id){
+    try{
+      const res=await axios.patch(`http://localhost:3000/api/moreuser/updaterecent/${id}`, {} ,{withCredentials:true})
+      setRecentActivity(res.data.update)
+      await fetchRecent()
+    }
+    catch(err){
+      console.log(err);
+      
+    }
+  }
+  
+  async function deleteData(id){
+    try{
+      const res=await axios.delete(`http://localhost:3000/api/moreuser/deleterecent/${id}` ,{withCredentials:true})
+      setRecentActivity(res.data.deletere)
+      await fetchRecent()
+    }
+    catch(err){
+      console.log(err);
+      
+    }
+  }
+
   return (
-    <authRecent.Provider value={{recentActivity}}>
+    <authRecent.Provider value={{recentActivity,update,deleteData,updateAlbum}}>
       {children}
     </authRecent.Provider>
   )

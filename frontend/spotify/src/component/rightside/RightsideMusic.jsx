@@ -6,12 +6,14 @@ import { RiArrowLeftSLine, RiArrowRightSLine, RiPauseFill, RiPlayFill } from '@r
 import { Link } from 'react-router-dom'
 import Album from '../home/Album'
 import RecentPlay from '../recentactivity/RecentPlay'
+import { authRecent } from '../contextapi/RecentRoute'
 
 
 const RightsideMusic = () => {
       let { rightRef, leftRef, silderRef, music } = useContext(authHome)
       let { setHideControl } = useContext(authProvider)
       let { playing, setPlaying, audioRef, playRef, loaderTime, handleTime, currentTime, duration } = useContext(authControl)
+      let {update}=useContext(authRecent)
   return (
      <div className='h-[65vh] relative px-8 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>
 
@@ -60,7 +62,9 @@ const RightsideMusic = () => {
                         currentTime(0)
                         duration(0)
                       }} onTimeUpdate={() => { handleTime(item._id) }} onLoadedMetadata={() => { loaderTime(item._id) }} src={item.uri} type='audio/mp3' controls className='w-full mt-2' />
-                      <div onClick={() => { playRef(item._id) }} className='absolute bottom-3 right-3
+                      <div  onClick={() => { playRef(item._id)
+                        update(item._id)
+                       }} className='absolute bottom-3 right-3
               flex items-center justify-center
               w-12 h-12 rounded-full hover:bg-green-600 bg-green-500
               opacity-0 translate-y-4

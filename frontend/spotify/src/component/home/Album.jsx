@@ -2,9 +2,11 @@ import React, {  useContext, useRef } from 'react'
 import { RiArrowLeftSLine, RiArrowRightSLine, RiPlayFill } from '@remixicon/react'
 import { authHome } from '../contextapi/HomeContext'
 import { Link } from 'react-router-dom';
+import { authRecent } from '../contextapi/RecentRoute';
 
 const Album = () => {
   let {albumFetch}=useContext(authHome)
+  let {updateAlbum}=useContext(authRecent)
   
     let sliderRef=useRef(null)
 
@@ -51,7 +53,7 @@ const Album = () => {
             transition-all duration-300 hover:bg-white/10
             p-2 mt-5 cursor-pointer'
           >
-            <div className=' rounded-lg overflow-hidden w-full h-40'>
+            <div onClick={()=>{updateAlbum(item._id)}} className=' rounded-lg overflow-hidden w-full h-40'>
               <Link to={`/albumdetail/${item._id}`}>
               
               <img
