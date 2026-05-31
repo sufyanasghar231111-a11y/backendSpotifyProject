@@ -6,25 +6,27 @@ const RecentPlay = () => {
   let {recentActivity}=useContext(authRecent)
 
   const items=[
-   ( recentActivity?.[0]?.songs.map(item => ({
+   ...( recentActivity?.[0]?.songs.map(item => ({
     ...item,
     type:'songs'
-   }))),
-   (
+   })) || []),
+   ...(
     recentActivity?.[0]?.album.map(item =>({
       ...item,
       type:"album"
     }))
-   )
+    || [] )
   ]
   return (
     <div className="pb-5">
   <h2 className="text-xl font-bold mb-4">Recently Played</h2>
 
   <div className="flex gap-4 overflow-x-auto scrollbar-hide">
-    {items.map((song)=>{
+    {items.map((item)=>{
+      console.log(item);
+      
         return <div
-        key={song._id}
+        key={item._id}
         className="min-w-[180px]  bg-[#181818] p-3 rounded-lg"
       >
         <div className='w-full  h-40 relative '>
@@ -32,16 +34,29 @@ const RecentPlay = () => {
              <RiCloseLine size={20} />
           </div>
         <img
-          src={song.image}
-          alt={song.title}
+          src={item.image || "/default-cover.jpg"}
+          alt={item.title}
           className="w-full h-full object-cover rounded"
         />
         </div>
+        <div className='flex items-center justify-between'>
+        <div>
 
-        <h3 className="mt-2 truncate">{song.title}</h3>
+        <h3 className="mt-2 truncate">{item.title}</h3>
         <p className="text-sm text-gray-400 truncate">
-          {song.artist?.username}
+          {
+            item.type==='songs'? (
+              item.artist?.username
+            )
+            :
+            (
+              item.artistName
+            )
+          }
         </p>
+
+        </div>
+        </div>
       </div>
       })
 }
