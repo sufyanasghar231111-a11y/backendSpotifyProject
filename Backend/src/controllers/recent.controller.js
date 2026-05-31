@@ -26,7 +26,7 @@ async function createRecent(req,res){
 
 async function getRecent(req,res){
     try{
-        const get=await recentWatchSchema.find().sort({createdAt:-1}).populate('songs').populate({path:'songs', populate:{path:'artist'}}).populate('album').populate({path:"album", populate:{path:'artist'}})
+        const get=await recentWatchSchema.find().populate({path:'songs.item', populate:{path:'artist'}}).populate({path:"album.item", populate:{path:'artist'}})
         res.status(200).json({
             message:"successful get",
             get
@@ -49,7 +49,7 @@ async function updateRecent(req,res){
             ,
             {
                 $pull:
-                {songs:id}
+                {songs:{item:id}}
             }
         )
       
@@ -58,7 +58,7 @@ async function updateRecent(req,res){
             {
                 $push:{
                     songs:{
-                        $each:[id],
+                        $each:[{item:id, createdAt:new Date}],
                         $position:0
                     }
                 }    
@@ -79,6 +79,7 @@ async function updateRecent(req,res){
         })
     }
 }
+
 async function updateRecentAlbum(req,res){
     try{
         const {id}=req.params
@@ -88,16 +89,18 @@ async function updateRecentAlbum(req,res){
             ,
             {
                 $pull:
-                {album:id}
+                {album:{item:id}}
             }
         )
       
         const update=await recentWatchSchema.findOneAndUpdate(
             {user:req.user.id},
             {
+                 $pull:
+                {album:{item:id}},
                 $push:{
                     album:{
-                        $each:[id],
+                        $each:[{item:id, createdAt:new Date}],
                         $position:0
                     }
                 }    
@@ -127,8 +130,8 @@ async function deleteRecent(req,res){
             {user:req.user.id},
             {
                 $pull:{
-                    songs:id  ,
-                    album:id 
+                    songs:{item:id}  ,
+                    album:{item:id} 
                 }
             },
             {
@@ -147,7 +150,6 @@ async function deleteRecent(req,res){
         })
     }
 }
-
 
 
 module.exports={createRecent, getRecent,updateRecent,deleteRecent,updateRecentAlbum}
