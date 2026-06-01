@@ -9,8 +9,8 @@ function SearchBar() {
     let { hideSearch, setHideSearch } = useContext(authProvider)
     let { searchMusic, music, Issearch, searchinput, loader,setSearchinput ,searchAlbum} = useContext(authHome)
 
-    let showsearch = searchinput.trim() ? [...searchMusic, ...searchAlbum] : music  
-   
+    let showsearch = searchinput.trim() ? [...searchMusic, ...searchAlbum] : music 
+
 
     return (
         <div>
@@ -44,9 +44,10 @@ function SearchBar() {
                                             {
                                                searchinput.trim().length >1  && (
                                                     showsearch?.map((elem) => {
+                                                         
                                                     return <Link key={elem._id} onClick={()=>{setHideSearch(false)
                                                         setSearchinput('')
-                                                    }} to={`/detail/${elem._id}`} >
+                                                    }} to={`${elem.type==='music'? `/detail/${elem._id}`:`/albumdetail/${elem._id}`}`} >
                                                      <div  className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3  flex items-center'>
                                                         <h1 className='px-2.5 py-2.5 rounded-full bg-[#282828]'><RiSearchLine /></h1>
                                                         <h1 className='font-semibold '>{elem.title}</h1>

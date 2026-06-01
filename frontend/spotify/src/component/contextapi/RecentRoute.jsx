@@ -7,7 +7,6 @@ async  function fetchRecent(){
     try{
       const res=await axios.get('http://localhost:3000/api/moreuser/getrecent', {withCredentials:true})
       setRecentActivity(res.data.get)
-      console.log(res.data.get);
     }
     catch(err){
       console.log(err);
