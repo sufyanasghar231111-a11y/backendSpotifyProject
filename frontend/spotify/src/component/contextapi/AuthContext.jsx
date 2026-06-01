@@ -1,6 +1,7 @@
-import React, { createContext, useEffect, useRef, useState } from 'react'
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { authRecent } from './RecentRoute';
 
 
 export const authProvider = createContext()
@@ -35,6 +36,7 @@ const AuthContext = ({ children }) => {
     let imageref=useRef()
     let [library, setLibrary]=useState([])
     let [hideSearch,setHideSearch]=useState(false)
+    let {fetchRecent}=useContext(authRecent)
     
 
     useEffect(()=>{
@@ -84,6 +86,7 @@ const AuthContext = ({ children }) => {
             setAuthReady(true)
             await handleGetPlayList();
             await getLibrary()
+            await fetchRecent()
 
         }
         catch (e) {

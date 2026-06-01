@@ -8,7 +8,7 @@ function Footer() {
       let {hideControl } = useContext(authProvider)
       
   return (
-    <div>
+    <div className=' '>
          <div className='flex items-center justify-center '>
         {
           hideControl ? (

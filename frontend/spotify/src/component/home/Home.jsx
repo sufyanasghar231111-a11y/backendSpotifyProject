@@ -48,7 +48,7 @@ function Home() {
         <Right />
       </div>
       {/* footer */}
-      <footer>
+      <footer className='w-full h-22 bg-black'>
 
      <Footer />
      

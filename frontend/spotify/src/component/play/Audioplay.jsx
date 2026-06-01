@@ -32,9 +32,11 @@ const Audioplay = () => {
   const isFav = fav.some(user =>
     user.favorite.some(song => song._id === data?._id)
   )
+
   const lib = library.some(user =>
     user.music.some(song => song._id === data?._id)
   )
+  
   return (
     <>
       <div className='relative  h-[70vh] w-[60%] '>

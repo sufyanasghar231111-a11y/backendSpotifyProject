@@ -55,7 +55,7 @@ async  function fetchRecent(){
   }
 
   return (
-    <authRecent.Provider value={{recentActivity,update,deleteData,updateAlbum}}>
+    <authRecent.Provider value={{recentActivity,update,deleteData,updateAlbum,fetchRecent}}>
       {children}
     </authRecent.Provider>
   )
