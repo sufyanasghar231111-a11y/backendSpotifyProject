@@ -8,6 +8,7 @@ const SearchMusicDetail = () => {
 
     
       let [result, setResults]=useState([])
+      let []
       useEffect(()=>{
          async function fetchData() {
         const res = await axios.get(
@@ -19,6 +20,17 @@ const SearchMusicDetail = () => {
     
       fetchData()
       },[query])
+
+      useEffect(()=>{
+        async function fetchAlbum(){
+            const res=await axios.get(`http://localhost:3000/api/creator/allAlbum?search=${query}`)
+
+            setResults(res.data.album)
+        }
+
+        fetchAlbum()
+      },[query])
+
     
   return (
     <div className='h-[65vh] relative px-2 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>
