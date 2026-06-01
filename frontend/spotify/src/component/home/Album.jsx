@@ -24,8 +24,7 @@ const Album = () => {
         })
     }
 
-    let limit= albumFetch.length<8
-    let limit2= albumFetch.length <1
+  
 
     return (
     <div className=' relative'>
@@ -37,9 +36,9 @@ const Album = () => {
          <h1 className='font-semibold text-[#a5a5a5] hover:border-b border-white'>Show all</h1>
         </Link>
         </div>
-        <button disabled={limit2}
+        <button 
         onClick={leftRef}
-        className={` ${limit2 ? 'cursor-pointer':'cursor-not-allowed'} absolute  hover:bg-black/90  -left-5 top-1/2 -translate-y-1/2 z-20
+        className={` cursor-pointer absolute  hover:bg-black/90  -left-5 top-1/2 -translate-y-1/2 z-20
         w-10 h-10 rounded-full bg-black/70 text-white
         flex items-center justify-center`}
       >
@@ -47,16 +46,16 @@ const Album = () => {
       </button>
          <div ref={sliderRef} className='flex relative  overflow-x-auto scroll'>
         {albumFetch.map((item) => (
-          <div
+          <div onClick={()=>{updateAlbum(item._id)}}
             key={item._id}
             className='shrink-0 group w-44 rounded-lg
             transition-all duration-300 hover:bg-white/10
             p-2 mt-5 cursor-pointer'
           >
-            <div onClick={()=>{updateAlbum(item._id)}} className=' rounded-lg overflow-hidden w-full h-40'>
+            <div  className=' rounded-lg overflow-hidden w-full h-40'>
               <Link to={`/albumdetail/${item._id}`}>
               
-              <img
+              <img 
                 className='w-full h-full object-cover'
                 src='https://i.scdn.co/image/ab67616d0000b2736fd2559f0879066633e56c42'
                 alt=''
@@ -76,9 +75,9 @@ const Album = () => {
         ))}
       
        </div>
-        <button disabled={limit}
+        <button 
         onClick={rightRef}
-        className={` ${limit ?'cursor-pointer':'cursor-not-allowed'} absolute  hover:bg-black/90 -right-6  top-1/2 -translate-y-1/2 z-20
+        className={` cursor-pointer absolute  hover:bg-black/90 -right-6  top-1/2 -translate-y-1/2 z-20
         w-10 h-10 rounded-full bg-black/70 text-white
         flex items-center justify-center` }
       >
