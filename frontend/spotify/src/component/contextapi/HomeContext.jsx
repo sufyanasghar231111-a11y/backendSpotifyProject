@@ -41,7 +41,8 @@ const HomeContext = ({ children }) => {
   //fetchdata
   async function fetchData() {
     try {
-      setLoader(true)
+        setLoader(true)
+        
       let res = await axios.get(`http://localhost:3000/api/creator/getMusic?page=${page}&search=${searchinput}`)
       if (searchinput.trim()) {
         setSearchMusic(res.data.music)
@@ -73,6 +74,7 @@ const HomeContext = ({ children }) => {
       fetchData()
     }, 300)
     return () => clearInterval(timer)
+
   }, [page, searchinput])
 
 

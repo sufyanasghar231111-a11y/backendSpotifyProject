@@ -41,7 +41,8 @@ function SearchBar() {
                                     ) : (
                                         <>
                                             {
-                                                showsearch?.map((elem) => {
+                                               searchinput.trim().length >1  && (
+                                                    showsearch?.map((elem) => {
                                                     return <Link key={elem._id} onClick={()=>{setHideSearch(false)
                                                         setSearchinput('')
                                                     }} to={`/detail/${elem._id}`} >
@@ -51,13 +52,14 @@ function SearchBar() {
                                                     </div>
                                                         </Link>
                                                 })
+                                                )
                                             }
                                         </>
                                     )
                                 }
 
                                 {
-                                    loader && (
+                                    loader && searchMusic.length===0  && searchinput.trim().length<2 && (
                                         <div className=' absolute w-100  h-90 z-150 bg-black inset-0'>
                                             <div className='flex flex-col justify-center w-full h-full items-center gap-4'>
                                                 <div className='w-10 h-10 border-[3px] border-[#1DB954] border-t-transparent rounded-full animate-spin'></div>

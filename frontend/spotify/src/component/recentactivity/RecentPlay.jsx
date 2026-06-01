@@ -62,7 +62,6 @@ const RecentPlay = () => {
         <div className='flex items-center justify-between'>
         <div>
           <div>
-          <div>
         <h3 className="mt-2 truncate">{item.title}</h3>
         <p className="text-sm text-gray-400 truncate">
           {
@@ -76,11 +75,10 @@ const RecentPlay = () => {
           }
         </p>
           </div>
-          <div>
+        </div>
+          <div className='truncate text-sm'>
             {timeAgo(item.createdAt)}
           </div>
-          </div>
-        </div>
         </div>
       </div>
       })
