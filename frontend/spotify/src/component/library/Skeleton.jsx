@@ -6,26 +6,25 @@ const Skeleton = () => {
 
   if (!skeletonLoader) return null
 
+  
+
   return (
-    <div className="absolute inset-0 bg-black w-full h-full z-[100]">
-      {[1, 2, 3, 4].map((item) => (
+    <div className=" absolute inset-0 h-screen overflow-hidden bg-[#282828] z-[100] p-4">
+      {[1, 2, 3, 4, 5].map((item) => (
         <div
           key={item}
           className="flex items-center justify-between px-4 py-3 rounded-lg animate-pulse"
         >
           <div className="flex items-center gap-4">
-            {/* Image */}
-            <div className="w-20 h-20 bg-gray-700 rounded-lg"></div>
+            <div className="w-20 h-20 bg-[#505050] rounded-lg"></div>
 
-            {/* Text */}
             <div>
-              <div className="h-6 w-48 bg-gray-700 rounded"></div>
-              <div className="h-4 w-24 bg-gray-700 rounded mt-3"></div>
+              <div className="h-6 w-48 bg-[#505050] rounded"></div>
+              <div className="h-4 w-24 bg-[#505050] rounded mt-3"></div>
             </div>
           </div>
 
-          {/* Right side icon/button */}
-          <div className="w-8 h-8 bg-gray-700 rounded-full"></div>
+          <div className="w-8 h-8 bg-[#505050] rounded-full"></div>
         </div>
       ))}
     </div>
