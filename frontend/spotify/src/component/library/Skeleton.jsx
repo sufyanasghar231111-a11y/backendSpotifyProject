@@ -10,7 +10,7 @@ const Skeleton = () => {
 
   return (
     <div className=" absolute inset-0 h-screen overflow-hidden bg-[#282828] z-[100] p-4">
-      {[1, 2, 3, 4, 5].map((item) => (
+      {[1, 2, 3, 4, 5, 6].map((item) => (
         <div
           key={item}
           className="flex items-center justify-between px-4 py-3 rounded-lg animate-pulse"

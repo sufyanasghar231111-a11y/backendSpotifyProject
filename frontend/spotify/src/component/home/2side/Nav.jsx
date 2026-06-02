@@ -20,9 +20,9 @@ function Nav() {
   setSkeletonLoader(true);
   setHideSearch(false);
   setSearchinput('');
+  navigate(`/searchmusic/${query}`);
 
   setTimeout(() => {
-    navigate(`/searchmusic/${query}`);
     setSkeletonLoader(false);
   }, 1500);
 }

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { RiAddCircleLine, RiMoreLine, RiPlayCircleFill } from '@remixicon/react'
 import { useContext } from 'react'
 import { authHome } from '../contextapi/HomeContext'
@@ -41,6 +41,7 @@ const SearchMusicDetail = () => {
             <Skeleton />
             <div className='flex flex-col  pb-6 py-2'>
                 {
+
                     results.map((elem) => {
                         return <>
                             {elem.type === 'music' ? (
@@ -61,7 +62,40 @@ const SearchMusicDetail = () => {
                                 </div>
                             ) : (
                                 <div>
-                                    Hello
+                                    <div
+                                        key={elem._id}
+                                        className="flex hover:bg-[#1F1F1F] cursor-pointer px-4 py-3 rounded-lg items-center justify-between"
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <div className="rounded-lg w-20 h-20 overflow-hidden">
+                                                <img
+                                                    className="w-full h-full object-cover"
+                                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQn2nmWoa-66Yo5xylQwIiAxtvMrK2pB2l4CA&s'
+                                                    alt={elem.title}
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <h1 className="text-[24px] font-bold">{elem.title}</h1>
+                                                <h1 className="text-sm text-gray-400">
+                                                    Album • {elem.songs?.length || 0} songs
+                                                </h1>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center gap-4">
+
+                                            <RiAddCircleLine className="text-[#a1a0a0] w-6 h-6 cursor-pointer hover:scale-110 transition" />
+
+                                            <RiMoreLine className="text-[#a1a0a0] w-6 h-6 cursor-pointer hover:scale-110 transition" />
+                                            <Link to={}>
+
+                                            </Link>
+                                            <button className="text-sm px-3 py-1 border border-gray-600 rounded-full hover:border-white">
+                                                View
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             )}
                         </>

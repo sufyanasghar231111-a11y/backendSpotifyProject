@@ -20,8 +20,8 @@ function SearchBar() {
          setSkeletonLoader(true)
         setHideSearch(false)
         setSearchinput('')
+        navigate(`/searchmusic/${searchinput}`)
         setTimeout(()=>{
-          navigate(`/searchmusic/${searchinput}`)
           setSkeletonLoader(false)
         },1500)
        
