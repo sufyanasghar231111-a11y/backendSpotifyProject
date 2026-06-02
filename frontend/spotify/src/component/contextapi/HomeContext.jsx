@@ -25,6 +25,7 @@ const HomeContext = ({ children }) => {
   let [searchinput, setSearchinput] = useState('')
   let [loader, setLoader] = useState(false)
    let [results, setResults]=useState([])
+   let [skeletonLoader,setSkeletonLoader]=useState(false)
 
   //slider
   const rightRef = useCallback(() => {
@@ -194,9 +195,11 @@ const HomeContext = ({ children }) => {
     }
   }, [])
 
+  
+
   const value = useMemo(() => ({
-    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic, data, setData, separate, setSeparate, deleteApi, searchinput, setSearchinput, searchMusic, Issearch, setIssearch, loader,searchAlbum,results, setResults
-  }), [hidepro, hide, silderRef, music, page, albumFetch, fav, rightRef, leftRef, createFav, deletemusic, patchApi, data, separate, deleteApi, searchinput, searchMusic, Issearch, loader,searchAlbum,results])
+    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic, data, setData, separate, setSeparate, deleteApi, searchinput, setSearchinput, searchMusic, Issearch, setIssearch, loader,searchAlbum,results, setResults,skeletonLoader,setSkeletonLoader
+  }), [hidepro, hide, silderRef, music, page, albumFetch, fav, rightRef, leftRef, createFav, deletemusic, patchApi, data, separate, deleteApi, searchinput, searchMusic, Issearch, loader,searchAlbum,results,skeletonLoader])
 
   return (
     <authHome.Provider value={value}>

@@ -7,11 +7,25 @@ import { Link, useNavigate } from 'react-router-dom'
 function SearchBar() {
 
     let { hideSearch, setHideSearch } = useContext(authProvider)
-    let { searchMusic, music, Issearch, searchinput, loader, searchAlbum } = useContext(authHome)
+    let { searchMusic, music, Issearch, searchinput, loader, searchAlbum,setSkeletonLoader,setSearchinput } = useContext(authHome)
 
     let showsearch = searchinput.trim() ? [...searchMusic, ...searchAlbum] : music
 
     let navigate = useNavigate()
+
+
+    function handleSubmit(){
+        if(!searchinput.trim()) return
+
+         setSkeletonLoader(true)
+        setHideSearch(false)
+        setSearchinput('')
+        setTimeout(()=>{
+          navigate(`/searchmusic/${searchinput}`)
+          setSkeletonLoader(false)
+        },1500)
+       
+      }
 
     return (
         <div>
@@ -46,14 +60,10 @@ function SearchBar() {
                                                 searchinput.trim().length > 1 && (
                                                     showsearch?.map((elem) => {
 
-                                                        return <div onClick={() => {
-                                                            navigate(`/searchmusic/${elem.title}`)
-                                                            setHideSearch(false)
-                                                        }} className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3  flex items-center'>
+                                                        return <div onClick={handleSubmit} className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3  flex items-center'>
                                                             <h1 className='px-2.5 py-2.5 rounded-full bg-[#282828]'><RiSearchLine /></h1>
                                                             <h1 className='font-semibold '>{elem.title}</h1>
                                                         </div>
-
                                                     })
                                                 )
                                             }
@@ -75,7 +85,7 @@ function SearchBar() {
                                     )
                                 }
                                 {
-                                    !loader &&
+                                  
                                     searchinput.trim() !== '' && searchMusic.length === 0 && searchAlbum.length === 0 && (
                                         <div> <div className='flex flex-col items-center justify-center py-14 text-center text-[#8a8a8a]'>
 

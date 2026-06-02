@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios'
 import {useParams} from 'react-router-dom'
 import {RiAddCircleLine, RiMoreLine, RiPlayCircleFill} from '@remixicon/react'
 import { useContext } from 'react'
 import { authHome } from '../contextapi/HomeContext'
+import Skeleton from './Skeleton'
 
 const SearchMusicDetail = () => {
     const { query } = useParams()
     let {results, setResults}=useContext(authHome)
-
    
       useEffect(()=>{
          async function fetchData() {
+             
         const music = await axios.get(
           `http://localhost:3000/api/creator/getMusic?search=${query}`
         )
-
-        const album=await axios.get(`http://localhost:3000/api/creator/allAlbum?search=${query}`)
+            
+            const album=await axios.get(`http://localhost:3000/api/creator/allAlbum?search=${query}`)
         
         const musicFetch=music.data.music.map(i=>({
             ...i,
@@ -37,6 +38,7 @@ const SearchMusicDetail = () => {
 
   return (
     <div className='h-[65vh] relative px-2 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>
+      <Skeleton />
         <div className='flex flex-col  pb-6 py-2'>
             {
                 results.map((elem)=>{

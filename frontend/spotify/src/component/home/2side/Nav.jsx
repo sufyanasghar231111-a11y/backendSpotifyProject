@@ -7,18 +7,27 @@ import { Link, useNavigate } from 'react-router-dom'
 
 function Nav() {
     let { user,setHideSearch} = useContext(authProvider)
-      let { setHidepro,searchinput,setSearchinput } = useContext(authHome)
+      let { setHidepro,searchinput,setSearchinput ,setSkeletonLoader} = useContext(authHome)
       let navigate=useNavigate()
      
       let fetchname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
-      function handleSubmit(e){
-        e.preventDefault();
-        if(!searchinput.trim()) return
-        navigate(`/searchmusic/${searchinput}`)
-        setHideSearch(false)
-        setSearchinput('')
-      }
-      
+      function handleSubmit(e) {
+  e.preventDefault();
+
+  const query = searchinput.trim();
+  if (!query) return;
+
+  setSkeletonLoader(true);
+  setHideSearch(false);
+  setSearchinput('');
+
+  setTimeout(() => {
+    navigate(`/searchmusic/${query}`);
+    setSkeletonLoader(false);
+  }, 1500);
+}
+
+
   return (
         <nav  className='flex lg:px-10 px-5 md:px-7 max-sm:px-3.5  py-2  relative items-center z-150 justify-between gap-2 max-sm:gap-1'>
         <div className='flex items-center gap-6 max-sm:gap-2'>
