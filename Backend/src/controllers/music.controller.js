@@ -108,12 +108,18 @@ async function single(req,res) {
 async function allAlbum(req,res){
 
   try{
-
     const  page= parseInt(req.query.page) || 1
     const limit=8
     const skip=(page-1)*limit
+    
+    let filter={}
+    let search=req.query.search
 
-    const album=await albumExport.find().populate('album', 'uri title').populate('artist', 'username')
+    if(search){
+      filter.title={$regex:search, $options:'i'}
+    }
+
+    const album=await albumExport.find(filter).populate('album', 'uri title').populate('artist', 'username')
     .skip(skip)
     .limit(limit)
 

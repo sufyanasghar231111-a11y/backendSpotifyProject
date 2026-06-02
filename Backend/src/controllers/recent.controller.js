@@ -64,7 +64,7 @@ async function updateRecent(req,res){
                 }    
             },
             {
-                new:true
+                returnDocument:'after'
             }
         )
         res.status(200).json({
@@ -96,8 +96,7 @@ async function updateRecentAlbum(req,res){
         const update=await recentWatchSchema.findOneAndUpdate(
             {user:req.user.id},
             {
-                 $pull:
-                {album:{item:id}},
+                 
                 $push:{
                     album:{
                         $each:[{item:id, createdAt:new Date}],
@@ -107,7 +106,7 @@ async function updateRecentAlbum(req,res){
             },
 
             {
-                new:true
+                returnDocument:'after'
             }
         )
         res.status(200).json({
@@ -135,7 +134,7 @@ async function deleteRecent(req,res){
                 }
             },
             {
-                new:true
+                returnDocument:'after'
             }
         )
         res.status(200).json({
