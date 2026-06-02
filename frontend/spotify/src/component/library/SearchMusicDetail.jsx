@@ -88,12 +88,12 @@ const SearchMusicDetail = () => {
                                             <RiAddCircleLine className="text-[#a1a0a0] w-6 h-6 cursor-pointer hover:scale-110 transition" />
 
                                             <RiMoreLine className="text-[#a1a0a0] w-6 h-6 cursor-pointer hover:scale-110 transition" />
-                                            <Link to={}>
+                                            <Link to={`/albumdetail/${elem._id}`}>
 
-                                            </Link>
                                             <button className="text-sm px-3 py-1 border border-gray-600 rounded-full hover:border-white">
                                                 View
                                             </button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>

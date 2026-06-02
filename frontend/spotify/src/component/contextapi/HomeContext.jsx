@@ -24,8 +24,8 @@ const HomeContext = ({ children }) => {
   let { user, authReady, handleGetPlayList } = useContext(authProvider)
   let [searchinput, setSearchinput] = useState('')
   let [loader, setLoader] = useState(false)
-   let [results, setResults]=useState([])
-   let [skeletonLoader,setSkeletonLoader]=useState(false)
+  let [results, setResults] = useState([])
+  let [skeletonLoader, setSkeletonLoader] = useState(false)
 
   //slider
   const rightRef = useCallback(() => {
@@ -44,8 +44,8 @@ const HomeContext = ({ children }) => {
   //fetchdata
   async function fetchData() {
     try {
-        setLoader(true)
-        
+      setLoader(true)
+
       let res = await axios.get(`http://localhost:3000/api/creator/getMusic?page=${page}&search=${searchinput}`)
       if (searchinput.trim()) {
         setSearchMusic(res.data.music)
@@ -59,14 +59,14 @@ const HomeContext = ({ children }) => {
     catch (err) {
       console.log(err);
     }
-    finally{
+    finally {
       setLoader(false)
     }
-   
+
   }
 
   useEffect(() => {
-    if(searchinput.trim().length<2){
+    if (searchinput.trim().length < 2) {
       setSearchMusic([])
       setIssearch(false)
       fetchData()
@@ -87,36 +87,36 @@ const HomeContext = ({ children }) => {
 
       setLoader(true)
       const res = await axios.get(`http://localhost:3000/api/creator/allAlbum?search=${searchinput}`)
-      
-      if(searchinput.trim()){
+
+      if (searchinput.trim()) {
         setSearchAlbum(res.data.album)
         setIssearch(true)
       }
-      else{
+      else {
         setAlbumFetch(res.data.album)
         setIssearch(false)
       }
     } catch (err) {
       console.log(err);
     }
-    finally{
+    finally {
       setLoader(false)
     }
   }
 
   useEffect(() => {
-    if(searchinput.trim().length<2){
+    if (searchinput.trim().length < 2) {
       setSearchAlbum([])
       setIssearch(false)
       album()
-      return 
+      return
     }
 
-    const timer=setTimeout(()=>{
+    const timer = setTimeout(() => {
       album()
-    },500)
+    }, 500)
 
-    return ()=> clearTimeout(timer)
+    return () => clearTimeout(timer)
 
   }, [searchinput])
 
@@ -195,11 +195,11 @@ const HomeContext = ({ children }) => {
     }
   }, [])
 
-  
+
 
   const value = useMemo(() => ({
-    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic, data, setData, separate, setSeparate, deleteApi, searchinput, setSearchinput, searchMusic, Issearch, setIssearch, loader,searchAlbum,results, setResults,skeletonLoader,setSkeletonLoader
-  }), [hidepro, hide, silderRef, music, page, albumFetch, fav, rightRef, leftRef, createFav, deletemusic, patchApi, data, separate, deleteApi, searchinput, searchMusic, Issearch, loader,searchAlbum,results,skeletonLoader])
+    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic, data, setData, separate, setSeparate, deleteApi, searchinput, setSearchinput, searchMusic, Issearch, setIssearch, loader, searchAlbum, results, setResults, skeletonLoader, setSkeletonLoader
+  }), [hidepro, hide, silderRef, music, page, albumFetch, fav, rightRef, leftRef, createFav, deletemusic, patchApi, data, separate, deleteApi, searchinput, searchMusic, Issearch, loader, searchAlbum, results, skeletonLoader])
 
   return (
     <authHome.Provider value={value}>

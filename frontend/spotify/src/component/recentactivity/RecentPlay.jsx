@@ -25,6 +25,7 @@ const RecentPlay = () => {
   function timeAgo(date){
     let now=new Date()
     let diff= Math.floor((now-new Date(date))/1000)
+    
 
     if(diff <60 ) return `${diff} sec ago`
     let min=Math.floor(diff/60)
