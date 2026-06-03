@@ -3,11 +3,14 @@ import { authProvider } from '../contextapi/AuthContext'
 import { RiSearchLine } from '@remixicon/react'
 import { authHome } from '../contextapi/HomeContext'
 import { Link, useNavigate } from 'react-router-dom'
+import { authSearch } from '../contextapi/RecentSearchRoute'
+import RecentSearch from '../recentsearch/RecentSearch'
 
 function SearchBar() {
 
     let { hideSearch, setHideSearch } = useContext(authProvider)
-    let { searchMusic, music, Issearch, searchinput, loader, searchAlbum,setSkeletonLoader,setSearchinput } = useContext(authHome)
+    let { searchMusic, music, Issearch, searchinput, loader, searchAlbum,setSkeletonLoader } = useContext(authHome)
+    let {getSearch}=useContext(authSearch)
 
     let showsearch = searchinput.trim() ? [...searchMusic, ...searchAlbum] : music
 
@@ -19,7 +22,6 @@ function SearchBar() {
 
          setSkeletonLoader(true)
         setHideSearch(false)
-        setSearchinput('')
         navigate(`/searchmusic/${searchinput}`)
         setTimeout(()=>{
           setSkeletonLoader(false)
@@ -27,13 +29,15 @@ function SearchBar() {
        
       }
 
+      
+
     return (
         <div>
             {
                 hideSearch && (
                     <>
                         <div onClick={() => { setHideSearch(false) }} className='w-full h-full z-150 bg-black/30 inset-0  absolute '></div>
-                        <div className='w-100 h-90 absolute left-42  top-15 overflow-y-auto  z-151 bg-[#2A2A2A] rounded-lg'>
+                        <div className={`w-100 ${searchinput.trim()  === ''? 'max-h-90':'h-90'} absolute left-42  top-15 overflow-y-auto  z-151 bg-[#2A2A2A] rounded-lg`}>
                             <div className='w-full py-4 relative'>
                                 <div className='flex text-[#9f9f9f] text-sm items-center gap-2 justify-center py-1'>
                                     <h1 className='border rounded px-1.5 '>Enter</h1>
@@ -41,7 +45,9 @@ function SearchBar() {
                                 </div>
                                 {
                                     searchinput.trim() === '' ? (
-                                        <div className='flex flex-col items-center justify-center py-14 text-center text-[#8a8a8a]'>
+                                            getSearch?.[0]?.songs.length>0 || getSearch?.[0]?.album.length>0  ? (
+                                                <RecentSearch />
+                                            ):(<div className='flex flex-col items-center justify-center py-14 text-center text-[#8a8a8a]'>
                                             <div className='w-16 h-16 rounded-full bg-[#1d1d1d] flex items-center justify-center text-2xl mb-4'>
                                                 <RiSearchLine />
                                             </div>
@@ -53,7 +59,8 @@ function SearchBar() {
                                             <p className='text-sm mt-1 max-w-[260px]'>
                                                 Find your favorite songs, artists and playlists instantly.
                                             </p>
-                                        </div>
+                                        </div>)
+
                                     ) : (
                                         <>
                                             {
@@ -123,10 +130,3 @@ export default SearchBar
 
 
 
-{/* <div className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3  flex items-center'>
-                            <h1 className='w-12 h-12 rounded  border'></h1>
-                            <div className=''>
-                            <h1 className='font-semibold text-[16px]'>Test1</h1>
-                            <h1 className='text-sm text-[#adaaaa]'>artist jutt</h1>
-                            </div>
-                        </div> */}
