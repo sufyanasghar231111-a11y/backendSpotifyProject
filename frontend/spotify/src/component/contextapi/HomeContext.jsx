@@ -196,11 +196,23 @@ const HomeContext = ({ children }) => {
     }
   }, [])
 
+   const  patchText= useCallback(async () => {
+
+     try{
+       await axios.patch(`http://localhost/api/search/recenttext`, {text:searchinput},{withCredentials:true} )
+
+     }
+     catch(err){
+       console.log(err);
+     }
+   
+   },[searchinput]) 
+
 
 
   const value = useMemo(() => ({
-    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic, data, setData, separate, setSeparate, deleteApi, searchinput, setSearchinput, searchMusic, Issearch, setIssearch, loader, searchAlbum, results, setResults, skeletonLoader, setSkeletonLoader,hideClose,setHideClose
-  }), [hidepro, hide, silderRef, music, page, albumFetch, fav, rightRef, leftRef, createFav, deletemusic, patchApi, data, separate, deleteApi, searchinput, searchMusic, Issearch, loader, searchAlbum, results, skeletonLoader,hideClose])
+    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic, data, setData, separate, setSeparate, deleteApi, searchinput, setSearchinput, searchMusic, Issearch, setIssearch, loader, searchAlbum, results, setResults, skeletonLoader, setSkeletonLoader,hideClose,setHideClose,patchText
+  }), [hidepro, hide, silderRef, music, page, albumFetch, fav, rightRef, leftRef, createFav, deletemusic, patchApi, data, separate, deleteApi, searchinput, searchMusic, Issearch, loader, searchAlbum, results, skeletonLoader,hideClose,patchText])
 
   return (
     <authHome.Provider value={value}>

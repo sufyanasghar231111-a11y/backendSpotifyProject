@@ -5,7 +5,6 @@ import { authProvider } from '../contextapi/AuthContext'
 
 const UpdateProfile = () => {
     let {user,hideProfileDetail, setHideProfileDetail,updatename,setUpdatename,updatePfp, setUpdateprofile, preview,setPreview,removePfp,imageref}=useContext(authProvider)
-    // const trimname=(user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
     
   return (
     <div>

@@ -9,8 +9,9 @@ import RecentSearch from '../recentsearch/RecentSearch'
 function SearchBar() {
 
     let { hideSearch, setHideSearch } = useContext(authProvider)
-    let { searchMusic, music, Issearch, searchinput, loader, searchAlbum,setSkeletonLoader } = useContext(authHome)
-    let {getSearch}=useContext(authSearch)
+    let { searchMusic, music, Issearch, searchinput, loader, searchAlbum,setSkeletonLoader,patchText } = useContext(authHome)
+    let {getSearch,patchRecentSearch,patchAlbumRecentSearch}=useContext(authSearch)
+   
 
     let showsearch = searchinput.trim() ? [...searchMusic, ...searchAlbum] : music
 
@@ -19,9 +20,9 @@ function SearchBar() {
 
     function handleSubmit(){
         if(!searchinput.trim()) return
-
          setSkeletonLoader(true)
         setHideSearch(false)
+        patchText()
         navigate(`/searchmusic/${searchinput}`)
         setTimeout(()=>{
           setSkeletonLoader(false)
@@ -29,6 +30,11 @@ function SearchBar() {
        
       }
 
+      function handleClick(elem){
+        handleSubmit()
+        patchRecentSearch(elem)
+        patchAlbumRecentSearch(elem)
+      }
       
 
     return (
@@ -37,7 +43,7 @@ function SearchBar() {
                 hideSearch && (
                     <>
                         <div onClick={() => { setHideSearch(false) }} className='w-full h-full z-150 bg-black/30 inset-0  absolute '></div>
-                        <div className={`w-100 ${searchinput.trim()  === ''? 'max-h-90':'h-90'} absolute left-42  top-15 overflow-y-auto  z-151 bg-[#2A2A2A] rounded-lg`}>
+                        <div className={`w-100 ${searchinput.trim()  === '' && !loader ? 'max-h-90':'h-90'} absolute left-42  top-15 overflow-y-auto  z-151 bg-[#2A2A2A] rounded-lg`}>
                             <div className='w-full py-4 relative'>
                                 <div className='flex text-[#9f9f9f] text-sm items-center gap-2 justify-center py-1'>
                                     <h1 className='border rounded px-1.5 '>Enter</h1>
@@ -45,7 +51,7 @@ function SearchBar() {
                                 </div>
                                 {
                                     searchinput.trim() === '' ? (
-                                            getSearch?.[0]?.songs.length>0 || getSearch?.[0]?.album.length>0  ? (
+                                            getSearch?.[0]?.search.length >1   ? (
                                                 <RecentSearch />
                                             ):(<div className='flex flex-col items-center justify-center py-14 text-center text-[#8a8a8a]'>
                                             <div className='w-16 h-16 rounded-full bg-[#1d1d1d] flex items-center justify-center text-2xl mb-4'>
@@ -64,13 +70,15 @@ function SearchBar() {
                                     ) : (
                                         <>
                                             {
-                                                searchinput.trim().length > 1 && (
+                                                searchinput.trim().length >= 1 && (
                                                     showsearch?.map((elem) => {
 
-                                                        return <div onClick={handleSubmit} className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3  flex items-center'>
+                                                        return <div key={elem._id} onClick={()=>{handleClick(elem._id)}} >
+                                                            <div  className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3  flex items-center'>
                                                             <h1 className='px-2.5 py-2.5 rounded-full bg-[#282828]'><RiSearchLine /></h1>
                                                             <h1 className='font-semibold '>{elem.title}</h1>
-                                                        </div>
+                                                            </div>
+                                                            </div>
                                                     })
                                                 )
                                             }

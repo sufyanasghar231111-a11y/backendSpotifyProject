@@ -1,22 +1,25 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { RiChromeLine, RiCloseLargeFill, RiHome4Fill, RiHome5Line, RiPauseFill, RiPlayFill, RiSearchLine, RiSpotifyFill } from '@remixicon/react'
 import { authHome } from '../../contextapi/HomeContext'
 import { authProvider } from '../../contextapi/AuthContext'
 import Logout from '../Logout'
 import { Link, useNavigate } from 'react-router-dom'
+import { authSearch } from '../../contextapi/RecentSearchRoute'
 
 function Nav() {
   let { user, setHideSearch } = useContext(authProvider)
-  let { setHidepro, searchinput, setSearchinput, setSkeletonLoader,hideClose,setHideClose } = useContext(authHome)
+  let { setHidepro, searchinput, setSearchinput, setSkeletonLoader, hideClose, setHideClose } = useContext(authHome)
   let navigate = useNavigate()
 
   let fetchname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
+
+
   function handleSubmit(e) {
     e.preventDefault();
 
     const query = searchinput.trim();
     if (!query) return;
-
+    
     setSkeletonLoader(true);
     setHideSearch(false);
     navigate(`/searchmusic/${query}`);
@@ -26,13 +29,17 @@ function Nav() {
     }, 1500);
   }
 
-  
-  if(searchinput.length>=1){
-    setHideClose(true)
-  }
-  else{
-    setHideClose(false)
-  }
+  useEffect(()=>{
+
+    if (searchinput.length >= 1) {
+      setHideClose(true)
+    }
+    else {
+      setHideClose(false)
+    }
+
+  },[searchinput])
+
 
   return (
     <nav className='flex lg:px-10 px-5 md:px-7 max-sm:px-3.5  py-2  relative items-center z-150 justify-between gap-2 max-sm:gap-1'>
@@ -51,15 +58,16 @@ function Nav() {
               {
                 hideClose && (
 
-              <div onClick={()=>{setHideClose(false)
-                setSearchinput('')
-              }}>
-              <RiCloseLargeFill className='text-[#807d7d]' />
-              </div>
+                  <div onClick={() => {
+                    setHideClose(false)
+                    setSearchinput('')
+                  }}>
+                    <RiCloseLargeFill className='text-[#807d7d]' />
+                  </div>
                 )
               }
               <div className='border-l  px-2 border-[#706e6e]'>
-              <RiChromeLine className='text-[#898881] max-sm:w-4 max-sm:h-4' />
+                <RiChromeLine className='text-[#898881] max-sm:w-4 max-sm:h-4' />
               </div>
             </div>
           </div>
