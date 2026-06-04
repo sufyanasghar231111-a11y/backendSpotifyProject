@@ -3,12 +3,48 @@ const recentSearch=require("../models/recentsearch.model")
 
 async function createRecentSearch(req,res){
     try{
-     const {songs,album}=req.body || {}
-     const recentSearchItem=await recentSearch.create({
-        songs,
-        album,
-        user:req.user.id
-     })
+     const {song,album,text}=req.body || {}
+
+     let newEntry={}
+
+     if(song){
+        newEntry={
+            type:song,
+            typeModel:music,
+            item:song
+        }
+     }
+
+     if(album){
+        newEntry={
+            type:album,
+            typeModel:album,
+            item:album
+        }
+     }
+
+     if(text){
+        newEntry={
+            type:text,
+            text:text
+        }
+     }
+
+     const recentSearchItem=await recentSearch.findOneAndUpdate(
+        {
+            user:req.user.id
+        }
+        ,
+        {
+            $push:{
+                search:newEntry
+            }
+        },
+        {
+            new:true,
+            upsert:true
+        }
+     )
      res.status(201).json({
         message:"successfull create recent search",
         recentSearchItem
@@ -24,7 +60,7 @@ async function createRecentSearch(req,res){
 
 async function getRecentSearch(req,res){
     try{
-        const getSearchItem=await recentSearch.find().populate({path:'songs.item', populate:{path:"artist", select:'username _id' }}).populate({path:'album.item',populate:{path:'artist', select:'_id, username'} })
+        const getSearchItem=await recentSearch.find().populate({path:'search.item', populate:{path:'artist',select:'username _id'}})
         res.status(200).json({
             message:"successful get recent search",
             getSearchItem
@@ -46,11 +82,8 @@ async function patchRecentSearch(req,res){
             {user:req.user.id},
             {
                 $pull:{
-                    songs:{item:id}
+                    search:{item:id}
                 }
-            },
-            {
-                returnDocument:'after'
             }
         )
 
@@ -58,14 +91,19 @@ async function patchRecentSearch(req,res){
             {user:req.user.id},
             {
                 $push:{
-                    songs:{
-                        $each:[{ item:id,createdAt:new Date}],
-                        $position:0
+                    search:{
+                        $each:[{type:'song',
+                               typeModel:'music',
+                               item:id,
+                               createdAt:new Date}],
+                              $position:0,
+                              $slice:10
                     }
                 }
             }
             ,{
-                returnDocument:'after'
+                new:true,
+                upsert:true
             }
         )
         
@@ -81,19 +119,16 @@ async function patchRecentSearch(req,res){
         })
     }
 }
+
 async function patchRecentAlbum(req,res){
     let {id}=req.params
     try{
-
          await recentSearch.findOneAndUpdate(
             {user:req.user.id},
             {
                 $pull:{
-                    album:{item:id}
+                    search:{item:id}
                 }
-            },
-            {
-                returnDocument:'after'
             }
         )
 
@@ -101,9 +136,15 @@ async function patchRecentAlbum(req,res){
             {user:req.user.id},
             {
                 $push:{
-                    album:{
-                        $each:[{ item:id,createdAt:new Date}],
-                        $position:0
+                    search:{
+                        $each:[{
+                            item:id,
+                            type:'album',
+                            typeModel:'album',
+                            createdAt:new Date
+                        }],
+                        $position:0,
+                        $slice:10
                     }
                 }
             }

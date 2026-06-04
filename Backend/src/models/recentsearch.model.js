@@ -1,30 +1,34 @@
-const mongoose=require('mongoose')
+const mongoose = require('mongoose')
 
-const recentsearch=mongoose.Schema({
-    songs:[{
-        item:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'music'
-        },
-        createdAt:{
-            type:Date,
-            default:Date.now
-        }
-    }],
-    album:[{
-        item:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'album'
-        },
-        createdAt:{
-            type:Date,
-            default:Date.now
-        }
-    }],
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'user'
-    }
-},{timestamps:true})
+const recentsearch = mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+    },
+    search: [{
 
-module.exports=mongoose.model('recentSearch', recentsearch)
+        type: {
+            type: String,
+            enum: ['song', 'album', 'text']
+        },
+
+        item: {
+            type: mongoose.Schema.Types.ObjectId,
+            refPath: 'search.typeModel'
+        },
+
+        typeModel: {
+            type: String,
+            enum: ['music', 'album']
+        },
+
+        text: String,
+
+        createdAt: {
+            type: Date,
+            default: Date.now
+        }
+    }]
+}, { timestamps: true })
+
+module.exports = mongoose.model('recentSearch', recentsearch)
