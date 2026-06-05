@@ -8,7 +8,7 @@ import { authSearch } from '../../contextapi/RecentSearchRoute'
 
 function Nav() {
   let { user, setHideSearch } = useContext(authProvider)
-  let { setHidepro, searchinput, setSearchinput, setSkeletonLoader, hideClose, setHideClose } = useContext(authHome)
+  let { setHidepro, searchinput, setSearchinput, setSkeletonLoader, hideClose, setHideClose,patchText } = useContext(authHome)
   let navigate = useNavigate()
 
   let fetchname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
@@ -19,10 +19,10 @@ function Nav() {
 
     const query = searchinput.trim();
     if (!query) return;
-    
     setSkeletonLoader(true);
     setHideSearch(false);
-    navigate(`/searchmusic/${query}`);
+    patchText()
+    navigate(`/searchmusic?query=${query}`);
     setHideClose(true)
     setTimeout(() => {
       setSkeletonLoader(false);

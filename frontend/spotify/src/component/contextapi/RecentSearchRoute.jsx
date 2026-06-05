@@ -44,7 +44,7 @@ const RecentSearchRoute = ({children}) => {
     async function deleteRecentSearch(id) {
       try{
       await axios.delete(`http://localhost:3000/api/search/deleteSearch/${id}`, {withCredentials:true})
-
+      
         await getRecentSearch()
       }
       catch(err){

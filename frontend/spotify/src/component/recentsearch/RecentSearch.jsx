@@ -1,12 +1,11 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { authSearch } from '../contextapi/RecentSearchRoute'
 import { RiAddCircleLine, RiCloseCircleLine, RiCloseLine, RiMoreLine, RiPlayCircleFill } from '@remixicon/react'
-import { authHome } from '../contextapi/HomeContext'
+
 
 const RecentSearch = () => {
     let { getSearch, deleteRecentSearch } = useContext(authSearch)
-    let { setLoader } = useContext(authHome)
-    
+
 
     return (
         <div>
@@ -18,7 +17,7 @@ const RecentSearch = () => {
                         elem.type==='song' && (
                             <div key={elem.item?._id} className='mx-2 cursor-pointer group hover:bg-[#404040] transition-all duration-500 rounded-lg py-2  gap-6 px-3  flex items-center'>
                         <h1 className='w-15 h-12 rounded overflow-hidden'>
-                            <img src={elem.image} className='w-full h-full object-cover' alt="" />
+                            <img src={elem.item?.image} className='w-full h-full object-cover' alt="" />
                         </h1>
                         <div className='flex items-center justify-between w-full'>
                             <div>
@@ -28,7 +27,6 @@ const RecentSearch = () => {
                             <div>
                                 <div onClick={() => {
                                     deleteRecentSearch(elem.item._id)
-                                    
                                 }} className='flex items-center gap-3'>
                                     <button className=' group-hover:block hidden rounded-full px-1 py-1 hover:bg-[#252525] transition-all duration-300 '><RiCloseLine /></button>
                                 </div>
@@ -40,9 +38,9 @@ const RecentSearch = () => {
 
                     {
                         elem.type==='album' && (
-                            <div key={elem._id} className='mx-2 cursor-pointer group hover:bg-[#404040] transition-all duration-500 rounded-lg py-2  gap-6 px-3  flex items-center'>
+                            <div key={elem.item?._id} className='mx-2 cursor-pointer group hover:bg-[#404040] transition-all duration-500 rounded-lg py-2  gap-6 px-3  flex items-center'>
                         <h1 className='w-15 h-12 rounded overflow-hidden'>
-                            <img src={elem.image} className='w-full h-full object-cover' alt="" />
+                            <img src={elem.item?.image} className='w-full h-full object-cover' alt="" />
                         </h1>
                         <div className='flex items-center justify-between w-full'>
                             <div>
@@ -52,7 +50,6 @@ const RecentSearch = () => {
                             <div>
                                 <div onClick={() => {
                                     deleteRecentSearch(elem.item._id)
-                                    setLoader(true)
                                 }} className='flex items-center gap-3'>
                                     <button className=' group-hover:block hidden rounded-full px-1 py-1 hover:bg-[#252525] transition-all duration-300 '><RiCloseLine /></button>
                                 </div>
@@ -65,7 +62,7 @@ const RecentSearch = () => {
                     {
                         elem.type === 'text' && (
                             <div>
-                                
+                                hello
                             </div>
                         )
                     }

@@ -11,7 +11,7 @@ import { authProvider } from '../component/contextapi/AuthContext'
 
 const PlayUI = () => {
 
-  let { duration, handleTime, loaderTime, audioRef, setPlaying, playRef, playing,currentTime, handleSeek } = useContext(authControl)
+  let { duration, handleTime, loaderTime, audioRef, setPlaying, playRef, playing,  } = useContext(authControl)
   let { fav, deletemusic, createFav ,separate,setSeparate} = useContext(authHome)
   let {setHideControl}=useContext(authProvider)
   
