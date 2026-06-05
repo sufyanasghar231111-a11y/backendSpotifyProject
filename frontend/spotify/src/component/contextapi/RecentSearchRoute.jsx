@@ -55,7 +55,7 @@ const RecentSearchRoute = ({children}) => {
    
 
   return (
-    <authSearch.Provider value={{getSearch,patchRecentSearch,deleteRecentSearch,patchAlbumRecentSearch}}>
+    <authSearch.Provider value={{getSearch,patchRecentSearch,deleteRecentSearch,patchAlbumRecentSearch,getRecentSearch}}>
       {children}
     </authSearch.Provider>
   )

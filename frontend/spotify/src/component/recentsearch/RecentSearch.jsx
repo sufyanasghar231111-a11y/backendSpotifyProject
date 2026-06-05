@@ -26,7 +26,7 @@ const RecentSearch = () => {
                             </div>
                             <div>
                                 <div onClick={() => {
-                                    deleteRecentSearch(elem.item._id)
+                                    deleteRecentSearch(elem.item?._id)
                                 }} className='flex items-center gap-3'>
                                     <button className=' group-hover:block hidden rounded-full px-1 py-1 hover:bg-[#252525] transition-all duration-300 '><RiCloseLine /></button>
                                 </div>
@@ -49,7 +49,7 @@ const RecentSearch = () => {
                             </div>
                             <div>
                                 <div onClick={() => {
-                                    deleteRecentSearch(elem.item._id)
+                                    deleteRecentSearch(elem.item?._id)
                                 }} className='flex items-center gap-3'>
                                     <button className=' group-hover:block hidden rounded-full px-1 py-1 hover:bg-[#252525] transition-all duration-300 '><RiCloseLine /></button>
                                 </div>
@@ -61,9 +61,19 @@ const RecentSearch = () => {
 
                     {
                         elem.type === 'text' && (
+                              <div key={elem._id} className=' px-7 cursor-pointer group h-14 hover:bg-[#404040] transition-all duration-500 rounded-lg py-2  gap-6   flex items-center'>
+                       
+                        <div className='flex items-center justify-between w-full'>
+                                <h1 className='font-semibold text-[16px] text-[#969494]'>{elem.text}</h1>
                             <div>
-                                hello
+                                <div onClick={() => {
+                                    deleteRecentSearch(elem._id)
+                                }} className='flex items-center gap-3'>
+                                    <button className=' group-hover:block hidden rounded-full px-1 py-1 hover:bg-[#252525] transition-all duration-300 '><RiCloseLine /></button>
+                                </div>
                             </div>
+                        </div>
+                    </div>
                         )
                     }
                     

@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import axios from 'axios'
 import { authProvider } from './AuthContext'
+import { authSearch } from './RecentSearchRoute'
 
 
 
@@ -27,6 +28,7 @@ const HomeContext = ({ children }) => {
   let [results, setResults] = useState([])
   let [skeletonLoader, setSkeletonLoader] = useState(false)
   let [hideClose,setHideClose]=useState(false)
+  let {getRecentSearch}=useContext(authSearch)
 
   //slider
   const rightRef = useCallback(() => {
@@ -197,10 +199,9 @@ const HomeContext = ({ children }) => {
   }, [])
 
    const  patchText= useCallback(async () => {
-
      try{
-       await axios.patch(`http://localhost/api/search/recenttext`, {text:searchinput},{withCredentials:true} )
-
+       await axios.patch(`http://localhost:3000/api/search/recenttext`,{text:searchinput},{withCredentials:true} )
+       await getRecentSearch()
      }
      catch(err){
        console.log(err);

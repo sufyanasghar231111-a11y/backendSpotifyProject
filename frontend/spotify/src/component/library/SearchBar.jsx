@@ -27,7 +27,6 @@ function SearchBar() {
         if(!searchinput.trim()) return
          setSkeletonLoader(true)
         setHideSearch(false)
-        patchText()
         navigate(`/searchmusic?query=${searchinput}&selected=${elem._id}`)
         setTimeout(()=>{
           setSkeletonLoader(false)
@@ -43,10 +42,6 @@ function SearchBar() {
             patchAlbumRecentSearch(elem._id)
         }
       }
-
-     
-
-
       
     return (
         <div>
