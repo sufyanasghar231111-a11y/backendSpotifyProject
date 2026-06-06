@@ -5,7 +5,7 @@ import { RiAddCircleLine, RiCloseCircleLine, RiCloseLine, RiMoreLine, RiPlayCirc
 
 const RecentSearch = () => {
     let { getSearch, deleteRecentSearch } = useContext(authSearch)
-
+    
 
     return (
         <div>

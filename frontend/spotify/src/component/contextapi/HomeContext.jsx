@@ -201,7 +201,7 @@ const HomeContext = ({ children }) => {
    const  patchText= useCallback(async () => {
      try{
        await axios.patch(`http://localhost:3000/api/search/recenttext`,{text:searchinput},{withCredentials:true} )
-       await getRecentSearch()
+       await getRecentSearch() 
      }
      catch(err){
        console.log(err);

@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useRef, useState } from 'r
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { authRecent } from './RecentRoute';
+import { authSearch } from './RecentSearchRoute';
 
 
 export const authProvider = createContext()
@@ -37,6 +38,7 @@ const AuthContext = ({ children }) => {
     let [library, setLibrary]=useState([])
     let [hideSearch,setHideSearch]=useState(false)
     let {fetchRecent}=useContext(authRecent)
+    let {getRecentSearch}=useContext(authSearch)
     
 
     useEffect(()=>{
@@ -64,6 +66,10 @@ const AuthContext = ({ children }) => {
             setEmailreg('')
             setPasswordreg('')
             navigate('/')
+             await handleGetPlayList();
+            await getLibrary()
+            await fetchRecent()
+            await getRecentSearch()
         }
         catch (err) {
             console.log(err);
@@ -87,7 +93,8 @@ const AuthContext = ({ children }) => {
             await handleGetPlayList();
             await getLibrary()
             await fetchRecent()
-
+            await getRecentSearch()
+            
         }
         catch (e) {
             console.log(e);
@@ -189,6 +196,7 @@ const AuthContext = ({ children }) => {
                 username: res.data.username
             }))
             setHideProfileDetail(false)
+            
         }
         catch (err) {
             console.log(err);
