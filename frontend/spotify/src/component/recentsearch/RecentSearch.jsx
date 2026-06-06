@@ -35,7 +35,6 @@ const RecentSearch = () => {
                     </div>
                         )
                     }
-
                     {
                         elem.type==='album' && (
                             <div key={elem.item?._id} className='mx-2 cursor-pointer group hover:bg-[#404040] transition-all duration-500 rounded-lg py-2  gap-6 px-3  flex items-center'>
