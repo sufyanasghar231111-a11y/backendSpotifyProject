@@ -92,7 +92,7 @@ const LikeSong = () => {
                           <img
                             className='w-full h-full object-cover'
                             src={music.image}
-                            alt=""
+                            alt={music.title}
                           />
                           {playing === music._id && (
                             <div className='absolute inset-0 bg-gradient-to-t from-black/50 to-transparent animate-pulse' />

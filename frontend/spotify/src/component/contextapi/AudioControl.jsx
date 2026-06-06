@@ -5,8 +5,8 @@ const AudioControl = ({children}) => {
 
     const  audioRef = useRef({})
 
-    let [currentTime, setCurrentTime]=useState(0)
-      let [duration, setDuration]=useState(0)
+    let [currentTime, setCurrentTime]=useState({})
+      let [duration, setDuration]=useState({})
         let [playing, setPlaying] = useState(null)
         let lastUpdateRed=useRef(0)
 
@@ -63,6 +63,7 @@ const AudioControl = ({children}) => {
      setDuration((prev) => ({
     ...prev,
     [id]: audio.duration
+
   }))
   },[])
 
@@ -80,7 +81,7 @@ const AudioControl = ({children}) => {
 
   const value=useMemo(()=>({
     handleSeek,handleTime,loaderTime,playing,setCurrentTime,setDuration,setPlaying,currentTime,duration,playRef,audioRef
-  }),[handleSeek, handleTime,loaderTime,playRef,duration,currentTime,playing,audioRef])
+  }),[handleSeek, handleTime,loaderTime,playRef,duration,currentTime,playing])
 
   return (
     <authControl.Provider value={value}>
