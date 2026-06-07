@@ -7,6 +7,7 @@ const userRouter=require('../src/routes/user.route')
 const adminroute=require('../src/routes/admin.route')
 const route=require('../src/routes/recent.route')
 const routeRecent=require('../src/routes/recentsearch.route')
+const currRouter=require('../src/routes/currentplaying.route')
 const cors = require('cors');
 
 
@@ -29,5 +30,6 @@ app.use('/api/admin', adminroute)
 app.use('/api/moreuser', route)
 
 app.use('/api/search',routeRecent )
+app.use('/api/current',currRouter)
 
 module.exports=app

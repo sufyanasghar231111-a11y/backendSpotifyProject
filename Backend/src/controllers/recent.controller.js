@@ -26,7 +26,7 @@ async function createRecent(req,res){
 
 async function getRecent(req,res){
     try{
-        const get=await recentWatchSchema.find().populate({path:'songs.item', populate:{path:'artist'}}).populate({path:"album.item", populate:{path:'artist'}})
+        const get=await recentWatchSchema.find({user:req.user.id}).populate({path:'songs.item', populate:{path:'artist'}}).populate({path:"album.item", populate:{path:'artist'}})
         res.status(200).json({
             message:"successful get",
             get

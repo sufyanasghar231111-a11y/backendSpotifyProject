@@ -1,198 +1,247 @@
-const { populate } = require("../models/album.model")
-const recentSearch=require("../models/recentsearch.model")
+const recentSearch = require("../models/recentsearch.model")
 
-async function createRecentSearch(req,res){
-    try{
-     const {song,album,text}=req.body || {}
+async function createRecentSearch(req, res) {
+    try {
+        const { song, album, text } = req.body || {}
 
-     let newEntry={}
+        let newEntry = {}
 
-     if(song){
-        newEntry={
-            type:song,
-            typeModel:music,
-            item:song
-        }
-     }
-
-     if(album){
-        newEntry={
-            type:album,
-            typeModel:album,
-            item:album
-        }
-     }
-
-     if(text){
-        newEntry={
-            type:text,
-            text:text
-        }
-     }
-
-     const recentSearchItem=await recentSearch.findOneAndUpdate(
-        {
-            user:req.user.id
-        }
-        ,
-        {
-            $push:{
-                search:newEntry
+        if (song) {
+            newEntry = {
+                type: song,
+                typeModel: music,
+                item: song
             }
-        },
-        {
-            new:true,
-            upsert:true
         }
-     )
-     res.status(201).json({
-        message:"successfull create recent search",
-        recentSearchItem
-     })
+
+        if (album) {
+            newEntry = {
+                type: album,
+                typeModel: album,
+                item: album
+            }
+        }
+
+        if (text) {
+            newEntry = {
+                type: text,
+                text: text
+            }
+        }
+
+        const recentSearchItem = await recentSearch.findOneAndUpdate(
+            {
+                user: req.user.id
+            }
+            ,
+            {
+                $push: {
+                    search: newEntry
+                }
+            },
+            {
+                new: true,
+                upsert: true
+            }
+        )
+        res.status(201).json({
+            message: "successfull create recent search",
+            recentSearchItem
+        })
     }
-    catch(err){
+    catch (err) {
         res.status(500).json({
-            message:"Internal Server Error",
-            error:err.message
+            message: "Internal Server Error",
+            error: err.message
         })
     }
 }
 
-async function getRecentSearch(req,res){
-    try{
-        const getSearchItem=await recentSearch.find().populate({path:'search.item', populate:{path:'artist',select:'username _id'}})
+async function getRecentSearch(req, res) {
+    try {
+        const getSearchItem = await recentSearch.find({ user: req.user.id }).populate({ path: 'search.item', populate: { path: 'artist', select: 'username _id' } })
         res.status(200).json({
-            message:"successful get recent search",
+            message: "successful get recent search",
             getSearchItem
         })
     }
-    catch(err){
+    catch (err) {
         res.status(500).json({
-            message:"Internal Server Error",
-            error:err.message
+            message: "Internal Server Error",
+            error: err.message
         })
     }
 }
 
-async function patchRecentSearch(req,res){
-    let {id}=req.params
-    try{
+async function patchRecentSearch(req, res) {
+    let { id } = req.params
+    try {
 
-         await recentSearch.findOneAndUpdate(
-            {user:req.user.id},
+        await recentSearch.findOneAndUpdate(
+            { user: req.user.id },
             {
-                $pull:{
-                    search:{item:id}
+                $pull: {
+                    search: { item: id }
                 }
             }
         )
 
-        const pushRecentSearch= await recentSearch.findOneAndUpdate(
-            {user:req.user.id},
+        const pushRecentSearch = await recentSearch.findOneAndUpdate(
+            { user: req.user.id },
             {
-                $push:{
-                    search:{
-                        $each:[{type:'song',
-                               typeModel:'music',
-                               item:id,
-                               createdAt:new Date}],
-                              $position:0,
-                              $slice:10
-                    }
-                }
-            }
-            ,{
-                new:true,
-                upsert:true
-            }
-        )
-        
-        res.status(200).json({
-            message:"successful update get Music",
-            pushRecentSearch
-        })
-    }
-    catch(err){
-        res.status(500).json({
-            message:'Internal Server Error',
-            error:err.message
-        })
-    }
-}
-
-async function patchRecentAlbum(req,res){
-    let {id}=req.params
-    try{
-         await recentSearch.findOneAndUpdate(
-            {user:req.user.id},
-            {
-                $pull:{
-                    search:{item:id}
-                }
-            }
-        )
-
-        const pushRecentSearch= await recentSearch.findOneAndUpdate(
-            {user:req.user.id},
-            {
-                $push:{
-                    search:{
-                        $each:[{
-                            item:id,
-                            type:'album',
-                            typeModel:'album',
-                            createdAt:new Date
+                $push: {
+                    search: {
+                        $each: [{
+                            type: 'song',
+                            typeModel: 'music',
+                            item: id,
+                            createdAt: new Date
                         }],
-                        $position:0,
-                        $slice:10
+                        $position: 0,
+                        $slice: 10
                     }
                 }
             }
-            ,{
-                returnDocument:'after'
+            , {
+                new: true,
+                upsert: true
             }
         )
-        
+
         res.status(200).json({
-            message:"successful update get Music",
+            message: "successful update get Music",
             pushRecentSearch
         })
     }
-    catch(err){
+    catch (err) {
         res.status(500).json({
-            message:'Internal Server Error',
-            error:err.message
+            message: 'Internal Server Error',
+            error: err.message
         })
     }
 }
 
-async function deleteRecentSearch(req,res){
-    try{
-        let {id}=req.params
-        const deleteSearch=await recentSearch.findOneAndUpdate(
-            {user:req.user.id},
+async function patchRecentAlbum(req, res) {
+    let { id } = req.params
+    try {
+        await recentSearch.findOneAndUpdate(
+            { user: req.user.id },
             {
-                $pull:{
-                    songs:{item:id},
-                    album:{item:id}
+                $pull: {
+                    search: { item: id }
+                }
+            }
+        )
+
+        const pushRecentSearch = await recentSearch.findOneAndUpdate(
+            { user: req.user.id },
+            {
+                $push: {
+                    search: {
+                        $each: [{
+                            item: id,
+                            type: 'album',
+                            typeModel: 'album',
+                            createdAt: new Date
+                        }],
+                        $position: 0,
+                        $slice: 10
+                    }
+                }
+            }
+            , {
+                returnDocument: 'after'
+            }
+        )
+
+        res.status(200).json({
+            message: "successful update get Music",
+            pushRecentSearch
+        })
+    }
+    catch (err) {
+        res.status(500).json({
+            message: 'Internal Server Error',
+            error: err.message
+        })
+    }
+}
+
+async function deleteRecentSearch(req, res) {
+    try {
+        let { id } = req.params
+        const deleteSearch = await recentSearch.findOneAndUpdate(
+            { user: req.user.id },
+            {
+                $pull: {
+                    search:
+                    {
+                      $or:[
+                          { item: id },
+                    { type: 'text', _id: id }
+                      ] 
+                    } 
                 },
             }
             ,
             {
-                returnDocument:'after'
+                returnDocument: 'after'
             }
         )
         res.status(200).json({
-            message:"successful delete recent search",
+            message: "successful delete recent search",
             deleteSearch
         })
     }
-    catch(err){
+    catch (err) {
         res.status(500).json({
-            message:"Internal Server Error",
-            error:err.message
+            message: "Internal Server Error",
+            error: err.message
         })
     }
 }
 
-module.exports={createRecentSearch,getRecentSearch,patchRecentSearch,patchRecentAlbum,deleteRecentSearch}
+async function patchText(req, res) {
+    try {
+        const { text } = req.body || {}
+
+        await recentSearch(
+            { user: req.user.id },
+            {
+                $pull: { text: text }
+            }
+        )
+        const patchRecentText = await recentSearch.findOneAndUpdate(
+            {
+                user: req.user.id,
+            },
+            {
+                $push: {
+                    search: {
+                        $each: [{ type: 'text', text: text, createdAt: new Date }],
+                        $position: 0,
+                        slice: 10
+                    }
+                }
+            },
+            {
+                new: true,
+                upsert: true
+            }
+
+        )
+
+        res.status(200).json({
+            message: "successfull patch",
+            patchRecentText
+        })
+    }
+    catch (err) {
+        res.status(500).json({
+            message: "Error in your request",
+            error: err.message
+        })
+    }
+}
+
+module.exports = { createRecentSearch, getRecentSearch, patchRecentSearch, patchRecentAlbum, deleteRecentSearch, patchText }

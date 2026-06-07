@@ -1,6 +1,6 @@
 const express=require('express')
 const multer= require('multer')
-const routeMusic=express()
+const routeMusic=express.Router()
 const upload= multer({storage: multer.memoryStorage()})
 const controlMusic=require('../controllers/music.controller')
 const controlAlbum=require('../controllers/music.controller')

@@ -10,4 +10,6 @@ routeRecent.patch('/songSearch/:id', middleware.getMusic,searchcontroller.patchR
 routeRecent.patch('/albumSearch/:id', middleware.getMusic,searchcontroller.patchRecentAlbum)
 routeRecent.delete('/deleteSearch/:id', middleware.getMusic,searchcontroller.deleteRecentSearch)
 
+routeRecent.patch('/recenttext', middleware.getMusic,searchcontroller.patchText)
+
 module.exports=routeRecent
