@@ -5,20 +5,15 @@ import Album from '../Album'
 
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { authControl } from '../../contextapi/AudioControl'
-import { authProvider } from '../../contextapi/AuthContext'
 import RightsideMusic from '../../rightside/RightsideMusic'
 
 
 const Right = () => {
-  let { setHideControl } = useContext(authProvider)
   let { setHide, setPage } = useContext(authHome)
-  let {  setPlaying} = useContext(authControl)
 
   let location = useLocation()
   useEffect(() => {
-    setPlaying(null)
     setPage(1)
-    setHideControl(true)
   }, [location.pathname])
 
 

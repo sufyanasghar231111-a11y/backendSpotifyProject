@@ -2,13 +2,16 @@ import { RiHeartFill, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import React, { useContext } from 'react'
 import { authHome } from '../component/contextapi/HomeContext'
 import Input from './Input'
-import { authControl } from '../component/contextapi/AudioControl'
-import { authProvider } from '../component/contextapi/AuthContext'
+import { authRecent } from '../component/contextapi/RecentRoute'
+import { musciControl } from '../component/contextapi/MusicControllerContext'
+import { audioContext } from '../component/contextapi/AudioProvider'
 
 const LikeSong = () => {
-  let { playing, playRef, audioRef, setPlaying, loaderTime, handleTime, duration, currentTime } = useContext(authControl)
+  let { update } = useContext(authRecent)
+   let { patchMusicPlaying } = useContext(musciControl)
+   let { playing, playRef, pauseSong } = useContext(audioContext)
   let { fav,deletemusic } = useContext(authHome)
-  let {setHideControl}=useContext(authProvider)
+  
 
   return (
     <div>
@@ -71,14 +74,17 @@ const LikeSong = () => {
                         {index + 1}
                       </span>
                       <button
-                        onClick={() => playRef(music?._id)}
+                        
                         className='absolute inset-0 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl scale-0 max-sm:scale-100 group-hover:scale-100 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 active:scale-95' >
                         {playing === music._id ? (
-                          <svg onClick={()=>{setHideControl(true)}} className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
+                          <svg onClick={pauseSong}  className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
                             <path fillRule='evenodd' d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z' clipRule='evenodd' />
                           </svg>
                         ) : (
-                          <svg onClick={()=>{setHideControl(false)}} className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
+                          <svg onClick={()=>{playRef(music)
+                            patchMusicPlaying(music._id)
+                            update(music._id)
+                          }}  className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
                             <path fillRule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z' clipRule='evenodd' />
                           </svg>
                         )}
@@ -110,7 +116,7 @@ const LikeSong = () => {
                     {/* Duration & Controls */}
                     <div className='flex items-center gap-4'>
                       <span className='text-sm text-white/60 font-medium min-w-[40px] text-center'>
-                        {Math.floor((duration[music._id] || 0) / 60)}:{String(Math.floor((duration[music._id] || 0) % 60)).padStart(2, '0')}
+                        {/* {Math.floor((duration[music._id] || 0) / 60)}:{String(Math.floor((duration[music._id] || 0) % 60)).padStart(2, '0')} */}
                       </span>
 
                       
@@ -128,23 +134,7 @@ const LikeSong = () => {
                     </div>
 
                     {/* Audio Element - Hidden */}
-                    <audio
-                      ref={(el) => {
-                        if (!audioRef.current) audioRef.current = {};
-                        if (el) audioRef.current[music._id] = el;
-                        else delete audioRef.current[music._id];
-                      }}
-                      onEnded={() => {
-                        setPlaying(null);
-                        currentTime(0);
-                        duration(0);
-                      }}
-                      onLoadedMetadata={() => loaderTime(music._id)}
-                      onTimeUpdate={() => handleTime(music._id)}
-                      src={music?.uri}
-                      preload='metadata'
-                      className='hidden'
-                    />
+                   
 
                   </div>
                 ))

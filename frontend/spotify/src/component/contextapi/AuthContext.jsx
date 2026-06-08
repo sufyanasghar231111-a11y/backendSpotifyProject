@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { authRecent } from './RecentRoute';
 import { authSearch } from './RecentSearchRoute';
+import { musciControl } from './MusicControllerContext';
 
 
 export const authProvider = createContext()
@@ -27,7 +28,6 @@ const AuthContext = ({ children }) => {
     let [hideplay, setHidePlay] = useState(false)
     let [hideplaylist, setHidePlaylist] = useState(false)
     let [hideAlbumPlaylist, setHideAlbumPlaylist] = useState(false)
-    let [hideControl, setHideControl] = useState(true)
     let [detailData, setDetailData] = useState({})
     let [hideSure, setHideSure] = useState(false)
     let [updatename, setUpdatename] = useState('')
@@ -39,6 +39,7 @@ const AuthContext = ({ children }) => {
     let [hideSearch,setHideSearch]=useState(false)
     let {fetchRecent}=useContext(authRecent)
     let {getRecentSearch}=useContext(authSearch)
+    let {getMusicPlaying}=useContext(musciControl)
     
 
     useEffect(()=>{
@@ -70,6 +71,7 @@ const AuthContext = ({ children }) => {
             await getLibrary()
             await fetchRecent()
             await getRecentSearch()
+            await getMusicPlaying()
         }
         catch (err) {
             console.log(err);
@@ -94,6 +96,7 @@ const AuthContext = ({ children }) => {
             await getLibrary()
             await fetchRecent()
             await getRecentSearch()
+            await getMusicPlaying()
             
         }
         catch (e) {
@@ -258,7 +261,7 @@ const AuthContext = ({ children }) => {
 
 
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, hideControl, setHideControl, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview,removePfp,imageref, library,addToLibrary ,removeTolibrary,getLibrary,hideSearch,setHideSearch}}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist , handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview,removePfp,imageref, library,addToLibrary ,removeTolibrary,getLibrary,hideSearch,setHideSearch}}>
             {children}
         </authProvider.Provider>
     )

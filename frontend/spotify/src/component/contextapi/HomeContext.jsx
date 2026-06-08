@@ -17,7 +17,6 @@ const HomeContext = ({ children }) => {
   let [Issearch, setIssearch] = useState(false)
 
   let silderRef = useRef(null)
-  let {debounceRef}=useRef(null)
 
   const [page, setPage] = useState(1)
   const [albumFetch, setAlbumFetch] = useState([])

@@ -9,6 +9,8 @@ import HomeContext from './component/contextapi/HomeContext.jsx'
 import AudioControl from './component/contextapi/AudioControl.jsx'
 import RecentRoute from './component/contextapi/RecentRoute.jsx'
 import RecentSearchRoute from './component/contextapi/RecentSearchRoute.jsx'
+import MusicControllerContext from './component/contextapi/MusicControllerContext.jsx'
+import AudioProvider from './component/contextapi/AudioProvider.jsx'
 
 
 
@@ -16,7 +18,9 @@ createRoot(document.getElementById('root')).render(
 
   <StrictMode>
     <BrowserRouter>
-    <RecentRoute >
+      <AudioProvider >
+    <MusicControllerContext >
+    <RecentRoute>
       <RecentSearchRoute >
       <AuthContext >
         <HomeContext >
@@ -27,6 +31,8 @@ createRoot(document.getElementById('root')).render(
       </AuthContext>
       </RecentSearchRoute>
     </RecentRoute>
+    </MusicControllerContext>
+      </AudioProvider>
     </BrowserRouter>
   </StrictMode>,
 )

@@ -2,16 +2,20 @@ import React, { useContext, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { authHome } from '../contextapi/HomeContext'
 import axios from 'axios'
-import { authControl } from '../contextapi/AudioControl'
+import { authRecent } from '../contextapi/RecentRoute'
+import { musciControl } from "../contextapi/MusicControllerContext";
+import { audioContext } from "../contextapi/AudioProvider";
 import { RiAddCircleLine, RiCheckLine, RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListAddLine, RiPlayListLine } from '@remixicon/react'
 import { authProvider } from '../contextapi/AuthContext'
 
 const Audioplay = () => {
   let { id } = useParams()
   let { createFav, deletemusic, fav, data, setData } = useContext(authHome)
-  let { playing, playRef, audioRef, loaderTime, handleTime, currentTime, duration, setPlaying } = useContext(authControl)
+  let { update } = useContext(authRecent)
+  let { patchMusicPlaying } = useContext(musciControl)
+   let { playing, playRef, pauseSong } = useContext(audioContext)
 
-  let { setHidePlaylist, addToLibrary, removeTolibrary, library,setHideControl } = useContext(authProvider)
+  let { setHidePlaylist, addToLibrary, removeTolibrary, library } = useContext(authProvider)
 
 
   async function fetchSingleMusic() {
@@ -48,23 +52,7 @@ const Audioplay = () => {
           />
 
         </div>
-        <audio ref={(el) => {
-          if (!audioRef?.current) {
-            audioRef.current = {}
-          }
-
-          if (el) {
-            audioRef.current[data._id] = el
-          }
-          else {
-            delete audioRef.current[data._id]
-          }
-        }} src={data?.uri} onTimeUpdate={() => { handleTime(data._id) }} onLoadedMetadata={() => { loaderTime(data._id) }} onEnded={() => {
-          setPlaying(null)
-          currentTime(0)
-          duration(0)
-        }} preload='metadata'
-          className='w-full h-full' />
+      
         <div className='absolute inset-0 bg-black/30'></div>
       </div>
 
@@ -77,8 +65,12 @@ const Audioplay = () => {
         </h1>
         <p className='text-xl text-gray-300 mt-3'>{data.artist?.username}</p>
 
-        <button onClick={() => { playRef(data?._id) }} className='w-fit px-4 mt-4  py-4 flex items-center justify-center  rounded-full bg-green-500 hover:bg-green-400 transition-all duration-300 font-semibold text-black cursor-pointer'>
-          {playing === data?._id ? (<RiPauseFill onClick={()=>{setHideControl(true)}} className='text-white cursor-pointer w-7 h-7' />) : (<RiPlayFill onClick={()=>{setHideControl(false)}} className='text-white cursor-pointer w-7 h-7' />)
+        <button onClick={() => {  }} className='w-fit px-4 mt-4  py-4 flex items-center justify-center  rounded-full bg-green-500 hover:bg-green-400 transition-all duration-300 font-semibold text-black cursor-pointer'>
+          {playing === data?._id ? (<RiPauseFill onClick={()=>{pauseSong()}} className='text-white cursor-pointer w-7 h-7' />) : (<RiPlayFill onClick={()=>{
+            playRef(data)
+            patchMusicPlaying(data?._id)
+            update(data?._id)
+          }} className='text-white cursor-pointer w-7 h-7' />)
           }
         </button>
         <div className="flex items-center justify-center gap-4 mt-8">
@@ -147,20 +139,11 @@ const Audioplay = () => {
         <div className='mt-3 space-y-4 text-gray-400'>
           <div className='flex justify-between border-b border-white/10 pb-2'>
             <span>Duration</span>
-            <span>{Math.floor((duration[data._id] || 0) / 60)}: {String(Math.floor((duration[data._id] || 0)) % 60).padStart(2, '0')}</span>
+            {/* <span>{Math.floor((duration[data._id] || 0) / 60)}: {String(Math.floor((duration[data._id] || 0)) % 60).padStart(2, '0')}</span> */}
           </div>
         </div>
         
-        {/* <div className={`flex items-center  gap-2 justify-center pt-10`}>
-          {
-            playing === data._id && (
-              <>
-                <input type="range" onChange={(e) => { handleSeek(e, data?._id) }} value={currentTime[data._id] || 0} min='0' max={duration[data._id] || 0} />
-                <h1>{Math.floor((currentTime[data._id] || 0) / 60)}: {String(Math.floor((currentTime[data._id] || 0) % 60)).padStart(2, '0')}s</h1>
-              </>
-            )
-          }
-        </div> */}
+        
 
       </div>
     </>
