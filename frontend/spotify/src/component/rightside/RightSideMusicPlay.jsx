@@ -7,8 +7,8 @@ import { RiArrowLeftSLine, RiArrowRightSLine, RiPauseFill, RiPlayFill } from '@r
 import { Link } from 'react-router-dom'
 import { authHome } from '../contextapi/HomeContext'
 const RightSideMusicPlay = () => {
-  let { update } = useContext(authRecent)
   let { music } = useContext(authHome)
+  let { update } = useContext(authRecent)
   let { patchMusicPlaying } = useContext(musciControl)
   let { playing, playRef, pauseSong } = useContext(audioContext)
 

@@ -16,7 +16,7 @@ const AuthContext = ({ children }) => {
     let [passwordreg, setPasswordreg] = useState('')
     let [loading, setLoading] = useState(false)
     let [playlistLoader, setPlaylistLoader] = useState(false)
-  
+
     let [login, setLogin] = useState({
         email: '',
         password: ""
@@ -34,19 +34,19 @@ const AuthContext = ({ children }) => {
     let [hideProfileDetail, setHideProfileDetail] = useState(false)
     let [updateprofile, setUpdateprofile] = useState(null)
     let [preview, setPreview] = useState(null)
-    let imageref=useRef()
-    let [library, setLibrary]=useState([])
-    let [hideSearch,setHideSearch]=useState(false)
-    let {fetchRecent}=useContext(authRecent)
-    let {getRecentSearch}=useContext(authSearch)
-    let {getMusicPlaying}=useContext(musciControl)
-    
+    let imageref = useRef()
+    let [library, setLibrary] = useState([])
+    let [hideSearch, setHideSearch] = useState(false)
+    let { fetchRecent } = useContext(authRecent)
+    let { getRecentSearch } = useContext(authSearch)
+    let { getMusicPlaying } = useContext(musciControl)
 
-    useEffect(()=>{
-        if(user?.username){
+
+    useEffect(() => {
+        if (user?.username) {
             setUpdatename(user.username)
         }
-    },[user])
+    }, [user])
 
 
     async function handleSumbit(e) {
@@ -67,7 +67,7 @@ const AuthContext = ({ children }) => {
             setEmailreg('')
             setPasswordreg('')
             navigate('/')
-             await handleGetPlayList();
+            await handleGetPlayList();
             await getLibrary()
             await fetchRecent()
             await getRecentSearch()
@@ -97,7 +97,6 @@ const AuthContext = ({ children }) => {
             await fetchRecent()
             await getRecentSearch()
             await getMusicPlaying()
-            
         }
         catch (e) {
             console.log(e);
@@ -169,10 +168,10 @@ const AuthContext = ({ children }) => {
     }
 
     useEffect(() => {
-        if ( !authReady ) return;
+        if (!authReady) return;
         handleGetPlayList();
 
-    }, [ authReady]);
+    }, [authReady]);
 
     async function handleCreatePlaylist() {
         try {
@@ -199,7 +198,7 @@ const AuthContext = ({ children }) => {
                 username: res.data.username
             }))
             setHideProfileDetail(false)
-            
+
         }
         catch (err) {
             console.log(err);
@@ -207,61 +206,61 @@ const AuthContext = ({ children }) => {
     }
 
 
-    async function removePfp(){
-        try{
-            const res=await axios.delete('http://localhost:3000/api/auth/removePfp', {withCredentials:true})
+    async function removePfp() {
+        try {
+            const res = await axios.delete('http://localhost:3000/api/auth/removePfp', { withCredentials: true })
             setUser(prev => ({
                 ...prev,
-                pfp:res.data.deletePfp?.pfp
+                pfp: res.data.deletePfp?.pfp
             }))
             setPreview(null)
             setUpdateprofile(null)
-            if(imageref.current){
-                imageref.current.value=''
+            if (imageref.current) {
+                imageref.current.value = ''
             }
         }
-        catch(e){
+        catch (e) {
             console.log(e);
         }
     }
 
     async function getLibrary() {
-        try{
-            const res=await axios.get('http://localhost:3000/api/user/getLibrary', {withCredentials:true})
+        try {
+            const res = await axios.get('http://localhost:3000/api/user/getLibrary', { withCredentials: true })
             setLibrary(res.data.getLib)
-            
+
         }
-        catch(e){
+        catch (e) {
             console.log(e);
         }
     }
-    useEffect(()=>{
+    useEffect(() => {
         getLibrary()
-    },[])
+    }, [])
 
-    async function addToLibrary(id){
-        try{
-            const res=await axios.patch(`http://localhost:3000/api/user/addTolab/${id}`,{}, {withCredentials:true})
-            
+    async function addToLibrary(id) {
+        try {
+            const res = await axios.patch(`http://localhost:3000/api/user/addTolab/${id}`, {}, { withCredentials: true })
+
             await getLibrary()
         }
-        catch(err){
+        catch (err) {
             console.log(err);
         }
     }
-    async function removeTolibrary(id){
-        try{
-            const res=await axios.delete(`http://localhost:3000/api/user/deleteLab/${id}`, {withCredentials:true})
+    async function removeTolibrary(id) {
+        try {
+            const res = await axios.delete(`http://localhost:3000/api/user/deleteLab/${id}`, { withCredentials: true })
             await getLibrary()
         }
-        catch(err){
+        catch (err) {
             console.log(err);
         }
     }
 
 
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist , handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview,removePfp,imageref, library,addToLibrary ,removeTolibrary,getLibrary,hideSearch,setHideSearch}}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview, removePfp, imageref, library, addToLibrary, removeTolibrary, getLibrary, hideSearch, setHideSearch }}>
             {children}
         </authProvider.Provider>
     )

@@ -28,7 +28,7 @@ function MusicControllerContext({children}) {
     }
 
   return (
-    <musciControl.Provider value={{control,patchMusicPlaying}}>
+    <musciControl.Provider value={{control,patchMusicPlaying,getMusicPlaying}}>
         {children}
     </musciControl.Provider>
   )

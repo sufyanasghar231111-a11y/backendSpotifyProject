@@ -1,6 +1,5 @@
 import React from 'react'
-// import { authHome } from '../component/contextapi/HomeContext'
-// import { authControl } from '../component/contextapi/AudioControl'
+
 
 const Input = React.memo(({music,currentTime,duration,handleSeek}) => {
     

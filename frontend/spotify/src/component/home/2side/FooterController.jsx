@@ -1,18 +1,11 @@
 import React, { useContext } from 'react'
-import { authHome } from '../../contextapi/HomeContext'
-import { authControl } from '../../contextapi/AudioControl'
 import { musciControl } from '../../contextapi/MusicControllerContext'
+import { audioContext } from '../../contextapi/AudioProvider'
 
 function FooterController() {
-  let { music } = useContext(authHome)
-  let { playing, currentTime, duration, handleSeek } = useContext(authControl)
+  let { handleSeek,currentTime,duration } = useContext(audioContext)
   let {control}=useContext(musciControl)
 
-  // let currentId = music.find(elem =>
-  //   elem._id === playing
-  // )
-
-  // if (!currentId) return null
   return (
     
       <> 
@@ -29,9 +22,9 @@ function FooterController() {
         </div>
       </div>
       <div className='flex items-center justify-center gap-3'>
-        <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((currentTime[playing] || 0) / 60)}: {String(Math.floor((currentTime[playing] || 0)) % 60).padStart(2, '0')}</h1>
-        <input type="range" name="music" className='h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-green-500  hover:accent-green-400 ' onChange={(e) => { handleSeek(e, playing) }} value={currentTime[playing] || 0} min='0' max={duration[playing] || 0} />
-        <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((duration[playing] || 0) / 60)}: {String(Math.floor((duration[playing] || 0)) % 60).padStart(2, '0')}</h1>
+        <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((currentTime) / 60)}: {String(Math.floor((currentTime)) % 60).padStart(2, '0')}</h1>
+        <input type="range" name="music" className='h-1 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-green-500  hover:accent-green-400 ' onChange={(e) => { handleSeek(e) }} value={currentTime} min='0' max={duration} />
+        <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((duration) / 60)}: {String(Math.floor((duration)) % 60).padStart(2, '0')}</h1>
       </div>
     </div>
         })

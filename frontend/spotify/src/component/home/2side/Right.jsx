@@ -4,7 +4,6 @@ import HomeContext, { authHome } from '../../contextapi/HomeContext'
 import Album from '../Album'
 
 import { Link, Outlet, useLocation } from 'react-router-dom'
-import { authControl } from '../../contextapi/AudioControl'
 import RightsideMusic from '../../rightside/RightsideMusic'
 
 

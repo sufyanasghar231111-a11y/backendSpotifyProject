@@ -1,7 +1,6 @@
 import { RiHeartFill, RiPlayListLine } from '@remixicon/react'
 import React, { useContext, useEffect } from 'react'
 
-import { authControl } from '../component/contextapi/AudioControl'
 import Input from '../like/Input'
 import { authHome } from '../component/contextapi/HomeContext'
 import axios from 'axios'

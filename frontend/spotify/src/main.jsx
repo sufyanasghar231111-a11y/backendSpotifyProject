@@ -6,7 +6,6 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import AuthContext from './component/contextapi/AuthContext.jsx'
 import HomeContext from './component/contextapi/HomeContext.jsx'
-import AudioControl from './component/contextapi/AudioControl.jsx'
 import RecentRoute from './component/contextapi/RecentRoute.jsx'
 import RecentSearchRoute from './component/contextapi/RecentSearchRoute.jsx'
 import MusicControllerContext from './component/contextapi/MusicControllerContext.jsx'
@@ -24,9 +23,7 @@ createRoot(document.getElementById('root')).render(
       <RecentSearchRoute >
       <AuthContext >
         <HomeContext >
-          <AudioControl >
               <App />
-          </AudioControl>
         </HomeContext>
       </AuthContext>
       </RecentSearchRoute>
