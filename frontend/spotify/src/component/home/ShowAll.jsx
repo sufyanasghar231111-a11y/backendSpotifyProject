@@ -8,7 +8,7 @@ import { musciControl } from '../contextapi/MusicControllerContext'
 import { authRecent } from '../contextapi/RecentRoute'
 
 const ShowAll = () => {
-  let {playing,playRef,pauseSong}=useContext(audioContext)  
+  let {playing,playRef}=useContext(audioContext)  
   let {music,page, setPage}=useContext(authHome)
     let { update } = useContext(authRecent)
     let { patchMusicPlaying } = useContext(musciControl)
@@ -29,7 +29,7 @@ const ShowAll = () => {
     alt=''/>
     </Link>
      
-       <div  className='absolute bottom-3 right-3
+       <div onClick={()=>{playRef(elem)}}  className='absolute bottom-3 right-3
               flex items-center justify-center
               w-12 h-12 rounded-full hover:bg-green-600 bg-green-500
               opacity-0 translate-y-4
@@ -37,7 +37,7 @@ const ShowAll = () => {
               group-hover:opacity-100
               transition-all duration-300 ease-out shadow-lg'>
                 {
-                  playing === elem._id ? (<RiPauseFill onClick={pauseSong} className='text-black w-7 h-7' />):(<RiPlayFill onClick={()=>{playRef(elem)
+                  playing === elem._id ? (<RiPauseFill  className='text-black w-7 h-7' />):(<RiPlayFill onClick={()=>{
                     update(elem?._id)
                     patchMusicPlaying(elem?._id)
                   }} className='text-black w-7 h-7' />)

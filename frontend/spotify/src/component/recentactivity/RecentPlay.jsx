@@ -4,7 +4,7 @@ import { RiCloseLine } from "@remixicon/react";
 
 const RecentPlay = () => {
   let {recentActivity,deleteData}=useContext(authRecent)
-
+  
   const items=[
    ...( recentActivity?.[0]?.songs?.map(i => ({
     ...i.item,
@@ -48,6 +48,7 @@ const RecentPlay = () => {
   <div className="flex gap-4 overflow-x-auto scrollbar-hide">
     {
     items.map((item)=>{
+      
         return <div
         key={item._id}
         className="min-w-[180px]  bg-[#181818] p-3 rounded-lg"

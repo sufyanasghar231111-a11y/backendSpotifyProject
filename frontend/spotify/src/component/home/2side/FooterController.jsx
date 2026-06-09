@@ -11,9 +11,10 @@ function FooterController() {
       <> 
       {
         control.map((elem)=>{
+          
           return <div key={elem._id} className='flex items-center gap-25 pt-5 justify-between'>
       <div className='-pt-10 flex items-center justify-center gap-2'>
-        <div className='w-15 h-15 rounded-full  overflow-hidden'>
+        <div className='w-13 h-13 rounded-lg  overflow-hidden'>
           <img className='w-full h-full object-cover' src={elem.music?.image} alt="" />
         </div>
         <div>

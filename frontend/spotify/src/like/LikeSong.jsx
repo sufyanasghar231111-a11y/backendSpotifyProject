@@ -9,7 +9,7 @@ import { audioContext } from '../component/contextapi/AudioProvider'
 const LikeSong = () => {
   let { update } = useContext(authRecent)
    let { patchMusicPlaying } = useContext(musciControl)
-   let { playing, playRef, pauseSong } = useContext(audioContext)
+   let { playing, playRef } = useContext(audioContext)
   let { fav,deletemusic } = useContext(authHome)
   
 
@@ -74,14 +74,14 @@ const LikeSong = () => {
                         {index + 1}
                       </span>
                       <button
-                        
+                        onClick={()=>{playRef(music)}}
                         className='absolute inset-0 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl scale-0 max-sm:scale-100 group-hover:scale-100 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 active:scale-95' >
                         {playing === music._id ? (
-                          <svg onClick={pauseSong}  className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
+                          <svg   className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
                             <path fillRule='evenodd' d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z' clipRule='evenodd' />
                           </svg>
                         ) : (
-                          <svg onClick={()=>{playRef(music)
+                          <svg onClick={()=>{
                             patchMusicPlaying(music._id)
                             update(music._id)
                           }}  className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>

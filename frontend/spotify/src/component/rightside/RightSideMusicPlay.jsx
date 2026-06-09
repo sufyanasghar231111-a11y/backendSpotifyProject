@@ -10,7 +10,7 @@ const RightSideMusicPlay = () => {
   let { music } = useContext(authHome)
   let { update } = useContext(authRecent)
   let { patchMusicPlaying } = useContext(musciControl)
-  let { playing, playRef, pauseSong } = useContext(audioContext)
+  let { playing, playRef } = useContext(audioContext)
 
   return (
 
@@ -32,7 +32,7 @@ const RightSideMusicPlay = () => {
               />
             </Link>
 
-            <div className='absolute bottom-3 right-3
+            <div onClick={()=>{playRef(item) }} className='absolute bottom-3 right-3
               flex items-center justify-center
               w-12 h-12 rounded-full hover:bg-green-600 bg-green-500
               opacity-0 translate-y-4
@@ -40,8 +40,8 @@ const RightSideMusicPlay = () => {
               group-hover:opacity-100
               transition-all duration-300 ease-out shadow-lg'>
               {
-                playing === item._id ? (<RiPauseFill onClick={pauseSong}  className='text-black w-7 h-7' />) : (<RiPlayFill onClick={() => {
-                  playRef(item) 
+                playing === item._id ? (<RiPauseFill   className='text-black w-7 h-7' />) : (<RiPlayFill onClick={() => {
+                  
                   update(item._id)
                   patchMusicPlaying(item._id)
                   
@@ -54,7 +54,7 @@ const RightSideMusicPlay = () => {
               {item.title}
             </h1>
             <h1 className='pt-1 text-sm font-semibold text-[#bebebe] hover:underline w-fit'>
-              {item.artist.username}
+              {item.artist?.username}
             </h1>
           </div>
         </div>
