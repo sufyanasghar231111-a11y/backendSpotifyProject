@@ -9,9 +9,10 @@ import { authHome } from '../contextapi/HomeContext'
 const RightSideMusicPlay = () => {
   let { music } = useContext(authHome)
   let { update } = useContext(authRecent)
-  let { patchMusicPlaying } = useContext(musciControl)
-  let { playing, playRef } = useContext(audioContext)
+  let { patchMusicPlaying ,playRef} = useContext(musciControl)
+  let { playing,currentSong } = useContext(audioContext)
 
+  
   return (
 
     <>
@@ -32,7 +33,10 @@ const RightSideMusicPlay = () => {
               />
             </Link>
 
-            <div onClick={()=>{playRef(item) }} className='absolute bottom-3 right-3
+            <div onClick={()=>{playRef(item)
+              update(item._id)
+              patchMusicPlaying(item._id)
+             }} className='absolute bottom-3 right-3
               flex items-center justify-center
               w-12 h-12 rounded-full hover:bg-green-600 bg-green-500
               opacity-0 translate-y-4
@@ -40,12 +44,7 @@ const RightSideMusicPlay = () => {
               group-hover:opacity-100
               transition-all duration-300 ease-out shadow-lg'>
               {
-                playing === item._id ? (<RiPauseFill   className='text-black w-7 h-7' />) : (<RiPlayFill onClick={() => {
-                  
-                  update(item._id)
-                  patchMusicPlaying(item._id)
-                  
-                }} className='text-black w-7 h-7' />)
+                currentSong === item._id && playing ? (<RiPauseFill   className='text-black w-7 h-7' />) : (<RiPlayFill  className='text-black w-7 h-7' />)
               }
             </div>
           </div>

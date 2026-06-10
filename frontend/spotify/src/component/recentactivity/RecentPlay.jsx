@@ -6,13 +6,13 @@ const RecentPlay = () => {
   let {recentActivity,deleteData}=useContext(authRecent)
   
   const items=[
-   ...( recentActivity?.[0]?.songs?.map(i => ({
+   ...( recentActivity?.songs?.map(i => ({
     ...i.item,
     createdAt:i.createdAt,
     type:'songs'
    })) || []),
    ...(
-    recentActivity?.[0]?.album?.map(i =>({
+    recentActivity?.album?.map(i =>({
       ...i.item,
     createdAt:i.createdAt,
       type:"album"
@@ -20,6 +20,8 @@ const RecentPlay = () => {
     || [] )
     
   ].sort((a,b)=> new Date(b.createdAt)- new Date(a.createdAt))
+
+  
 
 
   function timeAgo(date){

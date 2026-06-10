@@ -17,7 +17,6 @@ async  function fetchRecent(){
     fetchRecent()
   },[])
 
-
   async function update(id){
     try{
       const res=await axios.patch(`http://localhost:3000/api/moreuser/updaterecent/${id}`, {} ,{withCredentials:true})
@@ -29,6 +28,7 @@ async  function fetchRecent(){
       
     }
   }
+
   async function updateAlbum(id){
     try{
       const res=await axios.patch(`http://localhost:3000/api/moreuser/updateRecentAlbum/${id}`, {} ,{withCredentials:true})

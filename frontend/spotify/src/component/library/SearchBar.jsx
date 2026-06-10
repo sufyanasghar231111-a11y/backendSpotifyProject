@@ -63,7 +63,7 @@ function SearchBar() {
                                 </div>
                                 {
                                     searchinput.trim() === '' ? (
-                                            getSearch?.[0]?.search.length >1   ? (
+                                            getSearch?.[0]?.search.length >0   ? (
                                                 <RecentSearch />
                                             ):(<div className='flex flex-col items-center justify-center py-14 text-center text-[#8a8a8a]'>
                                             <div className='w-16 h-16 rounded-full bg-[#1d1d1d] flex items-center justify-center text-2xl mb-4'>

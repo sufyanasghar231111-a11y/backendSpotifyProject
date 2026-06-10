@@ -240,7 +240,7 @@ const AuthContext = ({ children }) => {
 
     async function addToLibrary(id) {
         try {
-            const res = await axios.patch(`http://localhost:3000/api/user/addTolab/${id}`, {}, { withCredentials: true })
+           await axios.patch(`http://localhost:3000/api/user/addTolab/${id}`, {}, { withCredentials: true })
 
             await getLibrary()
         }
@@ -250,7 +250,7 @@ const AuthContext = ({ children }) => {
     }
     async function removeTolibrary(id) {
         try {
-            const res = await axios.delete(`http://localhost:3000/api/user/deleteLab/${id}`, { withCredentials: true })
+             await axios.delete(`http://localhost:3000/api/user/deleteLab/${id}`, { withCredentials: true })
             await getLibrary()
         }
         catch (err) {

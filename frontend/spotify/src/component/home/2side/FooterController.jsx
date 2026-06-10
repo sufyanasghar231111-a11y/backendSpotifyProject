@@ -3,7 +3,7 @@ import { musciControl } from '../../contextapi/MusicControllerContext'
 import { audioContext } from '../../contextapi/AudioProvider'
 
 function FooterController() {
-  let { handleSeek,currentTime,duration } = useContext(audioContext)
+  let { currentTime,duration,handleSeek } = useContext(audioContext)
   let {control}=useContext(musciControl)
 
   return (

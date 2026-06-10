@@ -8,10 +8,10 @@ import { musciControl } from '../contextapi/MusicControllerContext'
 import { authRecent } from '../contextapi/RecentRoute'
 
 const ShowAll = () => {
-  let {playing,playRef}=useContext(audioContext)  
+  let {playing,}=useContext(audioContext)  
   let {music,page, setPage}=useContext(authHome)
     let { update } = useContext(authRecent)
-    let { patchMusicPlaying } = useContext(musciControl)
+    let { patchMusicPlaying,playRef } = useContext(musciControl)
 
   const disable=music.length<8
 
@@ -49,13 +49,13 @@ const ShowAll = () => {
                  {elem.title}
               </h1>
               <h1 className='pt-1 text-sm font-semibold text-[#bebebe] hover:underline w-fit'>
-                {elem.artist.username}
+                {elem.artist?.username}
               </h1>
             </div>
       </div>
          })} 
       </div>
-      <div className='flex  absolute -bottom-45 left-1/2 -translate-x-1/2 py-3 gap-3 justify-center'>
+      <div className='flex  absolute -bottom-37 left-1/2 -translate-x-1/2 py-3 gap-3 justify-center'>
       <button disabled={page===1} onClick={()=>{setPage(page-1)}} className={`px-2 py-2 rounded-lg ${page===1? 'opacity-60 cursor-not-allowed':'opacity-100 cursor-pointer'}  bg-[#4b4a4a] `}>Prev</button>
       <button disabled={disable} onClick={()=>{setPage(page+1)}} className={`px-2 py-2 rounded-lg ${disable? 'opacity-60 cursor-not-allowed':'opacity-100 cursor-pointer'}  bg-[#4b4a4a] `}>Next</button>
       </div>
