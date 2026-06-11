@@ -12,8 +12,8 @@ const Audioplay = () => {
   let { id } = useParams()
   let { createFav, deletemusic, fav, data, setData } = useContext(authHome)
   let { update } = useContext(authRecent)
-  let { patchMusicPlaying } = useContext(musciControl)
-   let { playing, playRef, pauseSong } = useContext(audioContext)
+  let { patchMusicPlaying ,playRef} = useContext(musciControl)
+   let { playing,currentSong } = useContext(audioContext)
 
   let { setHidePlaylist, addToLibrary, removeTolibrary, library } = useContext(authProvider)
 
@@ -65,12 +65,10 @@ const Audioplay = () => {
         </h1>
         <p className='text-xl text-gray-300 mt-3'>{data.artist?.username}</p>
 
-        <button onClick={() => {  }} className='w-fit px-4 mt-4  py-4 flex items-center justify-center  rounded-full bg-green-500 hover:bg-green-400 transition-all duration-300 font-semibold text-black cursor-pointer'>
-          {playing === data?._id ? (<RiPauseFill onClick={()=>{pauseSong()}} className='text-white cursor-pointer w-7 h-7' />) : (<RiPlayFill onClick={()=>{
-            playRef(data)
+        <button onClick={() => { playRef(data)
             patchMusicPlaying(data?._id)
-            update(data?._id)
-          }} className='text-white cursor-pointer w-7 h-7' />)
+            update(data?._id) }} className='w-fit px-4 mt-4  py-4 flex items-center justify-center  rounded-full bg-green-500 hover:bg-green-400 transition-all duration-300 font-semibold text-black cursor-pointer'>
+          {currentSong === data?._id && playing ? (<RiPauseFill  className='text-white cursor-pointer w-7 h-7' />) : (<RiPlayFill  className='text-white cursor-pointer w-7 h-7' />)
           }
         </button>
         <div className="flex items-center justify-center gap-4 mt-8">

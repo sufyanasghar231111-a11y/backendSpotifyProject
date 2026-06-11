@@ -12,10 +12,10 @@ import { audioContext } from '../component/contextapi/AudioProvider'
 
 const PlayUI = () => {
 
-  let { playRef, playing  } = useContext(audioContext)
+  let {  playing ,currentSong } = useContext(audioContext)
   let { fav, deletemusic, createFav ,separate,setSeparate} = useContext(authHome)
   let { update } = useContext(authRecent)
-    let { patchMusicPlaying } = useContext(musciControl)
+    let { patchMusicPlaying,playRef } = useContext(musciControl)
   
   let { id } = useParams()
   const [params] = useSearchParams()
@@ -91,17 +91,17 @@ const PlayUI = () => {
                   {index + 1}
                 </span>
                 <button 
-                onClick={()=>{playRef(music)}}
+                onClick={()=>{playRef(music)
+                  update(music?._id)
+                        patchMusicPlaying(music._id)
+                }}
                   className='absolute inset-0 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl scale-0 max-sm:scale-100 group-hover:scale-100 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 active:scale-95' >
-                  {playing === music?._id ? (
+                  {currentSong === music?._id && playing ? (
                     <svg  className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
                       <path fillRule='evenodd' d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z' clipRule='evenodd' />
                     </svg>
                   ) : (
-                    <svg onClick={()=>{update(music?._id)
-                     
-                        patchMusicPlaying(music._id)
-                    }} className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
+                    <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
                       <path fillRule='evenodd' d='M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z' clipRule='evenodd' />
                     </svg>
                   )}

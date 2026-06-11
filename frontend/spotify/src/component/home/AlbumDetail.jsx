@@ -13,8 +13,8 @@ const AlbumDetail = () => {
   let { id } = useParams()
   let {setHideAlbumPlaylist}=useContext(authProvider)
   let { fav, createFav, deletemusic } = useContext(authHome)
-  let {playRef, playing}=useContext(audioContext)
-  let { patchMusicPlaying } = useContext(musciControl)
+  let { playing,currentSong}=useContext(audioContext)
+  let { patchMusicPlaying,playRef } = useContext(musciControl)
   let { update } = useContext(authRecent)
   let {detailData, setDetailData}=useContext(authProvider)
   async function detail() {
@@ -62,10 +62,12 @@ const AlbumDetail = () => {
 
                 <div className='relative'>
                   <span className=' group-hover:scale-0  scale-100 absolute top-3 transition-all duration-300 '>{index + 1}</span>
-                  <span onClick={()=>{playRef(elem)}} className=' group-hover:scale-100 scale-0  absolute top-3.5 -left-1 transition-all duration-300'>{
-                    playing === elem._id ? (<RiPauseFill  className='text-white cursor-pointer w-5 h-5' />) : (<RiPlayFill onClick={()=>{
-                      update(elem._id)
+                  <span onClick={()=>{playRef(elem)
+                   update(elem._id)
                   patchMusicPlaying(elem._id)
+                  }} className=' group-hover:scale-100 scale-0  absolute top-3.5 -left-1 transition-all duration-300'>{
+                    currentSong === elem._id && playing ? (<RiPauseFill  className='text-white cursor-pointer w-5 h-5' />) : (<RiPlayFill onClick={()=>{
+                     
                     }} className='text-white cursor-pointer w-5 h-5' />)
                   }</span>
                 </div>

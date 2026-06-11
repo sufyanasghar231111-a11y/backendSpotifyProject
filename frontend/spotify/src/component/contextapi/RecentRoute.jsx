@@ -1,33 +1,33 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 export const  authRecent=createContext()
 const RecentRoute = ({children}) => {
   let [recentActivity, setRecentActivity]=useState([])
-async  function fetchRecent(){
+  
+const  fetchRecent= useCallback(async()=>{
     try{
       const res=await axios.get('http://localhost:3000/api/moreuser/getrecent', {withCredentials:true})
       setRecentActivity(res.data.get)      
     }
     catch(err){
       console.log(err);
-      
     }
-  }
+  },[])
+
   useEffect(()=>{
     fetchRecent()
   },[])
 
-  async function update(id){
+  const  update= useCallback (async (id) => {
     try{
-      const res=await axios.patch(`http://localhost:3000/api/moreuser/updaterecent/${id}`, {} ,{withCredentials:true})
-      setRecentActivity(res.data.update)
+      await axios.patch(`http://localhost:3000/api/moreuser/updaterecent/${id}`, {} ,{withCredentials:true})
       await fetchRecent()
     }
     catch(err){
       console.log(err);
       
     }
-  }
+  },[fetchRecent])
 
   async function updateAlbum(id){
     try{

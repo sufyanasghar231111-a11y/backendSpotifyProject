@@ -10,7 +10,7 @@ const AudioProvider = ({ children }) => {
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
 
-
+  
 
   function handleTime() {
     let audio = audioRef.current
@@ -31,14 +31,15 @@ const AudioProvider = ({ children }) => {
     let value = Number(e.target.value)
     setCurrentTime(value)
     audioRef.current.currentTime = value
+
   }
 
 
-
   return (
-    <audioContext.Provider value={{ playing, setPlaying, audioRef, handleSeek, currentTime, duration,currentSong, setCurrentSong }}>
+    <audioContext.Provider value={{playing, setPlaying, audioRef, handleSeek, currentTime, duration,currentSong, setCurrentSong,handleTime,loader}}>
       {children}
-      <audio ref={audioRef} onTimeUpdate={handleTime} onLoadedMetadata={loader} />
+
+      <audio  ref={audioRef} onLoadedMetadata={loader} onTimeUpdate={handleTime} />
     </audioContext.Provider>
   )
 }

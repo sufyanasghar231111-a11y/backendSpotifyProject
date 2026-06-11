@@ -6,8 +6,8 @@ import { RiPauseFill, RiPlayFill } from '@remixicon/react'
 import { musciControl } from "../contextapi/MusicControllerContext";
 
 const LibraryMusic = ({ item }) => {
-    let { playing, playRef } = useContext(audioContext)
-     let { patchMusicPlaying } = useContext(musciControl)
+    let { playing ,currentSong} = useContext(audioContext)
+     let { patchMusicPlaying,playRef } = useContext(musciControl)
      let { update } = useContext(authRecent)
     return (
 
@@ -16,16 +16,15 @@ const LibraryMusic = ({ item }) => {
                 <div className='flex items-center justify-center group relative  overflow-hidden rounded w-13 max-sm:w-10 max-sm:h-10 h-13 bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] '>
 
                     <img className='w-full h-full object-cover' src={item.image} alt="" />
-                    <div onClick={()=>{playRef(item)}}>
+                    <div onClick={()=>{playRef(item)
+                        update(item._id)
+                                    patchMusicPlaying(item._id)
+                    }}>
                         {
-                            playing === item._id ? (
+                            currentSong === item._id && playing ? (
                                 <RiPauseFill  className='absolute group-hover:block hidden transition-all duration-500  left-3 top-3.5 cursor-pointer z-10' />
                             ) : (
-                                <RiPlayFill onClick={() => {
-                                    
-                                    update(item._id)
-                                    patchMusicPlaying(item._id)
-                                }} className='absolute left-3 group-hover:block hidden transition-all duration-500 top-3.5 cursor-pointer z-10' />
+                                <RiPlayFill  className='absolute left-3 group-hover:block hidden transition-all duration-500 top-3.5 cursor-pointer z-10' />
                             )
                         }
                     </div>
