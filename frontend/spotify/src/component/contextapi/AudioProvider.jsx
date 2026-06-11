@@ -39,7 +39,7 @@ const AudioProvider = ({ children }) => {
     <audioContext.Provider value={{playing, setPlaying, audioRef, handleSeek, currentTime, duration,currentSong, setCurrentSong,handleTime,loader}}>
       {children}
 
-      <audio  ref={audioRef} onLoadedMetadata={loader} onTimeUpdate={handleTime} />
+      <audio   ref={audioRef} onLoadedMetadata={loader}  onTimeUpdate={handleTime} />
     </audioContext.Provider>
   )
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { audioContext } from './AudioProvider';
 
 export const musciControl = createContext()
@@ -7,6 +7,13 @@ function MusicControllerContext({ children }) {
     let [control, setControl] = useState([])
     let { audioRef, setPlaying, setCurrentSong, currentSong } = useContext(audioContext)
 
+    let currentSongRef=useRef(currentSong)
+
+    useEffect(()=>{
+        currentSongRef.current=currentSong
+    },[currentSong])
+
+   
 
     const getMusicPlaying = async () => {
         try {
@@ -22,14 +29,15 @@ function MusicControllerContext({ children }) {
         getMusicPlaying()
     }, [])
 
-    const patchMusicPlaying = async (id) => {
+    const patchMusicPlaying = useCallback (async (id) => {
 
         try {
             const audio = audioRef.current
             if (!audio) return;
             if (!id) return
             await axios.patch(`http://localhost:3000/api/current/patchcurr/${id}`, {
-                currentTime: audio.currentTime
+                currentTime: audio.currentTime,
+                duration:audio.duration
             }, { withCredentials: true })
 
             getMusicPlaying()
@@ -37,7 +45,13 @@ function MusicControllerContext({ children }) {
         catch (err) {
             console.log(err.response?.data);
         }
-    }
+    },[getMusicPlaying])
+
+     let patchRef=useRef(patchMusicPlaying)
+
+     useEffect(()=>{
+        patchRef.current=patchMusicPlaying
+    },[patchMusicPlaying])
 
 
 
@@ -68,7 +82,6 @@ function MusicControllerContext({ children }) {
         audio.load()
         audio.currentTime = saveTime?.currentTime || 0
 
-
         audio.play()
         setPlaying(true)
         setCurrentSong(song?._id)
@@ -76,14 +89,15 @@ function MusicControllerContext({ children }) {
 
     useEffect(() => {
         let audio = audioRef.current
-        if (!audio || !currentSong) return
+        if (!audio ) return
 
         let lastUpdate=0
         const saveTime = () => {
+            if(! currentSongRef.current) return 
             let now =Date.now()
             if(now-lastUpdate < 500) return
             lastUpdate=now
-            patchMusicPlaying(currentSong)
+            patchRef.current(currentSongRef.current)
         }
 
         audio.addEventListener('timeupdate', saveTime)
@@ -91,8 +105,9 @@ function MusicControllerContext({ children }) {
         return () => {
             audio.removeEventListener('timeupdate', saveTime)
         }
-    }, [currentSong, patchMusicPlaying])
+    }, [])
 
+   
    
     return (
         <musciControl.Provider value={{control, patchMusicPlaying, getMusicPlaying, playRef}}>
