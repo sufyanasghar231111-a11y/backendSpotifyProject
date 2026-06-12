@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { authRecent } from './RecentRoute';
 import { authSearch } from './RecentSearchRoute';
 import { musciControl } from './MusicControllerContext';
+import { audioContext } from './AudioProvider';
 
 
 export const authProvider = createContext()
@@ -41,6 +42,7 @@ const AuthContext = ({ children }) => {
     let { getRecentSearch } = useContext(authSearch)
     let { getMusicPlaying } = useContext(musciControl)
 
+    let {setCurrentSong,audioRef}=useContext(audioContext)
 
     useEffect(() => {
         if (user?.username) {
@@ -60,9 +62,7 @@ const AuthContext = ({ children }) => {
                 }, { withCredentials: true }
             )
 
-            localStorage.setItem('token', response.data.user.token)
-            setUser(response.data.user)
-
+            
             setUsername('')
             setEmailreg('')
             setPasswordreg('')
@@ -72,6 +72,7 @@ const AuthContext = ({ children }) => {
             await fetchRecent()
             await getRecentSearch()
             await getMusicPlaying()
+            setUser(response.data.user)
         }
         catch (err) {
             console.log(err);
@@ -90,13 +91,13 @@ const AuthContext = ({ children }) => {
                 { withCredentials: true }
             )
 
-            setUser(checkLogin.data)
             setAuthReady(true)
             await handleGetPlayList();
             await getLibrary()
             await fetchRecent()
             await getRecentSearch()
             await getMusicPlaying()
+            setUser(checkLogin.data)
         }
         catch (e) {
             console.log(e);
@@ -130,12 +131,19 @@ const AuthContext = ({ children }) => {
         checkRefresh()
 
     }, [])
+
     async function handleLogout() {
         try {
             await axios.post('http://localhost:3000/api/auth/logout',
                 {},
                 { withCredentials: true }
             )
+            if(audioRef.current){
+                audioRef.current.pause()
+                audioRef.current.currentTime=0
+                audioRef.current.src=''
+            }
+            setCurrentSong(null)
         }
         catch (e) {
             console.log(e);

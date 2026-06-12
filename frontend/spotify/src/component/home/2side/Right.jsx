@@ -5,10 +5,12 @@ import Album from '../Album'
 
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import RightsideMusic from '../../rightside/RightsideMusic'
+import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 
 
 const Right = () => {
-  let { setHide, setPage } = useContext(authHome)
+  const { setHide } = useContext(authHome)
+  const {setPage}   =useContext(authSearchBar)
 
   let location = useLocation()
   useEffect(() => {

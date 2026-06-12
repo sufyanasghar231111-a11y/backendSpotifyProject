@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { authHome } from '../contextapi/HomeContext'
 import { RiSearchLine } from '@remixicon/react'
+import { authSearchBar } from '../contextapi/SearchSeparateContext'
 
 const NoResult = () => {
-    let { searchinput } = useContext(authHome)
+    let { searchinput } = useContext(authSearchBar)
     return (
         <div> <div className='flex flex-col items-center justify-center py-14 text-center text-[#8a8a8a]'>
 

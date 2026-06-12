@@ -5,9 +5,9 @@ import { musciControl } from "../contextapi/MusicControllerContext";
 import { audioContext } from "../contextapi/AudioProvider";
 import { RiArrowLeftSLine, RiArrowRightSLine, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import { Link } from 'react-router-dom'
-import { authHome } from '../contextapi/HomeContext'
+import { authSearchBar } from '../contextapi/SearchSeparateContext';
 const RightSideMusicPlay = () => {
-  let { music } = useContext(authHome)
+  let { music } = useContext(authSearchBar)
   let { update } = useContext(authRecent)
   let { patchMusicPlaying ,playRef} = useContext(musciControl)
   let { playing,currentSong } = useContext(audioContext)

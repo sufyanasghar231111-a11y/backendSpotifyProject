@@ -3,7 +3,6 @@ import React from 'react'
 import { RiHeartFill, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import Input from '../../like/Input'
 import Audioplay from '../play/Audioplay'
-// import { authProvider } from '../contextapi/AuthContext'
 const Detail = () => {
 
 

@@ -3,7 +3,6 @@ import React from 'react'
 
 
 const ShowSearch = ({elem, handleClick}) => {
-
     
     return (
         <div key={elem._id} onClick={() => { handleClick(elem) }} >

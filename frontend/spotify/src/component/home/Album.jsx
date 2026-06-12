@@ -1,11 +1,11 @@
 import React, {  useContext, useRef } from 'react'
 import { RiArrowLeftSLine, RiArrowRightSLine, RiPlayFill } from '@remixicon/react'
-import { authHome } from '../contextapi/HomeContext'
 import { Link } from 'react-router-dom';
 import { authRecent } from '../contextapi/RecentRoute';
+import { authSearchBar } from '../contextapi/SearchSeparateContext';
 
 const Album = () => {
-  let {album}=useContext(authHome)
+  let {album}=useContext(authSearchBar)
   let {updateAlbum}=useContext(authRecent)
   
     let sliderRef=useRef(null)

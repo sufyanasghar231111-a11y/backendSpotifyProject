@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import { authProvider } from '../../contextapi/AuthContext'
 import { authHome } from '../../contextapi/HomeContext'
 import { RiChromeLine, RiCloseLargeFill, RiSearchLine } from '@remixicon/react'
+import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 
 const NavSearch = () => {
 
     let {  setHideSearch } = useContext(authProvider)
-  let {  searchinput, setSearchinput, setSkeletonLoader, hideClose, setHideClose,patchText } = useContext(authHome)
+  let {  hideClose, setHideClose } = useContext(authHome)
+  let { searchinput, setSearchinput, setSkeletonLoader,patchText}=useContext(authSearchBar)
   let navigate = useNavigate()
     function handleSubmit(e) {
     e.preventDefault();

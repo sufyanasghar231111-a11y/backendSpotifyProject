@@ -6,10 +6,12 @@ import { Link } from 'react-router-dom'
 import { audioContext } from '../contextapi/AudioProvider'
 import { musciControl } from '../contextapi/MusicControllerContext'
 import { authRecent } from '../contextapi/RecentRoute'
+import { authSearchBar } from '../contextapi/SearchSeparateContext'
 
 const ShowAll = () => {
   let {playing,}=useContext(audioContext)  
-  let {music,page, setPage}=useContext(authHome)
+  let {music}=useContext(authHome)
+  const {page, setPage}=useContext(authSearchBar)
     let { update } = useContext(authRecent)
     let { patchMusicPlaying,playRef } = useContext(musciControl)
 
