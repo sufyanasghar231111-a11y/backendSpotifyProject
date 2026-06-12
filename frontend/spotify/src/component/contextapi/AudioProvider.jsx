@@ -4,6 +4,8 @@ export const audioContext = createContext()
 const AudioProvider = ({ children }) => {
   let [playing, setPlaying] = useState(null)
   let [currentSong, setCurrentSong] = useState(null)
+  
+
 
   const audioRef = useRef(null)
   let lastUpdateRef = useRef(0)

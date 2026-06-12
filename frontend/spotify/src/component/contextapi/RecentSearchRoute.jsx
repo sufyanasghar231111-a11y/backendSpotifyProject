@@ -5,7 +5,8 @@ export const authSearch=createContext()
 const RecentSearchRoute = ({children}) => {
 
     let [getSearch, setGetSearch]=useState([])
-    let [results, setResults] = useState([])
+    let [musicresults, setMusicResults] = useState([])
+    let [albumresults, setAlbumResults] = useState([])
    
 
     async function getRecentSearch(){
@@ -56,7 +57,7 @@ const RecentSearchRoute = ({children}) => {
    
 
   return (
-    <authSearch.Provider value={{getSearch,patchRecentSearch,deleteRecentSearch,patchAlbumRecentSearch,getRecentSearch, results, setResults,}}>
+    <authSearch.Provider value={{getSearch,patchRecentSearch,deleteRecentSearch,patchAlbumRecentSearch,getRecentSearch, albumresults, setAlbumResults,musicresults,setMusicResults}}>
       {children}
     </authSearch.Provider>
   )

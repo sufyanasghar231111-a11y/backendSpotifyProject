@@ -12,7 +12,6 @@ const RightSideMusicPlay = () => {
   let { patchMusicPlaying ,playRef} = useContext(musciControl)
   let { playing,currentSong } = useContext(audioContext)
 
-  
   return (
 
     <>

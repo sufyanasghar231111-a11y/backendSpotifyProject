@@ -28,6 +28,7 @@ function Home() {
       <AddToPlaylist />
       {/* updatepfp */}
       <UpdateProfile />
+      
       <SearchBar />
 
       {
@@ -47,11 +48,10 @@ function Home() {
         <Left />
         <Right />
       </div>
+
       {/* footer */}
       <footer className='w-full h-22 bg-black'>
-
      <Footer />
-     
       </footer>
     </div>
   )

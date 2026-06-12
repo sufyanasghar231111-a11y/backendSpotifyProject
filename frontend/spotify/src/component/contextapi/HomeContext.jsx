@@ -11,6 +11,7 @@ const HomeContext = ({ children }) => {
   let [hidepro, setHidepro] = useState(false)
   let [hide, setHide] = useState(true)
   let [music, setMusic] = useState([])
+  let [album, setAlbum] = useState([])
   let [data, setData] = useState([])
   let [searchMusic, setSearchMusic] = useState([])
   let [searchAlbum, setSearchAlbum] = useState([])
@@ -19,16 +20,15 @@ const HomeContext = ({ children }) => {
   let silderRef = useRef(null)
 
   const [page, setPage] = useState(1)
-  const [albumFetch, setAlbumFetch] = useState([])
   let [fav, setFav] = useState([])
   let [separate, setSeparate] = useState({})
   let { user, authReady, handleGetPlayList } = useContext(authProvider)
   let [searchinput, setSearchinput] = useState('')
   let [loader, setLoader] = useState(false)
-  
+
   let [skeletonLoader, setSkeletonLoader] = useState(false)
-  let [hideClose,setHideClose]=useState(false)
-  let {getRecentSearch}=useContext(authSearch)
+  let [hideClose, setHideClose] = useState(false)
+  let { getRecentSearch } = useContext(authSearch)
 
   //slider
   const rightRef = useCallback(() => {
@@ -45,17 +45,32 @@ const HomeContext = ({ children }) => {
     })
   }, [])
   //fetchdata
-  const  fetchData=useCallback(async()=> {
-    try {
-      setLoader(true)
+  let requestRef=useRef(0)
+  
 
-      let res = await axios.get(`http://localhost:3000/api/creator/getMusic?page=${page}&search=${searchinput}`)
+  useEffect(() => {
+    if(searchinput.trim().length<2){
+      setSearchMusic([])
+      setSearchAlbum([])
+    }
+    const timer = setTimeout( async() => {
+      
+    const currentRef=++requestRef.current
+    setLoader(true)
+
+    
+    try {
+
+      let res = await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}&search=${searchinput}`)
+      if(currentRef !==requestRef.current) return
       if (searchinput.trim()) {
         setSearchMusic(res.data.music)
+        setSearchAlbum(res.data.album)
         setIssearch(true)
       }
       else {
         setMusic(res.data.music)
+        setAlbum(res.data.album)
         setIssearch(false)
       }
     }
@@ -63,66 +78,18 @@ const HomeContext = ({ children }) => {
       console.log(err);
     }
     finally {
-      setLoader(false)
+      if(currentRef ===requestRef.current){
+        setLoader(false)
+      }
     }
 
-  },[page,searchinput])
-
-  useEffect(() => {
-    if (searchinput.trim().length < 2) {
-      setSearchMusic([])
-      setIssearch(false)
-      fetchData()
-      return
-    }
-
-    const timer = setTimeout(() => {
-      fetchData()
-    }, 300)
-    return () => clearInterval(timer)
+  
+    }, searchinput.trim()? 600:0)
+    return () => clearTimeout(timer)
 
   }, [page, searchinput])
 
-
-
-  const  album=useCallback(async() => {
-    try {
-
-      setLoader(true)
-      const res = await axios.get(`http://localhost:3000/api/creator/allAlbum?search=${searchinput}`)
-
-      if (searchinput.trim()) {
-        setSearchAlbum(res.data.album)
-        setIssearch(true)
-      }
-      else {
-        setAlbumFetch(res.data.album)
-        setIssearch(false)
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    finally {
-      setLoader(false)
-    }
-  },[searchinput])
-
-  useEffect(() => {
-    if (searchinput.trim().length < 2) {
-      setSearchAlbum([])
-      setIssearch(false)
-      album()
-      return
-    }
-
-    const timer = setTimeout(() => {
-      album()
-    }, 500)
-
-    return () => clearTimeout(timer)
-
-  }, [searchinput])
-
+ 
 
   const fetchFav = useCallback(async () => {
     try {
@@ -198,22 +165,22 @@ const HomeContext = ({ children }) => {
     }
   }, [])
 
-   const  patchText= useCallback(async () => {
-     try{
-       await axios.patch(`http://localhost:3000/api/search/recenttext`,{text:searchinput},{withCredentials:true} )
-       await getRecentSearch() 
-     }
-     catch(err){
-       console.log(err);
-     }
-   
-   },[searchinput]) 
+  const patchText = useCallback(async () => {
+    try {
+      await axios.patch(`http://localhost:3000/api/search/recenttext`, { text: searchinput }, { withCredentials: true })
+      await getRecentSearch()
+    }
+    catch (err) {
+      console.log(err);
+    }
+
+  }, [searchinput])
 
 
 
   const value = useMemo(() => ({
-    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, patchApi, setPage, albumFetch, fav, setFav, createFav, deletemusic, data, setData, separate, setSeparate, deleteApi, searchinput, setSearchinput, searchMusic, Issearch, setIssearch, loader, searchAlbum, skeletonLoader, setSkeletonLoader,hideClose,setHideClose,patchText,setLoader
-  }), [hidepro, hide, silderRef, music, page, albumFetch, fav, rightRef, leftRef, createFav, deletemusic, patchApi, data, separate, deleteApi, searchinput, searchMusic, Issearch, loader, searchAlbum, skeletonLoader,hideClose,patchText])
+    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, music, setMusic, page, patchApi, setPage, album, fav, setFav, createFav, deletemusic, data, setData, separate, setSeparate, deleteApi, searchinput, setSearchinput, searchMusic, Issearch, setIssearch, loader, searchAlbum, skeletonLoader, setSkeletonLoader, hideClose, setHideClose, patchText, setLoader
+  }), [hidepro, hide, silderRef, music, page, album, fav, rightRef, leftRef, createFav, deletemusic, patchApi, data, separate, deleteApi, searchinput, searchMusic, Issearch, loader, searchAlbum, skeletonLoader, hideClose, patchText])
 
   return (
     <authHome.Provider value={value}>

@@ -9,29 +9,18 @@ import { authSearch } from '../contextapi/RecentSearchRoute'
 const SearchMusicDetail = () => {
     const [params]=useSearchParams()
     const query=params.get('query')
-    let { results, setResults } = useContext(authSearch)
+    let {  albumresults, setAlbumResults,musicresults,setMusicResults} = useContext(authSearch)
 
 
     useEffect(() => {
         async function fetchData() {
             
-            const music = await axios.get(
-                `http://localhost:3000/api/creator/getMusic?search=${query}`
+            const res = await axios.get(
+                `http://localhost:3000/api/creator/getmusicalbum?search=${query}`
             )
 
-            const album = await axios.get(`http://localhost:3000/api/creator/allAlbum?search=${query}`)
-
-            const musicFetch = music.data.music.map(i => ({
-                ...i,
-                type: 'music'
-            }))
-
-            const albumFetch = album.data.album.map(i => ({
-                ...i,
-                type: 'album'
-            }))
-
-            setResults([...musicFetch, ...albumFetch])
+            setAlbumResults(res.data.album)
+            setMusicResults(res.data.music)
         }
 
         fetchData()
@@ -39,6 +28,17 @@ const SearchMusicDetail = () => {
 
     
       const selected=params.get('selected')
+
+      const results=[
+        ...musicresults.map(elem=>({
+            ...elem,
+            type:'music'})
+        ),
+        ...albumresults.map(elem => ({
+            ...elem,
+            type:'album'
+        }))
+      ]
 
 
       const sort=selected ?[

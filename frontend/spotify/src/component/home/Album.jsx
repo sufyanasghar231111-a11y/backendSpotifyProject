@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { authRecent } from '../contextapi/RecentRoute';
 
 const Album = () => {
-  let {albumFetch}=useContext(authHome)
+  let {album}=useContext(authHome)
   let {updateAlbum}=useContext(authRecent)
   
     let sliderRef=useRef(null)
@@ -45,7 +45,7 @@ const Album = () => {
         <RiArrowLeftSLine />
       </button>
          <div ref={sliderRef} className='flex relative  overflow-x-auto scroll'>
-        {albumFetch.map((item) => (
+        {album.map((item) => (
           <div onClick={()=>{updateAlbum(item._id)}}
             key={item._id}
             className='shrink-0 group w-44 rounded-lg
