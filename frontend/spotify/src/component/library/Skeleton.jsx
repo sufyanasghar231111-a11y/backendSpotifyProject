@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import { authSearchBar } from '../contextapi/SearchSeparateContext'
+import { authSearch } from '../contextapi/RecentSearchRoute'
 
 const Skeleton = () => {
-  const { skeletonLoader } = useContext(authSearchBar)
+  const { skeletonLoader } = useContext(authSearch)
 
   if (!skeletonLoader) return null
 

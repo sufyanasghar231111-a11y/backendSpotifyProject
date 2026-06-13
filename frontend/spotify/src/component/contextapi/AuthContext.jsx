@@ -32,7 +32,7 @@ const AuthContext = ({ children }) => {
     let [preview, setPreview] = useState(null)
     let imageref = useRef()
     let [library, setLibrary] = useState([])
-    let [hideSearch, setHideSearch] = useState(false)
+    
     let { fetchRecent } = useContext(authRecent)
     let { getRecentSearch } = useContext(authSearch)
     let { getMusicPlaying } = useContext(musciControl)
@@ -234,7 +234,7 @@ const AuthContext = ({ children }) => {
 
 
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, name,  handleLogout, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview, removePfp, imageref, library, addToLibrary, removeTolibrary, getLibrary, hideSearch, setHideSearch }}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, name,  handleLogout, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview, removePfp, imageref, library, addToLibrary, removeTolibrary, getLibrary }}>
             {children}
         </authProvider.Provider>
     )

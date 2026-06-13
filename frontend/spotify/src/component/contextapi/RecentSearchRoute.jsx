@@ -7,7 +7,7 @@ const RecentSearchRoute = ({children}) => {
     let [getSearch, setGetSearch]=useState([])
     let [musicresults, setMusicResults] = useState([])
     let [albumresults, setAlbumResults] = useState([])
-   
+     const [skeletonLoader, setSkeletonLoader] = useState(false)
 
     async function getRecentSearch(){
         try{
@@ -57,7 +57,7 @@ const RecentSearchRoute = ({children}) => {
    
 
   return (
-    <authSearch.Provider value={{getSearch,patchRecentSearch,deleteRecentSearch,patchAlbumRecentSearch,getRecentSearch, albumresults, setAlbumResults,musicresults,setMusicResults}}>
+    <authSearch.Provider value={{getSearch,patchRecentSearch,deleteRecentSearch,patchAlbumRecentSearch,getRecentSearch, albumresults, setAlbumResults,musicresults,setMusicResults,skeletonLoader, setSkeletonLoader}}>
       {children}
     </authSearch.Provider>
   )

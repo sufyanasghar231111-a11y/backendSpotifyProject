@@ -65,7 +65,7 @@ const Audioplay = () => {
         <h1 className='text-4xl md:text-5xl font-bold mt-3'>
           {data?.title}
         </h1>
-        <p className='text-xl text-gray-300 mt-3'>{data.artist?.username}</p>
+        <p className='text-xl text-gray-300 mt-3'>{data?.artist?.username}</p>
 
         <button onClick={() => { playRef(data)
             patchMusicPlaying(data?._id)

@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { musciControl } from '../../contextapi/MusicControllerContext'
 import { audioContext } from '../../contextapi/AudioProvider'
-
+import {Link} from 'react-router-dom'
 function FooterController() {
-  let { handleSeek } = useContext(audioContext)
-  let {control}=useContext(musciControl)  
+  const  { handleSeek } = useContext(audioContext)
+  const  {control}=useContext(musciControl)  
+  
 
   return (
     
@@ -12,13 +13,15 @@ function FooterController() {
       {
         control.map((elem)=>{
           
-          return <div key={elem._id} className='flex items-center gap-25 pt-5 justify-between'>
+          return <div key={elem._id} className='flex items-center gap-40 pt-5 justify-between'>
       <div className='-pt-10 flex items-center justify-center gap-2'>
         <div className='w-13 h-13 rounded-lg  overflow-hidden'>
           <img className='w-full h-full object-cover' src={elem.music?.image} alt="" />
         </div>
         <div>
-          <h1 className='text-green-500 font-mono'>{elem.music?.title}</h1>
+          <Link to={`/detail/${elem.music?._id}`}>
+          <div className='text-green-500 font-mono'>{elem.music?.title}</div>
+          </Link>
           <h1 className='text-sm text-[#807f7f] font-mono'>{elem.music?.artist?.username}</h1>
         </div>
       </div>

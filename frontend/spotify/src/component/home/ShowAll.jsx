@@ -1,5 +1,4 @@
 import React, { useContext } from 'react'
-import { authHome } from '../contextapi/HomeContext'
 import { RiPauseFill, RiPlayFill } from '@remixicon/react'
 
 import { Link } from 'react-router-dom'
@@ -9,9 +8,8 @@ import { authRecent } from '../contextapi/RecentRoute'
 import { authSearchBar } from '../contextapi/SearchSeparateContext'
 
 const ShowAll = () => {
-  let {playing,}=useContext(audioContext)  
-  let {music}=useContext(authHome)
-  const {page, setPage}=useContext(authSearchBar)
+  let {playing}=useContext(audioContext)  
+  const {page, setPage,music}=useContext(authSearchBar)
     let { update } = useContext(authRecent)
     let { patchMusicPlaying,playRef } = useContext(musciControl)
 
