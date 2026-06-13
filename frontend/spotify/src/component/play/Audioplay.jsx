@@ -7,6 +7,7 @@ import { musciControl } from "../contextapi/MusicControllerContext";
 import { audioContext } from "../contextapi/AudioProvider";
 import { RiAddCircleLine, RiCheckLine, RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListAddLine, RiPlayListLine } from '@remixicon/react'
 import { authProvider } from '../contextapi/AuthContext'
+import { authPlaylist } from '../contextapi/PlaylistContext'
 
 const Audioplay = () => {
   let { id } = useParams()
@@ -15,8 +16,9 @@ const Audioplay = () => {
   let { patchMusicPlaying ,playRef} = useContext(musciControl)
    let { playing,currentSong } = useContext(audioContext)
 
-  let { setHidePlaylist, addToLibrary, removeTolibrary, library } = useContext(authProvider)
+  let {  addToLibrary, removeTolibrary, library } = useContext(authProvider)
 
+  const {setHidePlaylist}=useContext(authPlaylist)
 
   async function fetchSingleMusic() {
     try {

@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import { authProvider } from '../contextapi/AuthContext'
 import { RiPlayListLine } from '@remixicon/react'
 import { Link } from 'react-router-dom'
+import { authPlaylist } from '../contextapi/PlaylistContext'
 
 const Playlistget = () => {
-    let {  getPlayList } = useContext(authProvider)
+    let {  getPlayList } = useContext(authPlaylist)
   return (
     <div>
        {getPlayList.length > 0 ? (

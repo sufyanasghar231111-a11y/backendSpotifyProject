@@ -1,16 +1,16 @@
 import React, { useContext } from 'react'
-import { authHome } from '../contextapi/HomeContext'
 import { Link } from 'react-router-dom'
+import { authSearchBar } from '../contextapi/SearchSeparateContext'
 
 function AllAlbum() {
-  let {albumFetch}=useContext(authHome)
+  let {album}=useContext(authSearchBar)
 
   return (
     <div>
       <div className='w-full bg-[#282828] px-5 max-sm:px-4 py-4  h-[65vh] overflow-y-auto'>
         <h1 className='text-2xl font-bold'>Music </h1>
         <div className='flex max-sm:justify-center max-sm:items-center flex-wrap'>
-         {albumFetch.map((elem)=>{
+         {album.map((elem)=>{
           return   <div key={elem._id} className='shrink-0 rounded-lg group lg:w-54 xl:w-55  max-sm:w-70  rounded-lgtransition-all duration-300 hover:bg-white/10 p-2 mt-5 cursor-pointer'>
        <div className='relative rounded-lg overflow-hidden w-full  h-50'>
         <Link to={`/albumdetail/${elem._id}`} >

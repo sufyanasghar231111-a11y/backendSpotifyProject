@@ -4,7 +4,6 @@ import { Link, Outlet } from 'react-router-dom'
 import Logout from './Logout'
 import Left from './2side/Left'
 import Right from './2side/Right'
-import { authProvider } from '../contextapi/AuthContext'
 import AddToPlaylist from '../../like/AddToPlaylist'
 import AlbumToPlaylist from '../../like/AlbumToPlaylist'
 import SureForLogOut from '../login/SureForLogOut'
@@ -14,11 +13,12 @@ import Footer from './2side/Footer'
 import Nav from './2side/Nav'
 import CreatePlaylist from '../../like/CreatePlaylist'
 import SearchBar from '../library/SearchBar'
+import { authPlaylist } from '../contextapi/PlaylistContext'
 
 
 function Home() {
 
-  let {  detailData } = useContext(authProvider)
+  let {  detailData } = useContext(authPlaylist)
  
   return (
     <div className='w-full relative '>

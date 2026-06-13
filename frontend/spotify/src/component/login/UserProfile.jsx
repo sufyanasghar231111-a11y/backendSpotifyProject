@@ -2,9 +2,11 @@ import { RiCamera4Line, RiPencilLine, RiPlayListLine } from '@remixicon/react'
 import React, { useContext } from 'react'
 import { authProvider } from '../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
+import { authPlaylist } from '../contextapi/PlaylistContext'
 
 const UserProfile = () => {
-  let { getPlayList, user, setHideProfileDetail, setUpdateprofile, setPreview,playlistLoader } = useContext(authProvider)
+  let {  user, setHideProfileDetail, setUpdateprofile, setPreview } = useContext(authProvider)
+  const {getPlayList,playlistLoader}=useContext(authPlaylist)
 
 
   const trimname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()

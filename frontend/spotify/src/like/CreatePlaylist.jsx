@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import { authProvider } from '../component/contextapi/AuthContext'
+import { authPlaylist } from '../component/contextapi/PlaylistContext'
 
 const CreatePlaylist = () => {
-      let { hideplay, setHidePlay, handleCreatePlaylist, name, setName } = useContext(authProvider)
+      let { hideplay, setHidePlay, handleCreatePlaylist, name, setName } = useContext(authPlaylist)
   return (
     <div>
       {

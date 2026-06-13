@@ -8,10 +8,11 @@ import AlbumToPlaylist from '../../like/AlbumToPlaylist'
 import { audioContext } from '../contextapi/AudioProvider'
 import { musciControl } from '../contextapi/MusicControllerContext'
 import { authRecent } from '../contextapi/RecentRoute'
+import { authPlaylist } from '../contextapi/PlaylistContext'
 
 const AlbumDetail = () => {
   let { id } = useParams()
-  let {setHideAlbumPlaylist}=useContext(authProvider)
+  let {setHideAlbumPlaylist}=useContext(authPlaylist)
   let { fav, createFav, deletemusic } = useContext(authHome)
   let { playing,currentSong}=useContext(audioContext)
   let { patchMusicPlaying,playRef } = useContext(musciControl)

@@ -5,6 +5,7 @@ import { authRecent } from './RecentRoute';
 import { authSearch } from './RecentSearchRoute';
 import { musciControl } from './MusicControllerContext';
 import { audioContext } from './AudioProvider';
+import { authPlaylist } from './PlaylistContext';
 
 
 export const authProvider = createContext()
@@ -16,20 +17,14 @@ const AuthContext = ({ children }) => {
     let [emailreg, setEmailreg] = useState('')
     let [passwordreg, setPasswordreg] = useState('')
     let [loading, setLoading] = useState(false)
-    let [playlistLoader, setPlaylistLoader] = useState(false)
+    
 
     let [login, setLogin] = useState({
         email: '',
         password: ""
     })
     const [authReady, setAuthReady] = useState(false);
-    let [getPlayList, setGetPlayList] = useState([])
-    let [create, setCreate] = useState([])
-    let [name, setName] = useState('')
-    let [hideplay, setHidePlay] = useState(false)
-    let [hideplaylist, setHidePlaylist] = useState(false)
-    let [hideAlbumPlaylist, setHideAlbumPlaylist] = useState(false)
-    let [detailData, setDetailData] = useState({})
+   
     let [hideSure, setHideSure] = useState(false)
     let [updatename, setUpdatename] = useState('')
     let [hideProfileDetail, setHideProfileDetail] = useState(false)
@@ -41,7 +36,7 @@ const AuthContext = ({ children }) => {
     let { fetchRecent } = useContext(authRecent)
     let { getRecentSearch } = useContext(authSearch)
     let { getMusicPlaying } = useContext(musciControl)
-
+    let {handleGetPlayList} =useContext(authPlaylist)
     let {setCurrentSong,audioRef}=useContext(audioContext)
 
     useEffect(() => {
@@ -160,38 +155,9 @@ const AuthContext = ({ children }) => {
     }
 
 
-    async function handleGetPlayList() {
-        try {
-            setPlaylistLoader(true)
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            const res = await axios.get('http://localhost:3000/api/user/particularUserPlaylist', { withCredentials: true })
-            setGetPlayList(res.data.particular || [])
-        }
-        catch (e) {
-            console.log(e);
-        }
-        finally {
-            setPlaylistLoader(false)
-        }
-    }
+   
 
-    useEffect(() => {
-        if (!authReady) return;
-        handleGetPlayList();
-
-    }, [authReady]);
-
-    async function handleCreatePlaylist() {
-        try {
-
-            const res = await axios.post('http://localhost:3000/api/user/playlist', { name }, { withCredentials: true })
-            setCreate(res.data.createPlaylist)
-            await handleGetPlayList()
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
+    
 
     async function updatePfp(e) {
         e.preventDefault()
@@ -268,7 +234,7 @@ const AuthContext = ({ children }) => {
 
 
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, getPlayList, handleCreatePlaylist, create, name, setName, hideplay, setHidePlay, setGetPlayList, handleGetPlayList, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, handleLogout, hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview, removePfp, imageref, library, addToLibrary, removeTolibrary, getLibrary, hideSearch, setHideSearch }}>
+        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, name,  handleLogout, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview, removePfp, imageref, library, addToLibrary, removeTolibrary, getLibrary, hideSearch, setHideSearch }}>
             {children}
         </authProvider.Provider>
     )
