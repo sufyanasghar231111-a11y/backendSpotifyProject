@@ -1,17 +1,20 @@
 import React from 'react'
 
 const Loader = () => {
-  return (
-    <div className=' absolute w-100  h-90 z-150 bg-black inset-0'>
-                                            <div className='flex flex-col justify-center w-full h-full items-center gap-4'>
-                                                <div className='w-10 h-10 border-[3px] border-[#1DB954] border-t-transparent rounded-full animate-spin'></div>
+    return (
+        <div className="absolute inset-0 z-150 bg-[#1A1A1A] p-2">
+  {[1, 2, 3, 4, 5, 6].map((item) => (
+    <div
+      key={item}
+      className="flex items-center gap-4 px-3 py-2 animate-pulse"
+    >
+      <div className="w-8 h-8 bg-[#505050] rounded-full"></div>
 
-                                                <h1 className='text-sm text-[#d0d0d0] tracking-wide'>
-                                                    Searching...
-                                                </h1>
-                                            </div>
-                                        </div>
-  )
+      <div className="h-3 w-24 bg-[#505050] rounded"></div>
+    </div>
+  ))}
+</div>
+    )
 }
 
 export default Loader

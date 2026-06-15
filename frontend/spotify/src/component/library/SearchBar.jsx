@@ -1,14 +1,14 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import { authProvider } from '../contextapi/AuthContext'
+import { authProvider } from '../../contextapi/AuthContext'
 import { RiSearchLine } from '@remixicon/react'
 import { Link, useNavigate } from 'react-router-dom'
-import { authSearch } from '../contextapi/RecentSearchRoute'
+import { authSearch } from '../../contextapi/RecentSearchRoute'
 import RecentSearch from '../recentsearch/RecentSearch'
 import ShowSearch from './ShowSearch'
 import Empty from './Empty'
 import NoResult from './NoResult'
 import Loader from './Loader'
-import { authSearchBar } from '../contextapi/SearchSeparateContext'
+import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 
 function SearchBar() {
 

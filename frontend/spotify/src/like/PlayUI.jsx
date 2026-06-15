@@ -2,12 +2,12 @@ import { RiHeartFill, RiPlayListLine } from '@remixicon/react'
 import React, { useContext, useEffect } from 'react'
 
 import Input from '../like/Input'
-import { authHome } from '../component/contextapi/HomeContext'
+import { authHome } from '../contextapi/HomeContext'
 import axios from 'axios'
 import { useParams, useSearchParams } from 'react-router-dom'
-import { authRecent } from '../component/contextapi/RecentRoute'
-import { musciControl } from '../component/contextapi/MusicControllerContext'
-import { audioContext } from '../component/contextapi/AudioProvider'
+import { authRecent } from '../contextapi/RecentRoute'
+import { musciControl } from '../contextapi/MusicControllerContext'
+import { audioContext } from '../contextapi/AudioProvider'
 
 
 const PlayUI = () => {

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { RiPlayListLine } from '@remixicon/react'
 import { Link } from 'react-router-dom'
-import { authPlaylist } from '../contextapi/PlaylistContext'
+import { authPlaylist } from '../../contextapi/PlaylistContext'
 
 const Playlistget = () => {
     let {  getPlayList } = useContext(authPlaylist)

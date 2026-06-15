@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { authHome } from '../contextapi/HomeContext'
+import { authHome } from '../../contextapi/HomeContext'
 
 import { RiArrowLeftSLine, RiArrowRightSLine } from '@remixicon/react'
 import { Link } from 'react-router-dom'

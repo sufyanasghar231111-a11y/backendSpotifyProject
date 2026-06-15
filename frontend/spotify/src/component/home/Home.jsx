@@ -13,7 +13,7 @@ import Footer from './2side/Footer'
 import Nav from './2side/Nav'
 import CreatePlaylist from '../../like/CreatePlaylist'
 import SearchBar from '../library/SearchBar'
-import { authPlaylist } from '../contextapi/PlaylistContext'
+import { authPlaylist } from '../../contextapi/PlaylistContext'
 
 
 function Home() {

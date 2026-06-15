@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { authRecent } from '../contextapi/RecentRoute';
+import { authRecent } from '../../contextapi/RecentRoute';
 import { RiCloseLine } from "@remixicon/react";
 
 const RecentPlay = () => {

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { authSearch } from './RecentSearchRoute'
+import { authSearch } from '../contextapi/RecentSearchRoute'
+import useDebounce from '../customhook/useDebounce'
 
 export const authSearchBar = createContext()
 const SearchSeparateContext = ({ children }) => {
@@ -14,7 +15,7 @@ const SearchSeparateContext = ({ children }) => {
     //all true and false state
     const [Issearch, setIssearch] = useState(false)
     const [loader, setLoader] = useState(false)
-   
+
     let [hideSearch, setHideSearch] = useState(false)
 
     //page and input 
@@ -28,9 +29,11 @@ const SearchSeparateContext = ({ children }) => {
     //usecontext
     let { getRecentSearch } = useContext(authSearch)
 
+    const debounceSearch = useDebounce(searchinput, 600)
+
     useEffect(() => {
-        const key = `${searchinput.trim().toLowerCase()}-page-${page}`
-        if (searchinput.trim().length < 2) {
+        const key = `${debounceSearch.trim().toLowerCase()}-page-${page}`
+        if (debounceSearch.trim().length < 2) {
             setSearchMusic([])
             setSearchAlbum([])
             setLoader(false)
@@ -45,17 +48,18 @@ const SearchSeparateContext = ({ children }) => {
             setLoader(false)
             return
         }
+        
         setLoader(true)
-        const timer = setTimeout(async () => {
 
-            // 2. API ONLY IF NO CACHE
+        // 2. API ONLY IF NO CACHE
 
-            const currentRef = ++requestRef.current
+        const currentRef = ++requestRef.current
+        async function FetchSearch() {
 
             try {
-                let res = await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}&search=${searchinput}`)
+                let res = await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}&search=${debounceSearch}`)
+                
                 if (currentRef !== requestRef.current) return
-
 
                 setSearchMusic(res.data.music)
                 setSearchAlbum(res.data.album)
@@ -75,12 +79,14 @@ const SearchSeparateContext = ({ children }) => {
                     setLoader(false)
                 }
             }
+        }
+
+        FetchSearch()
+
+    }, [debounceSearch, page])
 
 
-        }, searchinput.trim() ? 600 : 0)
-        return () => clearTimeout(timer)
 
-    }, [searchinput, page])
 
     const FetchData = useCallback(async () => {
         try {

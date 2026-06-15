@@ -1,10 +1,10 @@
 import { RiHeartFill, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import React, { useContext } from 'react'
-import { authHome } from '../component/contextapi/HomeContext'
-import Input from './Input'
-import { authRecent } from '../component/contextapi/RecentRoute'
-import { musciControl } from '../component/contextapi/MusicControllerContext'
-import { audioContext } from '../component/contextapi/AudioProvider'
+import { authHome } from '../contextapi/HomeContext'
+import Input from '../like/Input'
+import { authRecent } from '../contextapi/RecentRoute'
+import { musciControl } from '../contextapi/MusicControllerContext'
+import { audioContext } from '../contextapi/AudioProvider'
 
 const LikeSong = () => {
   let { update } = useContext(authRecent)

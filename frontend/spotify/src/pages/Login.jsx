@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import {  RiLoader4Line, RiLoaderLine, RiSpotifyFill } from "@remixicon/react";
 import { Link } from 'react-router-dom';
-import { authProvider } from '../contextapi/AuthContext';
-import Home from '../home/Home';
-import Admin from '../admin/Admin';
-import Artist from '../artist/Artist'
+import { authProvider } from '../../src/contextapi/AuthContext'
+import Home from '../component/home/Home';
+import Admin from '../pages/Admin';
+import Artist from '../pages/Artist'
 
 function Login() {
   let {handleLogin,login,handleChange,user,loading}=useContext(authProvider)

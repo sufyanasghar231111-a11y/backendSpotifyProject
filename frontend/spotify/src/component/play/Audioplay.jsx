@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { authHome } from '../contextapi/HomeContext'
+import { authHome } from '../../contextapi/HomeContext'
 import axios from 'axios'
-import { authRecent } from '../contextapi/RecentRoute'
-import { musciControl } from "../contextapi/MusicControllerContext";
-import { audioContext } from "../contextapi/AudioProvider";
+import { authRecent } from '../../contextapi/RecentRoute'
+import { musciControl } from "../../contextapi/MusicControllerContext";
+import { audioContext } from "../../contextapi/AudioProvider";
 import { RiAddCircleLine, RiCheckLine, RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListAddLine, RiPlayListLine } from '@remixicon/react'
-import { authProvider } from '../contextapi/AuthContext'
-import { authPlaylist } from '../contextapi/PlaylistContext'
+import { authProvider } from '../../contextapi/AuthContext'
+import { authPlaylist } from '../../contextapi/PlaylistContext'
 
 const Audioplay = () => {
   let { id } = useParams()

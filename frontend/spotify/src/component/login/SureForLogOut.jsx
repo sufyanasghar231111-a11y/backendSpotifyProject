@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { authProvider } from '../contextapi/AuthContext'
+import { authProvider } from '../../contextapi/AuthContext'
 
 const SureForLogOut = () => {
     let {handleLogout,user,hideSure, setHideSure}=useContext(authProvider)

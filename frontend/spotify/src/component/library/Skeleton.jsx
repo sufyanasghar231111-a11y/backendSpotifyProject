@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { authSearch } from '../contextapi/RecentSearchRoute'
+import { authSearch } from '../../contextapi/RecentSearchRoute'
 
 const Skeleton = () => {
   const { skeletonLoader } = useContext(authSearch)

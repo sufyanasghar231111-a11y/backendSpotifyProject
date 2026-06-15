@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { authProvider } from '../contextapi/AuthContext'
+import { authProvider } from '../../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 import { RiPauseFill, RiPlayFill } from '@remixicon/react'
 import LibraryMusic from '../leftside/LibraryMusic'

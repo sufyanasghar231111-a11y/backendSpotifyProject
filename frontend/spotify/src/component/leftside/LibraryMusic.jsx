@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { authRecent } from '../contextapi/RecentRoute'
-import { audioContext } from '../contextapi/AudioProvider'
+import { authRecent } from '../../contextapi/RecentRoute'
+import { audioContext } from '../../contextapi/AudioProvider'
 import { Link } from 'react-router-dom'
 import { RiPauseFill, RiPlayFill } from '@remixicon/react'
-import { musciControl } from "../contextapi/MusicControllerContext";
+import { musciControl } from "../../contextapi/MusicControllerContext";
 
 const LibraryMusic = ({ item }) => {
     let { playing ,currentSong} = useContext(audioContext)

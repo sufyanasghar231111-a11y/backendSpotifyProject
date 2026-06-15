@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import Login from '../login/Login'
-import { authProvider } from '../contextapi/AuthContext'
+import Login from '../pages/Login'
+import { authProvider } from '../../src/contextapi/AuthContext'
 
 function Artist() {
    let {handleLogout}=useContext(authProvider)

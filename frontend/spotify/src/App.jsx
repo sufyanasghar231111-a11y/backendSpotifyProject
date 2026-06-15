@@ -1,16 +1,16 @@
 import React, { useContext } from 'react'
 import { Routes ,Route } from 'react-router-dom'
-import Login from "./component/login/Login"
-import Register from "./component/register/Register"
+import Login from "./pages/Login"
+import Register from "./pages/Register"
 import ShowAll from '../src/component/home/ShowAll'
 import Detail from './component/home/Detail'
 import AllAlbum from './component/allalbum/AllAlbum'
 import AlbumDetail from './component/home/AlbumDetail'
 import LikeSong from './like/LikeSong'
 import PlayUI from './like/PlayUI'
-import ProtectedRoute from './component/contextapi/ProtectedRoute'
+import ProtectedRoute from './contextapi/ProtectedRoute'
 import Home from './component/home/Home'
-import { authProvider } from './component/contextapi/AuthContext'
+import { authProvider } from './contextapi/AuthContext'
 import UserProfile from './component/login/UserProfile'
 import LoadingAnimation from './component/home/LoadingAnimation'
 import Musicforsearch from './component/library/Musicforsearch'
@@ -21,7 +21,6 @@ function App() {
     if (!authReady){
       return <LoadingAnimation />
       }
-
   return (
 
     <div className='w-full bg-[#121212] text-white h-screen'>  

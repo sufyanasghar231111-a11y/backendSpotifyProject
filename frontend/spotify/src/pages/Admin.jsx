@@ -1,13 +1,13 @@
 import React, { useContext } from 'react'
-import Login from '../login/Login'
-import { authProvider } from '../contextapi/AuthContext'
+import Login from '../pages/Login'
+import { authProvider } from '../../src/contextapi/AuthContext'
 
 function Admin() {
   let {handleLogout}=useContext(authProvider)
  
   return (
     <div>
-    admi
+    admin
     <button onClick={handleLogout}>Logout</button>
     </div>
   )

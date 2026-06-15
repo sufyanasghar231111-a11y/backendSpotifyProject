@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { authHome } from '../../contextapi/HomeContext'
+import { authHome } from '../../../contextapi/HomeContext'
 import { RiChromeLine, RiCloseLargeFill, RiSearchLine } from '@remixicon/react'
-import { authSearchBar } from '../../contextapi/SearchSeparateContext'
-import { authSearch } from '../../contextapi/RecentSearchRoute'
+import { authSearchBar } from '../../../contextapi/SearchSeparateContext'
+import { authSearch } from '../../../contextapi/RecentSearchRoute'
 
 const NavSearch = () => {
 

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { authPlaylist } from '../component/contextapi/PlaylistContext'
+import { authPlaylist } from '../contextapi/PlaylistContext'
 
 const CreatePlaylist = () => {
       let { hideplay, setHidePlay, handleCreatePlaylist, name, setName } = useContext(authPlaylist)

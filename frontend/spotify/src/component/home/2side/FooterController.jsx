@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { musciControl } from '../../contextapi/MusicControllerContext'
-import { audioContext } from '../../contextapi/AudioProvider'
+import { musciControl } from '../../../contextapi/MusicControllerContext'
+import { audioContext } from '../../../contextapi/AudioProvider'
 import {Link} from 'react-router-dom'
 function FooterController() {
   const  { handleSeek } = useContext(audioContext)

@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import axios from 'axios'
-import { authProvider } from './AuthContext'
+import { authProvider } from '../contextapi/AuthContext'
 
 
 

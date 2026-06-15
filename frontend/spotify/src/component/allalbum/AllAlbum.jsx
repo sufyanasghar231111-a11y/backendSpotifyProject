@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { authSearchBar } from '../contextapi/SearchSeparateContext'
+import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 
 function AllAlbum() {
   let {album}=useContext(authSearchBar)

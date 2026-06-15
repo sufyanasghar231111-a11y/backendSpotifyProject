@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 
 import FooterController from './FooterController'
-import { musciControl } from '../../contextapi/MusicControllerContext'
+import { musciControl } from '../../../contextapi/MusicControllerContext'
 
 function Footer() {
     

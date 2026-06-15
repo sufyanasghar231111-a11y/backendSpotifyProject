@@ -4,7 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { RiAddCircleLine, RiMoreLine, RiPlayCircleFill } from '@remixicon/react'
 import { useContext } from 'react'
 import Skeleton from './Skeleton'
-import { authSearch } from '../contextapi/RecentSearchRoute'
+import { authSearch } from '../../contextapi/RecentSearchRoute'
 
 const SearchMusicDetail = () => {
     const [params]=useSearchParams()

@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { authRecent } from './RecentRoute';
-import { authSearch } from './RecentSearchRoute';
-import { musciControl } from './MusicControllerContext';
-import { audioContext } from './AudioProvider';
-import { authPlaylist } from './PlaylistContext';
+import { authRecent } from '../contextapi/RecentRoute';
+import { authSearch } from '../contextapi/RecentSearchRoute';
+import { musciControl } from '../contextapi/MusicControllerContext';
+import { audioContext } from '../contextapi/AudioProvider';
+import { authPlaylist } from '../contextapi/PlaylistContext';
 
 
 export const authProvider = createContext()

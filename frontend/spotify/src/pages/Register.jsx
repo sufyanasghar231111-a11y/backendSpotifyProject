@@ -1,8 +1,8 @@
 import { RiSpotifyFill } from '@remixicon/react'
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { authProvider } from '../contextapi/AuthContext'
-import Home from '../home/Home'
+import { authProvider } from '../../src/contextapi/AuthContext'
+import Home from '../component/home/Home'
 
 function Register() {
   let {handleSumbit,emailreg,setEmailreg,setPasswordreg,passwordreg,setUsername,username,user}=useContext(authProvider)

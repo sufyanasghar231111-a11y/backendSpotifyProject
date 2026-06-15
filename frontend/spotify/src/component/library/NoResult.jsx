@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { RiSearchLine } from '@remixicon/react'
-import { authSearchBar } from '../contextapi/SearchSeparateContext'
+import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 
 const NoResult = () => {
     let { searchinput } = useContext(authSearchBar)

@@ -1,8 +1,8 @@
 import React, { useContext, useMemo } from 'react'
-import { authHome } from '../contextapi/HomeContext'
+import { authHome } from '../../contextapi/HomeContext'
 import { Link } from 'react-router-dom'
 import { RiAddLine, RiHeartFill } from '@remixicon/react'
-import { authPlaylist } from '../contextapi/PlaylistContext'
+import { authPlaylist } from '../../contextapi/PlaylistContext'
 
 const HeaderLike = () => {
 

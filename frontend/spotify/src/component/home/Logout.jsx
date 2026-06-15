@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import { authHome } from '../contextapi/HomeContext'
+import { authHome } from '../../contextapi/HomeContext'
 import { RiCheckFill } from '@remixicon/react'
-import { authProvider } from '../contextapi/AuthContext'
+import { authProvider } from '../../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 
 const Logout = () => {

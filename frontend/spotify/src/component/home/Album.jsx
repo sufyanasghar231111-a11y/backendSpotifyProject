@@ -1,8 +1,8 @@
 import React, {  useContext, useRef } from 'react'
 import { RiArrowLeftSLine, RiArrowRightSLine, RiPlayFill } from '@remixicon/react'
 import { Link } from 'react-router-dom';
-import { authRecent } from '../contextapi/RecentRoute';
-import { authSearchBar } from '../contextapi/SearchSeparateContext';
+import { authRecent } from '../../contextapi/RecentRoute';
+import { authSearchBar } from '../../contextapi/SearchSeparateContext';
 
 const Album = () => {
   let {album}=useContext(authSearchBar)

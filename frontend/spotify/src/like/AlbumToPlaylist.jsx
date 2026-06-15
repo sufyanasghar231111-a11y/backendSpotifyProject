@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import { authHome } from '../component/contextapi/HomeContext'
-import { authPlaylist } from '../component/contextapi/PlaylistContext'
+import { authHome } from '../contextapi/HomeContext'
+import { authPlaylist } from '../contextapi/PlaylistContext'
 
 const AlbumToPlaylist = ({elem}) => {
     let {getPlayList,hideAlbumPlaylist,setHideAlbumPlaylist}=useContext(authPlaylist)

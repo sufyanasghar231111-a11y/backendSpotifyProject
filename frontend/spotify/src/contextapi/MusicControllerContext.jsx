@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { audioContext } from './AudioProvider';
+import { audioContext } from '../contextapi/AudioProvider';
 
 export const musciControl = createContext()
 function MusicControllerContext({ children }) {
