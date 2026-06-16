@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { createContext, useCallback, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 
 export const authPlaylist = createContext()
 const PlaylistContext = ({ children }) => {
@@ -12,27 +12,25 @@ const PlaylistContext = ({ children }) => {
     let [hideAlbumPlaylist, setHideAlbumPlaylist] = useState(false)
     let [detailData, setDetailData] = useState({})
 
-    async function handleGetPlayList() {
-        try {
-            setPlaylistLoader(true)
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            const res = await axios.get('http://localhost:3000/api/user/particularUserPlaylist', { withCredentials: true })
-            setGetPlayList(res.data.particular || [])
-        }
-        catch (e) {
-            console.log(e);
-        }
-        finally {
-            setPlaylistLoader(false)
-        }
-    }
+    const handleGetPlayList = useCallback(async () => {
+      try {
+        setPlaylistLoader(true)
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        const res = await axios.get('http://localhost:3000/api/user/particularUserPlaylist', { withCredentials: true })
+        setGetPlayList(res.data.particular || [])
+      }
+      catch (e) {
+        console.log(e);
+      }
+      finally {
+        setPlaylistLoader(false)
+      }
+    }, [])
 
 
     useEffect(() => {
-
-        handleGetPlayList();
-
-    }, []);
+      handleGetPlayList();
+    }, [handleGetPlayList]);
 
     async function handleCreatePlaylist() {
         try {
@@ -68,10 +66,31 @@ const PlaylistContext = ({ children }) => {
         }
       }, [])
     
+    const value = useMemo(() => ({
+      hideAlbumPlaylist,
+      setHideAlbumPlaylist,
+      detailData,
+      setDetailData,
+      setPlaylistLoader,
+      playlistLoader,
+      hideplaylist,
+      setHidePlaylist,
+      setName,
+      hideplay,
+      setHidePlay,
+      setGetPlayList,
+      create,
+      getPlayList,
+      handleGetPlayList,
+      handleCreatePlaylist,
+      patchApi,
+      deleteApi
+    }), [hideAlbumPlaylist, detailData, playlistLoader, hideplaylist, hideplay, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi])
+
     return (
-        <authPlaylist.Provider value={{ hideAlbumPlaylist, setHideAlbumPlaylist, detailData, setDetailData, setPlaylistLoader, playlistLoader, hideplaylist, setHidePlaylist, setName, hideplay, setHidePlay, setGetPlayList, create, getPlayList,handleGetPlayList,handleCreatePlaylist,patchApi,deleteApi }}>
-            {children}
-        </authPlaylist.Provider>
+      <authPlaylist.Provider value={value}>
+        {children}
+      </authPlaylist.Provider>
     )
 }
 

@@ -1,11 +1,13 @@
 import { RiCamera4Line, RiPencilLine, RiPlayListLine } from '@remixicon/react'
 import React, { useContext } from 'react'
-import { authProvider } from '../../contextapi/AuthContext'
+import { authProvider, ProfileContext } from '../../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 import { authPlaylist } from '../../contextapi/PlaylistContext'
 
 const UserProfile = () => {
-  let {  user, setHideProfileDetail, setUpdateprofile, setPreview } = useContext(authProvider)
+  const  {setHideProfileDetail, setUpdateprofile, setPreview } = useContext(ProfileContext)
+  const {user}=useContext(authProvider)
+  
   const {getPlayList,playlistLoader}=useContext(authPlaylist)
 
 

@@ -1,11 +1,11 @@
 import { RiArrowLeftSLine, RiArrowRightSLine, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import React, { useContext, useEffect } from 'react'
-import HomeContext, { authHome } from '../../../contextapi/HomeContext'
-import Album from '../Album'
+import HomeContext, { authHome } from '../../contextapi/HomeContext'
+import Album from '../../component/home/Album'
 
 import { Link, Outlet, useLocation } from 'react-router-dom'
-import RightsideMusic from '../../rightside/RightsideMusic'
-import { authSearchBar } from '../../../contextapi/SearchSeparateContext'
+import RightsideMusic from '../../component/rightside/RightsideMusic'
+import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 
 
 const Right = () => {

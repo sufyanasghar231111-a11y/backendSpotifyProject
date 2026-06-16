@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react'
+import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { authRecent } from '../contextapi/RecentRoute';
@@ -9,6 +9,9 @@ import { authPlaylist } from '../contextapi/PlaylistContext';
 
 
 export const authProvider = createContext()
+export const ProfileContext = createContext()
+export const LibraryContext = createContext()
+export const UIContext = createContext()
 const AuthContext = ({ children }) => {
     let navigate = useNavigate()
     let [user, setUser] = useState(null)
@@ -17,14 +20,14 @@ const AuthContext = ({ children }) => {
     let [emailreg, setEmailreg] = useState('')
     let [passwordreg, setPasswordreg] = useState('')
     let [loading, setLoading] = useState(false)
-    
+
 
     let [login, setLogin] = useState({
         email: '',
         password: ""
     })
     const [authReady, setAuthReady] = useState(false);
-   
+
     let [hideSure, setHideSure] = useState(false)
     let [updatename, setUpdatename] = useState('')
     let [hideProfileDetail, setHideProfileDetail] = useState(false)
@@ -32,12 +35,12 @@ const AuthContext = ({ children }) => {
     let [preview, setPreview] = useState(null)
     let imageref = useRef()
     let [library, setLibrary] = useState([])
-    
+
     let { fetchRecent } = useContext(authRecent)
     let { getRecentSearch } = useContext(authSearch)
     let { getMusicPlaying } = useContext(musciControl)
-    let {handleGetPlayList} =useContext(authPlaylist)
-    let {setCurrentSong,audioRef}=useContext(audioContext)
+    let { handleGetPlayList } = useContext(authPlaylist)
+    let { setCurrentSong, audioRef } = useContext(audioContext)
 
     useEffect(() => {
         if (user?.username) {
@@ -57,7 +60,7 @@ const AuthContext = ({ children }) => {
                 }, { withCredentials: true }
             )
 
-            
+
             setUsername('')
             setEmailreg('')
             setPasswordreg('')
@@ -133,10 +136,10 @@ const AuthContext = ({ children }) => {
                 {},
                 { withCredentials: true }
             )
-            if(audioRef.current){
+            if (audioRef.current) {
                 audioRef.current.pause()
-                audioRef.current.currentTime=0
-                audioRef.current.src=''
+                audioRef.current.currentTime = 0
+                audioRef.current.src = ''
             }
             setCurrentSong(null)
         }
@@ -155,9 +158,9 @@ const AuthContext = ({ children }) => {
     }
 
 
-   
 
-    
+
+
 
     async function updatePfp(e) {
         e.preventDefault()
@@ -214,7 +217,7 @@ const AuthContext = ({ children }) => {
 
     async function addToLibrary(id) {
         try {
-           await axios.patch(`http://localhost:3000/api/user/addTolab/${id}`, {}, { withCredentials: true })
+            await axios.patch(`http://localhost:3000/api/user/addTolab/${id}`, {}, { withCredentials: true })
 
             await getLibrary()
         }
@@ -224,7 +227,7 @@ const AuthContext = ({ children }) => {
     }
     async function removeTolibrary(id) {
         try {
-             await axios.delete(`http://localhost:3000/api/user/deleteLab/${id}`, { withCredentials: true })
+            await axios.delete(`http://localhost:3000/api/user/deleteLab/${id}`, { withCredentials: true })
             await getLibrary()
         }
         catch (err) {
@@ -233,11 +236,39 @@ const AuthContext = ({ children }) => {
     }
 
 
+    const auth = useMemo(() => ({
+        user, setUser, handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, authReady, setAuthReady, login, setLogin, handleLogout
+    }), [user, emailreg,passwordreg,login,authReady])
+
+    const profile = useMemo(() => ({
+        username, setUsername, updatePfp, updatename, setUpdatename, updateprofile, setUpdateprofile, preview, setPreview, removePfp, imageref,hideProfileDetail,setHideProfileDetail
+    }), [username,updatename,preview,hideProfileDetail])
+
+    const librarys = useMemo(() => ({
+        library, addToLibrary, removeTolibrary, getLibrary
+    }), [library])
+
+    const ui = useMemo(() => ({
+        loading, setLoading, name, hideSure, setHideSure
+    }), [loading,hideSure])
+
     return (
-        <authProvider.Provider value={{ handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, username, setUsername, user, setUser, handleLogin, login, setLogin, handleChange, loading, setLoading, authReady, setAuthReady, name,  handleLogout, hideSure, setHideSure, updatePfp, updatename, setUpdatename, hideProfileDetail, setHideProfileDetail, updateprofile, setUpdateprofile, preview, setPreview, removePfp, imageref, library, addToLibrary, removeTolibrary, getLibrary }}>
-            {children}
+        <authProvider.Provider value={auth}>
+            <ProfileContext.Provider value={profile}>
+                <LibraryContext.Provider value={librarys}>
+                    <UIContext.Provider value={ui}>
+                        {children}
+                    </UIContext.Provider>
+                </LibraryContext.Provider>
+            </ProfileContext.Provider>
         </authProvider.Provider>
     )
 }
 
 export default React.memo(AuthContext)
+
+
+
+
+
+

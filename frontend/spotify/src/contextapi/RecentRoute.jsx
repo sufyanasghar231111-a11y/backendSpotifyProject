@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 export const  authRecent=createContext()
 const RecentRoute = ({children}) => {
@@ -53,8 +53,16 @@ const  fetchRecent= useCallback(async()=>{
     }
   }
 
+  const value = useMemo(() => ({
+    recentActivity,
+    update,
+    deleteData,
+    updateAlbum,
+    fetchRecent
+  }), [recentActivity, update, deleteData, updateAlbum, fetchRecent])
+
   return (
-    <authRecent.Provider value={{recentActivity,update,deleteData,updateAlbum,fetchRecent}}>
+    <authRecent.Provider value={value}>
       {children}
     </authRecent.Provider>
   )

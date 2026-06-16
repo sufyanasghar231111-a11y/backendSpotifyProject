@@ -1,7 +1,7 @@
 import axios from 'axios'
-import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { authSearch } from '../contextapi/RecentSearchRoute'
-import useDebounce from '../customhook/useDebounce'
+import useDebounce from '../Hooks/useDebounce'
 
 export const authSearchBar = createContext()
 const SearchSeparateContext = ({ children }) => {
@@ -91,23 +91,23 @@ const SearchSeparateContext = ({ children }) => {
     }, [debounceSearch, page])
 
 
+    // error here because i used usecallback and inside dependence i did't pass value for page change
 
     const FetchData = useCallback(async () => {
         try {
             const res = await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}`)
             setMusic(res.data.music)
             setAlbum(res.data.album)
-            
         }
         catch (err) {
             console.log(err);
         }
     }, [page])
 
+
     useEffect(() => {
         FetchData()
-        
-    }, [page])
+    }, [FetchData])
 
 
     const patchText = useCallback(async () => {
@@ -120,9 +120,27 @@ const SearchSeparateContext = ({ children }) => {
         }
 
     }, [searchinput])
+    const value = useMemo(() => ({
+        searchinput,
+        setSearchinput,
+        searchMusic,
+        Issearch,
+        setIssearch,
+        loader,
+        searchAlbum,
+        music,
+        setMusic,
+        page,
+        setPage,
+        album,
+        patchText,
+        setLoader,
+        hideSearch,
+        setHideSearch
+    }), [searchinput, searchMusic, Issearch, loader, searchAlbum, music, page, album, patchText, hideSearch])
 
     return (
-        <authSearchBar.Provider value={{ searchinput, setSearchinput, searchMusic, Issearch, setIssearch, loader, searchAlbum, music, setMusic, page, setPage, album, patchText, setLoader, hideSearch, setHideSearch }}>
+        <authSearchBar.Provider value={value}>
             {children}
         </authSearchBar.Provider>
     )

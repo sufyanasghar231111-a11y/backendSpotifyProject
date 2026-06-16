@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { authProvider } from '../../contextapi/AuthContext'
+import {  LibraryContext } from '../../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 import { RiPauseFill, RiPlayFill } from '@remixicon/react'
 import LibraryMusic from '../leftside/LibraryMusic'
 
 const Library = () => {
-    let { library } = useContext(authProvider)
+    let { library } = useContext(LibraryContext)
     
     return (
         <div>
