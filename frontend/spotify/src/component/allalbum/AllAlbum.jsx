@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom'
 import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 
 function AllAlbum() {
-  let {album}=useContext(authSearchBar)
+  let {album, page, setPage}=useContext(authSearchBar)
+
+  
 
   return (
     <div>
@@ -33,8 +35,8 @@ function AllAlbum() {
          })} 
       </div>
       <div className='flex py-3 gap-3 justify-center'>
-      <button   className={`px-2 py-2 rounded-lg  bg-[#4b4a4a] `}>Prev</button>
-      <button className={`px-2 py-2 rounded-lg   bg-[#4b4a4a] `}>Next</button>
+     <button disabled={page===1} onClick={()=>{setPage(prev => prev - 1 )}} className={`px-2 py-2 rounded-lg ${page===1? 'opacity-60 cursor-not-allowed':'opacity-100 cursor-pointer'}  bg-[#4b4a4a] `}>Prev</button>
+      <button disabled={album.length < 8 && page === 1} onClick={()=>{setPage(prev => prev + 1 )}} className={`px-2 py-2 rounded-lg ${album.length < 8? 'opacity-60 cursor-not-allowed':'opacity-100 cursor-pointer'}  bg-[#4b4a4a] `}>Next</button>
       </div>
        </div>
     </div>

@@ -11,7 +11,8 @@ import { authSearchBar } from '../../../contextapi/SearchSeparateContext'
 const Right = () => {
   const { setHide } = useContext(authHome)
   const {setPage}   =useContext(authSearchBar)
-
+  
+  
   let location = useLocation()
   useEffect(() => {
     setPage(1)

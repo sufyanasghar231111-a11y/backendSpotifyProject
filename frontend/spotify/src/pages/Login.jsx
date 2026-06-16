@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import {  RiLoader4Line, RiLoaderLine, RiSpotifyFill } from "@remixicon/react";
 import { Link } from 'react-router-dom';
 import { authProvider } from '../../src/contextapi/AuthContext'
-import Home from '../component/home/Home';
+import Home from './Home';
 import Admin from '../pages/Admin';
 import Artist from '../pages/Artist'
 

@@ -32,7 +32,7 @@ const SearchSeparateContext = ({ children }) => {
     const debounceSearch = useDebounce(searchinput, 600)
 
     useEffect(() => {
-        const key = `${debounceSearch.trim().toLowerCase()}-page-${page}`
+        const search = debounceSearch.trim().toLowerCase()
         if (debounceSearch.trim().length < 2) {
             setSearchMusic([])
             setSearchAlbum([])
@@ -41,6 +41,9 @@ const SearchSeparateContext = ({ children }) => {
         }
 
         // 1. CACHE FIRST
+
+        const key=`${search}-page-${page}`
+
         if (cacheRef.current.has(key)) {
             const cached = cacheRef.current.get(key)
             setSearchAlbum(cached.album)
@@ -48,7 +51,7 @@ const SearchSeparateContext = ({ children }) => {
             setLoader(false)
             return
         }
-        
+
         setLoader(true)
 
         // 2. API ONLY IF NO CACHE
@@ -58,6 +61,7 @@ const SearchSeparateContext = ({ children }) => {
 
             try {
                 let res = await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}&search=${debounceSearch}`)
+                console.log(res);
                 
                 if (currentRef !== requestRef.current) return
 
@@ -82,26 +86,28 @@ const SearchSeparateContext = ({ children }) => {
         }
 
         FetchSearch()
+       
 
     }, [debounceSearch, page])
 
 
 
-
     const FetchData = useCallback(async () => {
         try {
-            const res = await axios.get('http://localhost:3000/api/creator/getmusicalbum')
+            const res = await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}`)
             setMusic(res.data.music)
             setAlbum(res.data.album)
+            
         }
         catch (err) {
             console.log(err);
         }
-    }, [])
+    }, [page])
 
     useEffect(() => {
         FetchData()
-    }, [FetchData])
+        
+    }, [page])
 
 
     const patchText = useCallback(async () => {
