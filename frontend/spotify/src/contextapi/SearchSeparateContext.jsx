@@ -61,7 +61,6 @@ const SearchSeparateContext = ({ children }) => {
 
             try {
                 let res = await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}&search=${debounceSearch}`)
-                console.log(res);
                 
                 if (currentRef !== requestRef.current) return
 

@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
 import { authHome } from '../../contextapi/HomeContext'
 import { RiCheckFill } from '@remixicon/react'
-import { authProvider } from '../../contextapi/AuthContext'
+import { LogoutContext } from '../../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 
 const Logout = () => {
     let {hidepro,setHidepro}=useContext(authHome)
-    let {setHideSure}=useContext(authProvider)
+    let {setHideSure}=useContext(LogoutContext)
 
   return (
       <div className={`bg-[#1a1a1a]   ${hidepro  ? ' opacity-100 pointer-events-auto  translate-y-0 h-80 p-1 z-40 ' : ' pointer-events-none  opacity-0 -translate-y-2  h-0 p-0 border-0' } right-12 top-16   duration-300 rounded absolute   w-60  transition-all ease-in-out `}>

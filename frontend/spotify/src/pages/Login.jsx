@@ -1,13 +1,14 @@
 import React, { useContext } from 'react'
 import {  RiLoader4Line, RiLoaderLine, RiSpotifyFill } from "@remixicon/react";
 import { Link } from 'react-router-dom';
-import { authProvider } from '../../src/contextapi/AuthContext'
+import { authProvider, UIContext } from '../../src/contextapi/AuthContext'
 import Home from './Home';
 import Admin from '../pages/Admin';
 import Artist from '../pages/Artist'
 
 function Login() {
-  let {handleLogin,login,handleChange,user,loading}=useContext(authProvider)
+  const  {handleLogin,login,handleChange,user}=useContext(authProvider)
+  const {loading}=useContext(UIContext)
 
   return (
     <div className='w-full  text-white'>

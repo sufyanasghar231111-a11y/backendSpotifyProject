@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useMemo } from 'react'
-import { authProvider } from '../../contextapi/AuthContext'
 import { RiSearchLine } from '@remixicon/react'
 import { Link, useNavigate } from 'react-router-dom'
 import { authSearch } from '../../contextapi/RecentSearchRoute'
@@ -27,6 +26,7 @@ function SearchBar() {
                 type: 'album'
             }))]
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [searchinput, searchAlbum, searchMusic])
 
         
@@ -34,25 +34,26 @@ function SearchBar() {
     let navigate = useNavigate()
 
 
-    function handleSubmit(elem) {
-        if (!searchinput.trim()) return
+   
+
+    const handleClick = useCallback((elem) => {
+        
+         if (!searchinput.trim()) return
         setSkeletonLoader(true)
         setHideSearch(false)
         navigate(`/searchmusic?query=${searchinput}&selected=${elem._id}`)
+        
         setTimeout(() => {
             setSkeletonLoader(false)
         }, 1500)
-    }
 
-    const handleClick = useCallback((elem) => {
-        handleSubmit(elem)
         if (elem.type === 'song') {
             patchRecentSearch(elem._id)
         }
         else {
             patchAlbumRecentSearch(elem._id)
         }
-    }, [patchRecentSearch, patchAlbumRecentSearch])
+    }, [patchRecentSearch, patchAlbumRecentSearch,navigate,searchinput])
 
     return (
         <div>

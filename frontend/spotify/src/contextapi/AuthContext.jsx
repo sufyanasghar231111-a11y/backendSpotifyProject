@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { authRecent } from '../contextapi/RecentRoute';
@@ -8,10 +8,16 @@ import { audioContext } from '../contextapi/AudioProvider';
 import { authPlaylist } from '../contextapi/PlaylistContext';
 
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const authProvider = createContext()
+// eslint-disable-next-line react-refresh/only-export-components
 export const ProfileContext = createContext()
+// eslint-disable-next-line react-refresh/only-export-components
 export const LibraryContext = createContext()
+// eslint-disable-next-line react-refresh/only-export-components
 export const UIContext = createContext()
+// eslint-disable-next-line react-refresh/only-export-components
+export const LogoutContext=createContext()
 const AuthContext = ({ children }) => {
     let navigate = useNavigate()
     let [user, setUser] = useState(null)
@@ -48,8 +54,19 @@ const AuthContext = ({ children }) => {
         }
     }, [user])
 
+    const getLibrary= async ()=> {
+        try {
+            const res = await axios.get('http://localhost:3000/api/user/getLibrary', { withCredentials: true })
+            setLibrary(res.data.getLib)
 
-    async function handleSumbit(e) {
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
+
+
+     const  handleSumbit =useCallback( async(e) => {
         e.preventDefault()
         try {
             const response = await axios.post('http://localhost:3000/api/auth/register',
@@ -75,9 +92,9 @@ const AuthContext = ({ children }) => {
         catch (err) {
             console.log(err);
         }
-    }
+    },[username,emailreg,passwordreg,navigate,handleGetPlayList,fetchRecent,getLibrary,getRecentSearch,getMusicPlaying])
 
-    async function handleLogin(e) {
+    const  handleLogin=useCallback(async(e)=> {
         e.preventDefault()
         try {
             setLoading(true)
@@ -104,7 +121,7 @@ const AuthContext = ({ children }) => {
             setLoading(false)
         }
 
-    }
+    },[login.email,login.password,handleGetPlayList,getLibrary,fetchRecent,getRecentSearch,getMusicPlaying])
 
     async function checkRefresh() {
         try {
@@ -148,7 +165,7 @@ const AuthContext = ({ children }) => {
         }
         setUser(null)
     }
-
+    
 
     function handleChange(e) {
         setLogin(prev => ({
@@ -156,10 +173,6 @@ const AuthContext = ({ children }) => {
             [e.target.name]: e.target.value
         }))
     }
-
-
-
-
 
 
     async function updatePfp(e) {
@@ -201,16 +214,7 @@ const AuthContext = ({ children }) => {
         }
     }
 
-    async function getLibrary() {
-        try {
-            const res = await axios.get('http://localhost:3000/api/user/getLibrary', { withCredentials: true })
-            setLibrary(res.data.getLib)
-
-        }
-        catch (e) {
-            console.log(e);
-        }
-    }
+    
     useEffect(() => {
         getLibrary()
     }, [])
@@ -237,23 +241,33 @@ const AuthContext = ({ children }) => {
 
 
     const auth = useMemo(() => ({
-        user, setUser, handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, authReady, setAuthReady, login, setLogin, handleLogout
+        user, setUser, handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, authReady, setAuthReady, login, setLogin
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }), [user, emailreg,passwordreg,login,authReady])
+
+    const logout=useMemo(()=>({
+        handleLogout, hideSure, setHideSure
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }),[hideSure])
 
     const profile = useMemo(() => ({
         username, setUsername, updatePfp, updatename, setUpdatename, updateprofile, setUpdateprofile, preview, setPreview, removePfp, imageref,hideProfileDetail,setHideProfileDetail
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }), [username,updatename,preview,hideProfileDetail])
 
     const librarys = useMemo(() => ({
         library, addToLibrary, removeTolibrary, getLibrary
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }), [library])
 
     const ui = useMemo(() => ({
-        loading, setLoading, name, hideSure, setHideSure
-    }), [loading,hideSure])
+        loading, setLoading, name
+    }), [loading])
 
     return (
         <authProvider.Provider value={auth}>
+            <LogoutContext.Provider value={logout}>
+
             <ProfileContext.Provider value={profile}>
                 <LibraryContext.Provider value={librarys}>
                     <UIContext.Provider value={ui}>
@@ -261,6 +275,7 @@ const AuthContext = ({ children }) => {
                     </UIContext.Provider>
                 </LibraryContext.Provider>
             </ProfileContext.Provider>
+            </LogoutContext.Provider>
         </authProvider.Provider>
     )
 }
