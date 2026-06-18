@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 
 export const authPlaylist = createContext()
+export const UIPlaylistContext=createContext()
 const PlaylistContext = ({ children }) => {
     let [playlistLoader, setPlaylistLoader] = useState(false)
     let [getPlayList, setGetPlayList] = useState([])
@@ -32,6 +33,7 @@ const PlaylistContext = ({ children }) => {
       handleGetPlayList();
     }, [handleGetPlayList]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     async function handleCreatePlaylist() {
         try {
 
@@ -67,17 +69,9 @@ const PlaylistContext = ({ children }) => {
       }, [])
     
     const value = useMemo(() => ({
-      hideAlbumPlaylist,
-      setHideAlbumPlaylist,
       detailData,
       setDetailData,
-      setPlaylistLoader,
-      playlistLoader,
-      hideplaylist,
-      setHidePlaylist,
       setName,
-      hideplay,
-      setHidePlay,
       setGetPlayList,
       create,
       getPlayList,
@@ -85,11 +79,25 @@ const PlaylistContext = ({ children }) => {
       handleCreatePlaylist,
       patchApi,
       deleteApi
-    }), [hideAlbumPlaylist, detailData, playlistLoader, hideplaylist, hideplay, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi])
+    }), [ detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi])
+
+
+    const uiValue=useMemo(()=> ({
+      hideAlbumPlaylist,
+      setHideAlbumPlaylist,
+      setPlaylistLoader,
+      playlistLoader,
+      hideplaylist,
+      setHidePlaylist,
+      hideplay,
+      setHidePlay,
+    }),[hideAlbumPlaylist,playlistLoader,hideplaylist,hideplay])
 
     return (
       <authPlaylist.Provider value={value}>
+        <UIPlaylistContext.Provider value={uiValue}>
         {children}
+        </UIPlaylistContext.Provider>
       </authPlaylist.Provider>
     )
 }

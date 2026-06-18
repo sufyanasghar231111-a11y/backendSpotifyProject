@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { authHome } from '../../contextapi/HomeContext'
+import {  UIHomeContex } from '../../contextapi/HomeContext'
 import { RiCheckFill } from '@remixicon/react'
 import { LogoutContext } from '../../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 
 const Logout = () => {
-    let {hidepro,setHidepro}=useContext(authHome)
+    let {hidepro,setHidepro}=useContext(UIHomeContex)
     let {setHideSure}=useContext(LogoutContext)
 
   return (

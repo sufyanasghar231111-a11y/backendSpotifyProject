@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { authHome } from '../../../contextapi/HomeContext'
+import {  UIHomeContex } from '../../../contextapi/HomeContext'
 import { RiChromeLine, RiCloseLargeFill, RiSearchLine } from '@remixicon/react'
 import { authSearchBar } from '../../../contextapi/SearchSeparateContext'
 import { authSearch } from '../../../contextapi/RecentSearchRoute'
 
 const NavSearch = () => {
 
-  let {  hideClose, setHideClose } = useContext(authHome)
+  let {  hideClose, setHideClose } = useContext(UIHomeContex)
   let { searchinput, setSearchinput,patchText,setHideSearch}=useContext(authSearchBar)
   let {setSkeletonLoader}=useContext(authSearch)
   let navigate = useNavigate()

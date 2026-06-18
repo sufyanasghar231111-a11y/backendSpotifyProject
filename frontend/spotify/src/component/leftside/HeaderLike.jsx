@@ -2,12 +2,12 @@ import React, { useContext, useMemo } from 'react'
 import { authHome } from '../../contextapi/HomeContext'
 import { Link } from 'react-router-dom'
 import { RiAddLine, RiHeartFill } from '@remixicon/react'
-import { authPlaylist } from '../../contextapi/PlaylistContext'
+import {  UIPlaylistContext } from '../../contextapi/PlaylistContext'
 
 const HeaderLike = () => {
 
      let {setHide, fav } = useContext(authHome)
-        let { setHidePlay } = useContext(authPlaylist)
+        let { setHidePlay } = useContext(UIPlaylistContext)
     const length = useMemo(() => {
         return fav.reduce((acc, elem) => {
             return acc + (elem.favorite?.length || 0)

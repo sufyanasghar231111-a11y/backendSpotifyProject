@@ -1,0 +1,25 @@
+import api from "./axios"
+
+
+export const register = (data) => {
+    return api.post('/auth/register', data)
+};
+
+export const loginUser = (data) => {
+    return api.post('/auth/login', data)
+};
+
+export const checkUser = () => {
+    return api.get('/auth/user')
+};
+
+export const logoutUser = () => {
+    return api.post('/auth/logout')
+};
+
+
+export const updateUserPfp = (formData) => {
+    return api.put('/auth/updatepfp',formData)
+};
+
+

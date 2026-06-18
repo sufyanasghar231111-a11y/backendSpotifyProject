@@ -5,6 +5,8 @@ import { authProvider } from '../contextapi/AuthContext'
 
 
 export const authHome = createContext()
+export const UIHomeContex=createContext()
+export const refContext=createContext()
 
 const HomeContext = ({ children }) => {
   let [hidepro, setHidepro] = useState(false)
@@ -84,13 +86,25 @@ const HomeContext = ({ children }) => {
 
 
 
-  const value = useMemo(() => ({
-    hidepro, setHidepro, hide, rightRef, silderRef, leftRef, setHide, fav, setFav, createFav, deletemusic, data, setData, separate, setSeparate, hideClose, setHideClose
-  }), [hidepro, hide, silderRef, fav, rightRef, leftRef, createFav, deletemusic, data, separate, hideClose])
+  const valueMusic = useMemo(() => ({
+    fav, setFav, createFav, deletemusic, data, setData, separate, setSeparate
+  }), [ fav,  createFav, deletemusic, data, separate])
+
+  const uiValue=useMemo(()=>({
+    hide,setHide,hidepro,setHidepro,hideClose,setHideClose
+  }),[hide, hidepro,hideClose])
+
+  const value =useMemo(()=>({
+    rightRef, silderRef, leftRef
+  }),[silderRef, rightRef, leftRef])
 
   return (
-    <authHome.Provider value={value}>
+    <authHome.Provider value={valueMusic}>
+      <UIHomeContex.Provider value={uiValue}>
+        <refContext.Provider value={value}>
       {children}
+        </refContext.Provider>
+      </UIHomeContex.Provider>
     </authHome.Provider>
   )
 }

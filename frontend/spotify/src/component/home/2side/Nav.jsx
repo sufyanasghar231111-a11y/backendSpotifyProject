@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { RiChromeLine, RiCloseLargeFill, RiHome4Fill, RiHome5Line, RiPauseFill, RiPlayFill, RiSearchLine, RiSpotifyFill } from '@remixicon/react'
-import { authHome } from '../../../contextapi/HomeContext'
+import {  UIHomeContex } from '../../../contextapi/HomeContext'
 import { authProvider } from '../../../contextapi/AuthContext'
 import Logout from '../Logout'
 import { Link } from 'react-router-dom'
@@ -8,12 +8,10 @@ import NavSearch from './NavSearch'
 
 function Nav() {
   let { user } = useContext(authProvider)
-  let { setHidepro } = useContext(authHome)
+  let { setHidepro } = useContext(UIHomeContex)
 
   let fetchname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
 
-
-  
 
 
   return (

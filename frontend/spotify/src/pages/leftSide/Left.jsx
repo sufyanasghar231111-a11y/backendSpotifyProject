@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom'
 import Library from '../../component/library/Library'
 import HeaderLike from '../../component/leftside/HeaderLike'
 import Playlistget from '../../component/leftside/Playlistget'
-import { authPlaylist } from '../../contextapi/PlaylistContext'
+import { authPlaylist, UIPlaylistContext } from '../../contextapi/PlaylistContext'
 
 const Left = () => {
     let { hide} = useContext(authHome)
-    let { playlistLoader } = useContext(authPlaylist)
+    let { playlistLoader } = useContext(UIPlaylistContext)
 
     
 

@@ -6,6 +6,7 @@ import { authSearch } from '../contextapi/RecentSearchRoute';
 import { musciControl } from '../contextapi/MusicControllerContext';
 import { audioContext } from '../contextapi/AudioProvider';
 import { authPlaylist } from '../contextapi/PlaylistContext';
+import { checkUser, loginUser, logoutUser, register, updateUserPfp } from '../api/authApi';
 
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -54,6 +55,7 @@ const AuthContext = ({ children }) => {
         }
     }, [user])
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const getLibrary= async ()=> {
         try {
             const res = await axios.get('http://localhost:3000/api/user/getLibrary', { withCredentials: true })
@@ -69,12 +71,12 @@ const AuthContext = ({ children }) => {
      const  handleSumbit =useCallback( async(e) => {
         e.preventDefault()
         try {
-            const response = await axios.post('http://localhost:3000/api/auth/register',
+            const response = await register(
                 {
                     username: username,
                     email: emailreg,
                     password: passwordreg
-                }, { withCredentials: true }
+                }
             )
 
 
@@ -88,6 +90,7 @@ const AuthContext = ({ children }) => {
             await getRecentSearch()
             await getMusicPlaying()
             setUser(response.data.user)
+            
         }
         catch (err) {
             console.log(err);
@@ -98,12 +101,11 @@ const AuthContext = ({ children }) => {
         e.preventDefault()
         try {
             setLoading(true)
-            const checkLogin = await axios.post('http://localhost:3000/api/auth/login',
+            const checkLogin = await loginUser(
                 {
                     email: login.email,
                     password: login.password
-                },
-                { withCredentials: true }
+                }
             )
 
             setAuthReady(true)
@@ -126,9 +128,7 @@ const AuthContext = ({ children }) => {
     async function checkRefresh() {
         try {
             await new Promise((resolve) => setTimeout(resolve, 3000));
-            let res = await axios.get("http://localhost:3000/api/auth/user",
-                { withCredentials: true }
-            )
+            let res = await checkUser()
             setUser(res.data.getAuthData)
             setAuthReady(true)
         }
@@ -149,10 +149,7 @@ const AuthContext = ({ children }) => {
 
     async function handleLogout() {
         try {
-            await axios.post('http://localhost:3000/api/auth/logout',
-                {},
-                { withCredentials: true }
-            )
+            await logoutUser()
             if (audioRef.current) {
                 audioRef.current.pause()
                 audioRef.current.currentTime = 0
@@ -181,7 +178,7 @@ const AuthContext = ({ children }) => {
             const formData = new FormData()
             formData.append('pfp', updateprofile)
             formData.append('username', updatename)
-            const res = await axios.put('http://localhost:3000/api/auth/updatepfp', formData, { withCredentials: true })
+            const res = await updateUserPfp(formData)
             setUser(prev => ({
                 ...prev,
                 pfp: res.data.pfp,
