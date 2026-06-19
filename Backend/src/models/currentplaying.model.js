@@ -8,6 +8,14 @@ const currentPlaying=new mongoose.Schema({
     music:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"music"
+    },
+    currentTime:{
+        type:Number,
+        default:0
+    },
+    duration:{
+        type:Number,
+        default:0
     }
 })
 

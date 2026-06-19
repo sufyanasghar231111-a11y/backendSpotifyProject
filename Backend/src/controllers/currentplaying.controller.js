@@ -2,12 +2,14 @@ const currentPlaying=require('../models/currentplaying.model')
 
 async function createCurr(req,res) {
     try{
-        const {music}=req.body || {}
+        const {music,currentTime,duration}=req.body || {}
 
         const createCurrentPlaying=await currentPlaying.create(
             {
                 user:req.user.id,
-                music
+                music,
+                currentTime,
+                duration
             }
         )
         res.status(201).json({
@@ -25,7 +27,7 @@ async function createCurr(req,res) {
 
 async function getCurr(req,res){
     try{
-        const getCurrentPlaying=await currentPlaying.find({user:req.user.id}).populate('music')
+        const getCurrentPlaying=await currentPlaying.find({user:req.user.id}).populate({path:'music', populate:{path:"artist", select:'_id username'}})
 
         res.status(200).json({
             message:"successful get music",
@@ -43,12 +45,20 @@ async function getCurr(req,res){
 
 async function patchCurr(req,res){
     try{
-        let {id}=req.params
-
+        const {id}=req.params
+        const currentTime=req.body.currentTime
+        const duration=req.body.duration
         const patchCurrentPlaying=await currentPlaying.findOneAndUpdate(
             {user:req.user.id},
+            
             {
-                music:id
+                music:id,
+                currentTime:currentTime,
+                duration:duration
+            },
+            {
+                new :true,
+                upsert:true
             }
         )
         res.status(200).json({

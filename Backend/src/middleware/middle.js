@@ -28,6 +28,7 @@ async function authartist(req,res,next) {
       
     }
 }
+
 async function adminMan(req,res,next) {
     const token=req.cookies.token
       if(!token){
@@ -82,9 +83,7 @@ async function getMusic(req,res,next){
   }
 
 
-
 }
-
 
 async function auth(req,res,next){
   let token =req.cookies.token

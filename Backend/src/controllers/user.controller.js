@@ -2,17 +2,12 @@ const userSchema = require('../models/playlist.model')
 const mongoose = require('mongoose')
 const favSchema = require('../models/fav.models')
 const musicSchema = require('../models/music.model')
-const librarySchema=require('../models/Library.model')
 
 async function playlist(req, res) {
 
     try {
         let { name, music, user } = req.body
-        // if(!name || !music){
-        //   return  res.status(400).json({
-        //         message:"Name and Music is required"
-        //     })
-        // }
+        
         const createPlaylist = await userSchema.create({
             name,
             music: [],
@@ -315,98 +310,4 @@ async function singleFav(req, res) {
     }
 }
 
-async function createLibrary(req,res){
-    try{
-
-        let {music}=req.body
-
-        const createLib=await librarySchema.create({
-            music,
-            user:req.user.id
-        })
-        res.status(201).json({
-            message:"successful post lib",
-            createLib
-        })
-    }
-    catch(err){
-        res.status(500).json({
-            message:"Error in request"
-        })
-    }
-}
-
-async function getLibrary(req,res){
-    try{
-
-        const getLib=await librarySchema.find({user:req.user.id}).populate('music').populate({path:'music',populate:{path:"artist"}}).populate('user')
-        res.status(200).json({
-            message:"successful get",
-            getLib
-        })
-    }
-    catch(e){
-        res.status(500).json({
-            message:"Error in request"
-        })
-    }
-}
-
-async function addTolab(req,res){
-    
-    let {musicId}=req.params
-    try{
-        const library=await librarySchema.findOneAndUpdate(
-            {
-                user:req.user.id
-            },
-            {
-                $addToSet:{
-                    music:musicId
-                }
-            },
-            {
-                upsert:true,
-                returnDocument:'after'
-            }
-        )
-        res.status(200).json({
-            message:"Successful get user",
-            library
-        })
-    }
-    catch(err){
-        res.status(500).json({
-            message:"Error in your res"
-        })
-    }
-}
-async function deleteLab(req,res){
-    // let {getLib}=req.params
-    let {musicId}=req.params
-    try{
-        const library=await librarySchema.findOneAndUpdate(
-            {
-            //    _id:getLib,
-                user:req.user.id
-            },
-            {
-                $pull:{
-                    music:musicId
-                }
-            }
-        )
-        res.status(200).json({
-            message:"Successful get user",
-            library
-        })
-    }
-    catch(err){
-        res.status(500).json({
-            message:"Error in your res",
-            error:err.message
-        })
-    }
-}
-
-module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete,addTolab,createLibrary,getLibrary,deleteLab }
+module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete }

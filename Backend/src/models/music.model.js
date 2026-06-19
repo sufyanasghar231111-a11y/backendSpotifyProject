@@ -1,23 +1,24 @@
-const mongoose=require('mongoose')
+const mongoose = require('mongoose')
 
-const musicSchema= new mongoose.Schema({
-    uri:{
-        type:String,
-        required:true
+const musicSchema = new mongoose.Schema({
+    uri: {
+        type: String,
+        required: true
     },
-    title:{
-        type:String,
-        required:true
+    title: {
+        type: String,
+        required: true
     },
-    artist:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'user'
+    artist: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
     },
-    image:{
-        type:String,
-        required:true
+    image: {
+        type: String,
+        required: true
     }
 })
 
 
-module.exports=mongoose.model('music', musicSchema)
+
+module.exports = mongoose.model('music', musicSchema)

@@ -1,5 +1,5 @@
 const recentWatchSchema=require('../models/recent.model')
- 
+
 
 async function createRecent(req,res){
     try{
@@ -25,8 +25,10 @@ async function createRecent(req,res){
 }
 
 async function getRecent(req,res){
-    try{
-        const get=await recentWatchSchema.find({user:req.user.id}).populate({path:'songs.item', populate:{path:'artist'}}).populate({path:"album.item", populate:{path:'artist'}})
+    try{        
+
+        const get=await recentWatchSchema.findOne({user:req.user.id}).populate({path:'songs.item', populate:{path:'artist'}}).populate({path:"album.item", populate:{path:'artist'}})      
+
         res.status(200).json({
             message:"successful get",
             get
@@ -64,7 +66,8 @@ async function updateRecent(req,res){
                 }    
             },
             {
-                returnDocument:'after'
+                returnDocument:'after',
+                upsert:true
             }
         )
         res.status(200).json({
@@ -106,7 +109,8 @@ async function updateRecentAlbum(req,res){
             },
 
             {
-                returnDocument:'after'
+                returnDocument:'after',
+                upsert:true
             }
         )
         res.status(200).json({

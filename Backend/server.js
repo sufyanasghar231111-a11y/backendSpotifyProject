@@ -3,5 +3,5 @@ const connectDb=require('./src/db/db')
 connectDb()
 
 app.listen(3000, ()=>{
-    console.log("Port no 3000 is running http://localhost:3000 ");
+    console.log("Port no 3000 is running http://localhost:5173 ");
 })

@@ -151,11 +151,7 @@ async function getUser(req,res){
 async function updatePfp(req,res){
     try{
         let {username}=req.body
-        //  if (!req.file) {
-        //     return res.status(400).json({
-        //         message: "No file uploaded"
-        //     })
-        // }
+        
         
         const result=await uploadPfp(req.file.buffer)
         const user=await postSchema.findByIdAndUpdate(
