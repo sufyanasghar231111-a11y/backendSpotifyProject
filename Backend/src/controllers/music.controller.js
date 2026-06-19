@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const { uploadFile, uploadThumbnail } = require('../services/storage.service')
 const mongoose = require('mongoose')
 const uploadalbumPic = require('../services/album.service')
-
+const userSchema=require('../models/playlist.model')
 
 async function music(req, res) {
 
@@ -70,6 +70,7 @@ async function getBothSongalbum(req, res) {
     let filter = {}
     const search = req.query.search
     const genre = req.query.genre
+    
 
 
     if (search) {
@@ -83,7 +84,7 @@ async function getBothSongalbum(req, res) {
 
     //for ranking search 
 
-    const [music, album] = await Promise.all([
+    const [music, album, visible] = await Promise.all([
       musicSchema
         .find(filter).sort({ createdAt: -1 })
         .select('_id uri title artist image')
@@ -97,6 +98,13 @@ async function getBothSongalbum(req, res) {
         .find(filter).sort({ createdAt: -1 })
         .populate('album', 'uri title').populate('artist', 'username')
         .skip(skip)
+        .limit(limit),
+
+
+        // visible get
+        userSchema
+        .find({visibility:'public'}).sort({createdAt:-1})
+        .skip(skip)
         .limit(limit)
     ])
 
@@ -104,7 +112,7 @@ async function getBothSongalbum(req, res) {
 
     res.status(200).json({
       message: "Music fetched successfully",
-      music, album
+      music, album, visible
     })
   }
   catch (err) {

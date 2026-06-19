@@ -4,7 +4,8 @@ const userSchemas= new mongoose.Schema({
 
     name:{
         type:String,
-        required:true
+        required:true,
+        trim:true
     },
     
     music:[{
@@ -15,6 +16,12 @@ const userSchemas= new mongoose.Schema({
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'user'
+    },
+    
+    visibility:{
+        type:String,
+        enum:['private', 'public'],
+        default:'private'
     }
 })
 

@@ -63,6 +63,34 @@ async function separate(req, res) {
     }
 }
 
+async function visibilityPlaylist(req,res){
+    try{
+        const {id}=req.params
+        if(!req.user.id){
+            res.status(403).json({
+                message:"Unauthorized"
+            })
+        }
+        const visible=await userSchema.findById(id)
+
+        visible.visibility=
+        visible.visibility=== 'public'? 'private':'public'
+
+        await visible.save()
+
+        res.status(200).json({
+            message:"successfull make it public or private",
+            visible
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Error in your Response",
+            error:err.message
+        })
+    }
+}
+
 async function deletePlaylistComplete(req, res) {
     try {
         let { id } = req.params
@@ -310,4 +338,6 @@ async function singleFav(req, res) {
     }
 }
 
-module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete }
+
+
+module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete,visibilityPlaylist }
