@@ -67,6 +67,63 @@ A full-stack music streaming application built using the MERN Stack. Users can d
 * Mongoose
 * JWT Authentication
 
+## 📁 Project Structure
+
+```bash
+music-streaming-platform/
+│
+├── client/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── context/
+│   │   ├── services/
+│   │   ├── hooks/
+│   │   └── utils/
+│   │
+│   └── public/
+│
+├── server/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── middleware/
+│   ├── services/
+│   └── utils/
+│
+├── uploads/
+├── .env
+├── package.json
+└── README.md
+```
+
+## 🔄 Application Architecture
+
+```text
+┌───────────────┐
+│     User      │
+└───────┬───────┘
+        │
+        ▼
+┌───────────────┐
+│ React Frontend│
+└───────┬───────┘
+        │ Axios
+        ▼
+┌───────────────┐
+│ Express API   │
+└───────┬───────┘
+        │
+        ├── Authentication (JWT)
+        ├── Controllers
+        ├── Business Logic
+        │
+        ▼
+┌───────────────┐
+│   MongoDB     │
+└───────────────┘
+```
+
 ## 🔄 Upcoming Features
 
 ### 🎤 Artist Dashboard (In Progress)
@@ -94,6 +151,12 @@ This project helped me gain practical experience in:
 * Search optimization techniques
 * File upload handling
 * Full-stack application development
+* Production-level project structure
+
+## 👨‍💻 Developer
+
+Built by Sufyan Asghar as a full-stack MERN project to practice scalable backend architecture and modern frontend development.
+
 * Production-level project structure
 
 ## 👨‍💻 Developer
