@@ -155,5 +155,4 @@ async function deleteRecent(req,res){
 }
 
 
-
 module.exports={createRecent, getRecent,updateRecent,deleteRecent,updateRecentAlbum}

@@ -8,6 +8,7 @@ routeRecent.post('/createSearch', middleware.getMusic,searchcontroller.createRec
 routeRecent.get('/getSearch', middleware.getMusic,searchcontroller.getRecentSearch)
 routeRecent.patch('/songSearch/:id', middleware.getMusic,searchcontroller.patchRecentSearch)
 routeRecent.patch('/albumSearch/:id', middleware.getMusic,searchcontroller.patchRecentAlbum)
+routeRecent.patch('/playlistSearch/:id', middleware.getMusic,searchcontroller.patchRecentPlaylist)
 routeRecent.delete('/deleteSearch/:id', middleware.getMusic,searchcontroller.deleteRecentSearch)
 
 routeRecent.patch('/recenttext', middleware.getMusic,searchcontroller.patchText)

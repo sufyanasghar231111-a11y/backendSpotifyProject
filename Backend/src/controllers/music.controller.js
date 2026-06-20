@@ -68,7 +68,7 @@ async function getBothSongalbum(req, res) {
     const limit = 8;
     const skip = (page - 1) * limit
     let filter = {}
-    const search = req.query.search
+    const search = req.query.search || ''
     const genre = req.query.genre
     
 
@@ -76,7 +76,7 @@ async function getBothSongalbum(req, res) {
     if (search) {
       filter.title = { $regex: search, $options: 'i' }
     }
-
+    
 
     if (genre) {
       filter.genre = genre
@@ -103,7 +103,7 @@ async function getBothSongalbum(req, res) {
 
         // visible get
         userSchema
-        .find({visibility:'public'}).sort({createdAt:-1})
+        .find({visibility:'public', name:{$regex:search, $options:'i'}}).sort({createdAt:-1})
         .skip(skip)
         .limit(limit)
     ])

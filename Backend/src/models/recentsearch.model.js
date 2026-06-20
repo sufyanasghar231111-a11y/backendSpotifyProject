@@ -9,7 +9,7 @@ const recentsearch = mongoose.Schema({
 
         type: {
             type: String,
-            enum: ['song', 'album', 'text']
+            enum: ['song', 'album', 'text', 'playlist']
         },
 
         item: {
@@ -19,7 +19,7 @@ const recentsearch = mongoose.Schema({
 
         typeModel: {
             type: String,
-            enum: ['music', 'album']
+            enum: ['music', 'album', 'playlist']
         },
 
         text: String,
