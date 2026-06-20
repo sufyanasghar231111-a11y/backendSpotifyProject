@@ -11,8 +11,8 @@ import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 
 function SearchBar() {
 
-    let { searchMusic, music, Issearch, searchinput, loader, searchAlbum,hideSearch, setHideSearch  } = useContext(authSearchBar)
-    let { getSearch, patchRecentSearch, patchAlbumRecentSearch,setSkeletonLoader } = useContext(authSearch)
+    let { searchMusic, music, Issearch, searchinput, loader, searchAlbum,hideSearch, setHideSearch,searchPublicplay,visible  } = useContext(authSearchBar)
+    let { getSearch, patchRecentSearch, patchAlbumRecentSearch,setSkeletonLoader,patchPlaylistRecentSearch } = useContext(authSearch)
     
     const showsearch =
         useMemo(() => {
@@ -21,21 +21,27 @@ function SearchBar() {
             return [...searchMusic.map(elem => ({
                 ...elem,
                 type: 'song'
-            })), ...searchAlbum.map(elem => ({
+            })),
+             ...searchAlbum.map(elem => ({
                 ...elem,
                 type: 'album'
-            }))]
+            })),
+            ...searchPublicplay.map(elem => ({
+                ...elem,
+                type:'visible'
+            }))
+        ]
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [searchinput, searchAlbum, searchMusic])
+        }, [searchinput, searchAlbum, searchMusic, searchPublicplay])
 
         
+        
+
 
     let navigate = useNavigate()
 
-
-   
-
+    
     const handleClick = useCallback((elem) => {
         
          if (!searchinput.trim()) return
@@ -50,10 +56,16 @@ function SearchBar() {
         if (elem.type === 'song') {
             patchRecentSearch(elem._id)
         }
-        else {
+        
+        if(elem.type === 'album'){
             patchAlbumRecentSearch(elem._id)
         }
-    }, [patchRecentSearch, patchAlbumRecentSearch,navigate,searchinput])
+
+        if(elem.type === 'visible'){
+            patchPlaylistRecentSearch(elem._id)
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [patchRecentSearch, patchAlbumRecentSearch,navigate,searchinput,patchPlaylistRecentSearch])
 
     return (
         <div>
@@ -69,7 +81,7 @@ function SearchBar() {
                                 </div>
                                 {
                                     searchinput.trim() === '' ? (
-                                        getSearch?.[0]?.search.length > 0 ? (
+                                        getSearch?.[0]?.search.length > 1 ? (
                                             <RecentSearch />
                                         ) : (<Empty />)
                                     ) : (
@@ -93,7 +105,7 @@ function SearchBar() {
                                 }
                                 {
 
-                                    searchinput.trim() !== '' && searchMusic.length === 0 && searchAlbum.length === 0 && (
+                                    searchinput.trim() !== '' && searchMusic.length === 0 && searchAlbum.length === 0 && searchPublicplay.length ===0 && (
                                         <NoResult />
                                     )
                                 }

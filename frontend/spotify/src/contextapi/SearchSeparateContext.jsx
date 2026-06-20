@@ -8,9 +8,11 @@ const SearchSeparateContext = ({ children }) => {
 
     //all get array data from backend here 
     const [searchMusic, setSearchMusic] = useState([])
-    const [album, setAlbum] = useState([])
-    const [music, setMusic] = useState([])
     const [searchAlbum, setSearchAlbum] = useState([])
+    const [searchPublicplay,setSearchPublicplay]=useState([])
+    const [music, setMusic] = useState([])
+    const [album, setAlbum] = useState([])
+    const [visible,setVisible]=useState([])
 
     //all true and false state
     const [Issearch, setIssearch] = useState(false)
@@ -36,6 +38,7 @@ const SearchSeparateContext = ({ children }) => {
         if (debounceSearch.trim().length < 2) {
             setSearchMusic([])
             setSearchAlbum([])
+            setSearchPublicplay([])
             setLoader(false)
             return
         }
@@ -48,6 +51,7 @@ const SearchSeparateContext = ({ children }) => {
             const cached = cacheRef.current.get(key)
             setSearchAlbum(cached.album)
             setSearchMusic(cached.music)
+            setSearchPublicplay(cached.visible)
             setLoader(false)
             return
         }
@@ -66,11 +70,13 @@ const SearchSeparateContext = ({ children }) => {
 
                 setSearchMusic(res.data.music)
                 setSearchAlbum(res.data.album)
+                setSearchPublicplay(res.data.visible)
                 setIssearch(true)
 
                 cacheRef.current.set(key, {
                     music: res.data.music,
-                    album: res.data.album
+                    album: res.data.album,
+                    visible:res.data.visible
                 })
 
             }
@@ -97,6 +103,7 @@ const SearchSeparateContext = ({ children }) => {
             const res = await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}`)
             setMusic(res.data.music)
             setAlbum(res.data.album)
+            setVisible(res.data.visible)
         }
         catch (err) {
             console.log(err);
@@ -118,7 +125,9 @@ const SearchSeparateContext = ({ children }) => {
             console.log(err);
         }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchinput])
+    
     const value = useMemo(() => ({
         searchinput,
         setSearchinput,
@@ -135,8 +144,10 @@ const SearchSeparateContext = ({ children }) => {
         patchText,
         setLoader,
         hideSearch,
-        setHideSearch
-    }), [searchinput, searchMusic, Issearch, loader, searchAlbum, music, page, album, patchText, hideSearch])
+        setHideSearch,
+        visible,
+        searchPublicplay
+    }), [searchinput, searchMusic, Issearch, loader, searchAlbum, music, page, album, patchText, hideSearch,visible,searchPublicplay])
 
     return (
         <authSearchBar.Provider value={value}>

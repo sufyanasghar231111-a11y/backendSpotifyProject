@@ -17,9 +17,10 @@ export const logoutUser = () => {
     return api.post('/auth/logout')
 };
 
-
 export const updateUserPfp = (formData) => {
     return api.put('/auth/updatepfp',formData)
 };
 
-
+export const deleteUserPfp=()=>{
+    return api.delete('auth/removePfp')
+};

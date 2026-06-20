@@ -12,6 +12,8 @@ const RecentSearch = () => {
             <h1 className=' px-5 font-bold'>Recent searches</h1>
             {
                 getSearch?.[0]?.search?.map((elem) => {
+                    console.log(elem);
+                    
                     return <div key={elem._id}>
                     {
                         elem.type==='song' && (
@@ -75,6 +77,25 @@ const RecentSearch = () => {
                     </div>
                         )
                     }
+
+                    {
+                        elem.type === 'playlist' && (
+                              <div key={elem._id} className=' px-7 cursor-pointer group h-14 hover:bg-[#404040] transition-all duration-500 rounded-lg py-2  gap-6   flex items-center'>
+                       
+                        <div className='flex items-center justify-between w-full'>
+                                <h1 className='font-semibold text-[16px] text-[#969494]'>{elem.item?.name}</h1>
+                            <div>
+                                <div onClick={() => {
+                                    deleteRecentSearch(elem._id)
+                                }} className='flex items-center gap-3'>
+                                    <button className=' group-hover:block hidden rounded-full px-1 py-1 hover:bg-[#252525] transition-all duration-300 '><RiCloseLine /></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        )
+                    }
+
                     
                     </div>
                 })

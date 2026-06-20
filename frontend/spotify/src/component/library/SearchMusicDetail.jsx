@@ -9,7 +9,7 @@ import { authSearch } from '../../contextapi/RecentSearchRoute'
 const SearchMusicDetail = () => {
     const [params]=useSearchParams()
     const query=params.get('query')
-    let {  albumresults, setAlbumResults,musicresults,setMusicResults} = useContext(authSearch)
+    let {  albumresults, setAlbumResults,musicresults,setMusicResults,visibleresults, setVisibleResults} = useContext(authSearch)
 
 
     useEffect(() => {
@@ -21,6 +21,7 @@ const SearchMusicDetail = () => {
 
             setAlbumResults(res.data.album)
             setMusicResults(res.data.music)
+            setVisibleResults(res.data.visible)
         }
 
         fetchData()
@@ -37,6 +38,10 @@ const SearchMusicDetail = () => {
         ...albumresults.map(elem => ({
             ...elem,
             type:'album'
+        })),
+        ...visibleresults.map(elem => ({
+            ...elem,
+            type:"visible"
         }))
       ]
 
@@ -45,8 +50,8 @@ const SearchMusicDetail = () => {
         ...results.filter(elem=> elem._id === selected),
         ...results.filter(elem=> elem._id !== selected)
       ]:results
-    
 
+      
     return (
         <div className='h-[65vh] relative px-2 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>
             <Skeleton />
@@ -55,7 +60,7 @@ const SearchMusicDetail = () => {
 
                     sort.map((elem) => {
                         return <>
-                            {elem.type === 'music' ? (
+                            {elem.type === 'music' && (
                                 <> 
                                 
                                         <div key={elem._id} className={`flex  cursor-pointer ${selected === elem._id ? 'bg-[#1F1F1F] hover:bg-[#141414]':'hover:bg-[#1F1F1F]'} px-4 py-3 rounded-lg items-center justify-between `}>
@@ -73,7 +78,9 @@ const SearchMusicDetail = () => {
                                     </div>
                                 </div>
                                 </>
-                            ) : (
+                            ) } 
+                            
+                            {elem.type === 'album' &&  (
                                 <div>
                                     <div
                                         key={elem._id}
@@ -111,6 +118,14 @@ const SearchMusicDetail = () => {
                                     </div>
                                 </div>
                             )}
+
+                            {
+                                elem.type === 'visible' && (
+                                    <div>
+                                        {elem.name}
+                                    </div>
+                                )
+                            }
                         </>
                     })
                 }

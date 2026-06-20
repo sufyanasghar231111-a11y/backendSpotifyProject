@@ -1,14 +1,14 @@
 import { RiAddLine, RiHeartFill, RiHeartLine, RiPlayListLine } from '@remixicon/react'
 import React, { useContext } from 'react'
-import { authHome } from '../../contextapi/HomeContext'
+import {  UIHomeContex } from '../../contextapi/HomeContext'
 import { Link } from 'react-router-dom'
 import Library from '../../component/library/Library'
 import HeaderLike from '../../component/leftside/HeaderLike'
 import Playlistget from '../../component/leftside/Playlistget'
-import { authPlaylist, UIPlaylistContext } from '../../contextapi/PlaylistContext'
+import {  UIPlaylistContext } from '../../contextapi/PlaylistContext'
 
 const Left = () => {
-    let { hide} = useContext(authHome)
+    let { hide} = useContext(UIHomeContex)
     let { playlistLoader } = useContext(UIPlaylistContext)
 
     

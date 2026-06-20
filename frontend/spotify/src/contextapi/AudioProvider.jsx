@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useRef, useState, useMemo, useCallback } from 'react'
 
 export const audioContext = createContext()

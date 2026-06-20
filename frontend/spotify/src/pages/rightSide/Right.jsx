@@ -1,6 +1,6 @@
 import { RiArrowLeftSLine, RiArrowRightSLine, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import React, { useContext, useEffect } from 'react'
-import HomeContext, { authHome } from '../../contextapi/HomeContext'
+import HomeContext, {  UIHomeContex } from '../../contextapi/HomeContext'
 import Album from '../../component/home/Album'
 
 import { Link, Outlet, useLocation } from 'react-router-dom'
@@ -9,7 +9,7 @@ import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 
 
 const Right = () => {
-  const { setHide } = useContext(authHome)
+  const { setHide } = useContext(UIHomeContex)
   const {setPage}   =useContext(authSearchBar)
   
   

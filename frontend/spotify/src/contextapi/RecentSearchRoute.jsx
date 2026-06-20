@@ -4,9 +4,10 @@ import React, { createContext, useCallback, useEffect, useMemo, useState } from 
 export const authSearch=createContext()
 const RecentSearchRoute = ({children}) => {
 
-    let [getSearch, setGetSearch]=useState([])
-    let [musicresults, setMusicResults] = useState([])
-    let [albumresults, setAlbumResults] = useState([])
+    const [getSearch, setGetSearch]=useState([])
+    const [musicresults, setMusicResults] = useState([])
+    const [albumresults, setAlbumResults] = useState([])
+    const [visibleresults, setVisibleResults]=useState([])
      const [skeletonLoader, setSkeletonLoader] = useState(false)
 
     const getRecentSearch = useCallback(async () => {
@@ -44,6 +45,17 @@ const RecentSearchRoute = ({children}) => {
         console.log(err);
       }
     }, [getRecentSearch])
+    
+    const patchPlaylistRecentSearch=useCallback(async (id)=>{
+      try{
+      await axios.patch(`http://localhost:3000/api/search/playlistSearch/${id}`, {}, {withCredentials:true})
+        
+        await getRecentSearch()
+      }
+      catch(err){
+        console.log(err);
+      }
+    },[getRecentSearch])
 
     const deleteRecentSearch = useCallback(async (id) => {
       try{
@@ -69,8 +81,10 @@ const RecentSearchRoute = ({children}) => {
     musicresults,
     setMusicResults,
     skeletonLoader,
-    setSkeletonLoader
-  }), [getSearch, patchRecentSearch, deleteRecentSearch, patchAlbumRecentSearch, getRecentSearch, albumresults, musicresults, skeletonLoader])
+    setSkeletonLoader,
+    visibleresults, setVisibleResults,
+    patchPlaylistRecentSearch
+  }), [getSearch, patchRecentSearch, deleteRecentSearch, patchAlbumRecentSearch, getRecentSearch, albumresults, musicresults, skeletonLoader,visibleresults,patchPlaylistRecentSearch])
 
   return (
     <authSearch.Provider value={value}>
