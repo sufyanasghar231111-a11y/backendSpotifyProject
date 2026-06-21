@@ -103,7 +103,7 @@ async function getBothSongalbum(req, res) {
 
         // visible get
         userSchema
-        .find({visibility:'public', name:{$regex:search, $options:'i'}}).sort({createdAt:-1})
+        .find({visibility:'public' ,name:{$regex:search, $options:'i'}}).sort({createdAt:-1}).populate({path:"music", populate:{path:'artist', select:'_id username'}}).populate({path:'user', select:"_id username"})
         .skip(skip)
         .limit(limit)
     ])
@@ -119,6 +119,23 @@ async function getBothSongalbum(req, res) {
     res.status(500).json({
       message: "Error in your request",
       error: err.message
+    })
+  }
+}
+
+async function getSingleVisible(req,res){
+  try{
+    const {id} =req.params
+    const singleVisible=await userSchema.findOne({visibility:'public',_id:id}).populate({path:"music", populate:{path:'artist', select:'_id username'}}).populate({path:'user', select:"_id username"})
+    res.status(200).json({
+      message:"successful GetSingle",
+      singleVisible
+    })
+  }
+  catch(err){
+    res.status(500).json({
+      message:"Error in Request",
+      error:err.message
     })
   }
 }
@@ -233,4 +250,4 @@ async function updateMusic(req, res) {
   }
 }
 
-module.exports = { music, Album, getBothSongalbum, single, detail, particularArtist, deleteMusic, updateMusic }
+module.exports = { music, Album, getBothSongalbum, single, detail, particularArtist, deleteMusic, updateMusic ,getSingleVisible}

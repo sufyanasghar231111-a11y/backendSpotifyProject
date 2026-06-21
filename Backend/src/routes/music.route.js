@@ -13,6 +13,8 @@ routeMusic.post('/album', middleware.authartist ,  controlAlbum.Album )
 
 routeMusic.get('/getmusicalbum' ,  getController.getBothSongalbum )
 
+routeMusic.get('/singlevisible/:id', getController.getSingleVisible )
+
 routeMusic.get('/singleMusic/:id', getController.single)
 routeMusic.get('/allAlbum/:id', getController.detail)
 

@@ -66,11 +66,17 @@ async function separate(req, res) {
 async function visibilityPlaylist(req, res) {
     try {
         const { id } = req.params
-
-        const visible = await userSchema.findById(id).populate({path:'music', populate:{path:"artist", select:'username _id'}}).populate({path:"user", select:"username _id"})
+        const visible = await userSchema.findById(id).populate({ path: 'music', populate: { path: "artist", select: 'username _id' } }).populate({ path: "user", select: "username _id" })
         if (!visible) {
             return res.status(404).json({
                 message: 'Playlist not found'
+            })
+        }
+       
+
+        if (visible.user._id.toString() !== req.user.id.toString()) {
+            return res.status(403).json({
+                message: 'You are not authorized to update this playlist'
             })
         }
 
