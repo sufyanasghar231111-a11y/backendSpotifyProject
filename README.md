@@ -156,9 +156,3 @@ This project helped me gain practical experience in:
 ## 👨‍💻 Developer
 
 Built by Sufyan Asghar as a full-stack MERN project to practice scalable backend architecture and modern frontend development.
-
-* Production-level project structure
-
-## 👨‍💻 Developer
-
-Built by Sufyan Asghar as a full-stack MERN project to practice scalable backend architecture and modern frontend development.
