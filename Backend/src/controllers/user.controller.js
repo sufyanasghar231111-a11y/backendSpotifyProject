@@ -7,7 +7,7 @@ async function playlist(req, res) {
 
     try {
         let { name, music, user } = req.body
-        
+
         const createPlaylist = await userSchema.create({
             name,
             music: [],
@@ -63,30 +63,31 @@ async function separate(req, res) {
     }
 }
 
-async function visibilityPlaylist(req,res){
-    try{
-        const {id}=req.params
-        if(!req.user.id){
-            res.status(403).json({
-                message:"Unauthorized"
+async function visibilityPlaylist(req, res) {
+    try {
+        const { id } = req.params
+
+        const visible = await userSchema.findById(id).populate({path:'music', populate:{path:"artist", select:'username _id'}}).populate({path:"user", select:"username _id"})
+        if (!visible) {
+            return res.status(404).json({
+                message: 'Playlist not found'
             })
         }
-        const visible=await userSchema.findById(id)
 
-        visible.visibility=
-        visible.visibility=== 'public'? 'private':'public'
+        visible.visibility =
+            visible.visibility === 'public' ? 'private' : 'public'
 
         await visible.save()
 
         res.status(200).json({
-            message:"successfull make it public or private",
+            message: "successfull make it public or private",
             visible
         })
     }
-    catch(err){
+    catch (err) {
         res.status(500).json({
-            message:"Error in your Response",
-            error:err.message
+            message: "Error in your Response",
+            error: err.message
         })
     }
 }
@@ -154,7 +155,7 @@ async function pushMusic(req, res) {
                 }
             },
             { new: true }
-        ).populate({path:'music', populate:{path:'artist'}})
+        ).populate({ path: 'music', populate: { path: 'artist' } })
         res.status(200).json({
             message: "Successfull update Music",
             update
@@ -340,4 +341,4 @@ async function singleFav(req, res) {
 
 
 
-module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete,visibilityPlaylist }
+module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete, visibilityPlaylist }
