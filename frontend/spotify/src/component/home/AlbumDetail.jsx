@@ -17,7 +17,7 @@ const AlbumDetail = () => {
   let { playing,currentSong}=useContext(audioContext)
   let { patchMusicPlaying,playRef } = useContext(musciControl)
   let { update } = useContext(authRecent)
-  let {detailData, setDetailData}=useContext(authProvider)
+  let {detailData, setDetailData}=useContext(authPlaylist)
   async function detail() {
     try {
       let res = await axios.get(`http://localhost:3000/api/creator/allAlbum/${id}`)
@@ -74,8 +74,8 @@ const AlbumDetail = () => {
                 </div>
                 <div className='flex items-center justify-between w-full'>
                   <div className='flex items-center gap-3'>
-                    <div className='w-12 h-12 border rounded overflow-hidden'>
-                      <img className='w-full h-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9wl5xfVuzRmBNbqj8mKwsqAKwptQPO3LE7Q&s" alt="" />
+                    <div className='w-12 h-12  rounded overflow-hidden'>
+                      <img className='w-full h-full object-cover' src={elem.image} alt="" />
                      
                     </div>
                     <div>

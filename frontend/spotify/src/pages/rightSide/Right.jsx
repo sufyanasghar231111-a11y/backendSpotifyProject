@@ -6,6 +6,7 @@ import Album from '../../component/home/Album'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import RightsideMusic from '../../component/rightside/RightsideMusic'
 import { authSearchBar } from '../../contextapi/SearchSeparateContext'
+import HideExtraDetail from '../../like/HideExtraDetail'
 
 
 const Right = () => {
@@ -20,7 +21,8 @@ const Right = () => {
 
 
   return (
-    <div className='w-[70%] max-sm:w-full ml-auto  rounded-lg overflow-hidden h-[76vh]'>
+    <div className='w-[70%] max-sm:w-full relative ml-auto  rounded-lg overflow-hidden h-[76vh]'>
+      <HideExtraDetail />
       <Outlet />
       
           <>

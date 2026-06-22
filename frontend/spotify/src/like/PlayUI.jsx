@@ -1,27 +1,32 @@
-import { RiHeartFill, RiPlayListLine } from '@remixicon/react'
+import { RiHeartFill, RiPlayListLine, RiPlayFill, RiShuffleLine } from '@remixicon/react'
 import React, { useContext, useEffect } from 'react'
 
 import Input from '../like/Input'
 import { authHome } from '../contextapi/HomeContext'
 import axios from 'axios'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { authRecent } from '../contextapi/RecentRoute'
 import { musciControl } from '../contextapi/MusicControllerContext'
 import { audioContext } from '../contextapi/AudioProvider'
+import {authPlaylist, UIPlaylistContext} from '../contextapi/PlaylistContext'
 
 
 const PlayUI = () => {
 
-  let {  playing ,currentSong } = useContext(audioContext)
-  let { fav, deletemusic, createFav ,separate,setSeparate} = useContext(authHome)
-  let { update } = useContext(authRecent)
-    let { patchMusicPlaying,playRef } = useContext(musciControl)
-  
-  let { id } = useParams()
-  const [params] = useSearchParams()
-  const number = params.get('index')
+  const { playing, currentSong } = useContext(audioContext)
+  const { fav, deletemusic, createFav } = useContext(authHome)
+  const { update } = useContext(authRecent)
+  const { patchMusicPlaying, playRef } = useContext(musciControl)
+  const {setHideExtra}=useContext(UIPlaylistContext)
+  const {separate, setSeparate}=useContext(authPlaylist)
+
+  const  { id } = useParams()
+
+  const location=useLocation()
+
   async function handleSeparate() {
     try {
+      
       const res = await axios.get(`http://localhost:3000/api/user/separate/${id}`, { withCredentials: true })
       setSeparate(res.data.getSinglePlaylist)
     }
@@ -30,74 +35,108 @@ const PlayUI = () => {
     }
   }
 
-  useEffect(() => {
-    setSeparate({})
-    handleSeparate()
-  }, [id])
+  async function handleSingleVisible(){
+    try{
+      const res=await axios.get(`http://localhost:3000/api/creator/singlevisible/${id}`)
+      setSeparate(res.data.singleVisible)
+      console.log(res.data.singleVisible)
+    }
+    catch(err){
+      console.log(err);
+      
+    }
+  }
+  
+  useEffect(()=>{
+    if(location.pathname.startsWith('/visible')){
+      handleSingleVisible()
+    }
+    else{
+      handleSeparate()
+    }
+  },[id,location.pathname])
 
- 
+
 
   return (
-    <div className='w-full max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh] flex flex-col'>
-      <div className='w-full flex gap-3 bg-[#2C1F54] sticky p-6 px-7'>
+    <div className='w-full max-sm:w-full ml-auto  sticky rounded-lg overflow-hidden h-[76vh] flex flex-col'>
+
+      <div className='w-full flex flex-col gap-3 bg-[#2C1F54] sticky p-6 px-7'>
         <div className='flex gap-6 items-center'>
 
           <div className='w-40 flex items-center justify-center bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] rounded h-40'>
             <RiPlayListLine className='text-white w-20 h-20' />
           </div>
           <div>
-            <h1 className='text-xl font-semibold'>
-              {separate?.name}
+            <h1 className='text-sm font-semibold'>
+              {separate?.visibility} Playlist
             </h1>
-            <h1 className='text-7xl font-extrabold'>PlayList # {number}</h1>
-            <h1>{separate?.user?.username}</h1>
+            <h1 className='text-8xl font-extrabold'>{separate?.name}</h1>
+            <h1 className='font-bold'>{separate?.user?.username} <span className='text-[#b9b6b6]'>. {separate?.music?.length} songs</span> </h1>
           </div>
         </div>
+        
+
       </div>
-      <div className='h-full relative px-8 max-sm:px-3 py-6 bg-gradient-to-b from-[#1a1a1a] to-[#282828] overflow-y-auto'>
+      <div className='h-full relative  max-sm:px-3  bg-gradient-to-b from-[#1a1a1a] to-[#282828] overflow-y-auto'>
+        <div className='flex px-8 pt-2  items-center gap-5' >
+
+          <div className='
+              flex items-center justify-center
+              w-14 h-14 rounded-full hover:bg-green-600 bg-green-500
+              opacity-100
+              transition-all duration-300 ease-out shadow-lg'>
+            <RiPlayFill className='text-black w-7 h-7' />
+          </div>
+          <div className='w-12 h-12 flex items-center justify-center cursor-pointer'>
+            <RiShuffleLine className='w-8 h-8 text-[#AEA7A7] hover:text-[#d8d2d2] hover:scale-105' />
+          </div>
+          <svg onClick={()=>{setHideExtra(true)}} className='w-8 h-8 text-[#aea7a7] hover:text-[#d8d2d2] cursor-pointer hover:scale-105 ' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+            <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z' />
+          </svg>
+        </div>
         {/* Header */}
-        <div className=' top-0 z-10 px-4 pt-6 pb-4 flex items-center justify-between bg-gradient-to-r from-[#1a1a1a]/95 to-[#282828]/95 backdrop-blur-sm border-b border-white/10'>
+        <div className=' top-0 z-10 px-15 pt-2 pb-2 flex items-center justify-between  backdrop-blur-sm border-b border-white/10'>
           <div className='flex items-center gap-6'>
-            <div className='w-10 h-10 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl flex items-center justify-center backdrop-blur-sm border border-white/20'>
-              <span className='text-white font-bold text-lg'>#</span>
+            <div className='px-3'>
+              <span className='text-white font-bold text-[15px]'>#</span>
             </div>
             <div>
-              <h1 className='text-xl font-bold text-white'>Favorites</h1>
-              <p className='text-xs text-white/50'>Saved tracks</p>
+              <h1 className='text-xl font-bold text-white'>Title</h1>
+
             </div>
           </div>
           <div className='flex items-center gap-4 text-white/60'>
             <span className='text-sm font-medium'>Duration</span>
-            <div className='w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-all duration-200 cursor-pointer'>
-              <svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-                <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z' />
-              </svg>
-            </div>
+            <span>Liked</span>
           </div>
         </div>
 
         {/* Music List */}
-        <div className='space-y-2 pt-4'>
+        <div className='space-y-2 px-8 pt-4'>
           {separate?.music?.map((music, index) => {
             const favId = fav.some(elem => {
               return elem.favorite.some(song => song._id === music._id)
             })
-            
-            
+
+
+
+
             return <div key={music._id}
               className='group flex items-center p-4 rounded-2xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/10'>
               <div className='relative flex-shrink-0 w-12 h-12'>
                 <span className='absolute inset-0 max-sm:hidden flex items-center justify-center text-white/60 font-bold text-lg group-hover:scale-0 transition-all duration-300 z-10'>
                   {index + 1}
                 </span>
-                <button 
-                onClick={()=>{playRef(music)
-                  update(music?._id)
-                        patchMusicPlaying(music._id)
-                }}
+                <button
+                  onClick={() => {
+                    playRef(music)
+                    update(music?._id)
+                    patchMusicPlaying(music._id)
+                  }}
                   className='absolute inset-0 flex items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl scale-0 max-sm:scale-100 group-hover:scale-100 transition-all duration-300 shadow-lg hover:shadow-purple-500/25 active:scale-95' >
                   {currentSong === music?._id && playing ? (
-                    <svg  className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
+                    <svg className='w-5 h-5' fill='currentColor' viewBox='0 0 20 20'>
                       <path fillRule='evenodd' d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z' clipRule='evenodd' />
                     </svg>
                   ) : (
@@ -128,14 +167,14 @@ const PlayUI = () => {
                   </div>
                 </div>
               </div>
-              
+
               {/* Duration & Controls */}
               <div className='flex items-center gap-4'>
                 <span className='text-sm text-white/60 font-medium min-w-[40px] text-center'>
                   {/* {Math.floor((duration[music._id] || 0) / 60)}:{String(Math.floor((duration[music._id] || 0) % 60)).padStart(2, '0')} */}
                 </span>
 
-               
+
 
                 {/* Delete/Like Button */}
                 <button
@@ -159,7 +198,7 @@ const PlayUI = () => {
             </div>
           })
           }
-          
+
         </div>
       </div>
     </div>

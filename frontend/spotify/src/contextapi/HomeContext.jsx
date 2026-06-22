@@ -15,7 +15,7 @@ const HomeContext = ({ children }) => {
 
   let silderRef = useRef(null)
   let [fav, setFav] = useState([])
-  let [separate, setSeparate] = useState({})
+  
   let { user, authReady } = useContext(authProvider)
   let [hideClose, setHideClose] = useState(false)
   
@@ -87,8 +87,8 @@ const HomeContext = ({ children }) => {
 
 
   const valueMusic = useMemo(() => ({
-    fav, setFav, createFav, deletemusic, data, setData, separate, setSeparate
-  }), [ fav,  createFav, deletemusic, data, separate])
+    fav, setFav, createFav, deletemusic, data, setData
+  }), [ fav,  createFav, deletemusic, data])
 
   const uiValue=useMemo(()=>({
     hide,setHide,hidepro,setHidepro,hideClose,setHideClose

@@ -12,7 +12,6 @@ const RecentSearch = () => {
             <h1 className=' px-5 font-bold'>Recent searches</h1>
             {
                 getSearch?.[0]?.search?.map((elem) => {
-                    console.log(elem);
                     
                     return <div key={elem._id}>
                     {
@@ -86,7 +85,7 @@ const RecentSearch = () => {
                                 <h1 className='font-semibold text-[16px] text-[#969494]'>{elem.item?.name}</h1>
                             <div>
                                 <div onClick={() => {
-                                    deleteRecentSearch(elem._id)
+                                    deleteRecentSearch(elem.item._id)
                                 }} className='flex items-center gap-3'>
                                     <button className=' group-hover:block hidden rounded-full px-1 py-1 hover:bg-[#252525] transition-all duration-300 '><RiCloseLine /></button>
                                 </div>

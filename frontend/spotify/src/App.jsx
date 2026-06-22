@@ -35,6 +35,7 @@ function App() {
         <Route path='albumdetail/:id' element={ < AlbumDetail /> } />
         <Route path='like' element={ <LikeSong />} />
         <Route path='playlist/:id' element={ <PlayUI  />} />
+        <Route path='visible/:id' element={ <PlayUI  />} />
         <Route path='profile' element={<UserProfile />} />
         <Route path='searchmusic' element={<Musicforsearch />} />
          </Route>

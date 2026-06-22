@@ -1,17 +1,22 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios'
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const authPlaylist = createContext()
+// eslint-disable-next-line react-refresh/only-export-components
 export const UIPlaylistContext=createContext()
 const PlaylistContext = ({ children }) => {
-    let [playlistLoader, setPlaylistLoader] = useState(false)
-    let [getPlayList, setGetPlayList] = useState([])
-    let [create, setCreate] = useState([])
-    let [name, setName] = useState('')
-    let [hideplay, setHidePlay] = useState(false)
-    let [hideplaylist, setHidePlaylist] = useState(false)
-    let [hideAlbumPlaylist, setHideAlbumPlaylist] = useState(false)
-    let [detailData, setDetailData] = useState({})
+    const [playlistLoader, setPlaylistLoader] = useState(false)
+    const [getPlayList, setGetPlayList] = useState([])
+    const [create, setCreate] = useState([])
+    const [name, setName] = useState('')
+    const [hideplay, setHidePlay] = useState(false)
+    const [hideplaylist, setHidePlaylist] = useState(false)
+    const [hideAlbumPlaylist, setHideAlbumPlaylist] = useState(false)
+    const [hideExtra,setHideExtra]=useState(false)
+    const [detailData, setDetailData] = useState({})
+    const  [separate, setSeparate] = useState({})
 
     const handleGetPlayList = useCallback(async () => {
       try {
@@ -33,7 +38,21 @@ const PlaylistContext = ({ children }) => {
       handleGetPlayList();
     }, [handleGetPlayList]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const updateVisibility = async (id)=>{
+      try{
+        const res=await axios.patch(`http://localhost:3000/api/user/visible/${id}`, {}, {withCredentials:true})
+        setSeparate(res.data.visible)
+        
+        await handleGetPlayList()
+        
+      }
+      catch(err){
+        console.log(err);
+        
+      }
+    }
+
+    
     async function handleCreatePlaylist() {
         try {
 
@@ -78,8 +97,11 @@ const PlaylistContext = ({ children }) => {
       handleGetPlayList,
       handleCreatePlaylist,
       patchApi,
-      deleteApi
-    }), [ detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi])
+      deleteApi,
+      updateVisibility,
+      separate,
+      setSeparate
+    }), [ detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi,updateVisibility])
 
 
     const uiValue=useMemo(()=> ({
@@ -91,7 +113,8 @@ const PlaylistContext = ({ children }) => {
       setHidePlaylist,
       hideplay,
       setHidePlay,
-    }),[hideAlbumPlaylist,playlistLoader,hideplaylist,hideplay])
+      hideExtra,setHideExtra
+    }),[hideAlbumPlaylist,playlistLoader,hideplaylist,hideplay,hideExtra])
 
     return (
       <authPlaylist.Provider value={value}>

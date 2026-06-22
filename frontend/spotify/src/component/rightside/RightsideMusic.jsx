@@ -9,7 +9,8 @@ import RightSideMusicPlay from './RightSideMusicPlay'
 
 
 const RightsideMusic = () => {
-      let { rightRef, leftRef, silderRef } = useContext(authHome)
+      const  { rightRef, leftRef, silderRef } = useContext(authHome)
+
      
   return (
      <div className='h-[65vh] relative px-8 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>

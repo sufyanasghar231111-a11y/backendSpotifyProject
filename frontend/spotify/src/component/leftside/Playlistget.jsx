@@ -10,7 +10,7 @@ const Playlistget = () => {
        {getPlayList.length > 0 ? (
                     getPlayList?.map((elem, index) => {
                         return <div key={elem?._id} className=' flex items-center px-4 max-sm:px-2 py-2'>
-                            <Link to={`/playlist/${elem._id}?index=${index + 1}`} >
+                            <Link to={`/playlist/${elem._id}`} >
                                 <div className='flex items-center gap-3'>
                                     <div className='flex items-center justify-center  rounded w-13 max-sm:w-10 max-sm:h-10 h-13 bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] '>
                                         <RiPlayListLine />

@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { authSearch } from '../contextapi/RecentSearchRoute'
 import useDebounce from '../Hooks/useDebounce'
+import { useQuery } from '@tanstack/react-query'
 
 export const authSearchBar = createContext()
 const SearchSeparateContext = ({ children }) => {
@@ -10,9 +12,6 @@ const SearchSeparateContext = ({ children }) => {
     const [searchMusic, setSearchMusic] = useState([])
     const [searchAlbum, setSearchAlbum] = useState([])
     const [searchPublicplay,setSearchPublicplay]=useState([])
-    const [music, setMusic] = useState([])
-    const [album, setAlbum] = useState([])
-    const [visible,setVisible]=useState([])
 
     //all true and false state
     const [Issearch, setIssearch] = useState(false)
@@ -96,25 +95,18 @@ const SearchSeparateContext = ({ children }) => {
     }, [debounceSearch, page])
 
 
-    // error here because i used usecallback and inside dependence i did't pass value for page change
-
-    const FetchData = useCallback(async () => {
-        try {
-            const res = await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}`)
-            setMusic(res.data.music)
-            setAlbum(res.data.album)
-            setVisible(res.data.visible)
+    const {data, isLoading, error}=useQuery({
+        queryKey:['musicAlbum', page],
+        queryFn: async ()=>{
+            const res=await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}`)
+            return res.data
         }
-        catch (err) {
-            console.log(err);
-        }
-    }, [page])
 
+    })
 
-    useEffect(() => {
-        FetchData()
-    }, [FetchData])
-
+    const music=data?.music || []
+    const album=data?.album || []
+    const visible=data?.visible || []
 
     const patchText = useCallback(async () => {
         try {
@@ -125,7 +117,6 @@ const SearchSeparateContext = ({ children }) => {
             console.log(err);
         }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchinput])
     
     const value = useMemo(() => ({
@@ -137,7 +128,6 @@ const SearchSeparateContext = ({ children }) => {
         loader,
         searchAlbum,
         music,
-        setMusic,
         page,
         setPage,
         album,
@@ -146,7 +136,8 @@ const SearchSeparateContext = ({ children }) => {
         hideSearch,
         setHideSearch,
         visible,
-        searchPublicplay
+        searchPublicplay,
+        isLoading, error
     }), [searchinput, searchMusic, Issearch, loader, searchAlbum, music, page, album, patchText, hideSearch,visible,searchPublicplay])
 
     return (

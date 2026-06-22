@@ -135,10 +135,9 @@ const AuthContext = ({ children }) => {
 
     async function checkRefresh() {
         try {
-            await new Promise((resolve) => setTimeout(resolve, 3000));
+            await new Promise((resolve) => setTimeout(resolve, 1000));
             let res = await checkUser()
             setUser(res.data.getAuthData)
-            setAuthReady(true)
         }
         catch (e) {
             console.log(e);
