@@ -3,8 +3,10 @@ import axios from 'axios'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { authSearch } from '../contextapi/RecentSearchRoute'
 import useDebounce from '../Hooks/useDebounce'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { authPlaylist } from './PlaylistContext'
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const authSearchBar = createContext()
 const SearchSeparateContext = ({ children }) => {
 
@@ -23,14 +25,20 @@ const SearchSeparateContext = ({ children }) => {
     const [searchinput, setSearchinput] = useState('')
     const [page, setPage] = useState(1)
 
+
     //userref
     let requestRef = useRef(0)
     const cacheRef = useRef(new Map());
 
     //usecontext
     let { getRecentSearch } = useContext(authSearch)
-
+    const {setSeparate,handleGetPlayList}=useContext(authPlaylist)
+    
+    // custom hook
     const debounceSearch = useDebounce(searchinput, 600)
+
+    // query client 
+    const queryClient = useQueryClient()
 
     useEffect(() => {
         const search = debounceSearch.trim().toLowerCase()
@@ -98,6 +106,7 @@ const SearchSeparateContext = ({ children }) => {
     const {data, isLoading, error}=useQuery({
         queryKey:['musicAlbum', page],
         queryFn: async ()=>{
+            // await new Promise((resolve)=> setTimeout(resolve, 700))
             const res=await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}`)
             return res.data
         }
@@ -112,12 +121,31 @@ const SearchSeparateContext = ({ children }) => {
         try {
             await axios.patch(`http://localhost:3000/api/search/recenttext`, { text: searchinput }, { withCredentials: true })
             await getRecentSearch()
+
         }
         catch (err) {
             console.log(err);
         }
 
     }, [searchinput])
+
+
+    const updateVisibility = async (id)=>{
+      try{
+        const res=await axios.patch(`http://localhost:3000/api/user/visible/${id}`, {}, {withCredentials:true})
+        setSeparate(res.data.visible)        
+        await handleGetPlayList()
+
+        queryClient.invalidateQueries({
+            queryKey:['musicAlbum', page]
+        })
+      }
+      catch(err){
+        console.log(err);
+        
+      }
+    }
+    
     
     const value = useMemo(() => ({
         searchinput,
@@ -137,7 +165,8 @@ const SearchSeparateContext = ({ children }) => {
         setHideSearch,
         visible,
         searchPublicplay,
-        isLoading, error
+        isLoading, error,
+        updateVisibility
     }), [searchinput, searchMusic, Issearch, loader, searchAlbum, music, page, album, patchText, hideSearch,visible,searchPublicplay])
 
     return (

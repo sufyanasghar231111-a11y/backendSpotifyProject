@@ -39,7 +39,6 @@ const PlayUI = () => {
     try{
       const res=await axios.get(`http://localhost:3000/api/creator/singlevisible/${id}`)
       setSeparate(res.data.singleVisible)
-      console.log(res.data.singleVisible)
     }
     catch(err){
       console.log(err);

@@ -17,13 +17,14 @@ const PlaylistContext = ({ children }) => {
     const [hideExtra,setHideExtra]=useState(false)
     const [detailData, setDetailData] = useState({})
     const  [separate, setSeparate] = useState({})
-
+    
     const handleGetPlayList = useCallback(async () => {
       try {
         setPlaylistLoader(true)
         await new Promise((resolve) => setTimeout(resolve, 500));
         const res = await axios.get('http://localhost:3000/api/user/particularUserPlaylist', { withCredentials: true })
         setGetPlayList(res.data.particular || [])
+        
       }
       catch (e) {
         console.log(e);
@@ -38,19 +39,7 @@ const PlaylistContext = ({ children }) => {
       handleGetPlayList();
     }, [handleGetPlayList]);
 
-    const updateVisibility = async (id)=>{
-      try{
-        const res=await axios.patch(`http://localhost:3000/api/user/visible/${id}`, {}, {withCredentials:true})
-        setSeparate(res.data.visible)
-        
-        await handleGetPlayList()
-        
-      }
-      catch(err){
-        console.log(err);
-        
-      }
-    }
+    
 
     
     async function handleCreatePlaylist() {
@@ -98,10 +87,9 @@ const PlaylistContext = ({ children }) => {
       handleCreatePlaylist,
       patchApi,
       deleteApi,
-      updateVisibility,
       separate,
       setSeparate
-    }), [ detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi,updateVisibility])
+    }), [ detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi])
 
 
     const uiValue=useMemo(()=> ({

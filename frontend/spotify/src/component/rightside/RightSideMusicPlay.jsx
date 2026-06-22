@@ -8,7 +8,7 @@ import PlayButton from './PlayButton';
 const RightSideMusicPlay = () => {
   let { music, isloading,error } = useContext(authSearchBar)
 
-  if(isloading) return <div>is Loading</div>
+  if(isloading) return <div >is Loading</div>
   if(error) return <div>is error</div>
 
   return (

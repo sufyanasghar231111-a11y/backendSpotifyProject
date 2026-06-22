@@ -11,7 +11,7 @@ import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 
 function SearchBar() {
 
-    let { searchMusic, music, Issearch, searchinput, loader, searchAlbum,hideSearch, setHideSearch,searchPublicplay,visible  } = useContext(authSearchBar)
+    let { searchMusic, music, Issearch, searchinput, loader, searchAlbum,hideSearch, setHideSearch,searchPublicplay  } = useContext(authSearchBar)
     let { getSearch, patchRecentSearch, patchAlbumRecentSearch,setSkeletonLoader,patchPlaylistRecentSearch } = useContext(authSearch)
     
     const showsearch =

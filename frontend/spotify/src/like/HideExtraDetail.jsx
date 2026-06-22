@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
 import { authPlaylist, UIPlaylistContext } from '../contextapi/PlaylistContext'
+import { authSearchBar } from '../contextapi/SearchSeparateContext'
 
 const HideExtraDetail = () => {
     const { hideExtra, setHideExtra } = useContext(UIPlaylistContext)
-    const { updateVisibility } = useContext(authPlaylist)
+    const { updateVisibility } = useContext(authSearchBar)
     const { separate } = useContext(authPlaylist)
 
 
