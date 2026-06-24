@@ -10,6 +10,7 @@ const routeRecent=require('../src/routes/recentsearch.route')
 const currRouter=require('../src/routes/currentplaying.route')
 const libRouter =require('../src/routes/library.route')
 const getUserRoute=require('./routes/userget.route')
+const resetRoute=require('./routes/resetpassword.route')
 const cors = require('cors');
 
 
@@ -37,5 +38,7 @@ app.use('/api/current',currRouter)
 app.use('/api/library', libRouter)
 
 app.use('/api/userdata', getUserRoute)
+
+app.use('/api/reset', resetRoute)
 
 module.exports=app
