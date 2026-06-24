@@ -140,8 +140,12 @@ const AuthContext = ({ children }) => {
             setUser(res.data.getAuthData)
         }
         catch (e) {
+            if (e.response?.status === 401) {
+                setUser(null);
+                return;
+            }
             console.log(e);
-            setUser(null)
+
         }
         finally {
 

@@ -14,6 +14,8 @@ import { authProvider } from './contextapi/AuthContext'
 import UserProfile from './component/login/UserProfile'
 import LoadingAnimation from './component/home/LoadingAnimation'
 import Musicforsearch from './component/library/Musicforsearch'
+import ForgetPassword from './pages/ForgetPassword'
+import ResetPassword from './pages/ResetPassword'
 
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
       <Routes >
         <Route path='/' element={<Login />} />
          <Route path='/register' element={<Register />} />
+         <Route path='/forget-password' element={<ForgetPassword />} />
+         <Route path='/reset-password/:token' element={<ResetPassword />} />
          <Route element={<ProtectedRoute />} >
          <Route element={<Home />}>
         <Route path='showall' element={<ShowAll />} />

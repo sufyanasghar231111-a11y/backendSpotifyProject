@@ -12,33 +12,36 @@ import MusicControllerContext from './contextapi/MusicControllerContext.jsx'
 import AudioProvider from './contextapi/AudioProvider.jsx'
 import SearchSeparateContext from './contextapi/SearchSeparateContext.jsx'
 import PlaylistContext from './contextapi/PlaylistContext.jsx'
-import {QueryClient ,QueryClientProvider} from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import ResetPasswordContext from './contextapi/resetPasswordContext.jsx'
 
-const queryClient=new QueryClient()
+const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')).render(
 
   <StrictMode>
     <BrowserRouter>
-          <QueryClientProvider client={queryClient}>
-    <PlaylistContext >
-      <AudioProvider >
-    <MusicControllerContext >
-    <RecentRoute>
-      <RecentSearchRoute >
-    <SearchSeparateContext>
-      <AuthContext >
-        <HomeContext >
-              <App />
-        </HomeContext>
-      </AuthContext>
-    </SearchSeparateContext>
-      </RecentSearchRoute>
-    </RecentRoute>
-    </MusicControllerContext>
-      </AudioProvider>
-    </PlaylistContext>
-          </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <ResetPasswordContext>
+          <PlaylistContext >
+            <AudioProvider >
+              <MusicControllerContext >
+                <RecentRoute>
+                  <RecentSearchRoute >
+                    <SearchSeparateContext>
+                      <AuthContext >
+                        <HomeContext >
+                          <App />
+                        </HomeContext>
+                      </AuthContext>
+                    </SearchSeparateContext>
+                  </RecentSearchRoute>
+                </RecentRoute>
+              </MusicControllerContext>
+            </AudioProvider>
+          </PlaylistContext>
+        </ResetPasswordContext>
+      </QueryClientProvider>
     </BrowserRouter>
   </StrictMode>,
 )
