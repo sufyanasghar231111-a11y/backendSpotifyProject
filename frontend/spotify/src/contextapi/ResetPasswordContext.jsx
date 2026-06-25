@@ -6,6 +6,7 @@ export const resetContext = createContext()
 const ResetPasswordContext = ({ children }) => {
     const [resetEmail, setResetEmail] = useState('')
     const [popup,setPopup]=useState(false)
+    const [resetLoading,setResetLoading]=useState(false)
     const [password,setpassword]=useState({
         newPassword:'',
         confirmPassword:''
@@ -14,7 +15,7 @@ const ResetPasswordContext = ({ children }) => {
     async function checkEmail(e) {
         e.preventDefault()
         try {
-            
+            setResetLoading(true)
             await axios.post('http://localhost:3000/api/reset/postreset',
                 {
                     email: resetEmail
@@ -29,6 +30,9 @@ const ResetPasswordContext = ({ children }) => {
         catch (err) {
             console.log(err);
         }
+        finally{
+            setResetLoading(false)
+        }
     }
 
     function handlePasswordChange(e){
@@ -39,7 +43,7 @@ const ResetPasswordContext = ({ children }) => {
     }
 
     return (
-        <resetContext.Provider value={{ resetEmail, setResetEmail, checkEmail,popup,setPopup,password,setpassword,handlePasswordChange}}>
+        <resetContext.Provider value={{ resetEmail, setResetEmail, checkEmail,popup,setPopup,password,setpassword,handlePasswordChange,resetLoading}}>
             {children}
         </resetContext.Provider>
     )

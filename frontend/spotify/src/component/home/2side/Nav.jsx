@@ -10,10 +10,10 @@ function Nav() {
   let { user } = useContext(authProvider)
   let { setHidepro } = useContext(UIHomeContex)
 
-  let fetchname = (user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase()
-
-
-
+  const fetchname = user?.username 
+  ? ((user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase())
+  : '' ;
+ 
   return (
     <nav className='flex lg:px-10 px-5 md:px-7 max-sm:px-3.5  py-2  relative items-center z-150 justify-between gap-2 max-sm:gap-1'>
       <div className='flex items-center gap-6 max-sm:gap-2'>

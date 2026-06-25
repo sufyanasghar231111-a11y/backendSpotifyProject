@@ -41,6 +41,7 @@ function App() {
         <Route path='playlist/:id' element={ <PlayUI  />} />
         <Route path='visible/:id' element={ <PlayUI  />} />
         <Route path='profile' element={<UserProfile />} />
+        <Route path='profile/:id' element={<UserProfile />} />
         <Route path='searchmusic' element={<Musicforsearch />} />
          </Route>
          </Route>

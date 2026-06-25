@@ -6,6 +6,7 @@ import { authProvider, ProfileContext } from '../../contextapi/AuthContext'
 const UpdateProfile = () => {
     const  {user}=useContext(authProvider)
     const {hideProfileDetail,setHideProfileDetail,updatePfp,setUpdateprofile,updatename,setUpdatename,removePfp, preview,setPreview,imageref}=useContext(ProfileContext)
+
     
   return (
     <div>

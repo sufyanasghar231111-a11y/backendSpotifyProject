@@ -37,6 +37,7 @@ const Album = () => {
   ].sort((a,b)=>  new Date(b.createdAt)- new Date(a.createdAt))
 
   
+
   return (
     <div className=' relative'>
       <div className='flex items-center justify-between'>

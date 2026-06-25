@@ -4,7 +4,7 @@ import React, { useContext, useEffect } from 'react'
 import Input from '../like/Input'
 import { authHome } from '../contextapi/HomeContext'
 import axios from 'axios'
-import { useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { authRecent } from '../contextapi/RecentRoute'
 import { musciControl } from '../contextapi/MusicControllerContext'
 import { audioContext } from '../contextapi/AudioProvider'
@@ -55,7 +55,7 @@ const PlayUI = () => {
     }
   },[id,location.pathname])
 
-
+  
 
   return (
     <div className='w-full max-sm:w-full ml-auto  sticky rounded-lg overflow-hidden h-[76vh] flex flex-col'>
@@ -70,7 +70,9 @@ const PlayUI = () => {
             <h1 className='text-sm font-semibold'>
               {separate?.visibility} Playlist
             </h1>
+            <Link to={`/profile/${separate?.user?._id}`}>
             <h1 className='text-8xl font-extrabold'>{separate?.name}</h1>
+            </Link>
             <h1 className='font-bold'>{separate?.user?.username} <span className='text-[#b9b6b6]'>. {separate?.music?.length} songs</span> </h1>
           </div>
         </div>

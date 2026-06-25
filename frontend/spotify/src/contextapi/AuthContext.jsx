@@ -28,6 +28,7 @@ const AuthContext = ({ children }) => {
     let [user, setUser] = useState(null)
     let [preview, setPreview] = useState(null)
     let [updateprofile, setUpdateprofile] = useState(null)
+    const [userProfile,setUserProfile]=useState(null)
 
     // All Input field states
     let [username, setUsername] = useState('')
@@ -57,6 +58,7 @@ const AuthContext = ({ children }) => {
     let { getMusicPlaying } = useContext(musciControl)
     let { handleGetPlayList } = useContext(authPlaylist)
     let { setCurrentSong, audioRef } = useContext(audioContext)
+
 
     // this is for input field in profile update input it by default set user name 
     useEffect(() => {
@@ -140,10 +142,6 @@ const AuthContext = ({ children }) => {
             setUser(res.data.getAuthData)
         }
         catch (e) {
-            if (e.response?.status === 401) {
-                setUser(null);
-                return;
-            }
             console.log(e);
 
         }
@@ -244,9 +242,10 @@ const AuthContext = ({ children }) => {
     }
 
     const auth = useMemo(() => ({
-        user, setUser, handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, authReady, setAuthReady, login, setLogin
+        user, setUser, handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, authReady, setAuthReady, login, setLogin,
+        userProfile,setUserProfile
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }), [user, emailreg, passwordreg, login, authReady])
+    }), [user, emailreg, passwordreg, login, authReady, userProfile])
 
     const logout = useMemo(() => ({
         handleLogout, hideSure, setHideSure
