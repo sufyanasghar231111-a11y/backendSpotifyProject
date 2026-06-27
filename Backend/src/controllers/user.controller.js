@@ -98,6 +98,22 @@ async function visibilityPlaylist(req, res) {
     }
 }
 
+async function getParticulatVisible(req,res){
+    try{
+        const {id}=req.params
+        const particularVisible = await userSchema.find({ user:id,  visibility:'public'}).populate({path:"user", select:"username _id pfp "})
+        res.status(200).json({
+            message:"successful get",
+            particularVisible
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Invalid Response"
+        })
+    }
+}
+
 async function deletePlaylistComplete(req, res) {
     try {
         let { id } = req.params
@@ -347,4 +363,4 @@ async function singleFav(req, res) {
 
 
 
-module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete, visibilityPlaylist }
+module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete, visibilityPlaylist,getParticulatVisible }

@@ -17,6 +17,7 @@ async function checkAuth(req, res) {
         // create token
         const token = crypto.randomBytes(32).toString('hex')
         const hashPassword = crypto.createHash('sha256').update(token).digest('hex')
+                
         // save in db
         user.resetToken = hashPassword
         user.resetTokenExpire = Date.now() + 1000 * 60 * 15
@@ -57,8 +58,9 @@ async function resetPage(req, res){
     try{
         const {token}=req.params
         const {password}=req.body
+        const hashToken=crypto.createHash('sha256').update(token).digest('hex')
         const user=await postSchema.findOne({
-            resetToken:token,
+            resetToken:hashToken,
             resetTokenExpire: { $gt: Date.now() }
         })
         

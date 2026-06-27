@@ -52,8 +52,8 @@ async function register(req,res) {
 
     res.cookie('token', token,{
         httpOnly:true,
-        secure:false,
-        sameSite:'lax',
+        secure:true,
+        sameSite:'strict',
         maxAge:60 * 60 *1000
     })
 
@@ -109,19 +109,19 @@ async function login(req,res) {
     })
     res.cookie('token', token,{
         httpOnly:true,
-        secure:false,
-        sameSite:'lax',
+        secure:true,
+        sameSite:'strict',
         maxAge:60*60*1000
     })
 
     res.status(201).json({
+        message:"successful",
         id: user._id,
         success:true,
         message:"Successful login",
         username:user.username,
         email:user.email,
         role:user.role,
-        password:user.password,
         token,
         pfp:user.pfp
     })

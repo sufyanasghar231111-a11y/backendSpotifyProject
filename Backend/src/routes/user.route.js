@@ -8,6 +8,7 @@ router.post('/playlist', middleware.getMusic , userController.playlist)
 router.get('/particularUserPlaylist', middleware.getMusic, userController.particularUserPlaylist)
 router.get('/separate/:id', middleware.getMusic, userController.separate)
 router.patch('/visible/:id', middleware.getMusic, userController.visibilityPlaylist)
+router.get('/singleparticularvisible/:id', userController.getParticulatVisible)
 
 router.delete('/deletePlaylist/:id', middleware.getMusic, userController.deletePlaylistComplete)
 
