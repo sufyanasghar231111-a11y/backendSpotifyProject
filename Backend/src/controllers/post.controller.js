@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken')
 const cookies = require('cookie-parser')
 const bcrypt = require('bcryptjs')
 const uploadPfp = require('../services/auth.service')
+const logoutSchema = require('../models/logout.model')
+const crypto = require('crypto')
 
 async function register(req, res) {
     const { username, email, password, role = 'user' } = req.body
@@ -51,24 +53,35 @@ async function register(req, res) {
         expiresIn: '7d'
     })
 
+    // hash token and create logout schema data and store in refresh cookie
+    const refreshTokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex')
+
+    const createLogout = await logoutSchema.create({
+        user: user._id,
+        refreshTokenHash,
+        ip: req.ip,
+        userAgent: req.headers['user-agent']
+    })
+
     // access token
     const accessToken = jwt.sign(
         {
             id: user._id,
             role: user.role,
+            sessionId: createLogout._id
         },
         process.env.ACCESS_TOKEN,
         {
-            expiresIn:'10m'
+            expiresIn: '10m'
         }
     )
-     
+
     // only refreshToken
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
-        maxAge:7 * 24 * 60 * 60 * 1000
+        maxAge: 7 * 24 * 60 * 60 * 1000
     })
 
     res.status(201).json({
@@ -81,7 +94,7 @@ async function register(req, res) {
             pfp: imagUrl
         },
         // only access token send in res.
-        accessToken
+        accessToken,
     })
 }
 
@@ -123,14 +136,24 @@ async function login(req, res) {
             expiresIn: '7d'
         })
 
-        const accessToken=jwt.sign(
+        const refreshTokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex')
+
+        const session = await logoutSchema.create({
+            user: user._id,
+            refreshTokenHash,
+            ip: req.ip,
+            userAgent: req.headers['user-agent']
+        })
+
+        const accessToken = jwt.sign(
             {
-                id:user._id,
-                role:user.role,
+                id: user._id,
+                role: user.role,
+                sessionId: session._id
             },
             process.env.ACCESS_TOKEN,
             {
-                expiresIn:'10m'
+                expiresIn: '10m'
             }
         )
 
@@ -138,7 +161,7 @@ async function login(req, res) {
             httpOnly: true,
             secure: true,
             sameSite: 'strict',
-            maxAge:7 * 24 * 60 * 60 * 1000
+            maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
         res.status(201).json({
@@ -150,13 +173,13 @@ async function login(req, res) {
             email: user.email,
             role: user.role,
             pfp: user.pfp,
-            accessToken  
+            accessToken,
         })
     }
     catch (e) {
         res.status(500).json({
             message: "internal error",
-            error:e.message
+            error: e.message
         })
     }
 }
@@ -166,12 +189,12 @@ async function getUser(req, res) {
         const getAuthData = await postSchema.findById(req.user.id)
         res.status(200).json({
             message: "Successful get data",
-            getAuthData:{
-                _id:getAuthData._id,
-                username:getAuthData.username,
-                email:getAuthData.email,
-                role:getAuthData.role,
-                pfp:getAuthData.pfp
+            getAuthData: {
+                _id: getAuthData._id,
+                username: getAuthData.username,
+                email: getAuthData.email,
+                role: getAuthData.role,
+                pfp: getAuthData.pfp
             }
         })
     }
