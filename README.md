@@ -1,17 +1,30 @@
 # 🎧 MERN Music Streaming Platform
 
-A full-stack music streaming application built using the MERN Stack. Users can discover music, stream songs, manage playlists, and enjoy a modern music listening experience with optimized search and responsive design.
+A full-stack music streaming application built using the **MERN Stack**. Users can discover music, stream songs, manage playlists, and enjoy a modern music listening experience with optimized search, secure authentication, and a responsive user interface.
 
-## 🚀 Current Features
+---
 
-### 👤 User Authentication
+# 🚀 Current Features
+
+## 👤 Advanced User Authentication
 
 * Secure user registration and login
 * JWT-based authentication
-* Protected routes for authenticated users
+* **Access Token & Refresh Token authentication**
+* **Refresh Token Rotation** for enhanced security
+* **Session-based authentication**
+* Multiple device login support
+* **Logout from current device**
+* **Logout from all devices**
+* Revoked session validation
+* Protected routes with authentication middleware
 * Persistent login sessions
+* HTTP-only secure cookies for refresh tokens
+* Role-based authorization support
 
-### 🎵 Music Streaming
+---
+
+## 🎵 Music Streaming
 
 * Browse all available songs
 * Stream music with a custom audio player
@@ -19,39 +32,50 @@ A full-stack music streaming application built using the MERN Stack. Users can d
 * Global music controller using React Context
 * Real-time track switching
 
-### 🔍 Smart Search System
+---
 
-* Search songs instantly
-* Debounced search for better performance
+## 🔍 Smart Search System
+
+* Instant song search
+* Debounced search requests
 * Backend text search optimization
-* Separate search result handling
+* Dedicated search result handling
 * Loading states and skeleton UI
 
-### 📂 Playlist Management
+---
+
+## 📂 Playlist Management
 
 * Create personal playlists
 * Add songs to playlists
 * Remove songs from playlists
 * View and manage all created playlists
 
-### ❤️ User Experience
+---
 
-* Responsive design for desktop and mobile devices
-* Modern and clean user interface
+## ❤️ User Experience
+
+* Responsive design for desktop and mobile
+* Modern and clean UI
 * Skeleton loaders during data fetching
 * Optimized state management using Context API
 * Smooth navigation with React Router
 
-### ⚡ Performance Optimizations
+---
 
-* Search request debouncing
+## ⚡ Performance Optimizations
+
+* Debounced search requests
 * Context separation to minimize re-renders
 * Efficient API handling
 * Optimized MongoDB queries
+* Session-based authentication for scalable security
 
-## 🛠️ Tech Stack
+---
 
-### Frontend
+# 🛠️ Tech Stack
+
+## Frontend
 
 * React.js
 * React Router
@@ -59,17 +83,22 @@ A full-stack music streaming application built using the MERN Stack. Users can d
 * Axios
 * Tailwind CSS
 
-### Backend
+## Backend
 
 * Node.js
 * Express.js
 * MongoDB
 * Mongoose
 * JWT Authentication
+* Access & Refresh Token Rotation
+* Session Management
+* HTTP-only Cookies
 
-## 📁 Project Structure
+---
 
-```bash
+# 📁 Project Structure
+
+```text
 music-streaming-platform/
 │
 ├── client/
@@ -85,11 +114,12 @@ music-streaming-platform/
 │
 ├── server/
 │   ├── controllers/
+│   ├── middleware/
 │   ├── models/
 │   ├── routes/
-│   ├── middleware/
 │   ├── services/
-│   └── utils/
+│   ├── utils/
+│   └── config/
 │
 ├── uploads/
 ├── .env
@@ -97,7 +127,46 @@ music-streaming-platform/
 └── README.md
 ```
 
-## 🔄 Application Architecture
+---
+
+# 🔐 Authentication Flow
+
+```text
+User Login
+      │
+      ▼
+Verify Credentials
+      │
+      ▼
+Create Session
+      │
+      ▼
+Generate Access Token (10 min)
+Generate Refresh Token
+      │
+      ▼
+Store Hashed Refresh Token + Session
+      │
+      ▼
+Access Protected Routes
+      │
+      ▼
+Access Token Expires
+      │
+      ▼
+Refresh Token Rotation
+      │
+      ▼
+New Access Token
+New Refresh Token
+      │
+      ▼
+Old Refresh Token Revoked
+```
+
+---
+
+# 🔄 Application Architecture
 
 ```text
 ┌───────────────┐
@@ -114,7 +183,10 @@ music-streaming-platform/
 │ Express API   │
 └───────┬───────┘
         │
-        ├── Authentication (JWT)
+        ├── JWT Authentication
+        ├── Access Token Validation
+        ├── Refresh Token Rotation
+        ├── Session Management
         ├── Controllers
         ├── Business Logic
         │
@@ -124,35 +196,46 @@ music-streaming-platform/
 └───────────────┘
 ```
 
-## 🔄 Upcoming Features
+---
 
-### 🎤 Artist Dashboard (In Progress)
+# 🔄 Upcoming Features
+
+## 🎤 Artist Dashboard
 
 * Upload songs
 * Create albums
 * Manage uploaded music
 * Music analytics
 
-### 🛡️ Admin Dashboard (In Progress)
+## 🛡️ Admin Dashboard
 
 * User management
 * Artist management
 * Content moderation
 * Platform monitoring
 
-## 📚 What I Learned
+---
+
+# 📚 What I Learned
 
 This project helped me gain practical experience in:
 
-* Building RESTful APIs
-* Authentication and authorization
+* Building scalable RESTful APIs
+* JWT authentication and authorization
+* Access & Refresh Token implementation
+* Refresh Token Rotation
+* Session-based authentication
+* Secure logout from all devices
 * MongoDB database design
 * React Context architecture
 * Search optimization techniques
 * File upload handling
+* Secure cookie management
+* Production-level backend architecture
 * Full-stack application development
-* Production-level project structure
 
-## 👨‍💻 Developer
+---
 
-Built by Sufyan Asghar as a full-stack MERN project to practice scalable backend architecture and modern frontend development.
+# 👨‍💻 Developer
+
+Built by **Sufyan Asghar** as a full-stack MERN project to practice scalable backend architecture, secure authentication, and modern frontend development.
