@@ -11,6 +11,7 @@ const currRouter=require('../src/routes/currentplaying.route')
 const libRouter =require('../src/routes/library.route')
 const getUserRoute=require('./routes/userget.route')
 const resetRoute=require('./routes/resetpassword.route')
+const rotationRoute=require('./routes/refreshRotation.route')
 const cors = require('cors');
 
 
@@ -40,5 +41,9 @@ app.use('/api/library', libRouter)
 app.use('/api/userdata', getUserRoute)
 
 app.use('/api/reset', resetRoute)
+
+// refreshToken route how generate automatically access token evry request and after 10m
+
+app.use('/api/rotation', rotationRoute)
 
 module.exports=app

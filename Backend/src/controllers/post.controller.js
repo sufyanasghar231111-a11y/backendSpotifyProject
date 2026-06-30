@@ -68,7 +68,7 @@ async function register(req, res) {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
-        maxAge: 60 * 60 * 1000
+        maxAge:7 * 24 * 60 * 60 * 1000
     })
 
     res.status(201).json({
@@ -120,7 +120,7 @@ async function login(req, res) {
             id: user._id,
             role: user.role
         }, process.env.SECRET_JWT, {
-            expiresIn: '1h'
+            expiresIn: '7d'
         })
 
         const accessToken=jwt.sign(
@@ -138,7 +138,7 @@ async function login(req, res) {
             httpOnly: true,
             secure: true,
             sameSite: 'strict',
-            maxAge: 60 * 60 * 1000
+            maxAge:7 * 24 * 60 * 60 * 1000
         })
 
         res.status(201).json({
