@@ -86,21 +86,23 @@ async function getMusic(req,res,next){
 }
 
 async function auth(req,res,next){
-  let token =req.cookies.token
-  if(!token){
-   return res.status(401).json({
-      message:"Token is required"
-    })
-  }
-
   try{
-    let decoded=jwt.verify(token,process.env.SECRET_JWT )
+    const header=req.headers.authorization
+    if(!header || !header.startsWith('Bearer')){
+      return res.status(401).json({
+        message:"token is not provide"
+      })
+    }
+    const accessToken=header.split(' ')[1]
+
+    const decoded=jwt.verify(accessToken, process.env.ACCESS_TOKEN)
     req.user=decoded
     next()
   }
   catch(e){
     res.status(500).json({
-      message:"Invalid token"
+      message:"Internal error",
+      error:e.message
     })
   }
 }
