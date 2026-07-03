@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import axios from 'axios'
 import { authProvider } from '../contextapi/AuthContext'
+import { createfav, deletefav, favGet } from '../api/favApi'
 
 
 
@@ -39,7 +40,7 @@ const HomeContext = ({ children }) => {
 
   const fetchFav = useCallback(async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/user/getUserFavorite", { withCredentials: true })
+      const res = await favGet()
       setFav(res.data.getUserFavoritesMusic)
     }
     catch (err) {
@@ -56,7 +57,7 @@ const HomeContext = ({ children }) => {
   const createFav = useCallback(async (favoriteId) => {
 
     try {
-      await axios.patch(`http://localhost:3000/api/user/fav/${favoriteId}`, {}, { withCredentials: true })
+      await createfav(favoriteId)
       fetchFav()
     }
     catch (err) {
@@ -67,7 +68,7 @@ const HomeContext = ({ children }) => {
 
   const deletemusic = useCallback(async (favoriteId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/user/deleteFav/${favoriteId}`, { withCredentials: true })
+      await deletefav(favoriteId)
       setFav((prev) =>
         prev.map((elem) => ({
           ...elem,

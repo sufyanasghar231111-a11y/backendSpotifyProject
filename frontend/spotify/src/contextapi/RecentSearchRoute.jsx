@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import { deleterecentSearch, getrecentSearch, patchrecentalbumSearch, patchrecentSearch } from '../api/recentSearch';
 
 export const authSearch=createContext()
 const RecentSearchRoute = ({children}) => {
@@ -12,7 +13,7 @@ const RecentSearchRoute = ({children}) => {
 
     const getRecentSearch = useCallback(async () => {
       try{
-        const res=await axios.get('http://localhost:3000/api/search/getSearch', {withCredentials:true})
+        const res=await getrecentSearch()
         setGetSearch(res.data.getSearchItem)
       }
       catch(err){
@@ -37,7 +38,7 @@ const RecentSearchRoute = ({children}) => {
 
     const patchAlbumRecentSearch = useCallback(async (id) => {
       try{
-      await axios.patch(`http://localhost:3000/api/search/albumSearch/${id}`, {}, {withCredentials:true})
+      await patchrecentalbumSearch(id)
         
         await getRecentSearch()
       }
@@ -48,7 +49,7 @@ const RecentSearchRoute = ({children}) => {
     
     const patchPlaylistRecentSearch=useCallback(async (id)=>{
       try{
-      await axios.patch(`http://localhost:3000/api/search/playlistSearch/${id}`, {}, {withCredentials:true})
+      await patchrecentSearch(id)
         
         await getRecentSearch()
       }
@@ -59,7 +60,7 @@ const RecentSearchRoute = ({children}) => {
 
     const deleteRecentSearch = useCallback(async (id) => {
       try{
-      await axios.delete(`http://localhost:3000/api/search/deleteSearch/${id}`, {withCredentials:true})
+      await deleterecentSearch(id)
         
         await getRecentSearch()
       }

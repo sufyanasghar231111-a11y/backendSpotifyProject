@@ -1,13 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
+import { deleterecent, getrecent, patchrecent, patchrecentalbum } from '../api/recent'
+
 export const  authRecent=createContext()
 const RecentRoute = ({children}) => {
   let [recentActivity, setRecentActivity]=useState([])
   
 const  fetchRecent= useCallback(async()=>{
     try{
-      const res=await axios.get('http://localhost:3000/api/moreuser/getrecent', {withCredentials:true})
+      const res=await getrecent()
       setRecentActivity(res.data.get)      
     }
     catch(err){
@@ -21,7 +23,7 @@ const  fetchRecent= useCallback(async()=>{
 
   const  update= useCallback (async (id) => {
     try{
-      await axios.patch(`http://localhost:3000/api/moreuser/updaterecent/${id}`, {} ,{withCredentials:true})
+      await patchrecent(id)
       await fetchRecent()
     }
     catch(err){
@@ -32,7 +34,7 @@ const  fetchRecent= useCallback(async()=>{
 
   async function updateAlbum(id){
     try{
-      const res=await axios.patch(`http://localhost:3000/api/moreuser/updateRecentAlbum/${id}`, {} ,{withCredentials:true})
+      const res=await patchrecentalbum(id)
       setRecentActivity(res.data.update)
       await fetchRecent()
     }
@@ -44,7 +46,7 @@ const  fetchRecent= useCallback(async()=>{
   
   async function deleteData(id){
     try{
-      const res=await axios.delete(`http://localhost:3000/api/moreuser/deleterecent/${id}` ,{withCredentials:true})
+      const res=await deleterecent(id)
       setRecentActivity(res.data.deletere)
       await fetchRecent()
     }

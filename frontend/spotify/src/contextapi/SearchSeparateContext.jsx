@@ -5,6 +5,7 @@ import { authSearch } from '../contextapi/RecentSearchRoute'
 import useDebounce from '../Hooks/useDebounce'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { authPlaylist } from './PlaylistContext'
+import { getMusicAlbumPlaylist, patchtext, separateGet, updatevisibility } from '../api/albumApi'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const authSearchBar = createContext()
@@ -71,7 +72,7 @@ const SearchSeparateContext = ({ children }) => {
         async function FetchSearch() {
 
             try {
-                let res = await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}&search=${debounceSearch}`)
+                let res = await  getMusicAlbumPlaylist(page, debounceSearch);
                 
                 if (currentRef !== requestRef.current) return
 
@@ -107,7 +108,7 @@ const SearchSeparateContext = ({ children }) => {
         queryKey:['musicAlbum', page],
         queryFn: async ()=>{
             // await new Promise((resolve)=> setTimeout(resolve, 700))
-            const res=await axios.get(`http://localhost:3000/api/creator/getmusicalbum?page=${page}`)
+            const res=await separateGet(page)
             return res.data
         }
 
@@ -120,7 +121,7 @@ const SearchSeparateContext = ({ children }) => {
 
     const patchText = useCallback(async () => {
         try {
-            await axios.patch(`http://localhost:3000/api/search/recenttext`, { text: searchinput }, { withCredentials: true })
+            await patchtext({ text: searchinput })
             await getRecentSearch()
 
         }
@@ -133,7 +134,7 @@ const SearchSeparateContext = ({ children }) => {
 
     const updateVisibility = async (id)=>{
       try{
-        const res=await axios.patch(`http://localhost:3000/api/user/visible/${id}`, {}, {withCredentials:true})
+        const res=await updatevisibility(id)
         setSeparate(res.data.visible)        
         await handleGetPlayList()
 

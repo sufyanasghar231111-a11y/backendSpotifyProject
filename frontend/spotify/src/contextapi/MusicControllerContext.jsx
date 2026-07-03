@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState, useMemo } from 'react'
 import { audioContext } from '../contextapi/AudioProvider';
+import { getMusic, patchMusic } from '../api/favApi';
 
 export const musciControl = createContext()
 function MusicControllerContext({ children }) {
@@ -17,7 +18,7 @@ function MusicControllerContext({ children }) {
 
     const getMusicPlaying = useCallback(async () => {
         try {
-            const res = await axios.get('http://localhost:3000/api/current/getcurr', { withCredentials: true })
+            const res = await getMusic()
             setControl(res.data.getCurrentPlaying)
         }
         catch (err) {
@@ -35,10 +36,10 @@ function MusicControllerContext({ children }) {
             const audio = audioRef.current
             if (!audio) return;
             if (!id) return
-            await axios.patch(`http://localhost:3000/api/current/patchcurr/${id}`, {
+            await patchMusic(id, {
                 currentTime: audio.currentTime,
                 duration:audio.duration
-            }, { withCredentials: true })
+            })
 
             await getMusicPlaying()
         }

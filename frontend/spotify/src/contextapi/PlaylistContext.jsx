@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axios from 'axios'
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import { deleteplaylist, getplaylist, patchplaylist, postplaylist } from '../api/playlistApi'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const authPlaylist = createContext()
@@ -23,7 +24,7 @@ const PlaylistContext = ({ children }) => {
       try {
         setPlaylistLoader(true)
         await new Promise((resolve) => setTimeout(resolve, 500));
-        const res = await axios.get('http://localhost:3000/api/user/particularUserPlaylist', { withCredentials: true })
+        const res = await getplaylist()
         setGetPlayList(res.data.particular || [])
 
       }
@@ -46,7 +47,7 @@ const PlaylistContext = ({ children }) => {
     async function handleCreatePlaylist() {
         try {
 
-            const res = await axios.post('http://localhost:3000/api/user/playlist', { name }, { withCredentials: true })
+            const res = await postplaylist(name)
             setCreate(res.data.createPlaylist)
             await handleGetPlayList()
         }
@@ -57,8 +58,7 @@ const PlaylistContext = ({ children }) => {
 
       const patchApi = useCallback(async (id, dataId) => {
         try {
-           await axios.patch(`http://localhost:3000/api/user/updateMusic/${id}/${dataId}`, {}, { withCredentials: true }
-          )
+           await patchplaylist(id, dataId)
           await handleGetPlayList()
         }
         catch (err) {
@@ -68,7 +68,7 @@ const PlaylistContext = ({ children }) => {
     
       const deleteApi = useCallback(async (id, dataId) => {
         try {
-           await axios.delete(`http://localhost:3000/api/user/deleteMusic/${id}/${dataId}`, { withCredentials: true })
+           await deleteplaylist(id, dataId)
           await handleGetPlayList()
         }
         catch (err) {

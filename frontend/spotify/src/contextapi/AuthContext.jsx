@@ -142,9 +142,10 @@ const AuthContext = ({ children }) => {
         try {
             const refreshRes = await rotation();
             setAccessToken(refreshRes.data.accessToken);
-
+            
             const userRes = await checkUser();
             setUser(userRes.data.getAuthData);
+
         } catch (err) {
             console.log(err);
             setUser(null);
