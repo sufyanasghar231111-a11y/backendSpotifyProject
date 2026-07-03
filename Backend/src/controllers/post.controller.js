@@ -5,6 +5,10 @@ const bcrypt = require('bcryptjs')
 const uploadPfp = require('../services/auth.service')
 const logoutSchema = require('../models/logout.model')
 const crypto = require('crypto')
+const {otpGenerate, otpHtml}=require('../utils/email.util')
+const sendEmail=require('../services/email.service')
+const otpSchema=require('../models/otp.model')
+const otpModel = require('../models/otp.model')
 
 async function register(req, res) {
     const { username, email, password, role = 'user' } = req.body
@@ -45,43 +49,17 @@ async function register(req, res) {
         pfp: imagUrl
     })
 
-    // refreshToken 
-    const refreshToken = jwt.sign({
-        id: user._id,
-        role: user.role
-    }, process.env.SECRET_JWT, {
-        expiresIn: '7d'
-    })
+    const otp=otpGenerate()
+    const html=otpHtml(otp)
 
-    // hash token and create logout schema data and store in refresh cookie
-    const refreshTokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex')
+    await sendEmail(email, 'OTP Verification', `Your otp is ${otp}`, html)
 
-    const createLogout = await logoutSchema.create({
-        user: user._id,
-        refreshTokenHash,
-        ip: req.ip,
-        userAgent: req.headers['user-agent']
-    })
+    const otpHash=crypto.createHash('sha256').update(otp.toString()).digest('hex')
 
-    // access token
-    const accessToken = jwt.sign(
-        {
-            id: user._id,
-            role: user.role,
-            sessionId: createLogout._id
-        },
-        process.env.ACCESS_TOKEN,
-        {
-            expiresIn: '10m'
-        }
-    )
-
-    // only refreshToken
-    res.cookie('refreshToken', refreshToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000
+  await otpModel.create({
+        user:user._id,
+        email,
+        otpHash
     })
 
     res.status(201).json({
@@ -91,10 +69,9 @@ async function register(req, res) {
             username: user.username,
             email: user.email,
             role: user.role,
-            pfp: imagUrl
-        },
-        // only access token send in res.
-        accessToken,
+            pfp: imagUrl,
+            verified:user.verified
+        }
     })
 }
 
@@ -117,8 +94,14 @@ async function login(req, res) {
         })
 
         if (!user) {
-            return res.status(401).json({
-                message: 'UnAuthorized'
+            return res.status(404).json({
+                message: 'user not found'
+            })
+        }
+
+        if(!user.verified){
+            return res.status(400).json({
+                message:"Invalid user"
             })
         }
 
@@ -178,7 +161,7 @@ async function login(req, res) {
     }
     catch (e) {
         res.status(500).json({
-            message: "internal error",
+            message: "Internal error",
             error: e.message
         })
     }

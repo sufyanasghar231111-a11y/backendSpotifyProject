@@ -31,7 +31,13 @@ const postSchema = new mongoose.Schema({
     },
 
     resetToken: String,
-    resetTokenExpire: Date
+    resetTokenExpire: Date,
+    
+    verified:{
+        type:Boolean,
+        default:false
+    }
+
 })
 
 
