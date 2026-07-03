@@ -28,7 +28,6 @@ const AuthContext = ({ children }) => {
     let [user, setUser] = useState(null)
     let [preview, setPreview] = useState(null)
     let [updateprofile, setUpdateprofile] = useState(null)
-    const [userProfile,setUserProfile]=useState(null)
 
     // All Input field states
     let [username, setUsername] = useState('')
@@ -90,17 +89,17 @@ const AuthContext = ({ children }) => {
             )
 
 
-            setUsername('')
-            setEmailreg('')
-            setPasswordreg('')
-            navigate('/')
             await handleGetPlayList();
             await getLibrary()
             await fetchRecent()
             await getRecentSearch()
             await getMusicPlaying()
             setUser(response.data.user)
-
+            navigate('/')
+            setUsername('')
+            setEmailreg('')
+            setPasswordreg('')
+            
         }
         catch (err) {
             console.log(err);
@@ -138,7 +137,7 @@ const AuthContext = ({ children }) => {
     async function checkRefresh() {
         try {
             await new Promise((resolve) => setTimeout(resolve, 500));
-            let res = await checkUser()
+            const res = await checkUser()
             setUser(res.data.getAuthData)
         }
         catch (e) {
@@ -242,10 +241,8 @@ const AuthContext = ({ children }) => {
     }
 
     const auth = useMemo(() => ({
-        user, setUser, handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, authReady, setAuthReady, login, setLogin,
-        userProfile,setUserProfile
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }), [user, emailreg, passwordreg, login, authReady, userProfile])
+        user, setUser, handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, authReady, setAuthReady, login, setLogin        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }), [user, emailreg, passwordreg, login, authReady])
 
     const logout = useMemo(() => ({
         handleLogout, hideSure, setHideSure

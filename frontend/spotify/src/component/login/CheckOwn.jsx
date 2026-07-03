@@ -1,8 +1,10 @@
 import React, { useContext } from 'react'
 import { ProfileContext } from '../../contextapi/AuthContext'
+import { RiPencilLine } from '@remixicon/react'
 
 const CheckOwn = ({isown,trimname,profileData}) => {
     const { setHideProfileDetail, setUpdateprofile, setPreview  } = useContext(ProfileContext)
+    
   return (
     
         <div onClick={() => {

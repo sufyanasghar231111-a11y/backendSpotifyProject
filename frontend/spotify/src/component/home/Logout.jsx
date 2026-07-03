@@ -1,17 +1,19 @@
 import React, { useContext } from 'react'
 import {  UIHomeContex } from '../../contextapi/HomeContext'
 import { RiCheckFill } from '@remixicon/react'
-import { LogoutContext } from '../../contextapi/AuthContext'
+import { authProvider, LogoutContext } from '../../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 
 const Logout = () => {
     let {hidepro,setHidepro}=useContext(UIHomeContex)
     let {setHideSure}=useContext(LogoutContext)
+    const {user}=useContext(authProvider)
+
 
   return (
       <div className={`bg-[#1a1a1a]   ${hidepro  ? ' opacity-100 pointer-events-auto  translate-y-0 h-80 p-1 z-40 ' : ' pointer-events-none  opacity-0 -translate-y-2  h-0 p-0 border-0' } right-12 top-16   duration-300 rounded absolute   w-60  transition-all ease-in-out `}>
         <div className='font-semibold text-sm text-[#bdbdbd] text-left w-full'>
-          <Link  to='/profile' >
+          <Link to={`/profile/${user?._id}`}>
         <button onClick={()=>{setHidepro(false)}} className='hover:bg-white/10 w-full py-2 px-3 text-left cursor-pointer' >Profile</button>
           </Link>
         <button onClick={()=>{setHideSure(true)

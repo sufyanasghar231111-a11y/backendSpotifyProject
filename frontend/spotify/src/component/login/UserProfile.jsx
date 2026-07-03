@@ -8,28 +8,32 @@ import CheckOwn from './CheckOwn'
 
 const UserProfile = () => {
   
-  const { user,userProfile,setUserProfile } = useContext(authProvider)
+  const { user } = useContext(authProvider)
   
-  const { getPlayList, playlistLoader } = useContext(authPlaylist)
-  
-  const { id } = useParams()
-  async function getSingleUser() {
-    try {
-      const res = await axios.get(`http://localhost:3000/api/userdata/singleUser/${id}`)
-      setUserProfile(res.data.singleGet[0])
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
+  const { playlistLoader ,visibleParticular,setVisibleParticular} = useContext(authPlaylist)
 
-  const profileData=id ? userProfile : user
-  console.log(profileData);
+  const { id } = useParams()
+  async  function handleVisiblePlaylist(){
+      try{
+        const res=await axios.get(`http://localhost:3000/api/user/singleparticularvisible/${id}`)
+        setVisibleParticular(res.data.particularVisible)
+        
+      }
+      catch(err){
+        console.log(err);
+      }
+    }
+
+    
+
+  const profileData=id ? visibleParticular[0]?.user : user
+  
   
   useEffect(() => {
     if(id){
-      getSingleUser()
+      handleVisiblePlaylist()
     }
+    
   }, [id])
 
 
@@ -58,7 +62,7 @@ const UserProfile = () => {
           </h1>
 
           <h1 className='pt-2 font-medium text-sm text-[#b5b5b5]'>
-            {getPlayList.length} Playlists
+            {visibleParticular.length} Playlists
           </h1>
         </div>
       </div>
@@ -69,14 +73,14 @@ const UserProfile = () => {
 
         <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 relative'>
           {
-            getPlayList.length > 0 ? (
-              getPlayList.map((elem, index) => {
+            visibleParticular.length > 0 ? (
+              visibleParticular.map((elem) => {
                 return (
                   <div
                     key={elem._id}
                     className='bg-[#222] hover:bg-[#2c2c2c] transition-all duration-300 rounded-lg p-3 cursor-pointer shadow-md'
                   >
-                    <Link to={`/playlist/${elem._id}?index=${index + 1}`}>
+                    <Link to={`/visible/${elem._id}`}>
                       <div className='w-full flex items-center justify-center h-40 bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] rounded-md mb-3' >
                         <RiPlayListLine className='text-white w-20 h-20' />
                       </div>

@@ -116,6 +116,7 @@ const SearchSeparateContext = ({ children }) => {
     const music=data?.music || []
     const album=data?.album || []
     const visible=data?.visible || []
+    
 
     const patchText = useCallback(async () => {
         try {

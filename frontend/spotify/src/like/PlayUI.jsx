@@ -120,9 +120,6 @@ const PlayUI = () => {
               return elem.favorite.some(song => song._id === music._id)
             })
 
-
-
-
             return <div key={music._id}
               className='group flex items-center p-4 rounded-2xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/10'>
               <div className='relative flex-shrink-0 w-12 h-12'>
