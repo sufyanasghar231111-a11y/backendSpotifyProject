@@ -6,8 +6,9 @@ import { authSearch } from '../contextapi/RecentSearchRoute';
 import { musciControl } from '../contextapi/MusicControllerContext';
 import { audioContext } from '../contextapi/AudioProvider';
 import { authPlaylist } from '../contextapi/PlaylistContext';
-import { checkUser, deleteUserPfp, loginUser, logoutUser, register, updateUserPfp } from '../api/authApi';
+import { checkUser, deleteUserPfp, loginUser, logoutUser, register, rotation, updateUserPfp } from '../api/authApi';
 import { deleteLibraryData, getLibraryData, updateLibraryData } from '../api/library';
+import { setAccessToken } from '../api/accessToken';
 
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -110,7 +111,7 @@ const AuthContext = ({ children }) => {
         e.preventDefault()
         try {
             setLoading(true)
-            const checkLogin = await loginUser(
+            const res = await loginUser(
                 {
                     email: login.email,
                     password: login.password
@@ -123,7 +124,8 @@ const AuthContext = ({ children }) => {
             await fetchRecent()
             await getRecentSearch()
             await getMusicPlaying()
-            setUser(checkLogin.data)
+            setUser(res.data)
+            setAccessToken(res.data?.accessToken)
         }
         catch (e) {
             console.log(e);
@@ -134,25 +136,27 @@ const AuthContext = ({ children }) => {
 
     }, [login.email, login.password, handleGetPlayList, getLibrary, fetchRecent, getRecentSearch, getMusicPlaying])
 
-    async function checkRefresh() {
+
+   useEffect(() => {
+    async function initializeAuth() {
         try {
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            const res = await checkUser()
-            setUser(res.data.getAuthData)
-        }
-        catch (e) {
-            console.log(e);
+            const refreshRes = await rotation();
+            setAccessToken(refreshRes.data.accessToken);
 
-        }
-        finally {
-
-            setAuthReady(true)
+            const userRes = await checkUser();
+            setUser(userRes.data.getAuthData);
+        } catch (err) {
+            console.log(err);
+            setUser(null);
+        } finally {
+            setAuthReady(true);
         }
     }
 
-    useEffect(() => {
-        checkRefresh()
-    }, [])
+    initializeAuth();
+}, []);
+
+    
 
     async function handleLogout() {
         try {

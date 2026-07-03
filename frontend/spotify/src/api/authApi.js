@@ -13,8 +13,12 @@ export const checkUser = () => {
     return api.get('/auth/user')
 };
 
+export const rotation = () => {
+    return api.get('/rotation/refresh-token')
+}
+
 export const logoutUser = () => {
-    return api.post('/auth/logout')
+    return api.get('/rotation/logoutAll')
 };
 
 export const updateUserPfp = (formData) => {
