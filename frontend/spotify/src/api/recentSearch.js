@@ -17,3 +17,11 @@ export const patchrecentalbumSearch= (id) => {
 export const deleterecentSearch = (id) => {
     return api.delete(`/search/deleteSearch/${id}`)
 }
+
+export const singlevisible = (id) => {
+    return api.get(`/user/separate/${id}`)
+}
+
+export const handleSingle = (id) => {
+    return api.get(`/creator/singlevisible/${id}`)
+}

@@ -5,8 +5,8 @@ export const getplaylist= () =>{
     return api.get('/user/particularUserPlaylist')
 }
 
-export const postplaylist= () =>{
-    return api.post('/user/playlist')
+export const postplaylist= (name) =>{
+    return api.post('/user/playlist', {name})
 }
 
 export const patchplaylist= (id,dataId) =>{
@@ -15,4 +15,12 @@ export const patchplaylist= (id,dataId) =>{
 
 export const deleteplaylist= (id,dataId) =>{
     return api.delete(`/user/deleteMusic/${id}/${dataId}`)
+}
+
+export const handlevisibleplaylist = (id) => {
+    return api.get(`/user/singleparticularvisible/${id}`)
+}
+
+export const fetch = (id) => {
+    return api.get(`/creator/singleMusic/${id}`)
 }

@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom'
 import { authPlaylist } from '../../contextapi/PlaylistContext'
 import axios from 'axios'
 import CheckOwn from './CheckOwn'
+import { handlevisibleplaylist } from '../../api/playlistApi'
 
 const UserProfile = () => {
   
@@ -15,7 +16,7 @@ const UserProfile = () => {
   const { id } = useParams()
   async  function handleVisiblePlaylist(){
       try{
-        const res=await axios.get(`http://localhost:3000/api/user/singleparticularvisible/${id}`)
+        const res=await handlevisibleplaylist(id)
         setVisibleParticular(res.data.particularVisible)
         
       }

@@ -39,6 +39,7 @@ const PlaylistContext = ({ children }) => {
 
     useEffect(() => {
       handleGetPlayList();
+      
     }, [handleGetPlayList]);
 
   

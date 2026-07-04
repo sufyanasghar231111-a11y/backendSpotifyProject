@@ -9,14 +9,14 @@ export const createfav = (favoriteId) =>{
 }
 
 export const deletefav = (favoriteId) =>{
-    return api.patch(`/user/deleteFav/${favoriteId}`)
+    return api.delete(`/user/deleteFav/${favoriteId}`)
 }
 
 export const getMusic = () =>{
     return api.get(`/current/getcurr`)
 }
 
-export const patchMusic = (id) =>{
-    return api.patch(`/current/patchcurr/${id}`)
+export const patchMusic = (id,data) =>{
+    return api.patch(`/current/patchcurr/${id}`, data)
 }
 

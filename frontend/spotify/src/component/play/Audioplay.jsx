@@ -8,6 +8,7 @@ import { audioContext } from "../../contextapi/AudioProvider";
 import { RiAddCircleLine, RiCheckLine, RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListAddLine, RiPlayListLine } from '@remixicon/react'
 import {  LibraryContext } from '../../contextapi/AuthContext'
 import {  UIPlaylistContext } from '../../contextapi/PlaylistContext'
+import { fetch } from '../../api/playlistApi'
 
 const Audioplay = () => {
   let { id } = useParams()
@@ -22,7 +23,7 @@ const Audioplay = () => {
 
   async function fetchSingleMusic() {
     try {
-      const res = await axios.get(`http://localhost:3000/api/creator/singleMusic/${id}`)
+      const res = await fetch(id)
       setData(res.data.detail)
     }
     catch (err) {

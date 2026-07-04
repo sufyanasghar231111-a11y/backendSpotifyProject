@@ -8,6 +8,8 @@ const Logout = () => {
     let {hidepro,setHidepro}=useContext(UIHomeContex)
     let {setHideSure}=useContext(LogoutContext)
     const {user}=useContext(authProvider)
+    // console.log(user);
+    
 
 
   return (

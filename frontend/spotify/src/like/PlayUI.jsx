@@ -9,6 +9,7 @@ import { authRecent } from '../contextapi/RecentRoute'
 import { musciControl } from '../contextapi/MusicControllerContext'
 import { audioContext } from '../contextapi/AudioProvider'
 import {authPlaylist, UIPlaylistContext} from '../contextapi/PlaylistContext'
+import { handleSingle, singlevisible } from '../api/recentSearch'
 
 
 const PlayUI = () => {
@@ -27,7 +28,7 @@ const PlayUI = () => {
   async function handleSeparate() {
     try {
       
-      const res = await axios.get(`http://localhost:3000/api/user/separate/${id}`, { withCredentials: true })
+      const res = await singlevisible(id)
       setSeparate(res.data.getSinglePlaylist)
     }
     catch (err) {
@@ -37,7 +38,7 @@ const PlayUI = () => {
 
   async function handleSingleVisible(){
     try{
-      const res=await axios.get(`http://localhost:3000/api/creator/singlevisible/${id}`)
+      const res=await handleSingle(id)
       setSeparate(res.data.singleVisible)
     }
     catch(err){
