@@ -13,8 +13,8 @@ export const separateGet = (page) => {
 };
 
 
-export const patchtext = () => {
-    return api.patch('/search/recenttext');
+export const patchtext = (text) => {
+    return api.patch('/search/recenttext', text);
 };
 
 export const updatevisibility = (id) => {

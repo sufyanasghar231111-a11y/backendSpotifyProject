@@ -7,10 +7,13 @@ const ResetPasswordContext = ({ children }) => {
     const [resetEmail, setResetEmail] = useState('')
     const [popup,setPopup]=useState(false)
     const [resetLoading,setResetLoading]=useState(false)
+    const [authReady, setAuthReady] = useState(false);
     const [password,setpassword]=useState({
         newPassword:'',
         confirmPassword:''
     })
+
+     
 
     async function checkEmail(e) {
         e.preventDefault()
@@ -43,7 +46,7 @@ const ResetPasswordContext = ({ children }) => {
     }
 
     return (
-        <resetContext.Provider value={{ resetEmail, setResetEmail, checkEmail,popup,setPopup,password,setpassword,handlePasswordChange,resetLoading}}>
+        <resetContext.Provider value={{ resetEmail, setResetEmail, checkEmail,popup,setPopup,password,setpassword,handlePasswordChange,resetLoading,authReady, setAuthReady}}>
             {children}
         </resetContext.Provider>
     )

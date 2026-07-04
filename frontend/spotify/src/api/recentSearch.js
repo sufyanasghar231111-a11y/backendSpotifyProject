@@ -2,7 +2,7 @@ import api from "./axios"
 
 
 export const getrecentSearch= () => {
-    return api.get('/search/getSearcht')
+    return api.get('/search/getSearch')
 }
 
 
@@ -25,3 +25,8 @@ export const singlevisible = (id) => {
 export const handleSingle = (id) => {
     return api.get(`/creator/singlevisible/${id}`)
 }
+
+export const songsearch = (id) => {
+    return api.patch(`/search/songSearch/${id}`)
+}
+

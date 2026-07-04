@@ -1,6 +1,7 @@
 import axios from 'axios';
-import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
-import { deleterecentSearch, getrecentSearch, patchrecentalbumSearch, patchrecentSearch } from '../api/recentSearch';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { deleterecentSearch, getrecentSearch, patchrecentalbumSearch, patchrecentSearch, songsearch } from '../api/recentSearch';
+import { resetContext } from './resetPasswordContext';
 
 export const authSearch=createContext()
 const RecentSearchRoute = ({children}) => {
@@ -10,6 +11,7 @@ const RecentSearchRoute = ({children}) => {
     const [albumresults, setAlbumResults] = useState([])
     const [visibleresults, setVisibleResults]=useState([])
      const [skeletonLoader, setSkeletonLoader] = useState(false)
+     const {authReady}=useContext(resetContext)
 
     const getRecentSearch = useCallback(async () => {
       try{
@@ -22,12 +24,13 @@ const RecentSearchRoute = ({children}) => {
     }, [])
 
     useEffect(()=>{
+      if(!authReady) return
         getRecentSearch()
-    },[])
+    },[authReady])
 
     const patchRecentSearch = useCallback(async (id) => {
       try{
-      await axios.patch(`http://localhost:3000/api/search/songSearch/${id}`, {}, {withCredentials:true})
+      await songsearch(id)
         
         await getRecentSearch()
       }

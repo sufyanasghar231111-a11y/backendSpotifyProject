@@ -2,6 +2,7 @@
 import axios from 'axios'
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import { deleteplaylist, getplaylist, patchplaylist, postplaylist } from '../api/playlistApi'
+import { resetContext } from './resetPasswordContext'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const authPlaylist = createContext()
@@ -19,6 +20,7 @@ const PlaylistContext = ({ children }) => {
     const [detailData, setDetailData] = useState({})
     const  [separate, setSeparate] = useState({})
     const [visibleParticular,setVisibleParticular]=useState([])
+    const {authReady}=useState(resetContext)
     
     const handleGetPlayList = useCallback(async () => {
       try {
@@ -40,7 +42,7 @@ const PlaylistContext = ({ children }) => {
     useEffect(() => {
       handleGetPlayList();
       
-    }, [handleGetPlayList]);
+    }, []);
 
   
 

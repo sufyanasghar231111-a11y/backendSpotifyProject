@@ -3,7 +3,6 @@ import React from 'react'
 
 
 const ShowSearch = ({ elem, handleClick }) => {
-    console.log(elem);
 
     return (
         <>

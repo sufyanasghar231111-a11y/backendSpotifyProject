@@ -9,6 +9,7 @@ import Artist from '../pages/Artist'
 function Login() {
   const  {handleLogin,login,handleChange,user}=useContext(authProvider)
   const {loading}=useContext(UIContext)
+  
 
   return (
     <div className='w-full  text-white'>

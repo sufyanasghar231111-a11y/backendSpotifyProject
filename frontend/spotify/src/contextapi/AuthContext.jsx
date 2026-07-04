@@ -1,5 +1,4 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { authRecent } from '../contextapi/RecentRoute';
 import { authSearch } from '../contextapi/RecentSearchRoute';
@@ -8,7 +7,8 @@ import { audioContext } from '../contextapi/AudioProvider';
 import { authPlaylist } from '../contextapi/PlaylistContext';
 import { checkUser, deleteUserPfp, loginUser, logoutUser, register, rotation, updateUserPfp } from '../api/authApi';
 import { deleteLibraryData, getLibraryData, updateLibraryData } from '../api/library';
-import { setAccessToken } from '../api/accessToken';
+import {  setAccessToken } from '../api/accessToken';
+import { resetContext } from './resetPasswordContext';
 
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -42,7 +42,7 @@ const AuthContext = ({ children }) => {
 
     // All Toggle or true & false states 
     let [loading, setLoading] = useState(false)
-    const [authReady, setAuthReady] = useState(false);
+    
     let [hideSure, setHideSure] = useState(false)
     let [hideProfileDetail, setHideProfileDetail] = useState(false)
 
@@ -58,6 +58,7 @@ const AuthContext = ({ children }) => {
     let { getMusicPlaying } = useContext(musciControl)
     let { handleGetPlayList } = useContext(authPlaylist)
     let { setCurrentSong, audioRef } = useContext(audioContext)
+    const {authReady, setAuthReady}=useContext(resetContext)
 
 
     // this is for input field in profile update input it by default set user name 
@@ -90,16 +91,20 @@ const AuthContext = ({ children }) => {
             )
 
 
-            await handleGetPlayList();
-            await getLibrary()
-            await fetchRecent()
-            await getRecentSearch()
-            await getMusicPlaying()
+           
             setUser(response.data.user)
             navigate('/')
             setUsername('')
             setEmailreg('')
             setPasswordreg('')
+            
+            await Promise.all([
+                handleGetPlayList(),
+                getLibrary(),
+                fetchRecent(),
+                getMusicPlaying(),
+                getRecentSearch(),
+            ])
             
         }
         catch (err) {
@@ -118,14 +123,17 @@ const AuthContext = ({ children }) => {
                 }
             )
 
-            setAuthReady(true)
-            await handleGetPlayList();
-            await getLibrary()
-            await fetchRecent()
-            await getRecentSearch()
-            await getMusicPlaying()
-            setUser(res.data)
             setAccessToken(res.data?.accessToken)
+            setUser(res.data)
+            setAuthReady(true)
+            await Promise.all([
+                handleGetPlayList(),
+                getLibrary(),
+                fetchRecent(),
+                getMusicPlaying(),
+                getRecentSearch(),
+            ])
+            
         }
         catch (e) {
             console.log(e);
@@ -134,21 +142,21 @@ const AuthContext = ({ children }) => {
             setLoading(false)
         }
 
-    }, [login.email, login.password, handleGetPlayList, getLibrary, fetchRecent, getRecentSearch, getMusicPlaying])
-
+    }, [login.email, login.password, setAuthReady, handleGetPlayList, fetchRecent, getMusicPlaying, getRecentSearch])
 
    useEffect(() => {
     async function initializeAuth() {
         try {
-            const refreshRes = await rotation();
-            setAccessToken(refreshRes.data.accessToken);
+            const rotationRes = await rotation();
+            setAccessToken(rotationRes.data.accessToken);
             
+
             const userRes = await checkUser();
             setUser(userRes.data.getAuthData);
-
+            
         } catch (err) {
             console.log(err);
-            setUser(null);
+            
         } finally {
             setAuthReady(true);
         }
@@ -156,8 +164,6 @@ const AuthContext = ({ children }) => {
 
     initializeAuth();
 }, []);
-
-    
 
     async function handleLogout() {
         try {
@@ -221,8 +227,9 @@ const AuthContext = ({ children }) => {
     }
 
     useEffect(() => {
+        if(!authReady) return
         getLibrary()
-    }, [])
+    }, [authReady])
 
     async function addToLibrary(id) {
         try {
@@ -246,8 +253,8 @@ const AuthContext = ({ children }) => {
     }
 
     const auth = useMemo(() => ({
-        user, setUser, handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, authReady, setAuthReady, login, setLogin        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }), [user, emailreg, passwordreg, login, authReady])
+        user, setUser, handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, login, setLogin        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }), [user, emailreg, passwordreg, login])
 
     const logout = useMemo(() => ({
         handleLogout, hideSure, setHideSure

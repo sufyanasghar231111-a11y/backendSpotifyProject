@@ -1,11 +1,13 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState, useMemo } from 'react'
 import { audioContext } from '../contextapi/AudioProvider';
 import {getMusic, patchMusic} from '../api/favApi'
+import { resetContext } from './resetPasswordContext';
 
 export const musciControl = createContext()
 function MusicControllerContext({ children }) {
     let [control, setControl] = useState([])
     let { audioRef, setPlaying, setCurrentSong, currentSong } = useContext(audioContext)
+    const {authReady}=useContext(resetContext)
 
     let currentSongRef=useRef(currentSong)
 
@@ -26,8 +28,10 @@ function MusicControllerContext({ children }) {
     }, [])
 
     useEffect(() => {
+        if(!authReady) return
         getMusicPlaying()
-    }, [getMusicPlaying])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [authReady])
 
     const patchMusicPlaying = useCallback(async (id) => {
 

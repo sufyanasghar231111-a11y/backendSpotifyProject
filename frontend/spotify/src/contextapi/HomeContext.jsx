@@ -1,7 +1,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
-import axios from 'axios'
-import { authProvider } from '../contextapi/AuthContext'
+
 import { createfav, deletefav, favGet } from '../api/favApi'
+import { resetContext } from './resetPasswordContext'
+import { authProvider } from './AuthContext'
 
 
 
@@ -17,8 +18,10 @@ const HomeContext = ({ children }) => {
   let silderRef = useRef(null)
   let [fav, setFav] = useState([])
   
-  let { user, authReady } = useContext(authProvider)
+  let {  authReady } = useContext(resetContext)
+  const {user} = useContext(authProvider)
   let [hideClose, setHideClose] = useState(false)
+
   
 
   //slider
@@ -49,7 +52,7 @@ const HomeContext = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    if (!authReady || !user) return
+    if (!authReady || !user ) return
     fetchFav()
 
   }, [authReady, user])

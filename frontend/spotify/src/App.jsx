@@ -10,16 +10,16 @@ import LikeSong from './like/LikeSong'
 import PlayUI from './like/PlayUI'
 import ProtectedRoute from './contextapi/ProtectedRoute'
 import Home from './pages/Home'
-import { authProvider } from './contextapi/AuthContext'
 import UserProfile from './component/login/UserProfile'
 import LoadingAnimation from './component/home/LoadingAnimation'
 import Musicforsearch from './component/library/Musicforsearch'
 import ForgetPassword from './pages/ForgetPassword'
 import ResetPassword from './pages/ResetPassword'
+import { resetContext } from './contextapi/resetPasswordContext'
 
 
 function App() {
-  let {authReady}=useContext(authProvider)
+  let {authReady}=useContext(resetContext)
     if (!authReady){
       return <LoadingAnimation />
       }
