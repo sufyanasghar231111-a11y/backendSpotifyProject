@@ -1,4 +1,4 @@
-const express=require('express')
+const  express=require('express')
 
 const searchcontroller=require('../controllers/recentsearch.controller')
 const routeRecent=express.Router()

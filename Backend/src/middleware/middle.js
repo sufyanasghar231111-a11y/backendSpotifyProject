@@ -1,111 +1,119 @@
-const jwt=require('jsonwebtoken')
-const musicSchema=require('../models/music.model')
+const jwt = require('jsonwebtoken')
+const musicSchema = require('../models/music.model')
 
-async function authartist(req,res,next) {
-    const token=req.cookies.token
-      if(!token){
-          return   res.status(401).json({
-            message:"Unauthorized: Token is not provide"
-          })
-        }
-    
-        try{
-          const decoded=jwt.verify(token, process.env.SECRET_JWT)
-    
-          if(decoded.role !== 'artist' ){
-          return  res.status(403).json({
-              message:"Unauthorized user"
-            })
-          }
-          req.user=decoded
-          next()
-        }
-          catch(e){
-      console.log(e);
-      res.status(500).json({
-        message:'Unauthorized'
-      })
-      
-    }
-}
-
-async function adminMan(req,res,next) {
-    const token=req.cookies.token
-      if(!token){
-          return   res.status(401).json({
-            message:"Unauthorized: Token is not provide"
-          })
-        }
-    
-        try{
-          const decoded=jwt.verify(token, process.env.SECRET_JWT)
-    
-          if(decoded.role !== 'admin' ){
-            res.status(403).json({
-              message:"Unauthorized user"
-            })
-          }
-          req.user=decoded
-          next()
-        }
-          catch(e){
-      console.log(e);
-      res.status(500).json({
-        message:'Unauthorized'
-      })
-      
-    }
-}
-
-async function getMusic(req,res,next){
-  try{
-
-    let token=req.cookies.token
-    if(!token){
-      return  res.status(401).json({
-        message:"unauthorized"
+async function authartist(req, res, next) {
+  try {
+    const header = req.headers.authorization
+    if (!header || !header.startsWith('Bearer')) {
+      return res.status(401).json({
+        message: "token is not provide"
       })
     }
-    
-    const decoded=jwt.verify(token, process.env.SECRET_JWT)
-    if(decoded.role !== 'user' ){
+    const accessToken = header.split(' ')[1]
+
+    const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN)
+
+    if (decoded.role !== 'artist') {
       return res.status(403).json({
-        message:'Unauthorized'
+        message: "Unauthorized user"
       })
     }
-    req.user=decoded
+    req.user = decoded
     next()
   }
-  catch(err){
-    res.status(401).json({
-      message:"Unauthorized"
+  catch (e) {
+    console.log(e);
+    res.status(500).json({
+      message: 'Unauthorized'
+    })
+
+  }
+}
+
+async function adminMan(req, res, next) {
+  try {
+    const header = req.headers.authorization
+    if (!header || !header.startsWith('Bearer')) {
+      return res.status(401).json({
+        message: "token is not provide"
+      })
+    }
+    const accessToken = header.split(' ')[1]
+
+    const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN)
+
+    if (decoded.role !== 'admin') {
+      res.status(403).json({
+        message: "Unauthorized user"
+      })
+    }
+    req.user = decoded
+    next()
+  }
+
+  catch (e) {
+    console.log(e);
+    res.status(500).json({
+      message: 'Unauthorized'
+    })
+
+  }
+}
+
+async function getMusic(req, res, next) {
+  try {
+
+    const header = req.headers.authorization
+    if (!header || !header.startsWith('Bearer')) {
+      return res.status(401).json({
+        message: "token is not provide"
+      })
+    }
+    const accessToken = header.split(' ')[1]
+    
+
+    const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN)
+    if (decoded.role !== 'user') {
+      return res.status(403).json({
+        message: 'Unauthorized'
+      })
+    }
+    
+   
+    req.user = decoded
+    next()
+  }
+  catch (err) {
+    res.status(500).json({
+      message: "Internal error"
     })
   }
 
 
 }
 
-async function auth(req,res,next){
-  try{
-    const header=req.headers.authorization
-    if(!header || !header.startsWith('Bearer')){
+async function auth(req, res, next) {
+  try {
+    const header = req.headers.authorization
+    if (!header || !header.startsWith('Bearer')) {
       return res.status(401).json({
-        message:"token is not provide"
+        message: "token is not provide"
       })
     }
-    const accessToken=header.split(' ')[1]
+    const accessToken = header.split(' ')[1]
 
-    const decoded=jwt.verify(accessToken, process.env.ACCESS_TOKEN)
-    req.user=decoded
+    const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN)
+    req.user = decoded
     next()
   }
-  catch(e){
+  catch (e) {
     res.status(500).json({
-      message:"Internal error",
+      message: "Internal error",
       error:e.message
     })
   }
 }
 
 
-module.exports={authartist, getMusic,adminMan,auth}
+
+module.exports = { authartist, getMusic, adminMan, auth }

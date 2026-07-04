@@ -72,8 +72,8 @@ const refreshTokenRotation = async (req, res) => {
 
         res.cookie('refreshToken', RefreshToken, {
             httpOnly: true,
-            sameSite: "strict",
-            secure: true,
+            sameSite: "lax",
+            secure: false,
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
 

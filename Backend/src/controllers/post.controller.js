@@ -142,14 +142,14 @@ async function login(req, res) {
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
+            secure: false,
+            sameSite: 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
         res.status(201).json({
             message: "successful",
-            id: user._id,
+            _id: user._id,
             success: true,
             message: "Successful login",
             username: user.username,
