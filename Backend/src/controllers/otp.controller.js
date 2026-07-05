@@ -72,9 +72,12 @@ const verifyEmail = async (req, res) => {
         res.status(200).json({
             message: "successfull register",
             user:{
+                _id:user._id,
                 username:user.username,
                 email:user.email,
-                role:user.role
+                role:user.role,
+                verified:user.verified,
+                pfp:user.pfp
             },
             accessToken
         })
