@@ -16,6 +16,8 @@ import Musicforsearch from './component/library/Musicforsearch'
 import ForgetPassword from './pages/ForgetPassword'
 import ResetPassword from './pages/ResetPassword'
 import { resetContext } from './contextapi/resetPasswordContext'
+import ProtectedOtpRoute from './contextapi/ProtectedOtpRoute'
+import OtpPage from './pages/OtpPage'
 
 
 function App() {
@@ -31,6 +33,9 @@ function App() {
          <Route path='/register' element={<Register />} />
          <Route path='/forget-password' element={<ForgetPassword />} />
          <Route path='/reset-password/:token' element={<ResetPassword />} />
+         <Route element={<ProtectedOtpRoute />} >
+         <Route path='/opt-verify' element={<OtpPage />} />
+         </Route>
          <Route element={<ProtectedRoute />} >
          <Route element={<Home />}>
         <Route path='showall' element={<ShowAll />} />

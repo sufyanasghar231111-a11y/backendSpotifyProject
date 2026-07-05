@@ -26,5 +26,10 @@ export const updateUserPfp = (formData) => {
 };
 
 export const deleteUserPfp=()=>{
-    return api.delete('auth/removePfp')
+    return api.delete('/auth/removePfp')
 };
+
+
+export const otpCreate = (data) => {
+    return api.post('/otp/email-verify', data)
+}

@@ -5,7 +5,7 @@ import { authSearch } from '../contextapi/RecentSearchRoute';
 import { musciControl } from '../contextapi/MusicControllerContext';
 import { audioContext } from '../contextapi/AudioProvider';
 import { authPlaylist } from '../contextapi/PlaylistContext';
-import { checkUser, deleteUserPfp, loginUser, logoutUser, register, rotation, updateUserPfp } from '../api/authApi';
+import { checkUser, deleteUserPfp, loginUser, logoutUser, otpCreate, register, rotation, updateUserPfp } from '../api/authApi';
 import { deleteLibraryData, getLibraryData, updateLibraryData } from '../api/library';
 import {  setAccessToken } from '../api/accessToken';
 import { resetContext } from './resetPasswordContext';
@@ -39,6 +39,11 @@ const AuthContext = ({ children }) => {
         email: '',
         password: ""
     })
+    const [otp, setOtp]=useState({
+        email:'',
+        otpHash:''
+    })
+    const [otpBased, setOtpBased]=useState([])
 
     // All Toggle or true & false states 
     let [loading, setLoading] = useState(false)
@@ -64,6 +69,7 @@ const AuthContext = ({ children }) => {
     // this is for input field in profile update input it by default set user name 
     useEffect(() => {
         if (user?.username) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setUpdatename(user.username)
         }
     }, [user])
@@ -82,35 +88,26 @@ const AuthContext = ({ children }) => {
     const handleSumbit = useCallback(async (e) => {
         e.preventDefault()
         try {
-            const response = await register(
+            const res = await register(
                 {
                     username: username,
                     email: emailreg,
                     password: passwordreg
                 }
             )
-
-
-           
-            setUser(response.data.user)
-            navigate('/')
+            setOtpBased(res.data.user)
+            navigate('/opt-verify')
             setUsername('')
             setEmailreg('')
             setPasswordreg('')
             
-            await Promise.all([
-                handleGetPlayList(),
-                getLibrary(),
-                fetchRecent(),
-                getMusicPlaying(),
-                getRecentSearch(),
-            ])
+            
             
         }
         catch (err) {
             console.log(err);
         }
-    }, [username, emailreg, passwordreg, navigate, handleGetPlayList, fetchRecent, getLibrary, getRecentSearch, getMusicPlaying])
+    }, [username, emailreg, passwordreg, navigate])
 
     const handleLogin = useCallback(async (e) => {
         e.preventDefault()
@@ -150,12 +147,12 @@ const AuthContext = ({ children }) => {
             const rotationRes = await rotation();
             setAccessToken(rotationRes.data.accessToken);
             
-
             const userRes = await checkUser();
             setUser(userRes.data.getAuthData);
             
         } catch (err) {
-            console.log(err);
+            // User not logged in or session expired - this is expected for new users
+            console.log('Auth initialization: User not authenticated', err?.response?.status);
             
         } finally {
             setAuthReady(true);
@@ -179,6 +176,45 @@ const AuthContext = ({ children }) => {
             console.log(e);
         }
         setUser(null)
+    }
+
+    async function handleOtp(e) {
+        e.preventDefault()
+        try{
+            
+            const res = await otpCreate({
+                otpHash:otp.otpHash,
+                email:otp.email
+            })
+
+            setAccessToken(res.data?.accessToken)
+            setUser(res.data.user)
+            setAuthReady(true)
+
+             navigate('/')
+            await Promise.all([
+                handleGetPlayList(),
+                getLibrary(),
+                fetchRecent(),
+                getMusicPlaying(),
+                getRecentSearch(),
+            ])
+
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+        finally {
+            setLoading(false)
+        }
+    }
+
+    function handleOtpChange(e){
+        setOtp(prev => ({
+            ...prev,
+            [e.target.name]:e.target.value
+        }))
     }
 
     function handleChange(e) {
@@ -228,7 +264,9 @@ const AuthContext = ({ children }) => {
 
     useEffect(() => {
         if(!authReady) return
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         getLibrary()
+        
     }, [authReady])
 
     async function addToLibrary(id) {
@@ -253,8 +291,8 @@ const AuthContext = ({ children }) => {
     }
 
     const auth = useMemo(() => ({
-        user, setUser, handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, login, setLogin        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }), [user, emailreg, passwordreg, login])
+        user, setUser, handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, login, setLogin ,otpBased,handleOtp  ,otp, setOtp  ,handleOtpChange   // eslint-disable-next-line react-hooks/exhaustive-deps
+    }), [user, emailreg, passwordreg, login,otpBased,otp])
 
     const logout = useMemo(() => ({
         handleLogout, hideSure, setHideSure

@@ -5,9 +5,11 @@ import { resetContext } from './resetPasswordContext'
 import { authProvider } from './AuthContext'
 
 
-
+// eslint-disable-next-line react-refresh/only-export-components
 export const authHome = createContext()
+// eslint-disable-next-line react-refresh/only-export-components
 export const UIHomeContex=createContext()
+// eslint-disable-next-line react-refresh/only-export-components
 export const refContext=createContext()
 
 const HomeContext = ({ children }) => {
@@ -53,6 +55,8 @@ const HomeContext = ({ children }) => {
 
   useEffect(() => {
     if (!authReady || !user ) return
+    
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchFav()
 
   }, [authReady, user])
@@ -72,6 +76,7 @@ const HomeContext = ({ children }) => {
   const deletemusic = useCallback(async (favoriteId) => {
     try {
       await deletefav(favoriteId)
+      await fetchFav()
       setFav((prev) =>
         prev.map((elem) => ({
           ...elem,
