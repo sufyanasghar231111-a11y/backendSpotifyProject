@@ -3,9 +3,9 @@ import React, { useContext, useEffect } from 'react'
 import { authProvider, ProfileContext } from '../../contextapi/AuthContext'
 import { Link, useParams } from 'react-router-dom'
 import { authPlaylist } from '../../contextapi/PlaylistContext'
-import axios from 'axios'
 import CheckOwn from './CheckOwn'
 import { handlevisibleplaylist } from '../../api/playlistApi'
+import { useState } from 'react'
 
 const UserProfile = () => {
   
@@ -13,12 +13,14 @@ const UserProfile = () => {
   
   const { playlistLoader ,visibleParticular,setVisibleParticular} = useContext(authPlaylist)
 
+  const [userId, setUserId]=useState([])
+
   const { id } = useParams()
   async  function handleVisiblePlaylist(){
       try{
         const res=await handlevisibleplaylist(id)
         setVisibleParticular(res.data.particularVisible)
-        
+        setUserId(res.data.user)
       }
       catch(err){
         console.log(err);
@@ -27,14 +29,14 @@ const UserProfile = () => {
 
     
 
-  const profileData=id ? visibleParticular[0]?.user : user
+  const profileData=id ? userId : user
   
   
   useEffect(() => {
     if(id){
       handleVisiblePlaylist()
     }
-    
+
   }, [id])
 
 
@@ -97,7 +99,10 @@ const UserProfile = () => {
                 )
               })
             ) : (
-              <div className='flex flex-col items-center  top-25 left-1/2  -translate-x-1/2 -translate-y-1/2 absolute justify-center text-center py-10 px-4'>
+              <>
+              {
+                isown? (
+                   <div className='flex flex-col items-center  top-25 left-1/2  -translate-x-1/2 -translate-y-1/2 absolute justify-center text-center py-10 px-4'>
 
                 <div className='mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10 text-3xl'>
                   🎵
@@ -113,6 +118,12 @@ const UserProfile = () => {
                   Start by creating a playlist.
                 </p>
               </div>
+                ):(
+                  <div>no yet</div>
+                )
+              }
+             
+              </>
             )
           }
 
