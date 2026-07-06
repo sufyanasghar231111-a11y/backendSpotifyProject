@@ -55,6 +55,7 @@ const PlayUI = () => {
       handleSeparate()
     }
     
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[id,location.pathname])
 
 

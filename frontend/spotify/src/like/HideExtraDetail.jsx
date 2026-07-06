@@ -8,12 +8,17 @@ import {
     RiDeleteBin6Line,
     RiLockLine,
     RiLockUnlockLine,
+    RiHeart2Fill,
+    RiAddBoxFill,
 } from "@remixicon/react";
+import { authProvider } from '../contextapi/AuthContext';
 
 const HideExtraDetail = () => {
     const { hideExtra, setHideExtra } = useContext(UIPlaylistContext)
     const { updateVisibility } = useContext(authSearchBar)
     const { separate } = useContext(authPlaylist)
+    const {user}=useContext(authProvider)
+    
 
     return (
         <>
@@ -22,7 +27,10 @@ const HideExtraDetail = () => {
                     <>
                         <div onClick={() => { setHideExtra(false) }} className='w-full h-full absolute z-150 '></div>
                         <div className=' absolute w-55 max-h-70 z-151  rounded  bg-[#404040] top-40 left-40 overflow-hidden'>
-                            <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
+                            {
+                                separate?.user?._id === user?._id ? (
+                                    <>
+                                    <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
                                 <RiListCheck2 size={18} />
                                 <span>Add to queue</span>
                             </button>
@@ -41,8 +49,31 @@ const HideExtraDetail = () => {
                                 <RiDeleteBin6Line size={18} />
                                 <span>Delete</span>
                             </button>
+                                    </>
+                                ):(
+                                    <div>
+                                        <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
+                                <RiListCheck2 size={18} />
+                                <span>Add to queue</span>
+                            </button>
 
-                            <button
+                            <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
+                                <RiHeart2Fill size={18} />
+                                <span>Add to Favorite</span>
+                            </button>
+
+                            <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
+                                <RiAddBoxFill size={18} />
+                                <span>Add To Library</span>
+                            </button>
+
+                            
+                                    </div>
+                                )
+                            }
+                            {
+                                separate?.user?._id===user?._id && (
+                                    <button
                                 onClick={() => updateVisibility(separate?._id)}
                                 className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors"
                             >
@@ -58,6 +89,9 @@ const HideExtraDetail = () => {
                                     </>
                                 )}
                             </button>
+                                )
+                            }
+                            
                         </div>
                     </>
                 )

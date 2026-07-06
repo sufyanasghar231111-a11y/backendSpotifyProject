@@ -26,8 +26,6 @@ const UserProfile = () => {
         console.log(err);
       }
     }
-
-    
     
 
   const profileData=id ? userId : user
