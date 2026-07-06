@@ -28,6 +28,7 @@ const UserProfile = () => {
     }
 
     
+    
 
   const profileData=id ? userId : user
   
@@ -119,7 +120,20 @@ const UserProfile = () => {
                 </p>
               </div>
                 ):(
-                  <div>no yet</div>
+                   <div className='flex flex-col items-center  top-25 left-1/2  -translate-x-1/2 -translate-y-1/2 absolute justify-center text-center py-10 px-4'>
+
+                <div className='mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10 text-3xl'>
+                  🎵
+                </div>
+
+                <h1 className='text-white font-semibold text-lg'>
+                  No public playlists yet
+                </h1>
+
+                <p className='text-sm text-gray-400 mt-2 leading-5'>
+                 This user hasn't created any public playlists yet.
+                </p>
+              </div>
                 )
               }
              

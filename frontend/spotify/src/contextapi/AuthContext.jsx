@@ -160,7 +160,7 @@ const AuthContext = ({ children }) => {
     }
 
     initializeAuth();
-}, []);
+}, [setAuthReady]);
 
     async function handleLogout() {
         try {

@@ -39,7 +39,7 @@ const PlayUI = () => {
   async function handleSingleVisible(){
     try{
       const res=await handleSingle(id)
-      setSeparate(res.data.singleVisible)
+      setSeparate(res.data.singleVisible)      
     }
     catch(err){
       console.log(err);
@@ -54,7 +54,9 @@ const PlayUI = () => {
     else{
       handleSeparate()
     }
+    
   },[id,location.pathname])
+
 
   
 
@@ -74,11 +76,10 @@ const PlayUI = () => {
             <Link to={`/profile/${separate?.user?._id}`}>
             <h1 className='text-8xl font-extrabold'>{separate?.name}</h1>
             </Link>
-            <h1 className='font-bold'>{separate?.user?.username} <span className='text-[#b9b6b6]'>. {separate?.music?.length} songs</span> </h1>
+            <h1 className='font-bold pt-4'>{separate?.user?.username} <span className='text-[#b9b6b6]'>. {separate?.music?.length} songs</span> </h1>
           </div>
         </div>
         
-
       </div>
       <div className='h-full relative  max-sm:px-3  bg-gradient-to-b from-[#1a1a1a] to-[#282828] overflow-y-auto'>
         <div className='flex px-8 pt-2  items-center gap-5' >

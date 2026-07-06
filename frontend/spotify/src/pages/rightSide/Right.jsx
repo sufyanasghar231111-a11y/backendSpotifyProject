@@ -7,16 +7,19 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 import RightsideMusic from '../../component/rightside/RightsideMusic'
 import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 import HideExtraDetail from '../../like/HideExtraDetail'
+import { UIPlaylistContext } from '../../contextapi/PlaylistContext'
 
 
 const Right = () => {
   const { setHide } = useContext(UIHomeContex)
   const {setPage}   =useContext(authSearchBar)
+  const {setHideExtra}=useContext(UIPlaylistContext)
   
   
   let location = useLocation()
   useEffect(() => {
     setPage(1)
+    setHideExtra(false)
   }, [location.pathname])
 
 
