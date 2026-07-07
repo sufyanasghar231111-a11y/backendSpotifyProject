@@ -12,13 +12,23 @@ import {
     RiAddBoxFill,
 } from "@remixicon/react";
 import { authProvider } from '../contextapi/AuthContext';
+import { authHome } from '../contextapi/HomeContext';
 
 const HideExtraDetail = () => {
     const { hideExtra, setHideExtra } = useContext(UIPlaylistContext)
     const { updateVisibility } = useContext(authSearchBar)
     const { separate } = useContext(authPlaylist)
     const {user}=useContext(authProvider)
-    
+    const {createFav,fav,deletemusic}=useContext(authHome)  
+
+    const playlistId= fav?.favorite?.some(
+        item => item.type === 'playlist' && item.item._id === separate._id
+    )
+
+    const deleteId= fav?.favorite?.find(
+        item => item.type === 'playlist' && item.item._id === separate._id
+    )
+
 
     return (
         <>
@@ -56,11 +66,22 @@ const HideExtraDetail = () => {
                                 <RiListCheck2 size={18} />
                                 <span>Add to queue</span>
                             </button>
-
-                            <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
-                                <RiHeart2Fill size={18} />
+                            {
+                                playlistId ? 
+                                (
+                                     <button title='Add to Favorite' onClick={()=>{deletemusic(deleteId?._id)}}  className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
+                                <RiHeart2Fill size={18} className='text-red-500' />
+                                <span>Remove to Favorite</span>
+                            </button>
+                                ):
+                                (
+                                     <button title='Remove to Favorite' onClick={()=>{createFav('playlist', separate._id)}}  className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
+                                <RiHeart2Fill size={18} className='text-white' />
                                 <span>Add to Favorite</span>
                             </button>
+                                )
+                            }
+                           
 
                             <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
                                 <RiAddBoxFill size={18} />

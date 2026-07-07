@@ -20,6 +20,7 @@ const PlayUI = () => {
   const { patchMusicPlaying, playRef } = useContext(musciControl)
   const {setHideExtra}=useContext(UIPlaylistContext)
   const {separate, setSeparate}=useContext(authPlaylist)
+  
 
   const  { id } = useParams()
 
@@ -119,10 +120,13 @@ const PlayUI = () => {
         {/* Music List */}
         <div className='space-y-2 px-8 pt-4'>
           {separate?.music?.map((music, index) => {
-            const favId = fav.some(elem => {
-              return elem.favorite.some(song => song._id === music._id)
-            })
+            const favId = fav?.favorite?.some(
+              song => song.type==='music' && song.item._id === music._id
+            ) ?? false
 
+            const deleteId = fav?.favorite?.find(
+              item => item.type === 'music' && item.item._id === music._id
+            )
             return <div key={music._id}
               className='group flex items-center p-4 rounded-2xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/10'>
               <div className='relative flex-shrink-0 w-12 h-12'>
@@ -184,11 +188,11 @@ const PlayUI = () => {
                 >
                   {
                     favId ? (
-                      <svg onClick={() => { deletemusic(music?._id) }} className='w-5 h-5 text-red-500 group-hover/like:text-red-500 group-hover/like:scale-110 transition-all duration-200' fill='currentColor' viewBox='0 0 20 20'>
+                      <svg onClick={() => { deletemusic(deleteId?._id) }} className='w-5 h-5 text-red-500 group-hover/like:text-red-500 group-hover/like:scale-110 transition-all duration-200' fill='currentColor' viewBox='0 0 20 20'>
                         <path fillRule='evenodd' d='M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z' clipRule='evenodd' />
                       </svg>
                     ) : (
-                      <svg onClick={() => { createFav(music?._id) }} className='w-5 h-5 text-white group-hover/like:text-red-500 group-hover/like:scale-110 transition-all duration-200' fill='currentColor' viewBox='0 0 20 20'>
+                      <svg onClick={() => { createFav( "music", music?._id) }} className='w-5 h-5 text-white  group-hover/like:scale-110 transition-all duration-200' fill='currentColor' viewBox='0 0 20 20'>
                         <path fillRule='evenodd' d='M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z' clipRule='evenodd' />
                       </svg>
                     )

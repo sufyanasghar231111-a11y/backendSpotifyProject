@@ -9,12 +9,12 @@ const HeaderLike = () => {
      let {setHide } = useContext(UIHomeContex)
      const { fav}=useContext(authHome)
         let { setHidePlay } = useContext(UIPlaylistContext)
-    const length = useMemo(() => {
-        return fav.reduce((acc, elem) => {
-            return acc + (elem.favorite?.length || 0)
-        }, 0)
+    // const length = useMemo(() => {
+    //     return fav.reduce((acc, elem) => {
+    //         return acc + (elem.favorite?.length || 0)
+    //     }, 0)
         
-    }, [fav])
+    // }, [fav])
   return (
     <div>
        <header className=' py-4 max-sm:py-8 px-3 bg-[#1a1a1a]  sticky top-0 z-10 '>

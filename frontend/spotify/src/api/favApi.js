@@ -4,8 +4,8 @@ export const favGet = () =>{
     return api.get('/user/getUserFavorite')
 }
 
-export const createfav = (favoriteId) =>{
-    return api.patch(`/user/fav/${favoriteId}`)
+export const createfav = (type, favoriteId) =>{
+    return api.patch(`/user/fav/${type}/${favoriteId}`)
 }
 
 export const deletefav = (favoriteId) =>{

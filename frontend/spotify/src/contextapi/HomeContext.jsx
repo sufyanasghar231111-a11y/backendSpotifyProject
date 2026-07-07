@@ -46,7 +46,7 @@ const HomeContext = ({ children }) => {
   const fetchFav = useCallback(async () => {
     try {
       const res = await favGet()
-      setFav(res.data.getUserFavoritesMusic)
+      setFav(res.data.fav)
     }
     catch (err) {
       console.log(err);
@@ -54,18 +54,19 @@ const HomeContext = ({ children }) => {
   }, [])
 
   useEffect(() => {
+    
     if (!authReady || !user ) return
     
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchFav()
 
-  }, [authReady, user])
+  }, [authReady, user, fetchFav])
 
-  const createFav = useCallback(async (favoriteId) => {
+  const createFav = useCallback(async (favoriteId, type) => {
 
     try {
-      await createfav(favoriteId)
-      fetchFav()
+      await createfav(favoriteId, type)
+      await fetchFav()
     }
     catch (err) {
       console.log(err);
@@ -77,15 +78,6 @@ const HomeContext = ({ children }) => {
     try {
       await deletefav(favoriteId)
       await fetchFav()
-      setFav((prev) =>
-        prev.map((elem) => ({
-          ...elem,
-          favorite: elem.favorite.filter(item =>
-            item._id !== favoriteId
-          )
-        }))
-      )
-
     }
     catch (err) {
       console.log(err);
