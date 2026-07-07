@@ -2,6 +2,7 @@ const userSchema = require('../models/playlist.model')
 const mongoose = require('mongoose')
 const favSchema = require('../models/fav.models')
 const musicSchema = require('../models/music.model')
+const postSchema=require('../models/post.model')
 
 async function playlist(req, res) {
 
@@ -101,15 +102,23 @@ async function visibilityPlaylist(req, res) {
 async function getParticulatVisible(req,res){
     try{
         const {id}=req.params
+        const user= await postSchema.findById(id).select('username _id pfp')
+        if(!user){
+            return res.status(404).json({
+                message:"User not found"
+            })
+        }
         const particularVisible = await userSchema.find({ user:id,  visibility:'public'}).populate({path:"user", select:"username _id pfp "})
         res.status(200).json({
             message:"successful get",
-            particularVisible
+            particularVisible,
+            user
         })
     }
     catch(err){
         res.status(500).json({
-            message:"Invalid Response"
+            message:"Internal error",
+            error:err.message
         })
     }
 }
@@ -221,32 +230,52 @@ async function getSingleMusic(req, res) {
 
 async function particularFav(req, res) {
     try {
+        const {album, music, playlist} = req.body  || {}
 
-        let { favorite } = req.body
+        let newEntry = {}
 
-        if (!favorite) {
-            return res.status(400).json({
-                message: "Favorite is required"
-            })
+        if(music){
+             newEntry = {
+                type:'music',
+                item:music,
+                typeModel:'music'
+            }
         }
 
-        const exist = await musicSchema.findById(favorite)
-
-        if (!exist) {
-            return res.status(404).json({
-                message: "Item not found"
-            })
+        if(playlist){
+             newEntry = {
+                type:'playlist',
+                item:playlist,
+                typeModel:'playlist'
+            }
         }
 
+        if(album){
+             newEntry = {
+                type:'album',
+                item:album,
+                typeModel:'album'
+            }
+        }
 
-        const createFav = await favSchema.create({
-            favorite,
-            user: req.user.id
-        })
+        const createFav = await favSchema.findOneAndUpdate(
+            {user:req.user.id},
+            {
+                $addToSet:{
+                    favorite:newEntry
+                }
+            },
+            {
+                upsert:true,
+                new:true
+            }
+        )
+        
         res.status(201).json({
-            message: "Successfull Create music",
+            message:"Successful add to fav",
             createFav
         })
+       
     }
     catch (e) {
         res.status(500).json({
@@ -259,16 +288,34 @@ async function particularFav(req, res) {
 async function getUserFav(req, res) {
     try {
 
-        const getUserFavoritesMusic = await favSchema.find({ user: req.user.id }).populate('favorite', 'uri title artist').populate('user').populate({ path: 'favorite', populate: { path: "artist" } })
+        const fav = await favSchema.findOne({ user: req.user.id })
+        .populate('user', 'username pfp _id')
+            .populate({
+                path: 'favorite.item',
+                strictPopulate: false,
+                populate: {
+                    path: 'artist',
+                    model: 'user',
+                    select: 'username _id',
+                    strictPopulate: false
+                }
+            })
+            .populate({
+                path: 'favorite.item',
+                strictPopulate: false,
+                populate: {
+                    path: 'user',
+                    model: 'user',
+                    select: 'username pfp _id',
+                    strictPopulate: false
+                }
+            })
 
         res.status(200).json({
             success: true,
             message: "successful get particular data",
-            getUserFavoritesMusic
+            fav
         })
-
-
-
     }
     catch (e) {
         res.status(500).json({
@@ -280,20 +327,54 @@ async function getUserFav(req, res) {
 
 async function favoriteMusic(req, res) {
     try {
+        const { favoriteId, type } = req.params;
 
-        const { favoriteId } = req.params;
+        const allowedType= {
+            music:'music',
+            album:'album',
+            playlist:'playlist'
+        }
+
+        if(!allowedType){
+            return res.status(400).json({
+                messge:"Invalid type"
+            })
+        }
+
+        await favSchema.findOneAndUpdate(
+            {
+                user:req.user.id
+            },
+
+            {
+                $pull:{
+                    favorite:{item:favoriteId}
+                }
+            }
+        )
+
         const addToFav = await favSchema.findOneAndUpdate(
             { user: req.user.id },
             {
                 $addToSet: {
-                    favorite: favoriteId
+                    favorite: {
+                        $each:[
+                            {
+                                type,
+                                typeModel:allowedType[type],
+                                item:favoriteId,
+                                createdAt:new Date()
+                            }
+
+                        ]
+                    }
                 }
             },
             {
                 upsert: true,
                 new: true
             }
-        ).populate('favorite', 'uri title artist').populate('user').populate({ path: 'favorite', populate: { path: 'artist' } })
+        )
         res.status(200).json({
             message: "successful push into favorite",
             addToFav
@@ -315,7 +396,9 @@ async function deleteFavMusic(req, res) {
             { user: req.user.id },
             {
                 $pull: {
-                    favorite: favoriteId
+                    favorite:{
+                        _id:favoriteId
+                    }
                 }
             },
             { returnDocument: 'after' }
