@@ -36,9 +36,15 @@ const Audioplay = () => {
   }, [])
 
 
-  const isFav = fav.some(user =>
-    user.favorite.some(song => song._id === data?._id)
+  const isFav = fav?.favorite?.some(user =>
+    user.type === 'music' &&  user.item._id === data?._id
   )
+
+  const deleteId = fav?.favorite?.find(user =>
+    user.type === 'music' &&  user.item._id === data?._id
+  )
+
+  
 
   const lib = library.some(user =>
     user.music.some(song => song._id === data?._id)
@@ -84,14 +90,14 @@ const Audioplay = () => {
 
             {isFav ? (
               <button
-                onClick={() => deletemusic(data?._id)}
+                onClick={() => deletemusic(deleteId?._id)}
                 className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/20 active:scale-95 transition-all duration-300 cursor-pointer"
               >
                 <RiHeartFill className="text-red-500 w-5 h-5" />
               </button>
             ) : (
               <button
-                onClick={() => createFav(data?._id)}
+                onClick={() => createFav('music',data?._id)}
                 className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/20 active:scale-95 transition-all duration-300 cursor-pointer"
               >
                 <RiHeartFill className="text-white w-5 h-5" />

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useContext } from 'react'
 import { authHome, UIHomeContex } from '../../contextapi/HomeContext'
 import { Link } from 'react-router-dom'
 import { RiAddLine, RiHeartFill } from '@remixicon/react'
@@ -9,12 +9,9 @@ const HeaderLike = () => {
      let {setHide } = useContext(UIHomeContex)
      const { fav}=useContext(authHome)
         let { setHidePlay } = useContext(UIPlaylistContext)
-    // const length = useMemo(() => {
-    //     return fav.reduce((acc, elem) => {
-    //         return acc + (elem.favorite?.length || 0)
-    //     }, 0)
-        
-    // }, [fav])
+
+    const length = fav?.favorite?.length
+
   return (
     <div>
        <header className=' py-4 max-sm:py-8 px-3 bg-[#1a1a1a]  sticky top-0 z-10 '>
@@ -35,7 +32,7 @@ const HeaderLike = () => {
                             <Link to={`/like`}  >
                                 <h1 className='font-semibold'>Liked Songs</h1>
                             </Link>
-                            <h1 className='text-sm max-sm:text-[10px] text-[#a5a5a5] font-semibold'>Liked . {length} songs</h1>
+                            <h1 className='text-sm max-sm:text-[10px] text-[#a5a5a5] font-semibold'>Liked . {length} items</h1>
                         </div>
                     </div>
                 </div>

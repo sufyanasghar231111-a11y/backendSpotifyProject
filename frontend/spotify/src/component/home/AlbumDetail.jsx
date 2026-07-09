@@ -3,7 +3,6 @@ import axios from 'axios'
 import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { authHome } from '../../contextapi/HomeContext'
-import { authProvider } from '../../contextapi/AuthContext'
 import AlbumToPlaylist from '../../like/AlbumToPlaylist'
 import { audioContext } from '../../contextapi/AudioProvider'
 import { musciControl } from '../../contextapi/MusicControllerContext'
@@ -57,8 +56,7 @@ const AlbumDetail = () => {
         <div className='pt-3'>
           {
             detailData.album?.map((elem, index) => {
-              const isFav = fav.some(user =>
-                user.favorite.some(song => song._id === elem?._id))
+              const isFav = fav?.favorite?.some(song => song.type === 'music' && song.item?._id === elem?._id)
               return <div key={elem._id} className='flex  group hover:bg-white/10 transition-all duration-300  py-3 px-2 rounded-lg w-full  gap-6'>
 
                 <div className='relative'>
@@ -91,7 +89,7 @@ const AlbumDetail = () => {
                         <RiHeartFill className='text-red-500 cursor-pointer w-5 h-5' />
                       </button>)
                         :
-                        (<button onClick={() => { createFav(elem?._id) }} className={`w-12 h-12 flex items-center justify-center rounded-full  border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer`}>
+                        (<button onClick={() => { createFav('music', elem?._id) }} className={`w-12 h-12 flex items-center justify-center rounded-full  border border-white/20 hover:bg-white/10 transition-all duration-300 cursor-pointer`}>
                           <RiHeartFill className='text-white cursor-pointer w-5 h-5' />
                         </button>)
                     }
