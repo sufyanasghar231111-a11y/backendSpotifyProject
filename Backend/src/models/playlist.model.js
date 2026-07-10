@@ -22,6 +22,11 @@ const userSchemas= new mongoose.Schema({
         type:String,
         enum:['private', 'public'],
         default:'private'
+    },
+
+    playlistPic:{
+        type:String,
+        default:''
     }
 })
 

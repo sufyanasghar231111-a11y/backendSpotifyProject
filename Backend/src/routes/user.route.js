@@ -2,12 +2,15 @@ const express=require('express')
 
 const router=express.Router()
 const userController=require('../controllers/user.controller')
+const multer = require('multer')
+const upload = multer({storage: multer.memoryStorage()})
 const middleware=require('../middleware/middle')
 
 router.post('/playlist', middleware.getMusic , userController.playlist)
 router.get('/particularUserPlaylist', middleware.getMusic, userController.particularUserPlaylist)
 router.get('/separate/:id', middleware.getMusic, userController.separate)
 router.patch('/visible/:id', middleware.getMusic, userController.visibilityPlaylist)
+router.patch('/updatePlaylistData/:id', upload.single('pfp') , middleware.getMusic, userController.updateName)
 router.get('/singleparticularvisible/:id', userController.getParticulatVisible)
 
 router.delete('/deletePlaylist/:id', middleware.getMusic, userController.deletePlaylistComplete)

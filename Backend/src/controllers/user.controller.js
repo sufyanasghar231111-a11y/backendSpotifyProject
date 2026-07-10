@@ -3,16 +3,22 @@ const mongoose = require('mongoose')
 const favSchema = require('../models/fav.models')
 const musicSchema = require('../models/music.model')
 const postSchema=require('../models/post.model')
+const uploadPfp= require('../services/playlist.service')
 
 async function playlist(req, res) {
 
     try {
-        let { name, music, user } = req.body
-
+        const { name, music, user } = req.body || {}
+        const imageUrl = ''
+        if(req.file){
+            const result = await uploadPfp(req.file.buffer)
+            imageUrl = result.url
+        }
         const createPlaylist = await userSchema.create({
             name,
             music: [],
-            user: req.user.id
+            user: req.user.id,
+            playlistPic:imageUrl
         })
 
         res.status(201).json({
@@ -113,6 +119,34 @@ async function getParticulatVisible(req,res){
             message:"successful get",
             particularVisible,
             user
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Internal error",
+            error:err.message
+        })
+    }
+}
+
+async function updateName (req, res) {
+    try{
+        const {name} = req.body
+        const {id} = req.params
+        const result = await uploadPfp(req.file.buffer)
+        console.log(result);
+        
+        const updateData= await userSchema.findByIdAndUpdate(
+            {user:req.user.id, _id:id},
+            {
+             playlistPic:result.url,
+             name   
+            }
+        )
+
+        res.status(200).json({
+            message:"successful update",
+            updateData
         })
     }
     catch(err){
@@ -356,7 +390,7 @@ async function favoriteMusic(req, res) {
         const addToFav = await favSchema.findOneAndUpdate(
             { user: req.user.id },
             {
-                $addToSet: {
+                $push: {
                     favorite: {
                         $each:[
                             {
@@ -366,7 +400,8 @@ async function favoriteMusic(req, res) {
                                 createdAt:new Date()
                             }
 
-                        ]
+                        ],
+                        $position:0
                     }
                 }
             },
@@ -446,4 +481,4 @@ async function singleFav(req, res) {
 
 
 
-module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete, visibilityPlaylist,getParticulatVisible }
+module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete, visibilityPlaylist,getParticulatVisible, updateName }
