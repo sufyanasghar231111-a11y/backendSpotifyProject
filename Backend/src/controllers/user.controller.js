@@ -157,6 +157,31 @@ async function updateName (req, res) {
     }
 }
 
+async function deleteData(req, res){
+    try{
+        const {id} = req.params
+        
+        const deleteImage = await userSchema.findByIdAndUpdate(
+            {user:req.user.id, _id:id},
+            {
+                playlistPic:''
+            }
+        )
+
+        res.status(200).json({
+            message:"successful delete",
+            deleteImage
+        })
+
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Internal error",
+            error:err.message
+        })
+    }
+}
+
 async function deletePlaylistComplete(req, res) {
     try {
         let { id } = req.params
@@ -481,4 +506,4 @@ async function singleFav(req, res) {
 
 
 
-module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete, visibilityPlaylist,getParticulatVisible, updateName }
+module.exports = { playlist, particularUserPlaylist, deleteMusic, pushMusic, getSingleMusic, favoriteMusic, particularFav, getUserFav, deleteFavMusic, singleFav, separate, deletePlaylistComplete, visibilityPlaylist,getParticulatVisible, updateName, deleteData }

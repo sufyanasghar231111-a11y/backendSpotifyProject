@@ -11,6 +11,7 @@ router.get('/particularUserPlaylist', middleware.getMusic, userController.partic
 router.get('/separate/:id', middleware.getMusic, userController.separate)
 router.patch('/visible/:id', middleware.getMusic, userController.visibilityPlaylist)
 router.patch('/updatePlaylistData/:id', upload.single('pfp') , middleware.getMusic, userController.updateName)
+router.delete('/deletePlaylistData/:id', middleware.getMusic, userController.deleteData)
 router.get('/singleparticularvisible/:id', userController.getParticulatVisible)
 
 router.delete('/deletePlaylist/:id', middleware.getMusic, userController.deletePlaylistComplete)
