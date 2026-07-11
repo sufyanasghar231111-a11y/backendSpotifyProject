@@ -5,7 +5,7 @@ import { authHome } from '../contextapi/HomeContext'
 const LikedPlaylist = ({ music, index }) => {
     const { deletemusic } = useContext(authHome)
     return (
-        <Link to={`/visible/${music.item._id}`}>
+        <Link to={`/visible/${music.item?._id}`}>
             <div
                 key={music?.item?._id}
                 className="group flex items-center p-4 rounded-2xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/10 cursor-pointer"

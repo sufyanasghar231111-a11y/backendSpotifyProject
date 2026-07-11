@@ -43,7 +43,7 @@ const UpdateProfile = () => {
           <h1 onClick={removePfp} className='bottom-7 hidden cursor-pointer group-hover:block hover:border-b  font-semibold text-[17px] absolute z-60'>Remove photo</h1>
         </div>
         <div className='flex flex-col items-end'>
-            <input value={updatename }   onChange={(elem)=>{setUpdatename(elem.target.value)}} type="text" className='outline-0 font-bold text-sm w-60 bg-[#3E3E3E] mb-6 py-2 rounded px-3' />
+            <input value={updatename}   onChange={(elem)=>{setUpdatename(elem.target.value)}} type="text" className='outline-0 font-bold text-sm w-60 bg-[#3E3E3E] mb-6 py-2 rounded px-3' />
             <button type='submit' className='rounded-full px-4 py-1.5 text-sm bg-white  text-black font-bold'>Save</button>
         </div>
       </form>

@@ -14,6 +14,7 @@ import SearchSeparateContext from './contextapi/SearchSeparateContext.jsx'
 import PlaylistContext from './contextapi/PlaylistContext.jsx'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import ResetPasswordContext from './contextapi/resetPasswordContext.jsx'
+import PlaylistUpdateContext from './contextapi/PlaylistUpdateContext.jsx'
 
 const queryClient = new QueryClient()
 
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')).render(
       <QueryClientProvider client={queryClient}>
         <ResetPasswordContext>
           <PlaylistContext >
+        <PlaylistUpdateContext>
             <AudioProvider >
               <MusicControllerContext >
                 <RecentRoute>
@@ -39,6 +41,7 @@ createRoot(document.getElementById('root')).render(
                 </RecentRoute>
               </MusicControllerContext>
             </AudioProvider>
+        </PlaylistUpdateContext>
           </PlaylistContext>
         </ResetPasswordContext>
       </QueryClientProvider>

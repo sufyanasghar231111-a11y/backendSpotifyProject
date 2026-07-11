@@ -5,6 +5,8 @@ import { authPlaylist } from '../../contextapi/PlaylistContext'
 
 const Playlistget = () => {
     let {  getPlayList } = useContext(authPlaylist)
+    console.log(getPlayList);
+    
   return (
     <div>
        {getPlayList.length > 0 ? (

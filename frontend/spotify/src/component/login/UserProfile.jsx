@@ -28,8 +28,8 @@ const UserProfile = () => {
     }
     
 
-  const profileData=id ? userId : user
-  
+  const profileData=id && id !== user?._id ? userId : user
+
   
   useEffect(() => {
     if(id){

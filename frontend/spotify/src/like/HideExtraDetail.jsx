@@ -22,11 +22,11 @@ const HideExtraDetail = () => {
     const {createFav,fav,deletemusic}=useContext(authHome)  
 
     const playlistId= fav?.favorite?.some(
-        item => item.type === 'playlist' && item.item._id === separate._id
+        item => item.type === 'playlist' && item.item?._id === separate._id
     )
 
     const deleteId= fav?.favorite?.find(
-        item => item.type === 'playlist' && item.item._id === separate._id
+        item => item.type === 'playlist' && item.item?._id === separate._id
     )
 
 

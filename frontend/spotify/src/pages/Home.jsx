@@ -14,6 +14,7 @@ import Nav from '../component/home/2side/Nav'
 import CreatePlaylist from '../like/CreatePlaylist'
 import SearchBar from '../component/library/SearchBar'
 import { authPlaylist } from '../contextapi/PlaylistContext'
+import PlaylistForm from '../playlist/PlaylistForm'
 
 
 function Home() {
@@ -30,6 +31,8 @@ function Home() {
       <UpdateProfile />
       
       <SearchBar />
+
+      <PlaylistForm />
 
       {
         detailData.album?.map((elem) =>

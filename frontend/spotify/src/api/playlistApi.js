@@ -24,3 +24,7 @@ export const handlevisibleplaylist = (id) => {
 export const fetch = (id) => {
     return api.get(`/creator/singleMusic/${id}`)
 }
+
+export const updatePlaylist = (id,formData) =>{
+    return api.patch(`/user/updatePlaylistData/${id}`, formData)
+}

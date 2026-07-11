@@ -1,4 +1,4 @@
-import { RiHeartFill, RiPlayListLine, RiPlayFill, RiShuffleLine } from '@remixicon/react'
+import { RiHeartFill, RiPlayListLine, RiPlayFill, RiShuffleLine, RiPencilLine } from '@remixicon/react'
 import React, { useContext, useEffect } from 'react'
 
 import Input from '../like/Input'
@@ -8,8 +8,9 @@ import { Link, useLocation, useParams } from 'react-router-dom'
 import { authRecent } from '../contextapi/RecentRoute'
 import { musciControl } from '../contextapi/MusicControllerContext'
 import { audioContext } from '../contextapi/AudioProvider'
-import {authPlaylist, UIPlaylistContext} from '../contextapi/PlaylistContext'
+import { authPlaylist, UIPlaylistContext } from '../contextapi/PlaylistContext'
 import { handleSingle, singlevisible } from '../api/recentSearch'
+import { playlistUpdate } from '../contextapi/PlaylistUpdateContext'
 
 
 const PlayUI = () => {
@@ -18,17 +19,17 @@ const PlayUI = () => {
   const { fav, deletemusic, createFav } = useContext(authHome)
   const { update } = useContext(authRecent)
   const { patchMusicPlaying, playRef } = useContext(musciControl)
-  const {setHideExtra}=useContext(UIPlaylistContext)
-  const {separate, setSeparate}=useContext(authPlaylist)
-  
+  const { setHideExtra } = useContext(UIPlaylistContext)
+  const { separate, setSeparate } = useContext(authPlaylist)
+  const { setShowUpdate,  setPlaylistPfp, setImagePreview } = useContext(playlistUpdate)
 
-  const  { id } = useParams()
+  const { id } = useParams()
 
-  const location=useLocation()
+  const location = useLocation()
 
   async function handleSeparate() {
     try {
-      
+
       const res = await singlevisible(id)
       setSeparate(res.data.getSinglePlaylist)
     }
@@ -37,53 +38,78 @@ const PlayUI = () => {
     }
   }
 
-  async function handleSingleVisible(){
-    try{
-      const res=await handleSingle(id)
-      setSeparate(res.data.singleVisible)      
+  async function handleSingleVisible() {
+    try {
+      const res = await handleSingle(id)
+      setSeparate(res.data.singleVisible)
     }
-    catch(err){
+    catch (err) {
       console.log(err);
-      
+
     }
   }
-  
-  useEffect(()=>{
-    if(location.pathname.startsWith('/visible')){
+
+  useEffect(() => {
+    if (location.pathname.startsWith('/visible')) {
       handleSingleVisible()
     }
-    else{
+    else {
       handleSeparate()
     }
-    
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[id,location.pathname])
 
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, location.pathname])
   
 
   return (
     <div className='w-full max-sm:w-full ml-auto  sticky rounded-lg overflow-hidden h-[76vh] flex flex-col'>
 
-      <div className='w-full flex flex-col gap-3 bg-[#2C1F54] sticky p-6 px-7'>
+      <header className='w-full flex flex-col gap-3 bg-[#2C1F54] sticky p-6 px-7'>
         <div className='flex gap-6 items-center'>
+          <div onClick={() => { setShowUpdate(true) }} className="group relative flex h-40 w-40 items-center justify-center rounded bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] cursor-pointer overflow-hidden">
+            <label className="group relative flex h-40 w-40 cursor-pointer items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] shadow-xl">
+              <RiPlayListLine className="absolute z-10 h-20 w-20 text-white transition-opacity duration-300 group-hover:opacity-0" />
 
-          <div className='w-40 flex items-center justify-center bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] rounded h-40'>
-            <RiPlayListLine className='text-white w-20 h-20' />
+              <img
+                src={separate?.playlistPic}
+                alt=""
+                className="absolute inset-0 z-11 h-full w-full object-cover transition duration-300 group-hover:brightness-50"
+              />
+
+              <div className="absolute z-12 inset-0 flex flex-col items-center justify-center opacity-0 transition-all duration-300 group-hover:opacity-100">
+                <RiPencilLine className="mb-2 h-7 w-7 text-white" />
+                <span className="text-sm font-semibold text-white">
+                  Choose photo
+                </span>
+              </div>
+
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e)=>{
+                  const file = e.target.files[0]
+                  setPlaylistPfp(file)
+                  if(file) {
+                    setImagePreview(URL.createObjectURL(file))
+                  }
+                }}
+              />
+            </label>
           </div>
           <div>
             <h1 className='text-sm font-semibold'>
               {separate?.visibility} Playlist
             </h1>
             <Link to={`/profile/${separate?.user?._id}`}>
-            <h1 className='text-8xl font-extrabold'>{separate?.name}</h1>
+              <h1 className='text-8xl font-extrabold'>{separate?.name}</h1>
             </Link>
             <h1 className='font-bold pt-4'>{separate?.user?.username} <span className='text-[#b9b6b6]'>. {separate?.music?.length} songs</span> </h1>
           </div>
         </div>
-        
-      </div>
-      <div className='h-full relative  max-sm:px-3  bg-gradient-to-b from-[#1a1a1a] to-[#282828] overflow-y-auto'>
+
+      </header>
+      <main className='h-full relative  max-sm:px-3  bg-gradient-to-b from-[#1a1a1a] to-[#282828] overflow-y-auto'>
         <div className='flex px-8 pt-2  items-center gap-5' >
 
           <div className='
@@ -96,7 +122,7 @@ const PlayUI = () => {
           <div className='w-12 h-12 flex items-center justify-center cursor-pointer'>
             <RiShuffleLine className='w-8 h-8 text-[#AEA7A7] hover:text-[#d8d2d2] hover:scale-105' />
           </div>
-          <svg onClick={()=>{setHideExtra(true)}} className='w-8 h-8 text-[#aea7a7] hover:text-[#d8d2d2] cursor-pointer hover:scale-105 ' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+          <svg onClick={() => { setHideExtra(true) }} className='w-8 h-8 text-[#aea7a7] hover:text-[#d8d2d2] cursor-pointer hover:scale-105 ' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
             <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z' />
           </svg>
         </div>
@@ -121,7 +147,7 @@ const PlayUI = () => {
         <div className='space-y-2 px-8 pt-4'>
           {separate?.music?.map((music, index) => {
             const favId = fav?.favorite?.some(
-              song => song.type==='music' && song.item._id === music._id
+              song => song.type === 'music' && song.item._id === music._id
             ) ?? false
 
             const deleteId = fav?.favorite?.find(
@@ -192,7 +218,7 @@ const PlayUI = () => {
                         <path fillRule='evenodd' d='M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z' clipRule='evenodd' />
                       </svg>
                     ) : (
-                      <svg onClick={() => { createFav( "music", music?._id) }} className='w-5 h-5 text-white  group-hover/like:scale-110 transition-all duration-200' fill='currentColor' viewBox='0 0 20 20'>
+                      <svg onClick={() => { createFav("music", music?._id) }} className='w-5 h-5 text-white  group-hover/like:scale-110 transition-all duration-200' fill='currentColor' viewBox='0 0 20 20'>
                         <path fillRule='evenodd' d='M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z' clipRule='evenodd' />
                       </svg>
                     )
@@ -205,12 +231,9 @@ const PlayUI = () => {
           }
 
         </div>
-      </div>
+      </main>
     </div>
   )
 }
-
-
-
 
 export default PlayUI

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import { deleteplaylist, getplaylist, patchplaylist, postplaylist } from '../api/playlistApi'
@@ -45,7 +46,8 @@ const PlaylistContext = ({ children }) => {
   
     }, [authReady]);
 
-  
+
+    
 
     
     async function handleCreatePlaylist() {
