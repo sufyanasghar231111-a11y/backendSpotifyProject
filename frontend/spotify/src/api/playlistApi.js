@@ -28,3 +28,7 @@ export const fetch = (id) => {
 export const updatePlaylist = (id,formData) =>{
     return api.patch(`/user/updatePlaylistData/${id}`, formData)
 }
+
+export const deletePlaylistPfp = (id) => {
+    return api.delete(`/user/deletePlaylistData/${id}`)
+}

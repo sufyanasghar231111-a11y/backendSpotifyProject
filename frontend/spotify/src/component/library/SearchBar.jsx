@@ -35,12 +35,7 @@ function SearchBar() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [searchinput, searchAlbum, searchMusic, searchPublicplay])
 
-        
-        
-
-
     let navigate = useNavigate()
-
     
     const handleClick = useCallback((elem) => {
         

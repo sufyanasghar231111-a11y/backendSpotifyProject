@@ -1,26 +1,36 @@
 import React, { useContext } from 'react'
 import { playlistUpdate } from '../contextapi/PlaylistUpdateContext'
 import { authPlaylist } from '../contextapi/PlaylistContext'
+import { RiMoreLine, RiPlayListLine } from '@remixicon/react';
 
 const PlaylistForm = () => {
-    const { showUpdate, setShowUpdate, playlistName,setPlaylistName,  setPlaylistPfp, updateDetail, imagePreview, setImagePreview } = useContext(playlistUpdate)
+    const { showUpdate, setShowUpdate, playlistName, setPlaylistName, setPlaylistPfp, updateDetail, imagePreview, setImagePreview, deleteShow, setDeleteShow, deleteDetail } = useContext(playlistUpdate)
     const { separate } = useContext(authPlaylist)
-    
+
+   
+
     return (
-        <div>
+        <>
             {
                 showUpdate && (
                     <>
                         {/* Overlay */}
                         <div
-                            onClick={() => setShowUpdate(false)}
-                            className="w-full h-full cursor-pointer absolute inset-0 bg-black/70 z-[200]"
+                            onClick={() => {
+                                setShowUpdate(false)
+                                setDeleteShow(false)
+                            }
+                            }
+                            className="w-full h-full cursor-pointer absolute inset-0 bg-black/70 z-[250]"
                         />
 
                         {/* Modal */}
-                        <div className="w-full h-full absolute z-[201] flex items-center justify-center">
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[251] flex items-center justify-center">
                             <div
-                                onClick={(e) => e.stopPropagation()}
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    setDeleteShow(false)
+                                }}
                                 className="bg-[#282828] w-[560px] rounded-lg p-6 text-white"
                             >
                                 {/* Header */}
@@ -36,18 +46,43 @@ const PlaylistForm = () => {
                                 </div>
 
                                 {/* Body */}
-                                <div  className="flex gap-4">
+                                <div className="flex gap-4">
                                     {/* Playlist Image */}
-                                    <div className="relative w-44 h-44 flex-shrink-0">
+                                    <div className="relative w-44 h-44 group flex-shrink-0">
+
+                                        <div onClick={(e) => {
+                                            setDeleteShow(prev => !prev)
+                                            e.stopPropagation()
+                                        }} className=' absolute  z-100 opacity-0 group-hover:opacity-100 right-1 bg-[#111111] rounded-full px-1.5 py-1.5  '>
+                                            <RiMoreLine className='text-[#8b8989]' />
+                                        </div>
+                                        {
+                                            deleteShow && (
+                                                <div onClick={() => {
+                                                    deleteDetail(separate?._id)
+                                                     setShowUpdate(false)
+                                                }} className='absolute  z-[250]  w-35 h-20 border -right-30 top-10'>
+                                                    delete
+                                                </div>
+                                            )
+                                        }
                                         <label
                                             htmlFor="playlistImage"
                                             className="w-full h-full rounded overflow-hidden shadow-lg cursor-pointer block group"
                                         >
-                                            <img
-                                                src={ imagePreview || separate?.playlistPic }
-                                                alt=""
-                                                className="w-full h-full object-cover"
-                                            />
+                                            {(imagePreview || separate?.playlistPic) ? (
+                                                <img
+                                                    src={imagePreview || separate?.playlistPic}
+                                                    alt=""
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ):
+                                            (
+                                                <div className='flex items-center justify-center w-full h-full'>
+                                                    <RiPlayListLine className='w-15 h-15 text-[#3f3c3c]' />
+                                                </div>
+                                            )
+                                            }
 
                                             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
                                                 <span className="text-white font-semibold">
@@ -64,7 +99,7 @@ const PlaylistForm = () => {
                                             onChange={(elem) => {
                                                 let file = elem.target.files[0]
                                                 setPlaylistPfp(file)
-                                                if(file){
+                                                if (file) {
                                                     setImagePreview(URL.createObjectURL(file))
                                                 }
                                             }}
@@ -80,7 +115,7 @@ const PlaylistForm = () => {
                                             onChange={(elem) => { setPlaylistName(elem.target.value) }}
                                         />
 
-                                        <button onClick={()=>{updateDetail(separate?._id)}}
+                                        <button onClick={() => { updateDetail(separate?._id) }}
                                             className="mt-auto ml-auto bg-white text-black font-semibold px-10 py-3 rounded-full hover:scale-105 transition"
                                         >
                                             Save
@@ -104,7 +139,7 @@ const PlaylistForm = () => {
                     </>
                 )
             }
-        </div>
+        </>
     )
 }
 
