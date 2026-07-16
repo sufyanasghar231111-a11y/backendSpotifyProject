@@ -13,6 +13,7 @@ import {
 } from "@remixicon/react";
 import { authProvider } from '../contextapi/AuthContext';
 import { authHome } from '../contextapi/HomeContext';
+import { playlistUpdate } from '../contextapi/PlaylistUpdateContext';
 
 const HideExtraDetail = () => {
     const { hideExtra, setHideExtra } = useContext(UIPlaylistContext)
@@ -20,6 +21,7 @@ const HideExtraDetail = () => {
     const { separate } = useContext(authPlaylist)
     const {user}=useContext(authProvider)
     const {createFav,fav,deletemusic}=useContext(authHome)  
+    const {setShowUpdate} = useContext(playlistUpdate)
 
     const playlistId= fav?.favorite?.some(
         item => item.type === 'playlist' && item.item?._id === separate._id
@@ -50,7 +52,7 @@ const HideExtraDetail = () => {
                                 <span>Remove from profile</span>
                             </button>
 
-                            <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
+                            <button onClick={()=>{setShowUpdate(true)}} className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
                                 <RiEdit2Line size={18} />
                                 <span>Edit details</span>
                             </button>

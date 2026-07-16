@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react'
-import { RiArrowLeftSLine, RiArrowRightSLine, RiPlayFill } from '@remixicon/react'
+import { RiArrowLeftSLine, RiArrowRightSLine, RiPlayFill, RiPlayListLine } from '@remixicon/react'
 import { Link } from 'react-router-dom';
 import { authRecent } from '../../contextapi/RecentRoute';
 import { authSearchBar } from '../../contextapi/SearchSeparateContext';
@@ -98,12 +98,21 @@ const Album = () => {
             >
               <div className=' rounded-lg overflow-hidden w-full h-40'>
                 <Link to={`/visible/${item._id}`}>
-
-                  <img
+                {
+                  item?.playlistPic ? (
+                     <img
                     className='w-full h-full object-cover'
-                    src='https://i.scdn.co/image/ab67616d0000b2736fd2559f0879066633e56c42'
+                    src={item?.playlistPic}
                     alt=''
                   />
+                  ):
+                  (
+                    <div className='flex items-center justify-center bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] w-full h-full'>
+                      <RiPlayListLine className='h-20 w-20' />
+                    </div>
+                  )
+                }
+                 
                 </Link>
 
               </div>
