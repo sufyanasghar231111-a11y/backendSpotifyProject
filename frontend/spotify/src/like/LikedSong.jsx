@@ -5,10 +5,11 @@ import { musciControl } from '../contextapi/MusicControllerContext'
 import { audioContext } from '../contextapi/AudioProvider'
 
 const LikedSong = ({ music, index }) => {
-    const  { update } = useContext(authRecent)
-      const  { patchMusicPlaying, playRef } = useContext(musciControl)
-      const  { playing, currentSong } = useContext(audioContext)
-    const { deletemusic } = useContext(authHome)
+    const { update } = useContext(authRecent)
+    const { patchMusicPlaying, playRef } = useContext(musciControl)
+    const { playing, currentSong, setQueue } = useContext(audioContext)
+    const { deletemusic, fav } = useContext(authHome)
+      
     return (
         <div
             key={music?.item._id}
@@ -23,6 +24,7 @@ const LikedSong = ({ music, index }) => {
                 <button
                     onClick={() => {
                         playRef(music?.item)
+                        setQueue(fav?.favorite)
                         patchMusicPlaying(music?.item._id)
                         update(music?.item._id)
                     }}

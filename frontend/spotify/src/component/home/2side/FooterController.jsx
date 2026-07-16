@@ -7,11 +7,10 @@ import PlayButton from '../../rightside/PlayButton'
 import { authRecent } from '../../../contextapi/RecentRoute'
 import { authSearchBar } from '../../../contextapi/SearchSeparateContext'
 function FooterController() {
-  const { handleSeek, playing, currentSong } = useContext(audioContext)
+  const { handleSeek, playing, currentSong, setQueue } = useContext(audioContext)
   const { control, patchMusicPlaying, playRef } = useContext(musciControl)
   const { update } = useContext(authRecent)
-  const { handlePrevSong, handleNextSong } = useContext(authSearchBar)
-
+  const { handlePrevSong, handleNextSong } = useContext(authSearchBar)  
 
   return (
 
@@ -38,6 +37,7 @@ function FooterController() {
                 </div>
                 <div onClick={() => {
                   playRef(elem.music)
+                  setQueue(control)
                   update(elem.music._id)
                   patchMusicPlaying(elem.music._id)
                 }} className='
@@ -46,7 +46,7 @@ function FooterController() {
               p-1
               '>
                   {
-                    currentSong === elem.music._id && playing ? (<RiPauseFill className=' w-4 h-4' />) : (<RiPlayFill className=' w-4 h-4' />)
+                    currentSong === elem.music?._id && playing ? (<RiPauseFill className=' w-4 h-4' />) : (<RiPlayFill className=' w-4 h-4' />)
                   }
                 </div>
                 <div onClick={handleNextSong}>

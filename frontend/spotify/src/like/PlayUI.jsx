@@ -15,7 +15,7 @@ import PlaylistUpdate from '../playlist/PlaylistUpdate'
 
 const PlayUI = () => {
 
-  const { playing, currentSong } = useContext(audioContext)
+  const { playing, currentSong, setQueue } = useContext(audioContext)
   const { fav, deletemusic, createFav } = useContext(authHome)
   const { update } = useContext(authRecent)
   const { patchMusicPlaying, playRef } = useContext(musciControl)
@@ -117,7 +117,7 @@ const PlayUI = () => {
 
         {/* Music List */}
         <div className='space-y-2 px-8 pt-4'>
-          {separate?.music?.map((music, index) => {
+          {separate?.music?.map((music, index) => {            
             const favId = fav?.favorite?.some(
               song => song.type === 'music' && song.item._id === music._id
             ) ?? false
@@ -134,6 +134,7 @@ const PlayUI = () => {
                 <button
                   onClick={() => {
                     playRef(music)
+                    setQueue(separate?.music)
                     update(music?._id)
                     patchMusicPlaying(music._id)
                   }}

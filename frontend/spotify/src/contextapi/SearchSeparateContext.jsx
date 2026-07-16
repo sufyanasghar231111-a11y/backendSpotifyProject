@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from 'axios'
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { authSearch } from '../contextapi/RecentSearchRoute'
 import useDebounce from '../Hooks/useDebounce'
@@ -37,7 +36,7 @@ const SearchSeparateContext = ({ children }) => {
     let { getRecentSearch } = useContext(authSearch)
     const { setSeparate, handleGetPlayList } = useContext(authPlaylist)
     const { playRef } = useContext(musciControl)
-    const { currentSong, setCurrentSong } = useContext(audioContext)
+    const { currentSong, queue } = useContext(audioContext)
 
     // custom hook
     const debounceSearch = useDebounce(searchinput, 600)
@@ -125,30 +124,35 @@ const SearchSeparateContext = ({ children }) => {
     const visible = data?.visible || []
 
     function handleNextSong() {
+        if (!queue.length) return;
+
         if(!currentSong){
-            playRef(music[0])
+            playRef(queue[0])
             return
         }
-        const index = music.findIndex(song => song._id === currentSong)
+        const index = queue.findIndex(song =>  song?._id === currentSong)
+
         if (index === -1) {
-             playRef(music[0])
+             playRef(queue[0])
             return
         }
 
-        const currentIndex = (index + 1) % music.length
-        playRef(music[currentIndex])
+        const currentIndex = (index + 1) % queue.length
+        playRef(queue[currentIndex])
     }
 
     function handlePrevSong() {
+        if (!queue.length) return;
+
         if(!currentSong){
-            playRef(music[music.length - 1])
+            playRef(queue[queue.length - 1])
             return
         }
-        const index = music.findIndex(song => song?._id === currentSong)
+        const index = queue.findIndex(song =>  song?._id === currentSong)
         if (index === -1) return        
 
-        const currentIndex = index === 0 ? (music.length - 1) : index - 1
-        playRef(music[currentIndex])
+        const currentIndex = index === 0 ? (queue.length - 1) : index - 1
+        playRef(queue[currentIndex])
     }
 
 

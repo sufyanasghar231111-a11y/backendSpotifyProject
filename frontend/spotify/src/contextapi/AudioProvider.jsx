@@ -7,7 +7,7 @@ export const audioTimeContext = createContext()
 const AudioProvider = ({ children }) => {
   const [playing, setPlaying] = useState(null)
   const [currentSong, setCurrentSong] = useState(null)
-
+  const [queue, setQueue] = useState([])
   const audioRef = useRef(null)
   const lastUpdateRef = useRef(0)
   const [currentTime, setCurrentTime] = useState(0)
@@ -42,8 +42,9 @@ const AudioProvider = ({ children }) => {
     audioRef,
     handleSeek,
     currentSong,
-    setCurrentSong
-  }), [playing, currentSong, handleSeek])
+    setCurrentSong,
+    queue, setQueue
+  }), [playing, currentSong, handleSeek, queue])
 
   const timeValue = useMemo(() => ({
     currentTime,

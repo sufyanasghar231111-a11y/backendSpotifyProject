@@ -2,17 +2,14 @@ import { RiHeartFill, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import React, { useContext } from 'react'
 import { authHome } from '../contextapi/HomeContext'
 import Input from '../like/Input'
-import { authRecent } from '../contextapi/RecentRoute'
-import { musciControl } from '../contextapi/MusicControllerContext'
-import { audioContext } from '../contextapi/AudioProvider'
 import { Link, Navigate } from 'react-router-dom'
 import LikedPlaylist from './LikedPlaylist'
 import LikedSong from './LikedSong'
 
 const LikeSong = () => {
   
-  let { fav, deletemusic } = useContext(authHome)
-
+  const { fav } = useContext(authHome)
+  
   return (
     <div>
       <div>

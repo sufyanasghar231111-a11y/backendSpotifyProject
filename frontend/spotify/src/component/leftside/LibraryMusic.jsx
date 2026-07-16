@@ -4,11 +4,13 @@ import { audioContext } from '../../contextapi/AudioProvider'
 import { Link } from 'react-router-dom'
 import { RiPauseFill, RiPlayFill } from '@remixicon/react'
 import { musciControl } from "../../contextapi/MusicControllerContext";
+import { LibraryContext } from '../../contextapi/AuthContext'
 
-const LibraryMusic = ({ item }) => {
-    let { playing ,currentSong} = useContext(audioContext)
-     let { patchMusicPlaying,playRef } = useContext(musciControl)
-     let { update } = useContext(authRecent)
+const LibraryMusic = ({ item, elem }) => {
+    const  { playing ,currentSong, setQueue} = useContext(audioContext)
+     const  { patchMusicPlaying,playRef } = useContext(musciControl)
+     const  { update } = useContext(authRecent)
+     
     return (
 
         <div key={item._id} className=' flex items-center px-4 max-sm:px-2 py-2'>
@@ -19,6 +21,7 @@ const LibraryMusic = ({ item }) => {
                     <div onClick={()=>{playRef(item)
                         update(item._id)
                                     patchMusicPlaying(item._id)
+                                    setQueue(elem.music)
                     }}>
                         {
                             currentSong === item._id && playing ? (

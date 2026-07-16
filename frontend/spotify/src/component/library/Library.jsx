@@ -5,14 +5,14 @@ import { RiPauseFill, RiPlayFill } from '@remixicon/react'
 import LibraryMusic from '../leftside/LibraryMusic'
 
 const Library = () => {
-    let { library } = useContext(LibraryContext)
+    const  { library } = useContext(LibraryContext)
     
     return (
         <div>
             {
                 library.map((elem) => (
                     elem.music.map((item) => {
-                        return <LibraryMusic item={item} key={item._id} />
+                        return <LibraryMusic item={item} elem={elem} key={item._id} />
                     })
                 ))}
         </div>

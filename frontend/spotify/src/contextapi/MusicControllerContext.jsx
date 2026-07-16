@@ -65,10 +65,9 @@ function MusicControllerContext({ children }) {
         let newSrc = song.uri
         let sameSong = audio.src.includes(newSrc)
 
-
         if (sameSong) {
             if (audio.paused) {
-                audio.play()
+               await audio.play()
                 setPlaying(true)
                 setCurrentSong(song?._id)
             }
@@ -88,7 +87,7 @@ function MusicControllerContext({ children }) {
 
         
 
-        audio.play()
+       await  audio.play()
         setPlaying(true)
         setCurrentSong(song?._id)
         
