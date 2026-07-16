@@ -86,9 +86,12 @@ function MusicControllerContext({ children }) {
         audio.load()
         audio.currentTime = saveTime?.currentTime || 0
 
+        
+
         audio.play()
         setPlaying(true)
         setCurrentSong(song?._id)
+        
     }, [audioRef, control, setPlaying, setCurrentSong, patchMusicPlaying])
 
     useEffect(() => {

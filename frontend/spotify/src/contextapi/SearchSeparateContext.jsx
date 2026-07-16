@@ -6,6 +6,8 @@ import useDebounce from '../Hooks/useDebounce'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { authPlaylist } from './PlaylistContext'
 import { getMusicAlbumPlaylist, patchtext, separateGet, updatevisibility } from '../api/albumApi'
+import { musciControl } from './MusicControllerContext'
+import { audioContext } from './AudioProvider'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const authSearchBar = createContext()
@@ -14,7 +16,7 @@ const SearchSeparateContext = ({ children }) => {
     //all get array data from backend here 
     const [searchMusic, setSearchMusic] = useState([])
     const [searchAlbum, setSearchAlbum] = useState([])
-    const [searchPublicplay,setSearchPublicplay]=useState([])
+    const [searchPublicplay, setSearchPublicplay] = useState([])
 
     //all true and false state
     const [Issearch, setIssearch] = useState(false)
@@ -33,13 +35,17 @@ const SearchSeparateContext = ({ children }) => {
 
     //usecontext
     let { getRecentSearch } = useContext(authSearch)
-    const {setSeparate,handleGetPlayList}=useContext(authPlaylist)
-    
+    const { setSeparate, handleGetPlayList } = useContext(authPlaylist)
+    const { playRef } = useContext(musciControl)
+    const { currentSong, setCurrentSong } = useContext(audioContext)
+
     // custom hook
     const debounceSearch = useDebounce(searchinput, 600)
 
     // query client 
     const queryClient = useQueryClient()
+
+
 
     useEffect(() => {
         const search = debounceSearch.trim().toLowerCase()
@@ -53,7 +59,7 @@ const SearchSeparateContext = ({ children }) => {
 
         // 1. CACHE FIRST
 
-        const key=`${search}-page-${page}`
+        const key = `${search}-page-${page}`
 
         if (cacheRef.current.has(key)) {
             const cached = cacheRef.current.get(key)
@@ -72,8 +78,8 @@ const SearchSeparateContext = ({ children }) => {
         async function FetchSearch() {
 
             try {
-                let res = await  getMusicAlbumPlaylist(page, debounceSearch);
-                
+                let res = await getMusicAlbumPlaylist(page, debounceSearch);
+
                 if (currentRef !== requestRef.current) return
 
                 setSearchMusic(res.data.music)
@@ -84,7 +90,7 @@ const SearchSeparateContext = ({ children }) => {
                 cacheRef.current.set(key, {
                     music: res.data.music,
                     album: res.data.album,
-                    visible:res.data.visible
+                    visible: res.data.visible
                 })
 
             }
@@ -99,25 +105,52 @@ const SearchSeparateContext = ({ children }) => {
         }
 
         FetchSearch()
-       
+
 
     }, [debounceSearch, page])
 
 
-    const {data, isLoading, error}=useQuery({
-        queryKey:['musicAlbum', page],
-        queryFn: async ()=>{
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['musicAlbum', page],
+        queryFn: async () => {
             // await new Promise((resolve)=> setTimeout(resolve, 700))
-            const res=await separateGet(page)
+            const res = await separateGet(page)
             return res.data
         }
 
     })
 
-    const music=data?.music || []
-    const album=data?.album || []
-    const visible=data?.visible || []
-    
+    const music = data?.music || []
+    const album = data?.album || []
+    const visible = data?.visible || []
+
+    function handleNextSong() {
+        if(!currentSong){
+            playRef(music[0])
+            return
+        }
+        const index = music.findIndex(song => song._id === currentSong)
+        if (index === -1) {
+             playRef(music[0])
+            return
+        }
+
+        const currentIndex = (index + 1) % music.length
+        playRef(music[currentIndex])
+    }
+
+    function handlePrevSong() {
+        if(!currentSong){
+            playRef(music[music.length - 1])
+            return
+        }
+        const index = music.findIndex(song => song?._id === currentSong)
+        if (index === -1) return        
+
+        const currentIndex = index === 0 ? (music.length - 1) : index - 1
+        playRef(music[currentIndex])
+    }
+
 
     const patchText = useCallback(async () => {
         try {
@@ -132,23 +165,22 @@ const SearchSeparateContext = ({ children }) => {
     }, [searchinput])
 
 
-    const updateVisibility = async (id)=>{
-      try{
-        const res=await updatevisibility(id)
-        setSeparate(res.data.visible)        
-        await handleGetPlayList()
+    const updateVisibility = async (id) => {
+        try {
+            const res = await updatevisibility(id)
+            setSeparate(res.data.visible)
+            await handleGetPlayList()
 
-        queryClient.invalidateQueries({
-            queryKey:['musicAlbum', page]
-        })
-      }
-      catch(err){
-        console.log(err);
-        
-      }
+            queryClient.invalidateQueries({
+                queryKey: ['musicAlbum', page]
+            })
+        }
+        catch (err) {
+            console.log(err);
+
+        }
     }
-    
-    
+
     const value = useMemo(() => ({
         searchinput,
         setSearchinput,
@@ -168,8 +200,10 @@ const SearchSeparateContext = ({ children }) => {
         visible,
         searchPublicplay,
         isLoading, error,
-        updateVisibility
-    }), [searchinput, searchMusic, Issearch, loader, searchAlbum, music, page, album, patchText, hideSearch,visible,searchPublicplay])
+        updateVisibility,
+        handlePrevSong,
+        handleNextSong
+    }), [searchinput, searchMusic, Issearch, loader, searchAlbum, music, page, album, patchText, hideSearch, visible, searchPublicplay, playRef, currentSong])
 
     return (
         <authSearchBar.Provider value={value}>
