@@ -32,3 +32,7 @@ export const updatePlaylist = (id,formData) =>{
 export const deletePlaylistPfp = (id) => {
     return api.delete(`/user/deletePlaylistData/${id}`)
 }
+
+export const deleteUserPlaylist = (id) => {
+    return api.delete(`/user/deletePlaylist/${id}`)
+}

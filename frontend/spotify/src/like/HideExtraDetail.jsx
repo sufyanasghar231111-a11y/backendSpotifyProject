@@ -18,7 +18,7 @@ import { playlistUpdate } from '../contextapi/PlaylistUpdateContext';
 const HideExtraDetail = () => {
     const { hideExtra, setHideExtra } = useContext(UIPlaylistContext)
     const { updateVisibility } = useContext(authSearchBar)
-    const { separate } = useContext(authPlaylist)
+    const { separate, deleteCompletePlaylist } = useContext(authPlaylist)
     const {user}=useContext(authProvider)
     const {createFav,fav,deletemusic}=useContext(authHome)  
     const {setShowUpdate} = useContext(playlistUpdate)
@@ -57,7 +57,7 @@ const HideExtraDetail = () => {
                                 <span>Edit details</span>
                             </button>
 
-                            <button className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
+                            <button onClick={()=>{deleteCompletePlaylist(separate?._id)}} className="flex items-center gap-3 w-full px-4 py-3 hover:bg-[#333333] transition-colors">
                                 <RiDeleteBin6Line size={18} />
                                 <span>Delete</span>
                             </button>

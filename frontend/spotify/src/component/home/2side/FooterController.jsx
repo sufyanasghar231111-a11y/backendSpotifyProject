@@ -2,9 +2,13 @@ import React, { useContext } from 'react'
 import { musciControl } from '../../../contextapi/MusicControllerContext'
 import { audioContext } from '../../../contextapi/AudioProvider'
 import {Link} from 'react-router-dom'
+import { RiPauseFill, RiPlayFill } from '@remixicon/react'
+import PlayButton from '../../rightside/PlayButton'
+import { authRecent } from '../../../contextapi/RecentRoute'
 function FooterController() {
-  const  { handleSeek } = useContext(audioContext)
-  const  {control}=useContext(musciControl)  
+  const  { handleSeek, playing,currentSong } = useContext(audioContext)
+  const  {control, patchMusicPlaying ,playRef}=useContext(musciControl)  
+   const { update } = useContext(authRecent)
   
 
   return (
@@ -26,8 +30,19 @@ function FooterController() {
         </div>
       </div>
       <div className='flex flex-col gap-2 items-center'>
-        <div className=' -pb-5'>
-          h
+        <div className=''>
+         <div onClick={()=>{playRef(elem.music)
+              update(elem.music._id)
+              patchMusicPlaying(elem.music._id)
+             }} className='
+              flex items-center justify-center
+              rounded-full hover:bg-green-600 bg-green-500
+              p-1
+              '>
+              {
+                currentSong === elem.music._id && playing ? (<RiPauseFill   className=' w-4 h-4' />) : (<RiPlayFill  className=' w-4 h-4' />)
+              }
+            </div>
         </div>
       <div className='flex items-center justify-center gap-3'>
         <h1 className='text-xs font-mono text-gray-200 w-12 text-right select-none'>{Math.floor((elem.currentTime)/60)} :  {String(Math.floor((elem.currentTime)) % 60).padStart(2, '0')}</h1>

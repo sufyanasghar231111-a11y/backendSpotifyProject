@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
-import { deleteplaylist, getplaylist, patchplaylist, postplaylist } from '../api/playlistApi'
+import { deleteplaylist, deleteUserPlaylist, getplaylist, patchplaylist, postplaylist } from '../api/playlistApi'
 import { resetContext } from './resetPasswordContext'
+import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react'
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -22,6 +23,7 @@ const PlaylistContext = ({ children }) => {
     const  [separate, setSeparate] = useState({})
     const [visibleParticular,setVisibleParticular]=useState([])
     const {authReady}=useContext(resetContext)    
+    const navigate = useNavigate()
     
     const handleGetPlayList = useCallback(async () => {
       try {
@@ -82,6 +84,18 @@ const PlaylistContext = ({ children }) => {
     
         }
       }, [])
+
+      const deleteCompletePlaylist = async (id) => {
+        try{
+           await deleteUserPlaylist(id)
+           navigate('/')
+           await handleGetPlayList()
+
+        }
+        catch(err){
+          console.log(err);
+        }
+      }
     
     const value = useMemo(() => ({
       detailData,
@@ -97,8 +111,9 @@ const PlaylistContext = ({ children }) => {
       separate,
       setSeparate,
       visibleParticular,
-      setVisibleParticular
-    }), [ detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi,visibleParticular])
+      setVisibleParticular,
+      deleteCompletePlaylist
+    }), [ detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi,visibleParticular, deleteCompletePlaylist])
 
 
     const uiValue=useMemo(()=> ({

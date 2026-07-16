@@ -4,10 +4,10 @@ import { authRecent } from '../../contextapi/RecentRoute'
 import { audioContext } from '../../contextapi/AudioProvider'
 import { musciControl } from '../../contextapi/MusicControllerContext'
 
-const PlayButton = ({item}) => {
-    let { update } = useContext(authRecent)
-  let { patchMusicPlaying ,playRef} = useContext(musciControl)
-  let { playing,currentSong } = useContext(audioContext)
+const PlayButton = ({item}) => {  
+    const { update } = useContext(authRecent)
+  const { patchMusicPlaying ,playRef} = useContext(musciControl)
+  const { playing,currentSong } = useContext(audioContext)
   return (
    <div onClick={()=>{playRef(item)
               update(item._id)
