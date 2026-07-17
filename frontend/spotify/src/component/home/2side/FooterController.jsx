@@ -7,7 +7,7 @@ import PlayButton from '../../rightside/PlayButton'
 import { authRecent } from '../../../contextapi/RecentRoute'
 import { authSearchBar } from '../../../contextapi/SearchSeparateContext'
 function FooterController() {
-  const { handleSeek, playing, currentSong, setQueue } = useContext(audioContext)
+  const { handleSeek, playing, currentSong, setQueue, queue } = useContext(audioContext)
   const { control, patchMusicPlaying, playRef } = useContext(musciControl)
   const { update } = useContext(authRecent)
   const { handlePrevSong, handleNextSong } = useContext(authSearchBar)  
@@ -33,7 +33,7 @@ function FooterController() {
             <div className='flex flex-col gap-2 items-center'>
               <div className='flex items-center gap-3'>
                 <div onClick={handlePrevSong}>
-                  <RiSkipLeftFill />
+                  <RiSkipLeftFill className={`${queue.length > 1 ? 'opacity-100 cursor-pointer':'opacity-30' }`} />
                 </div>
                 <div onClick={() => {
                   playRef(elem.music)
@@ -50,7 +50,7 @@ function FooterController() {
                   }
                 </div>
                 <div onClick={handleNextSong}>
-                  <RiSkipRightFill />
+                  <RiSkipRightFill className={`${queue.length > 1 ? 'opacity-100 cursor-pointer':'opacity-30' }`} />
                 </div>
               </div>
               <div className='flex items-center justify-center gap-3'>
