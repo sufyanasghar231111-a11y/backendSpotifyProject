@@ -13,6 +13,7 @@ const getUserRoute=require('./routes/userget.route')
 const resetRoute=require('./routes/resetpassword.route')
 const rotationRoute=require('./routes/refreshRotation.route')
 const otpRoute=require("./routes/otp.route")
+const requestRouter = require('./routes/userrequest.controller')
 const cors = require('cors');
 
 
@@ -48,5 +49,8 @@ app.use('/api/reset', resetRoute)
 app.use('/api/rotation', rotationRoute)
 
 app.use('/api/otp',otpRoute )
+
+// User request from admin for artist 
+app.use('/api/request', requestRouter)
 
 module.exports=app

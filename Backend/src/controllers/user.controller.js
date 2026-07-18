@@ -133,14 +133,15 @@ async function updateName (req, res) {
     try{
         const {name} = req.body
         const {id} = req.params
-        const result = await uploadPfp(req.file.buffer)
-        console.log(result);
-        
+        const result = await uploadPfp(req.file.buffer)        
         const updateData= await userSchema.findByIdAndUpdate(
             {user:req.user.id, _id:id},
             {
              playlistPic:result.url,
              name   
+            },
+            {
+                new:true
             }
         )
 
@@ -165,6 +166,9 @@ async function deleteData(req, res){
             {user:req.user.id, _id:id},
             {
                 playlistPic:''
+            },
+            {
+                new: true
             }
         )
 
