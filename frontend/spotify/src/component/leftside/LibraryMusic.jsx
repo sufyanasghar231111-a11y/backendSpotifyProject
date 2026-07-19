@@ -10,6 +10,7 @@ const LibraryMusic = ({ item, elem }) => {
     const  { playing ,currentSong, setQueue} = useContext(audioContext)
      const  { patchMusicPlaying,playRef } = useContext(musciControl)
      const  { update } = useContext(authRecent)
+     console.log(item);
      
     return (
 
