@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import Login from '../pages/Login'
-import { authProvider } from '../../src/contextapi/AuthContext'
+import { LogoutContext } from '../../src/contextapi/AuthContext'
 
 function Artist() {
-   let {handleLogout}=useContext(authProvider)
+   let {handleLogout}=useContext(LogoutContext)
 
   return (
     <div>Artist

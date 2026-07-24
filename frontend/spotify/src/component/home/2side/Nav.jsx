@@ -1,14 +1,17 @@
 import React, { useContext } from 'react'
-import { RiChromeLine, RiCloseLargeFill, RiHome4Fill, RiHome5Line, RiPauseFill, RiPlayFill, RiSearchLine, RiSpotifyFill } from '@remixicon/react'
+import { RiChromeLine, RiCloseLargeFill, RiHome4Fill, RiHome5Line, RiNotification4Line, RiPauseFill, RiPlayFill, RiSearchLine, RiSpotifyFill } from '@remixicon/react'
 import {  UIHomeContex } from '../../../contextapi/HomeContext'
 import { authProvider } from '../../../contextapi/AuthContext'
 import Logout from '../Logout'
 import { Link } from 'react-router-dom'
 import NavSearch from './NavSearch'
+import NotificationModal from '../../../modals/NotificationModal'
+import { notificationContext } from '../../../contextapi/UserRequest'
 
 function Nav() {
-  let { user } = useContext(authProvider)
-  let { setHidepro } = useContext(UIHomeContex)
+  const { user } = useContext(authProvider)
+  const { setHidepro } = useContext(UIHomeContex)
+  const {notificationpopup, setNotificationpopup} = useContext(notificationContext)
 
   const fetchname = user?.username 
   ? ((user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase())
@@ -23,6 +26,13 @@ function Nav() {
           <NavSearch />
         </div>
       </div>
+      <div className='flex items-center  gap-5 cursor-pointer'>
+      <div onClick={()=>{setNotificationpopup(prev => !prev)}}>
+        <RiNotification4Line className='w-5 h-5' />
+      </div>
+      <div>
+      <NotificationModal />
+      </div>
       <div onClick={() => { setHidepro(prev => !prev) }} className=' bg-red-400 overflow-hidden  flex items-center justify-center relative cursor-pointer  font-semibold rounded-full max-sm:w-5 max-sm:text-[9px] max-sm:h-5 w-9 h-9'>
         <span className='absolute z-0 text-white   '>
           {fetchname}
@@ -34,6 +44,7 @@ function Nav() {
         }
 
       </div>
+          </div>
       <Logout />
     </nav>
   )
