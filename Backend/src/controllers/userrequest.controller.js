@@ -107,32 +107,6 @@ const updateRequest = async (req, res) => {
     }
 }
 
-const deleteRequest = async (req, res) => {
-    try {
-        const { id } = req.params
-
-        const deleterequest = await requestSchema.findByIdAndUpdate(
-            id,
-            {
-                requestStatus: 'Rejected'
-            },
-            {
-                new: true
-            }
-        )
-
-        res.status(200).json({
-            message: "successful reject",
-            deleterequest
-        })
-    }
-    catch (err) {
-        res.status(500).json({
-            message: "Internal error"
-        })
-    }
-}
-
 
 const deleteRejected = async (req, res) => {
     try {
@@ -177,4 +151,5 @@ const getNotification = async (req, res) => {
 }
 
 
-module.exports = { sendRequest, getRequest, updateRequest, deleteRequest, deleteRejected, getNotification }
+
+module.exports = { sendRequest, getRequest, updateRequest, deleteRejected, getNotification }
