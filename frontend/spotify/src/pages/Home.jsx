@@ -15,6 +15,7 @@ import CreatePlaylist from '../like/CreatePlaylist'
 import SearchBar from '../component/library/SearchBar'
 import { authPlaylist } from '../contextapi/PlaylistContext'
 import PlaylistForm from '../playlist/PlaylistForm'
+import UserRequestModal from '../modals/UserRequestModal'
 
 
 function Home() {
@@ -33,6 +34,8 @@ function Home() {
       <SearchBar />
 
       <PlaylistForm />
+
+      <UserRequestModal />
 
       {
         detailData.album?.map((elem) =>
