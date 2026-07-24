@@ -1,5 +1,6 @@
 const requestSchema = require("../models/userrequest.model")
 const postSchema = require('../models/post.model')
+const notificationSchema = require('../models/Notification.model')
 
 const sendRequest = async (req, res) => {
     try {
@@ -70,26 +71,33 @@ const updateRequest = async (req, res) => {
         const request = await requestSchema.findByIdAndUpdate(
             id,
             {
-                requestStatus:'Approved'
+                requestStatus: 'Approved'
             },
             {
-                new:true
+                new: true
             }
         )
 
-       const data=  await postSchema.findByIdAndUpdate(
+        const data = await postSchema.findByIdAndUpdate(
             request.user,
-               {
-                    role:'artist'
-                }
-             ,
-             {
+            {
+                role: 'artist'
+            }
+            ,
+            {
                 new: true
-             }
+            }
         )
 
+      const data1=  await notificationSchema.create({
+            user: request.user,
+            title: "Artist Request Approved",
+            message: "Congratulations! Your request has been approved. You are now an artist.",
+        });
+
         res.status(200).json({
-            message:"sucessful update",
+            message: "sucessful update",
+            data1
         })
     }
     catch (err) {
@@ -100,51 +108,73 @@ const updateRequest = async (req, res) => {
 }
 
 const deleteRequest = async (req, res) => {
-    try{
+    try {
         const { id } = req.params
 
         const deleterequest = await requestSchema.findByIdAndUpdate(
-            id, 
+            id,
             {
-               requestStatus: 'Rejected'
+                requestStatus: 'Rejected'
             },
             {
-                new:true
+                new: true
             }
         )
 
         res.status(200).json({
-            message:"successful reject",
+            message: "successful reject",
             deleterequest
         })
     }
-    catch(err){
+    catch (err) {
         res.status(500).json({
-            message:"Internal error"
+            message: "Internal error"
         })
     }
 }
 
 
 const deleteRejected = async (req, res) => {
-    try{
+    try {
         const { id } = req.params
 
         const deleterequest = await requestSchema.findByIdAndDelete(id)
 
+        await notificationSchema.create(
+            {
+                user: deleterequest.user,
+                title: "Artist Request Rejected",
+                message: "Your request to become an artist has been rejected by the admin.",
+            }
+        )
+
         res.status(200).json({
-            message:"successful reject",
+            message: "successful reject",
             deleterequest
         })
     }
-    catch(err){
+    catch (err) {
         res.status(500).json({
-            message:"Internal error"
+            message: "Internal error"
         })
     }
 }
 
 
+const getNotification = async (req, res) => {
+    try {
+        const response = await notificationSchema.find({ user: req.user.id }).sort({createdAt:-1}).populate({path:'user', select: 'username'})
+        res.status(200).json({
+            message: "Successful get",
+            response
+        })
+    }
+    catch (err) {
+        res.status(500).json({
+            message: "Internal error"
+        })
+    }
+}
 
 
-module.exports = { sendRequest, getRequest, updateRequest, deleteRequest, deleteRejected }
+module.exports = { sendRequest, getRequest, updateRequest, deleteRequest, deleteRejected, getNotification }
