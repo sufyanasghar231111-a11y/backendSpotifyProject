@@ -24,8 +24,8 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
-        <UserRequest >
         <ResetPasswordContext>
+        <UserRequest >
           <PlaylistContext >
         <PlaylistUpdateContext>
             <AudioProvider >
@@ -45,8 +45,8 @@ createRoot(document.getElementById('root')).render(
             </AudioProvider>
         </PlaylistUpdateContext>
           </PlaylistContext>
-        </ResetPasswordContext>
         </UserRequest>
+        </ResetPasswordContext>
       </QueryClientProvider>
     </BrowserRouter>
   </StrictMode>,

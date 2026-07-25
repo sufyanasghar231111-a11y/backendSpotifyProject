@@ -8,18 +8,21 @@ import RightsideMusic from '../../component/rightside/RightsideMusic'
 import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 import HideExtraDetail from '../../like/HideExtraDetail'
 import { UIPlaylistContext } from '../../contextapi/PlaylistContext'
+import { notificationContext } from '../../contextapi/UserRequest'
 
 
 const Right = () => {
   const { setHide } = useContext(UIHomeContex)
   const {setPage}   =useContext(authSearchBar)
   const {setHideExtra}=useContext(UIPlaylistContext)
+  const {setNotificationpopup} =useContext(notificationContext)
   
   
   let location = useLocation()
   useEffect(() => {
     setPage(1)
     setHideExtra(false)
+    setNotificationpopup(false)
   }, [location.pathname])
 
 

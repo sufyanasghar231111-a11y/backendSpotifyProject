@@ -26,11 +26,11 @@ function Nav() {
           <NavSearch />
         </div>
       </div>
-      <div className='flex items-center  gap-5 cursor-pointer'>
-      <div onClick={()=>{setNotificationpopup(prev => !prev)}}>
+      <div className='flex items-center  gap-5 '>
+      <div className=' cursor-pointer' onClick={()=>{setNotificationpopup(prev => !prev)}}>
         <RiNotification4Line className='w-5 h-5' />
       </div>
-      <div>
+      <div className=''>
       <NotificationModal />
       </div>
       <div onClick={() => { setHidepro(prev => !prev) }} className=' bg-red-400 overflow-hidden  flex items-center justify-center relative cursor-pointer  font-semibold rounded-full max-sm:w-5 max-sm:text-[9px] max-sm:h-5 w-9 h-9'>
