@@ -1,6 +1,6 @@
 import React from 'react'
 import { useContext } from 'react'
-import { authProvider } from './AuthContext'
+import { authProvider } from '../contextapi/AuthContext'
 import { Navigate, Outlet } from 'react-router-dom'
 
 const ProtectedOtpRoute = () => {

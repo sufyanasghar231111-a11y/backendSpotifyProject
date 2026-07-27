@@ -121,6 +121,7 @@ const AuthContext = ({ children }) => {
             )
 
             setAccessToken(res.data?.accessToken)
+            navigate('/')
             setUser(res.data)
             setAuthReady(true)
             await Promise.all([
@@ -139,7 +140,7 @@ const AuthContext = ({ children }) => {
             setLoading(false)
         }
 
-    }, [login.email, login.password, setAuthReady, handleGetPlayList, fetchRecent, getMusicPlaying, getRecentSearch])
+    }, [login.email, login.password, setAuthReady, handleGetPlayList, fetchRecent, getMusicPlaying, getRecentSearch, navigate])
 
    useEffect(() => {
     async function initializeAuth() {

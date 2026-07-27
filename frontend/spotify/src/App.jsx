@@ -8,7 +8,7 @@ import AllAlbum from './component/allalbum/AllAlbum'
 import AlbumDetail from './component/home/AlbumDetail'
 import LikeSong from './like/LikeSong'
 import PlayUI from './like/PlayUI'
-import ProtectedRoute from './contextapi/ProtectedRoute'
+import ProtectedRoute from './route/ProtectedRoute'
 import Home from './pages/Home'
 import UserProfile from './component/login/UserProfile'
 import LoadingAnimation from './component/home/LoadingAnimation'
@@ -16,8 +16,9 @@ import Musicforsearch from './component/library/Musicforsearch'
 import ForgetPassword from './pages/ForgetPassword'
 import ResetPassword from './pages/ResetPassword'
 import { resetContext } from './contextapi/resetPasswordContext'
-import ProtectedOtpRoute from './contextapi/ProtectedOtpRoute'
+import ProtectedOtpRoute from './route/ProtectedOtpRoute'
 import OtpPage from './pages/OtpPage'
+import PublicRoute from './route/PublicRoute'
 
 
 function App() {
@@ -29,15 +30,23 @@ function App() {
 
     <div className='w-full bg-[#121212] text-white h-screen'>  
       <Routes >
-        <Route path='/' element={<Login />} />
+        
+        // public route 
+        <Route element={<PublicRoute />}>
+        <Route path='/login' element={<Login />} />
          <Route path='/register' element={<Register />} />
          <Route path='/forget-password' element={<ForgetPassword />} />
          <Route path='/reset-password/:token' element={<ResetPassword />} />
+        </Route>
+
+        // Public opt-route
          <Route element={<ProtectedOtpRoute />} >
          <Route path='/opt-verify' element={<OtpPage />} />
          </Route>
+
+         // protected route only login user can access
          <Route element={<ProtectedRoute />} >
-         <Route element={<Home />}>
+         <Route path='/' element={<Home />} />
         <Route path='showall' element={<ShowAll />} />
         <Route path='detail/:id' element={<Detail />} />
         <Route path='showallalbum' element={<AllAlbum />} />
@@ -48,7 +57,6 @@ function App() {
         <Route path='profile' element={<UserProfile />} />
         <Route path='profile/:id' element={<UserProfile />} />
         <Route path='searchmusic' element={<Musicforsearch />} />
-         </Route>
          </Route>
         </Routes> 
           </div>
