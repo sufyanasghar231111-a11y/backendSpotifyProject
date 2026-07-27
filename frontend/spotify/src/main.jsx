@@ -49,5 +49,5 @@ createRoot(document.getElementById('root')).render(
         </ResetPasswordContext>
       </QueryClientProvider>
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode>
 )

@@ -40,8 +40,8 @@ function App() {
          <Route element={<Home />}>
         <Route path='showall' element={<ShowAll />} />
         <Route path='detail/:id' element={<Detail />} />
-        <Route path='showallalbum' element={ <AllAlbum /> } />
-        <Route path='albumdetail/:id' element={ < AlbumDetail /> } />
+        <Route path='showallalbum' element={<AllAlbum />} />
+        <Route path='albumdetail/:id' element={<AlbumDetail />} />
         <Route path='like' element={ <LikeSong />} />
         <Route path='playlist/:id' element={ <PlayUI  />} />
         <Route path='visible/:id' element={ <PlayUI  />} />

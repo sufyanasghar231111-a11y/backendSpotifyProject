@@ -1,4 +1,4 @@
-import axios from 'axios'
+import api from '../api/axios'
 import React, { createContext, useState } from 'react'
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -19,11 +19,9 @@ const ResetPasswordContext = ({ children }) => {
         e.preventDefault()
         try {
             setResetLoading(true)
-            await axios.post('http://localhost:3000/api/reset/postreset',
-                {
-                    email: resetEmail
-                }
-            )
+            await api.post('/reset/postreset', {
+                email: resetEmail
+            })
             setPopup(true)
 
             setTimeout(() => {
@@ -31,7 +29,7 @@ const ResetPasswordContext = ({ children }) => {
             }, 1000);
         }
         catch (err) {
-            console.log(err);
+            console.error('Error checking email:', err);
         }
         finally{
             setResetLoading(false)
