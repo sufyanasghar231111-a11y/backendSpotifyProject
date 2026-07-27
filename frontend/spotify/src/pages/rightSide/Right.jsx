@@ -30,7 +30,7 @@ const Right = () => {
     <div className='w-[70%] max-sm:w-full relative ml-auto  rounded-lg overflow-hidden h-[76vh]'>
       <HideExtraDetail />
       <Outlet />
-      
+      {location.pathname === '/' && (
           <>
             <div className='w-full flex gap-3 bg-[#282828]  sticky p-6 px-7 '>
               <button className='md:hidden' onClick={() => { setHide(false) }}>show</button>
@@ -39,9 +39,7 @@ const Right = () => {
             </div>
            <RightsideMusic />
           </>
-        
-      
-
+      )}
     </div>
   )
 }

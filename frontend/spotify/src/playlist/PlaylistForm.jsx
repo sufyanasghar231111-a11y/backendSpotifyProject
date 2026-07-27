@@ -2,13 +2,14 @@ import React, { useContext } from 'react'
 import { playlistUpdate } from '../contextapi/PlaylistUpdateContext'
 import { authPlaylist } from '../contextapi/PlaylistContext'
 import { RiMoreLine, RiPlayListLine } from '@remixicon/react';
+import { authSearchBar } from '../contextapi/SearchSeparateContext';
+import { authProvider } from '../contextapi/AuthContext';
 
 const PlaylistForm = () => {
     const { showUpdate, setShowUpdate, playlistName, setPlaylistName, setPlaylistPfp, updateDetail, imagePreview, setImagePreview, deleteShow, setDeleteShow, deleteDetail } = useContext(playlistUpdate)
     const { separate } = useContext(authPlaylist)
-
-   
-
+    const {updateVisibility} = useContext(authSearchBar)
+    const {user} =useContext(authProvider)
     return (
         <>
             {
@@ -125,9 +126,25 @@ const PlaylistForm = () => {
 
                                 {/* Bottom */}
                                 <div className="mt-6">
-                                    <button className="border border-gray-400 rounded-full px-5 py-2 font-semibold hover:border-white">
+                                    {
+                                        separate?.user?._id === user?._id && (
+                                            <div onClick={()=>{updateVisibility(separate?._id)}}>
+                                    {
+                                        separate?.visibility === 'public' ? (
+                                        <button className="border border-gray-400 rounded-full px-5 py-2 font-semibold hover:border-white">
                                         🔒 Make private
                                     </button>
+                                        ):(
+                                            <button className="border border-gray-400 rounded-full px-5 py-2 font-semibold hover:border-white">
+                                        
+                                        🔓 Make public
+                                    </button>
+                                        )
+                                    }
+                                    </div>
+                                        )
+                                    }
+                                    
 
                                     <p className="text-xs text-gray-400 mt-5 leading-5">
                                         By proceeding, you agree to give Spotify access to the image you choose

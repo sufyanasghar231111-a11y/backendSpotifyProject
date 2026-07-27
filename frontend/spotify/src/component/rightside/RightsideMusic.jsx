@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { authHome } from '../../contextapi/HomeContext'
+import {  refContext } from '../../contextapi/HomeContext'
 
 import { RiArrowLeftSLine, RiArrowRightSLine } from '@remixicon/react'
 import { Link } from 'react-router-dom'
@@ -9,7 +9,7 @@ import RightSideMusicPlay from './RightSideMusicPlay'
 
 
 const RightsideMusic = () => {
-      const  { rightRef, leftRef, silderRef } = useContext(authHome)
+      const  { rightRef, leftRef, silderRef } = useContext(refContext)
 
      
   return (

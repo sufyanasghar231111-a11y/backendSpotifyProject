@@ -33,7 +33,7 @@ function Nav() {
       <div className=''>
       <NotificationModal />
       </div>
-      <div onClick={() => { setHidepro(prev => !prev) }} className=' bg-red-400 overflow-hidden  flex items-center justify-center relative cursor-pointer  font-semibold rounded-full max-sm:w-5 max-sm:text-[9px] max-sm:h-5 w-9 h-9'>
+      <div onClick={() => { setHidepro(prev => !prev) }} className=' bg-[#2f2f2f] overflow-hidden  flex items-center justify-center relative cursor-pointer  font-semibold rounded-full max-sm:w-5 max-sm:text-[9px] max-sm:h-5 w-9 h-9'>
         <span className='absolute z-0 text-white   '>
           {fetchname}
         </span>

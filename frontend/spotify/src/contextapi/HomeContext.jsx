@@ -29,7 +29,7 @@ const HomeContext = ({ children }) => {
   //slider
   const rightRef = useCallback(() => {
     silderRef.current.scrollBy({
-      left: 300,
+      left: 200,
       behavior: 'smooth'
     })
   }, [])
