@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { playlistUpdate } from '../contextapi/PlaylistUpdateContext'
+import { playlistUpdate } from '../../contextapi/PlaylistUpdateContext'
 import { RiHeartFill, RiPlayListLine, RiPlayFill, RiShuffleLine, RiPencilLine } from '@remixicon/react'
 
 const PlaylistUpdate = ({isOwn, separate}) => {
