@@ -3,7 +3,7 @@ import { Routes ,Route } from 'react-router-dom'
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import ShowAll from '../src/component/home/ShowAll'
-import Detail from './component/home/Detail'
+import Detail from './pages/Detail'
 import AllAlbum from './component/allalbum/AllAlbum'
 import AlbumDetail from './component/home/AlbumDetail'
 import LikeSong from './pages/LikeSong'
