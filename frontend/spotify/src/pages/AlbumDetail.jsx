@@ -2,10 +2,10 @@ import { RiHeartFill, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import axios from 'axios'
 import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { authHome } from '../../contextapi/HomeContext'
-import AlbumToPlaylist from '../../like/AlbumToPlaylist'
-import { authPlaylist } from '../../contextapi/PlaylistContext'
-import AlbumMain from '../albumpagecomponent/AlbumMain'
+import { authHome } from '../contextapi/HomeContext'
+import AlbumToPlaylist from '../like/AlbumToPlaylist'
+import { authPlaylist } from '../contextapi/PlaylistContext'
+import AlbumMain from '../component/albumpagecomponent/AlbumMain'
 
 const AlbumDetail = () => {
   let { id } = useParams()
