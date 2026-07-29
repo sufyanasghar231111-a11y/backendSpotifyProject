@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Link, Navigate } from 'react-router-dom'
-import { authHome } from '../contextapi/HomeContext'
+import { authHome } from '../../contextapi/HomeContext'
 
 const LikedPlaylist = ({ music, index }) => {
     const { deletemusic } = useContext(authHome)

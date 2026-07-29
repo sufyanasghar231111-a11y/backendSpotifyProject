@@ -6,7 +6,7 @@ import ShowAll from '../src/component/home/ShowAll'
 import Detail from './component/home/Detail'
 import AllAlbum from './component/allalbum/AllAlbum'
 import AlbumDetail from './component/home/AlbumDetail'
-import LikeSong from './like/LikeSong'
+import LikeSong from './pages/LikeSong'
 import PlayUI from './like/PlayUI'
 import ProtectedRoute from './route/ProtectedRoute'
 import Home from './pages/Home'
@@ -46,7 +46,7 @@ function App() {
 
          // protected route only login user can access
          <Route element={<ProtectedRoute />} >
-         <Route path='/' element={<Home />} />
+         <Route path='/' element={<Home />} >
         <Route path='showall' element={<ShowAll />} />
         <Route path='detail/:id' element={<Detail />} />
         <Route path='showallalbum' element={<AllAlbum />} />
@@ -57,6 +57,7 @@ function App() {
         <Route path='profile' element={<UserProfile />} />
         <Route path='profile/:id' element={<UserProfile />} />
         <Route path='searchmusic' element={<Musicforsearch />} />
+        </Route>
          </Route>
         </Routes> 
           </div>

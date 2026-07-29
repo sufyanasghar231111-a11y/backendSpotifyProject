@@ -3,13 +3,12 @@ import React, { useContext } from 'react'
 import { authHome } from '../contextapi/HomeContext'
 import Input from '../like/Input'
 import { Link, Navigate } from 'react-router-dom'
-import LikedPlaylist from './LikedPlaylist'
-import LikedSong from './LikedSong'
+import LikedPlaylist from '../component/likepagecomponent/LikedPlaylist'
+import LikedSong from '../component/likepagecomponent/LikedSong'
+import AllAlbumsongplaylist from '../component/likepagecomponent/AllAlbumsongplaylist'
 
 const LikeSong = () => {
-  
-  const { fav } = useContext(authHome)
-  
+  const {fav} =useContext(authHome)
   return (
     <div>
       <div>
@@ -25,8 +24,8 @@ const LikeSong = () => {
 
               <div>
                 <h1 className='text-7xl font-extrabold'>Liked Songs</h1>
-                <h1 className='text-xl font-semibold'>
-                  {fav?.[0]?.user?.username}
+                <h1 className='text-sm pt-5 font-semibold'>
+                  {fav?.user?.username}
                 </h1>
               </div>
 
@@ -57,26 +56,7 @@ const LikeSong = () => {
 
             {/* Music List */}
             <div className='space-y-2 pt-4'>
-              {fav?.favorite?.map((music, index) => {
-                return <>
-
-                  {music.type === 'music' && (
-                    <LikedSong key={music?.item?._id} music={music} index={index} />
-                  )}
-
-                  {music.type === "playlist" && (
-                   <LikedPlaylist key={music?.item?._id} music={music} index={index} />
-                  )}
-
-                  {
-                    music.type === 'album' && (
-                      <div>album</div>
-                    )
-                  }
-                </>
-
-              })
-              }
+              <AllAlbumsongplaylist />
             </div>
           </div>
         </div>

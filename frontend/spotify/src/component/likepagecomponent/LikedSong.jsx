@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import { authHome } from '../contextapi/HomeContext'
-import { authRecent } from '../contextapi/RecentRoute'
-import { musciControl } from '../contextapi/MusicControllerContext'
-import { audioContext } from '../contextapi/AudioProvider'
+import { authHome } from '../../contextapi/HomeContext'
+import { authRecent } from '../../contextapi/RecentRoute'
+import { musciControl } from '../../contextapi/MusicControllerContext'
+import { audioContext } from '../../contextapi/AudioProvider'
 
 const LikedSong = ({ music, index }) => {
     const { update } = useContext(authRecent)

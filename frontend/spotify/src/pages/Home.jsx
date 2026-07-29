@@ -28,15 +28,20 @@ function Home() {
       <SureForLogOut />
       {/* AddToPlaylist */}
       <AddToPlaylist />
+
       {/* updatepfp */}
       <UpdateProfile />
-      
+
+       {/* Search Bar  */}
       <SearchBar />
 
+       {/* Playlist Update data  */}
       <PlaylistForm />
 
+       {/* User can request for artist */}
       <UserRequestModal />
 
+      
       {
         detailData.album?.map((elem) =>
 
