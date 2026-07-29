@@ -2,9 +2,9 @@ import React, { useContext } from 'react'
 import { Routes ,Route } from 'react-router-dom'
 import Login from "./pages/Login"
 import Register from "./pages/Register"
-import ShowAll from '../src/component/home/ShowAll'
+import ShowAll from './pages/ShowAll'
 import Detail from './pages/Detail'
-import AllAlbum from './component/allalbum/AllAlbum'
+import AllAlbum from './pages/AllAlbum'
 import AlbumDetail from './component/home/AlbumDetail'
 import LikeSong from './pages/LikeSong'
 import PlayUI from './pages/PlayUI'
