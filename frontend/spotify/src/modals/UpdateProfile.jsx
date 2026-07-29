@@ -1,7 +1,7 @@
 import { RiCloseLine, RiPencilLine, RiUserLine } from '@remixicon/react'
 import React, { useContext } from 'react'
 // import { authControl } from '../contextapi/AudioControl'
-import { authProvider, ProfileContext } from '../../contextapi/AuthContext'
+import { authProvider, ProfileContext } from '../contextapi/AuthContext'
 
 const UpdateProfile = () => {
     const  {user}=useContext(authProvider)

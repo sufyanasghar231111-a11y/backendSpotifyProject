@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { musciControl } from '../../contextapi/MusicControllerContext'
 import { authRecent } from '../../contextapi/RecentRoute'
-import { authHome } from '../../contextapi/HomeContext'
 import { audioContext } from '../../contextapi/AudioProvider'
 import ToggleButton from './ToggleButton'
 
