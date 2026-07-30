@@ -2,7 +2,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { authSearch } from '../contextapi/RecentSearchRoute'
 import useDebounce from '../Hooks/useDebounce'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { authPlaylist } from './PlaylistContext'
 import { getMusicAlbumPlaylist, patchtext, separateGet, updatevisibility } from '../api/albumApi'
 import { musciControl } from './MusicControllerContext'
@@ -41,12 +40,8 @@ const SearchSeparateContext = ({ children }) => {
     const { setSeparate, handleGetPlayList } = useContext(authPlaylist)
     const { playRef } = useContext(musciControl)
     const { currentSong, queue } = useContext(audioContext)
-    const {authReady} = useContext(resetContext)
     // custom hook
     const debounceSearch = useDebounce(searchinput, 600)
-
-    // query client 
-    const queryClient = useQueryClient()
 
 
 
@@ -121,6 +116,7 @@ const SearchSeparateContext = ({ children }) => {
              setMusic(res.data.music)
              setAlbum(res.data.album)
              setVisible(res.data.visible)
+             
         }
         catch(err){
             console.log(err);
@@ -128,7 +124,6 @@ const SearchSeparateContext = ({ children }) => {
     }
 
     useEffect(()=>{
-        // if(!authReady) return
         getAlbumPlaylistMusic()
     },[page])
 
@@ -214,7 +209,8 @@ const SearchSeparateContext = ({ children }) => {
         updateVisibility,
         handlePrevSong,
         handleNextSong,
-        getAlbumPlaylistMusic
+        getAlbumPlaylistMusic,
+        setMusic
     }), [searchinput, searchMusic, Issearch, loader, searchAlbum, music, page, album, patchText, hideSearch, visible, searchPublicplay, playRef, currentSong])
 
     return (

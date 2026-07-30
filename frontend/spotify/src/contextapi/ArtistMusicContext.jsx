@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { updateArtistMusic } from '../api/artistMusic'
-import { QueryClient } from '@tanstack/react-query'
+// removed unused import
 import { authSearchBar } from './SearchSeparateContext'
 import { authHome } from './HomeContext'
 
@@ -8,11 +8,11 @@ import { authHome } from './HomeContext'
 export const musicContext = createContext()
 const ArtistMusicContext = ({ children }) => {
   const [musicEditPopup, setMusicEditPopup] = useState(false)
-  const { getAlbumPlaylistMusic } = useContext(authSearchBar)
+  const { getAlbumPlaylistMusic, setMusic } = useContext(authSearchBar)
   const [thumbNail, setThumbNail] = useState('')
   const [title, setTitle] = useState('')
   const [musicPreview, setMusicPreview] = useState(null)
-  const { data } = useContext(authHome)
+  const { data, setData } = useContext(authHome)
 
 
   useEffect(() => {
@@ -23,17 +23,22 @@ const ArtistMusicContext = ({ children }) => {
 
   const updateMusic = async (id) => {
     try {
-
       const formData = new FormData()
-      formData.append('image', thumbNail)
+      if (thumbNail) formData.append('image', thumbNail)
       formData.append('title', title)
 
-      await updateArtistMusic(id, formData)
+      const res = await updateArtistMusic(id, formData)
 
-      await getAlbumPlaylistMusic()
+
+      // update currently viewed music data so UI reflects changes immediately
+      if (data?._id === id) {
+        setData(prev => ({ ...prev, title: res.data.updatemusic.title, image: res.data.updatemusic.image }))
+      }
+
+      setMusicEditPopup(false)
     }
     catch (err) {
-      console.log(err);
+      console.log(err)
     }
   }
 

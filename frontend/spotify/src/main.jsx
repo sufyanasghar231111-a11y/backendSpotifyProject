@@ -18,13 +18,11 @@ import PlaylistUpdateContext from './contextapi/PlaylistUpdateContext.jsx'
 import UserRequest from './contextapi/UserRequest.jsx'
 import ArtistMusicContext from './contextapi/ArtistMusicContext.jsx'
 
-const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')).render(
 
   <StrictMode>
     <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
         <ResetPasswordContext>
           <UserRequest >
             <PlaylistContext >
@@ -50,7 +48,6 @@ createRoot(document.getElementById('root')).render(
             </PlaylistContext>
           </UserRequest>
         </ResetPasswordContext>
-      </QueryClientProvider>
     </BrowserRouter>
   </StrictMode>
 )
