@@ -43,7 +43,7 @@ const AuthContext = ({ children }) => {
         email:'',
         otpHash:''
     })
-    const [otpBased, setOtpBased]=useState([])
+    const [otpBased, setOtpBased]=useState(false)
 
     // All Toggle or true & false states 
     let [loading, setLoading] = useState(false)
@@ -88,14 +88,14 @@ const AuthContext = ({ children }) => {
     const handleSumbit = useCallback(async (e) => {
         e.preventDefault()
         try {
-            const res = await register(
+             await register(
                 {
                     username: username,
                     email: emailreg,
                     password: passwordreg
                 }
             )
-            setOtpBased(res.data.user)
+            setOtpBased(true)
             navigate('/opt-verify')
             setUsername('')
             setEmailreg('')
