@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import { notificationContext } from '../contextapi/UserRequest'
-import { RiCloseLine } from '@remixicon/react'
+import { RiCheckLine, RiCloseLine } from '@remixicon/react'
 import { timeAgo } from '../utils/TimeAgo'
 
 const NotificationModal = () => {
-    const { notificationpopup, setNotificationpopup, getnotification } = useContext(notificationContext)
+    const { notificationpopup, getnotification } = useContext(notificationContext)
 
     return (
         <div className={`absolute  ${notificationpopup ? ' overflow-auto opacity-100 pointer-events-auto  translate-y-0 max-h-80 p-1 z-40 ' : 'pointer-events-none  opacity-0 -translate-y-2  h-0 p-0 border-0 overflow-hidden '} w-60 right-26 top-14  border rounded transition-all ease duration-400 bg-zinc-900 border-zinc-700 shadow-2xl p-1`}>
@@ -13,9 +13,18 @@ const NotificationModal = () => {
             {
                 getnotification.map((elem) => {
                     return <div key={elem._id} className="flex gap-3 rounded-lg bg-zinc-800 p-3 hover:bg-zinc-700 transition-colors cursor-pointer">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-600 text-white text-lg">
-                            ✕
-                        </div>
+                            {
+                                elem?.isApproved ? (
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-600 text-white text-lg">
+                                     <RiCheckLine />
+                              </div>
+                                ):
+                                (
+                                    <div  className="flex h-10 w-10 items-center justify-center rounded-full bg-red-600 text-white text-lg">
+                                       ✕
+                                    </div>
+                                )
+                            }
 
                         <div className="flex-1 min-w-0">
                             <h3 className="text-sm font-semibold text-white">

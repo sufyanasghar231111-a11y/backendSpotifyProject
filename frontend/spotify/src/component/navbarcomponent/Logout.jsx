@@ -17,9 +17,17 @@ const Logout = () => {
         <Link to={`/profile/${user?._id}`}>
           <button onClick={() => { setHidepro(false) }} className='hover:bg-white/10 w-full py-2 px-3 text-left cursor-pointer' >Profile</button>
         </Link>
-        <button onClick={()=>{setRequestpopup(true)
-          setHidepro(false)
-        }} className='hover:bg-white/10 w-full py-2 px-3 text-left cursor-pointer' >Request for Artist</button>
+        {
+          user?.role === 'user' ? (
+            <button onClick={()=>{setRequestpopup(true)
+              setHidepro(false)
+            }} className='hover:bg-white/10 w-full py-2 px-3 text-left cursor-pointer' >Request for Artist</button>
+          ):(
+            <div>
+              hello
+            </div>
+          )
+        }
         <button onClick={() => {
           setHideSure(true)
           setHidepro(false)

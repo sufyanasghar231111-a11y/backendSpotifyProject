@@ -1,13 +1,11 @@
-import React, { useContext } from 'react'
-import Login from '../pages/Login'
-import { LogoutContext } from '../../src/contextapi/AuthContext'
+import React from 'react'
+import Home from './Home'
 
 function Artist() {
-   let {handleLogout}=useContext(LogoutContext)
 
   return (
-    <div>Artist
-       <button onClick={handleLogout}>Logout</button>
+    <div>
+      <Home />
     </div>
   )
 }
