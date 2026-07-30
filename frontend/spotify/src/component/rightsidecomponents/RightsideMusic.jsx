@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import {  refContext } from '../../contextapi/HomeContext'
+import { refContext } from '../../contextapi/HomeContext'
 
 import { RiArrowLeftSLine, RiArrowRightSLine } from '@remixicon/react'
 import { Link } from 'react-router-dom'
-import Album from '../home/Album'
-import RecentPlay from '../recentactivity/RecentPlay'
+import Album from './Album'
+import RecentPlay from './RecentPlay'
 import RightSideMusicPlay from './RightSideMusicPlay'
 
 

@@ -1,17 +1,17 @@
 import React, { useContext } from 'react'
 import { RiChromeLine, RiCloseLargeFill, RiHome4Fill, RiHome5Line, RiNotification4Line, RiPauseFill, RiPlayFill, RiSearchLine, RiSpotifyFill } from '@remixicon/react'
-import {  UIHomeContex } from '../../../contextapi/HomeContext'
-import { authProvider } from '../../../contextapi/AuthContext'
-import Logout from '../Logout'
+import {  UIHomeContex } from '../../contextapi/HomeContext'
+import { authProvider } from '../../contextapi/AuthContext'
+import Logout from '../navbarcomponent/Logout'
 import { Link } from 'react-router-dom'
 import NavSearch from './NavSearch'
-import NotificationModal from '../../../modals/NotificationModal'
-import { notificationContext } from '../../../contextapi/UserRequest'
+import NotificationModal from '../../modals/NotificationModal'
+import { notificationContext } from '../../contextapi/UserRequest'
 
 function Nav() {
   const { user } = useContext(authProvider)
   const { setHidepro } = useContext(UIHomeContex)
-  const {notificationpopup, setNotificationpopup} = useContext(notificationContext)
+  const { setNotificationpopup} = useContext(notificationContext)
 
   const fetchname = user?.username 
   ? ((user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase())

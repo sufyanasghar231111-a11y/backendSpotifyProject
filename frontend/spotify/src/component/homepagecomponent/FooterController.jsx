@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { musciControl } from '../../../contextapi/MusicControllerContext'
-import { audioContext, audioTimeContext } from '../../../contextapi/AudioProvider'
+import { musciControl } from '../../contextapi/MusicControllerContext'
+import { audioContext, audioTimeContext } from '../../contextapi/AudioProvider'
 import { Link } from 'react-router-dom'
 import { RiPauseFill, RiPlayFill, RiSkipLeftFill, RiSkipRightFill } from '@remixicon/react'
-import PlayButton from '../../rightside/PlayButton'
-import { authRecent } from '../../../contextapi/RecentRoute'
-import { authSearchBar } from '../../../contextapi/SearchSeparateContext'
+import PlayButton from '../rightsidecomponents/PlayButton'
+import { authRecent } from '../../contextapi/RecentRoute'
+import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 function FooterController() {
   const { handleSeek, playing, currentSong, setQueue, queue } = useContext(audioContext)
   const { currentTime, duration } = useContext(audioTimeContext)

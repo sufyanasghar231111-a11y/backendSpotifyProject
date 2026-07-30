@@ -3,11 +3,11 @@ import axios from 'axios'
 import { Link, useSearchParams } from 'react-router-dom'
 import { RiAddCircleLine, RiMoreLine, RiPlayCircleFill } from '@remixicon/react'
 import { useContext } from 'react'
-import Skeleton from '../searchMusicComponent/Skeleton'
+import Skeleton from './Skeleton'
 import { authSearch } from '../../contextapi/RecentSearchRoute'
-import MusicSearch from '../searchMusicComponent/MusicSearch'
-import AlbumSearch from '../searchMusicComponent/AlbumSearch'
-import VisibleSearch from '../searchMusicComponent/VisibleSearch'
+import MusicSearch from './MusicSearch'
+import AlbumSearch from './AlbumSearch'
+import VisibleSearch from './VisibleSearch'
 
 const SearchMusicDetail = () => {
     const [params] = useSearchParams()

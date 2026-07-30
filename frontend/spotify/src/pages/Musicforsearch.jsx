@@ -1,5 +1,5 @@
 
-import SearchMusicDetail from '../component/library/SearchMusicDetail'
+import SearchMusicDetail from '../component/searchMusicComponent/SearchMusicDetail'
 
 
 const Musicforsearch = () => {

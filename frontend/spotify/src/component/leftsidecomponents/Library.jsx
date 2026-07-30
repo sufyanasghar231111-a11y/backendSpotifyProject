@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import {  LibraryContext } from '../../contextapi/AuthContext'
 import { Link } from 'react-router-dom'
 import { RiPauseFill, RiPlayFill } from '@remixicon/react'
-import LibraryMusic from '../leftside/LibraryMusic'
+import LibraryMusic from '../leftsidecomponents/LibraryMusic'
 
 const Library = () => {
     const  { library } = useContext(LibraryContext)

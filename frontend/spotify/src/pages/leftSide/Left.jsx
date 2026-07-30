@@ -2,9 +2,9 @@ import { RiAddLine, RiHeartFill, RiHeartLine, RiPlayListLine } from '@remixicon/
 import React, { useContext } from 'react'
 import {  UIHomeContex } from '../../contextapi/HomeContext'
 import { Link } from 'react-router-dom'
-import Library from '../../component/library/Library'
-import HeaderLike from '../../component/leftside/HeaderLike'
-import Playlistget from '../../component/leftside/Playlistget'
+import Library from '../../component/leftsidecomponents/Library'
+import HeaderLike from '../../component/leftsidecomponents/HeaderLike'
+import Playlistget from '../../component/leftsidecomponents/Playlistget'
 import {  UIPlaylistContext } from '../../contextapi/PlaylistContext'
 
 const Left = () => {

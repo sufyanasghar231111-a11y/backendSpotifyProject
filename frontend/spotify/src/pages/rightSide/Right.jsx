@@ -1,12 +1,11 @@
 import { RiArrowLeftSLine, RiArrowRightSLine, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import React, { useContext, useEffect } from 'react'
 import HomeContext, {  UIHomeContex } from '../../contextapi/HomeContext'
-import Album from '../../component/home/Album'
 
 import { Link, Outlet, useLocation } from 'react-router-dom'
-import RightsideMusic from '../../component/rightside/RightsideMusic'
+import RightsideMusic from '../../component/rightsidecomponents/RightsideMusic'
 import { authSearchBar } from '../../contextapi/SearchSeparateContext'
-import HideExtraDetail from '../../like/HideExtraDetail'
+import HideExtraDetail from '../../modals/HideExtraDetail'
 import { UIPlaylistContext } from '../../contextapi/PlaylistContext'
 import { notificationContext } from '../../contextapi/UserRequest'
 
