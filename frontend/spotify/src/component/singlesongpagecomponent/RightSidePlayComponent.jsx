@@ -14,6 +14,7 @@ const RightSidePlayComponent = ({deleteId, isFav, lib}) => {
        const { playing,currentSong } = useContext(audioContext)
       const {  addToLibrary, removeTolibrary } = useContext(LibraryContext)
       const {setHidePlaylist}=useContext(UIPlaylistContext)
+      
 
     return (
         <div className='px-8 py-2 flex flex-col w-[40%] justify-center'>

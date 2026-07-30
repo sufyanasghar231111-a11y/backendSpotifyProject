@@ -16,6 +16,7 @@ import SearchBar from '../component/navbarcomponent/SearchBar'
 import { authPlaylist } from '../contextapi/PlaylistContext'
 import PlaylistForm from '../modals/PlaylistForm'
 import UserRequestModal from '../modals/UserRequestModal'
+import MusicEditModal from '../modals/MusicEditModal'
 
 
 function Home() {
@@ -51,6 +52,8 @@ function Home() {
       
       {/* CreatePlaylist */}
       <CreatePlaylist />
+
+      <MusicEditModal />
 
       {/* navbar  */}
       <Nav />

@@ -7,6 +7,7 @@ import { authPlaylist } from './PlaylistContext'
 import { getMusicAlbumPlaylist, patchtext, separateGet, updatevisibility } from '../api/albumApi'
 import { musciControl } from './MusicControllerContext'
 import { audioContext } from './AudioProvider'
+import { resetContext } from './resetPasswordContext'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const authSearchBar = createContext()
@@ -16,6 +17,9 @@ const SearchSeparateContext = ({ children }) => {
     const [searchMusic, setSearchMusic] = useState([])
     const [searchAlbum, setSearchAlbum] = useState([])
     const [searchPublicplay, setSearchPublicplay] = useState([])
+    const [music, setMusic] = useState([])
+    const [album, setAlbum] = useState([])
+    const [visible, setVisible] = useState([])
 
     //all true and false state
     const [Issearch, setIssearch] = useState(false)
@@ -37,7 +41,7 @@ const SearchSeparateContext = ({ children }) => {
     const { setSeparate, handleGetPlayList } = useContext(authPlaylist)
     const { playRef } = useContext(musciControl)
     const { currentSong, queue } = useContext(audioContext)
-
+    const {authReady} = useContext(resetContext)
     // custom hook
     const debounceSearch = useDebounce(searchinput, 600)
 
@@ -109,19 +113,25 @@ const SearchSeparateContext = ({ children }) => {
     }, [debounceSearch, page])
 
 
-    const { data, isLoading, error } = useQuery({
-        queryKey: ['musicAlbum', page],
-        queryFn: async () => {
-            // await new Promise((resolve)=> setTimeout(resolve, 700))
-            const res = await separateGet(page)
-            return res.data
+    
+
+    const getAlbumPlaylistMusic = async () =>{
+        try{
+             const res = await separateGet(page)
+             setMusic(res.data.music)
+             setAlbum(res.data.album)
+             setVisible(res.data.visible)
         }
+        catch(err){
+            console.log(err);
+        }
+    }
 
-    })
+    useEffect(()=>{
+        // if(!authReady) return
+        getAlbumPlaylistMusic()
+    },[page])
 
-    const music = data?.music || []
-    const album = data?.album || []
-    const visible = data?.visible || []
 
     function handleNextSong() {
         if (!queue.length) return;
@@ -175,9 +185,7 @@ const SearchSeparateContext = ({ children }) => {
             setSeparate(res.data.visible)
             await handleGetPlayList()
 
-            queryClient.invalidateQueries({
-                queryKey: ['musicAlbum', page]
-            })
+            await getAlbumPlaylistMusic()
         }
         catch (err) {
             console.log(err);
@@ -203,10 +211,10 @@ const SearchSeparateContext = ({ children }) => {
         setHideSearch,
         visible,
         searchPublicplay,
-        isLoading, error,
         updateVisibility,
         handlePrevSong,
-        handleNextSong
+        handleNextSong,
+        getAlbumPlaylistMusic
     }), [searchinput, searchMusic, Issearch, loader, searchAlbum, music, page, album, patchText, hideSearch, visible, searchPublicplay, playRef, currentSong])
 
     return (

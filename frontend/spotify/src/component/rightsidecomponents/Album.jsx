@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from 'react'
-import { RiArrowLeftSLine, RiArrowRightSLine, RiPlayFill, RiPlayListLine } from '@remixicon/react'
+import { RiAlbumLine, RiArrowLeftSLine, RiArrowRightSLine, RiMusicLine, RiPlayFill, RiPlayListLine } from '@remixicon/react'
 import { Link } from 'react-router-dom';
 import { authRecent } from '../../contextapi/RecentRoute';
 import { authSearchBar } from '../../contextapi/SearchSeparateContext';
@@ -34,9 +34,9 @@ const Album = () => {
       ...elem,
       type: 'visible'
     }))
-  ].sort((a,b)=>  new Date(b.createdAt)- new Date(a.createdAt))
+  ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
-  
+
 
   return (
     <div className=' relative'>
@@ -58,75 +58,85 @@ const Album = () => {
       </button>
       <div ref={sliderRef} className='flex relative  overflow-x-auto scroll'>
         {items.map((item) => {
-        return  <>
-          { item.type === 'album' && (
-            <div onClick={() => { updateAlbum(item._id) }}
-              key={item._id}
-              className='shrink-0 group w-44 rounded-lg
+          return <>
+            {item.type === 'album' && (
+              <div onClick={() => { updateAlbum(item._id) }}
+                key={item._id}
+                className='shrink-0 group w-44 rounded-lg
             transition-all duration-300 hover:bg-white/10
             p-2 mt-5 cursor-pointer'
-            >
-              <div className=' rounded-lg overflow-hidden w-full h-40'>
-                <Link to={`/albumdetail/${item._id}`}>
+              >
+                  <Link to={`/albumdetail/${item._id}`}>
+                <div className=' relative rounded-lg overflow-hidden w-full bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] h-40'>
+                  {
+                    item.type === 'album' && (
+                      <div className=' z-100 absolute flex items-center justify-center w-full h-full'>
+                        <RiAlbumLine className='w-15 h-15' />
+                      </div>
+                    )
+                  }
+                  {
+                    item?.image && (
+                      <img
+                        className='w-full h-full object-cover'
+                        src={item.image}
+                        alt=''
+                      />
+                    )
+                  }
 
-                  <img
-                    className='w-full h-full object-cover'
-                    src='https://i.scdn.co/image/ab67616d0000b2736fd2559f0879066633e56c42'
-                    alt=''
-                  />
-                </Link>
-
+                </div>
+                  </Link>
+                <div>
+                  <h1 className='font-semibold hover:underline w-fit'>
+                    {item.title}
+                  </h1>
+                  <h1 className='pt-1 text-sm font-semibold text-[#bebebe] hover:underline w-fit'>
+                    {item.artistName}
+                  </h1>
+                </div>
               </div>
-              <div>
-                <h1 className='font-semibold hover:underline w-fit'>
-                  {item.title}
-                </h1>
-                <h1 className='pt-1 text-sm font-semibold text-[#bebebe] hover:underline w-fit'>
-                  {item.artistName}
-                </h1>
-              </div>
-            </div>
-          )}
+            )}
 
-          {
-            item.type === 'visible' && (
-              <div 
-              key={item._id}
-              className='shrink-0 group w-44 rounded-lg
+            {
+              item.type === 'visible' && (
+                <div
+                  key={item._id}
+                  className='shrink-0 group w-44 rounded-lg
             transition-all duration-300 hover:bg-white/10
             p-2 mt-5 cursor-pointer'
-            >
-              <div className=' rounded-lg overflow-hidden w-full h-40'>
-                <Link to={`/visible/${item._id}`}>
-                {
-                  item?.playlistPic ? (
-                     <img
-                    className='w-full h-full object-cover'
-                    src={item?.playlistPic}
-                    alt=''
-                  />
-                  ):
-                  (
-                    <div className='flex items-center justify-center bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] w-full h-full'>
-                      <RiPlayListLine className='h-20 w-20' />
-                    </div>
-                  )
-                }
-                 
-                </Link>
+                >
+                  <div className=' rounded-lg overflow-hidden w-full h-40'>
+                    <Link to={`/visible/${item._id}`}>
+                      {
+                        item?.playlistPic ? (
+                          <img
+                            className='w-full h-full object-cover'
+                            src={item?.playlistPic}
+                            alt=''
+                          />
+                        ) :
+                          (
+                            <div className='flex items-center justify-center bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] w-full h-full'>
+                              <RiPlayListLine className='h-20 w-20' />
+                            </div>
+                          )
+                      }
 
-              </div>
-              <div>
-                <h1 className='font-semibold hover:underline w-fit'>
-                  {item.name}
-                </h1>
-                <h1 className='pt-1 text-sm font-semibold text-[#bebebe] hover:underline w-fit'>
-                  {item.user?.username}
-                </h1>
-              </div>
-            </div>
-            ) 
-          }
+                    </Link>
+
+                  </div>
+                  <div>
+                    <h1 className='font-semibold hover:underline w-fit'>
+                      {item.name}
+                    </h1>
+                    <h1 className='pt-1 text-sm font-semibold text-[#bebebe] hover:underline w-fit'>
+                      {item.user?.username}
+                    </h1>
+                  </div>
+                </div>
+              )
+            }
           </>
         })}
 
