@@ -5,14 +5,11 @@ const albumModel= new mongoose.Schema({
         type:String,
         required:true
     },
-    artistName:{
-        type:String,
-        required:true
-    },
 
     album:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'music'
+        ref:'music',
+        default:[]
     }],
     artist:{
         type:mongoose.Schema.Types.ObjectId,
@@ -22,7 +19,11 @@ const albumModel= new mongoose.Schema({
         type:String,
         default:''
     }
-})
+}
+,{
+    timestamps:true
+}
+)
 
 
 

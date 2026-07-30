@@ -21,5 +21,10 @@ routeMusic.get('/allAlbum/:id', getController.detail)
 routeMusic.get('/particularAlbum', middleware.authartist, getController.particularArtist)
 
 routeMusic.delete('/deleteMusic/:albumId/:musicId', middleware.authartist, getController.deleteMusic )
-routeMusic.patch('/updateMusic/:albumId',  middleware.authartist , getController.updateMusic)
+routeMusic.patch('/update-song/:id', upload.single('image') , middleware.authartist, getController.updateSong)
+routeMusic.delete('/thumbnaildelete-song/:id' , middleware.authartist, getController.deleteSongDetail)
+
+routeMusic.patch('/update-album/:id', upload.single('image') , middleware.authartist, getController.updateAlbum)
+routeMusic.delete('/albumpic-delete/:id' , middleware.authartist, getController.deleteAlbumPic)
+
 module.exports=routeMusic
