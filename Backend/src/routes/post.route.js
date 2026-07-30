@@ -9,7 +9,7 @@ const upload=multer({storage:multer.memoryStorage()})
 router.post('/register',upload.single('pfp'),routerRegister.register)
 router.post('/login', routerLogin.login)
 router.get('/user', middleware.auth,  routerLogin.getUser)
-router.put('/updatepfp',upload.single('pfp') ,middleware.getMusic, routerLogin.updatePfp )
-router.delete('/removePfp', upload.single('pfp') , middleware.getMusic, routerLogin.removePfp )
+router.put('/updatepfp',upload.single('pfp') ,middleware.authorize('user', 'artist'), routerLogin.updatePfp )
+router.delete('/removePfp', upload.single('pfp') , middleware.authorize('user', 'artist'), routerLogin.removePfp )
 
 module.exports=router

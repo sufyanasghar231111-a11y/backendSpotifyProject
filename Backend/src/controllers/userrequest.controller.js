@@ -89,10 +89,13 @@ const updateRequest = async (req, res) => {
             }
         )
 
+        
+
       const data1=  await notificationSchema.create({
             user: request.user,
             title: "Artist Request Approved",
             message: "Congratulations! Your request has been approved. You are now an artist.",
+            isApproved : true
         });
 
         res.status(200).json({
@@ -119,6 +122,7 @@ const deleteRejected = async (req, res) => {
                 user: deleterequest.user,
                 title: "Artist Request Rejected",
                 message: "Your request to become an artist has been rejected by the admin.",
+                isApproved: false
             }
         )
 
@@ -137,7 +141,7 @@ const deleteRejected = async (req, res) => {
 
 const getNotification = async (req, res) => {
     try {
-        const response = await notificationSchema.find({ user: req.user.id }).sort({createdAt:-1}).populate({path:'user', select: 'username'})
+        const response = await notificationSchema.find({ user: req.user.id }).sort({createdAt:-1}).populate({path:'user', select: 'username role _id'})
         res.status(200).json({
             message: "Successful get",
             response
@@ -150,6 +154,16 @@ const getNotification = async (req, res) => {
     }
 }
 
+const updateNotification = async ( req, res) =>{
+    try{
+        
+    }
+    catch{
+        res.status(500).json({
+            message:'Internal error'
+        })
+    }
+}
 
 
 module.exports = { sendRequest, getRequest, updateRequest, deleteRejected, getNotification }

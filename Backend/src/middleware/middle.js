@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 const musicSchema = require('../models/music.model')
 
-async function authartist(req, res, next) {
+ function authartist(req, res, next) {
   try {
     const header = req.headers.authorization
     if (!header || !header.startsWith('Bearer')) {
@@ -30,7 +30,7 @@ async function authartist(req, res, next) {
   }
 }
 
-async function adminMan(req, res, next) {
+ function adminMan(req, res, next) {
   try {
     const header = req.headers.authorization
     if (!header || !header.startsWith('Bearer')) {
@@ -60,7 +60,7 @@ async function adminMan(req, res, next) {
   }
 }
 
-async function getMusic(req, res, next) {
+ function getMusic(req, res, next) {
   try {
 
     const header = req.headers.authorization
@@ -92,7 +92,7 @@ async function getMusic(req, res, next) {
 
 }
 
-async function auth(req, res, next) {
+ function auth(req, res, next) {
   try {
     const header = req.headers.authorization
     if (!header || !header.startsWith('Bearer')) {
@@ -114,6 +114,36 @@ async function auth(req, res, next) {
   }
 }
 
+ function authorize (...roles){
+  return (req, res, next) => {
+    try{
 
+      const header = req.headers.authorization
+      
+      if(!header || !header.startsWith('Bearer')){
+        return res.status(401).json({
+        message:"Token is required"
+      })
+    }
 
-module.exports = { authartist, getMusic, adminMan, auth }
+    const accessToken = header.split(' ')[1]
+    const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN)
+
+    if(!roles.includes(decoded.role)){
+      return res.status(403).json({
+        message:"Unauthorized"
+      })
+    }
+    
+    req.user = decoded
+    next();
+  }
+  catch(err){
+    res.status(500).json({
+      message:"Internal Error"
+    })
+  }
+  }
+}
+
+module.exports = { authartist, getMusic, adminMan, auth, authorize }
