@@ -7,11 +7,13 @@ import AlbumToPlaylist from '../modals/AlbumToPlaylist'
 import { authPlaylist } from '../contextapi/PlaylistContext'
 import AlbumMain from '../component/albumpagecomponent/AlbumMain'
 import { albumContext } from '../contextapi/ArtistMusicContext'
+import  { authProvider } from '../contextapi/AuthContext'
 
 const AlbumDetail = () => {
   const { id } = useParams()
   const { fav } = useContext(authHome)
   const { detailData, setDetailData } = useContext(authPlaylist)
+  const {user} = useContext(authProvider)
 
   const { setAlbumEditModal , setAlbumImage, setAlbumPreview} = useContext(albumContext)
 
@@ -28,18 +30,31 @@ const AlbumDetail = () => {
   useEffect(() => {
     detail()
   }, [])
+  console.log(detailData);
+  
+
+  const checkOwn = !id || user?._id === detailData?.artist?._id
 
   return (
     <div className='w-full max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh]'>
 
       <div className={`w-full flex gap-3 bg-gradient-to-br from-[#4e4e4e] via-[#363636] to-[#252525]  sticky p-6 px-7 `}>
         <div className='flex gap-6 items-center'>
-          <label onClick={()=>{setAlbumEditModal(true)}} className=' relative group  bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] w-45 rounded h-45'>
-            <input type="file" onChange={(elem)=>{
-              let file = elem.target.files[0]
-              setAlbumImage(file)
-              setAlbumPreview(URL.createObjectURL(file))
-            }} className='hidden' accept='image/*' />
+          
+          <label onClick={()=>{
+            if(checkOwn){
+              setAlbumEditModal(true)
+            }
+            }} className=' relative group  bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] w-45 rounded h-45'>
+              {
+                checkOwn && (
+                  <input type="file" onChange={(elem)=>{
+                    let file = elem.target.files[0]
+                    setAlbumImage(file)
+                    setAlbumPreview(URL.createObjectURL(file))
+                  }} className='hidden' accept='image/*' />
+                )
+              }
             <div className=' absolute z-100 flex items-center justify-center w-full h-full ' >
               <RiAlbumLine className=' w-17 h-17' />
             </div>
@@ -48,10 +63,14 @@ const AlbumDetail = () => {
                 <img src={detailData?.image} className=' absolute z-110 w-full h-full object-cover ' src={detailData.image} alt="" />
               )
             }
+            {
+              checkOwn && (
             <div className=' absolute hidden group-hover:flex  group-hover:bg-black/50 text-white font-semibold z-112 items-center justify-center flex-col w-full h-full cursor-pointer'>
             <RiPencilLine className='w-10 h-10' />
               <h1 className='text-xl '>Choose Photo</h1>
             </div>
+              )
+            }
           </label>
           <div>
             <h1 className='text-sm'>Public Playlist</h1>

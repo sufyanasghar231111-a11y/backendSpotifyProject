@@ -13,8 +13,8 @@ const SureForLogOut = () => {
         {
             hideSure && (
         <>
-        <div onClick={()=>{setHideSure(false)}} className='w-full h-full cursor-pointer absolute inset-0  bg-black/60 z-100 '></div>
-        <div className='w-full h-full absolute z-101 flex items-center justify-center  '>
+        <div onClick={()=>{setHideSure(false)}} className='w-full h-full cursor-pointer absolute inset-0  bg-black/60 z-299 '></div>
+        <div className='w-full h-full absolute z-300 flex items-center justify-center  '>
             <div className='bg-[#212121] w-96 flex  p-10 text-center  flex-col   rounded-2xl'>
                 <h1 className='text-2xl font-semibold'>Are you sure you <br /> want to log out?</h1>
                 <h1 className='pt-4 text-lg'>Log out of Spotify as <br /> {user?.email}?</h1>

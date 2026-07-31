@@ -96,6 +96,7 @@ const ArtistMusicContext = ({ children }) => {
         image:res.data.deleteThumbnail.image
       }))
       await getAlbumPlaylistMusic()
+      setMusicPreview(null)
     }
     catch(err){
       console.log(err);
@@ -110,6 +111,7 @@ const ArtistMusicContext = ({ children }) => {
         image:res.data.deleteThumbnail.image
       }))
        await getAlbumPlaylistMusic()
+       setAlbumPreview(null)
     }
     catch(err){
       console.log(err);

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { musicContext } from '../contextapi/ArtistMusicContext'
-import { RiCloseLine, RiPencilLine, RiUserLine } from '@remixicon/react'
+import { RiCloseLine, RiMusicLine, RiPencilLine, RiUserLine } from '@remixicon/react'
 import { authHome } from '../contextapi/HomeContext'
 
 const MusicEditModal = () => {
@@ -27,7 +27,7 @@ const MusicEditModal = () => {
                   <div className='w-full h-full absolute inset-0 z-59 group-hover:bg-black/50'></div>
                   <label htmlFor='photo' className=' top-6 font-semibold hidden group-hover:block hover:border-b text-[17px] absolute z-60'>Choose photo</label>
                   <RiPencilLine className='text-white hidden group-hover:block  absolute z-60 top-15 w-13 h-13 ' />
-                  <RiUserLine className='w-20  absolute h-20 text-[#7F7F7F]' />
+                  <RiMusicLine className='w-20  absolute h-20 text-[#7F7F7F]' />
                   <img src={ musicPreview || data?.image} className='w-full h-full absolute scale-105 pointer-events-none z-20 inset-0 object-cover' />
                   <input name="profileImage" accept="image/*" id='photo' onChange={(elem)=>{
                     let file = elem.target.files[0]
