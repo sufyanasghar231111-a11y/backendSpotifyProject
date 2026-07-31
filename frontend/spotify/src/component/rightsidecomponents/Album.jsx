@@ -70,7 +70,7 @@ const Album = () => {
                 <div className=' relative rounded-lg overflow-hidden w-full bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] h-40'>
                   {
                     item.type === 'album' && (
-                      <div className=' z-100 absolute flex items-center justify-center w-full h-full'>
+                      <div className=' z-15 absolute flex items-center justify-center w-full h-full'>
                         <RiAlbumLine className='w-15 h-15' />
                       </div>
                     )
@@ -78,7 +78,7 @@ const Album = () => {
                   {
                     item?.image && (
                       <img
-                        className='w-full h-full object-cover'
+                        className='w-full h-full  absolute z-17 object-cover'
                         src={item.image}
                         alt=''
                       />
@@ -92,7 +92,7 @@ const Album = () => {
                     {item.title}
                   </h1>
                   <h1 className='pt-1 text-sm font-semibold text-[#bebebe] hover:underline w-fit'>
-                    {item.artistName}
+                    {item.artist?.username}
                   </h1>
                 </div>
               </div>

@@ -56,10 +56,14 @@ const Audioplay = () => {
           <RiMusicLine className='w-15 h-15' />
         </div>
         <div className='w-full absolute overflow-hidden z-110 h-full'>
-          <img
-            src={data?.image}
-            className='w-full h-full object-cover block'
-          />
+          {
+            data?.image && (
+              <img
+                src={data?.image}
+                className='w-full h-full object-cover block'
+              />
+            )
+          }
 
         </div>
 

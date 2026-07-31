@@ -17,6 +17,7 @@ import { authPlaylist } from '../contextapi/PlaylistContext'
 import PlaylistForm from '../modals/PlaylistForm'
 import UserRequestModal from '../modals/UserRequestModal'
 import MusicEditModal from '../modals/MusicEditModal'
+import AlbumEditModal from '../modals/AlbumEditModal'
 
 
 function Home() {
@@ -42,6 +43,7 @@ function Home() {
        {/* User can request for artist */}
       <UserRequestModal />
 
+      <AlbumEditModal />
       
       {
         detailData.album?.map((elem) =>

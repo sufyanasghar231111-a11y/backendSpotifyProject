@@ -18,6 +18,13 @@ export const patchtext = (text) => {
 };
 
 export const updatevisibility = (id) => {
-    return api.patch(`user/visible/${id}`);
+    return api.patch(`/user/visible/${id}`);
 };
 
+export const albumArtist = (id, formData) => {
+    return api.patch(`/creator/update-album/${id}`, formData)
+}
+
+export const deleteAlbumThumbNail = (id) => {
+    return api.delete(`/creator/albumpic-delete/${id}`)
+}

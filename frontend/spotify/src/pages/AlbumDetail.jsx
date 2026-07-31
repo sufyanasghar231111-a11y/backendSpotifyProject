@@ -1,4 +1,4 @@
-import { RiHeartFill, RiPauseFill, RiPlayFill } from '@remixicon/react'
+import { RiAlbumLine, RiHeartFill, RiPauseFill, RiPencilLine, RiPlayFill } from '@remixicon/react'
 import axios from 'axios'
 import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
@@ -6,12 +6,15 @@ import { authHome } from '../contextapi/HomeContext'
 import AlbumToPlaylist from '../modals/AlbumToPlaylist'
 import { authPlaylist } from '../contextapi/PlaylistContext'
 import AlbumMain from '../component/albumpagecomponent/AlbumMain'
+import { albumContext } from '../contextapi/ArtistMusicContext'
 
 const AlbumDetail = () => {
-  let { id } = useParams()
-  let { fav } = useContext(authHome)
+  const { id } = useParams()
+  const { fav } = useContext(authHome)
+  const { detailData, setDetailData } = useContext(authPlaylist)
 
-  let {detailData, setDetailData}=useContext(authPlaylist)
+  const { setAlbumEditModal , setAlbumImage, setAlbumPreview} = useContext(albumContext)
+
   async function detail() {
     try {
       let res = await axios.get(`http://localhost:3000/api/creator/allAlbum/${id}`)
@@ -29,11 +32,27 @@ const AlbumDetail = () => {
   return (
     <div className='w-full max-sm:w-full ml-auto sticky rounded-lg overflow-hidden h-[76vh]'>
 
-      <div className={`w-full flex gap-3 bg-gradient-to-br $ from-[#4e4e4e] via-[#363636] to-[#252525]  sticky p-6 px-7 `}>
+      <div className={`w-full flex gap-3 bg-gradient-to-br from-[#4e4e4e] via-[#363636] to-[#252525]  sticky p-6 px-7 `}>
         <div className='flex gap-6 items-center'>
-          <div className=' bg-[#1A1A1A] w-45 rounded h-45'>
-            <img src='https://i.scdn.co/image/ab67616d0000b2736fd2559f0879066633e56c42' alt="" />
-          </div>
+          <label onClick={()=>{setAlbumEditModal(true)}} className=' relative group  bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] w-45 rounded h-45'>
+            <input type="file" onChange={(elem)=>{
+              let file = elem.target.files[0]
+              setAlbumImage(file)
+              setAlbumPreview(URL.createObjectURL(file))
+            }} className='hidden' accept='image/*' />
+            <div className=' absolute z-100 flex items-center justify-center w-full h-full ' >
+              <RiAlbumLine className=' w-17 h-17' />
+            </div>
+            {
+              detailData?.image && (
+                <img src={detailData?.image} className=' absolute z-110 w-full h-full object-cover ' src={detailData.image} alt="" />
+              )
+            }
+            <div className=' absolute hidden group-hover:flex  group-hover:bg-black/50 text-white font-semibold z-112 items-center justify-center flex-col w-full h-full cursor-pointer'>
+            <RiPencilLine className='w-10 h-10' />
+              <h1 className='text-xl '>Choose Photo</h1>
+            </div>
+          </label>
           <div>
             <h1 className='text-sm'>Public Playlist</h1>
             <h1 className='text-7xl font-extrabold'>{detailData.title}</h1>
