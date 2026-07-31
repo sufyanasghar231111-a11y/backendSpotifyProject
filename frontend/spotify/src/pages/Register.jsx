@@ -26,7 +26,7 @@ function Register() {
           </form>
           <div className='pt-5'>
             <h1 className='text-[#A9B3B3] '>Already have an account?</h1>
-            <Link to='/' className='font-bold'>Log in</Link>
+            <Link to='/login' className='font-bold'>Log in</Link>
           </div>
         </div>
         </div>

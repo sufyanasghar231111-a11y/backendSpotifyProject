@@ -26,7 +26,7 @@ function Login() {
             <h1 className='pb-2 font-semibold'>Password</h1>
             <input name='password' type="text" value={login.password} onChange={handleChange} className='w-full py-2.5 mb-2 px-3  border border-[#7C7C7C] rounded' placeholder='Enter your Password'     />
             <div className='pb-4 font-semibold'>
-            <Link to='forget-password'  >Forget Password</Link>
+            <Link to='/forget-password'  >Forget Password</Link>
             </div>
             {
               loading ? (

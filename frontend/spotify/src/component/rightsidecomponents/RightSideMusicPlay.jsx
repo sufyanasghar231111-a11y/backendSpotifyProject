@@ -14,11 +14,11 @@ const RightSideMusicPlay = () => {
     <>
       {music.map((item) => (
         <div
-          key={item._id}
+          key={item?._id}
           className='shrink-0 group w-44 rounded-lg
             transition-all duration-300 hover:bg-white/10
             p-2 mt-5 cursor-pointer'>
-          <Link to={`/detail/${item._id}`}>
+          <Link to={`/detail/${item?._id}`}>
             <div  className='relative rounded-lg overflow-hidden w-full bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] h-40'>
               <div className=' absolute flex items-center z-100 justify-center w-full h-full'>
                 <RiMusicLine className='w-15 h-15' />
@@ -28,8 +28,8 @@ const RightSideMusicPlay = () => {
                   item?.image && (
                     <img
                       className='w-full h-40   object-cover rounded'
-                      src={item.image}
-                      alt={item.title}
+                      src={item?.image}
+                      alt={item?.title}
                     />
                   )
                 }
@@ -40,10 +40,10 @@ const RightSideMusicPlay = () => {
           </Link>
           <div>
             <h1 className='font-semibold hover:underline w-fit'>
-              {item.title}
+              {item?.title}
             </h1>
             <h1 className='pt-1 text-sm font-semibold text-[#bebebe] hover:underline w-fit'>
-              {item.artist?.username}
+              {item?.artist?.username}
             </h1>
           </div>
         </div>

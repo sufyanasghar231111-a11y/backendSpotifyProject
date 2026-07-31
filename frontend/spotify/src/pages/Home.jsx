@@ -18,6 +18,7 @@ import PlaylistForm from '../modals/PlaylistForm'
 import UserRequestModal from '../modals/UserRequestModal'
 import MusicEditModal from '../modals/MusicEditModal'
 import AlbumEditModal from '../modals/AlbumEditModal'
+import MusicCreateModal from '../modals/MusicCreateModal'
 
 
 function Home() {
@@ -44,6 +45,8 @@ function Home() {
       <UserRequestModal />
 
       <AlbumEditModal />
+
+      <MusicCreateModal />
       
       {
         detailData.album?.map((elem) =>

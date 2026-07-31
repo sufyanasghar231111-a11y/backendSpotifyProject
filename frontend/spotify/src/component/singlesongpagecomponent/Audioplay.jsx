@@ -32,15 +32,15 @@ const Audioplay = () => {
 
 
   const isFav = fav?.favorite?.some(user =>
-    user.type === 'music' && user.item._id === data?._id
+    user.type === 'music' && user.item?._id === data?._id
   )
 
   const deleteId = fav?.favorite?.find(user =>
-    user.type === 'music' && user.item._id === data?._id
+    user.type === 'music' && user.item?._id === data?._id
   )
 
   const lib = library.some(user =>
-    user.music.some(song => song._id === data?._id)
+    user.music.some(song => song?._id === data?._id)
   )
 
 

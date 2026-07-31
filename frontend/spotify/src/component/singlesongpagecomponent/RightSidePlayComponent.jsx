@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import { UIPlaylistContext } from '../../contextapi/PlaylistContext'
-import { LibraryContext } from '../../contextapi/AuthContext'
+import { authProvider, LibraryContext } from '../../contextapi/AuthContext'
 import { audioContext } from '../../contextapi/AudioProvider'
 import { musciControl } from '../../contextapi/MusicControllerContext'
 import { authHome } from '../../contextapi/HomeContext'
 import { authRecent } from '../../contextapi/RecentRoute'
-import { RiAddCircleLine, RiCheckLine, RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListAddLine, RiPlayListLine } from '@remixicon/react'
+import { RiAddCircleLine, RiCheckLine, RiDeleteBin6Line, RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListAddLine, RiPlayListLine } from '@remixicon/react'
+import { CreateSongContext } from '../../contextapi/ArtistMusicContext'
 
 const RightSidePlayComponent = ({deleteId, isFav, lib}) => {
      const { createFav, deletemusic, data } = useContext(authHome)
@@ -14,8 +15,10 @@ const RightSidePlayComponent = ({deleteId, isFav, lib}) => {
        const { playing,currentSong } = useContext(audioContext)
       const {  addToLibrary, removeTolibrary } = useContext(LibraryContext)
       const {setHidePlaylist}=useContext(UIPlaylistContext)
+      const {deleteSong} = useContext(CreateSongContext)
+      const {user} = useContext(authProvider)
       
-
+      const checkOwn = user?._id === data?.artist?._id
     return (
         <div className='px-8 py-2 flex flex-col w-[40%] justify-center'>
             <p className='text-sm uppercase tracking-[4px] text-gray-400'>
@@ -96,6 +99,21 @@ const RightSidePlayComponent = ({deleteId, isFav, lib}) => {
                         <RiPlayListAddLine className="text-white w-5 h-5" />
                     </button>
                 </div>
+                {
+                    user?.role === 'artist' && checkOwn &&   (
+                        <div onClick={()=>{deleteSong(data?._id)}} className="relative group">
+
+                    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black/80 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">
+                        Delete Song
+                    </span>
+                    <button
+                        className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 hover:bg-white/20 active:scale-95 transition-all duration-300 cursor-pointer"
+                    >
+                        <RiDeleteBin6Line className="text-white w-5 h-5" />
+                    </button>
+                </div>
+                    )
+                }
             </div>
             <div className='mt-3 space-y-4 text-gray-400'>
                 <div className='flex justify-between border-b border-white/10 pb-2'>
