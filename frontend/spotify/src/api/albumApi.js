@@ -37,6 +37,10 @@ export const addSong = (albumId, songId) => {
     return api.patch(`/creator/add-song/${albumId}/${songId}`)
 }
 
+export const deleteToSong = (albumId, songId) => {
+    return api.delete(`/creator/deleteMusic/${albumId}/${songId}`)
+}
+
 export const particularAlbum = () => {
     return api.get(`/creator/particularAlbum`)
 }

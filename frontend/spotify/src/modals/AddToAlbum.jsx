@@ -4,8 +4,8 @@ import { CreateAlbumContext } from '../contextapi/ArtistMusicContext'
 import { authHome } from '../contextapi/HomeContext'
 
 const AddToAlbum = () => {
-    const { addtoAlbumModal, setAddtoAlbumModal, ownAlbum, addToAlbum } = useContext(CreateAlbumContext)
-    const {data} = useContext(authHome)
+    const { addtoAlbumModal, setAddtoAlbumModal, ownAlbum, addToAlbum, deleteAlbum } = useContext(CreateAlbumContext)
+    const { data } = useContext(authHome)
 
     return (
         <>
@@ -42,26 +42,34 @@ const AddToAlbum = () => {
                             <div className="mt-5 max-h-72 space-y-2 overflow-y-auto">
                                 {ownAlbum?.length > 0 ? (
                                     ownAlbum.map((item) => {
-                                      return     <button
-                                                onClick={() => {
+                                        const exist = item?.album.some(elem =>
+                                            elem._id === data?._id
+                                        )
+                                        return <button
+                                            onClick={() => {
+                                                if (exist) {
+                                                    deleteAlbum(item?._id, data?._id)
+                                                }
+                                                else {
                                                     addToAlbum(item?._id, data?._id)
-                                                }}
-                                                key={item._id}
-                                                className={`flex w-full items-center gap-3 rounded-lg hover:bg-[#282828] p-3 transition `}>
-                                                <div className="flex h-12 w-12 items-center justify-center rounded-md bg-[#333]">
-                                                    <RiAlbumLine size={22} className="text-white" />
-                                                </div>
+                                                }
+                                            }}
+                                            key={item._id}
+                                            className={`flex w-full items-center gap-3 rounded-lg ${exist ? 'bg-[#202020]' : ""} hover:bg-[#282828] p-3 transition `}>
+                                            <div className="flex h-12 w-12 items-center justify-center rounded-md bg-[#333]">
+                                                <RiAlbumLine size={22} className="text-white" />
+                                            </div>
 
-                                                <div className="text-left">
-                                                    <p className="font-medium text-white">
-                                                        {item.title}
-                                                    </p>
+                                            <div className="text-left">
+                                                <p className="font-medium text-white">
+                                                    {item.title}
+                                                </p>
 
-                                                    <p className="text-xs text-zinc-400">
-                                                        {item.album.length} songs
-                                                    </p>
-                                                </div>
-                                            </button>
+                                                <p className={`text-xs ${exist ? 'text-green-500' : "text-zinc-400"} `}>
+                                                    {item.album.length} songs
+                                                </p>
+                                            </div>
+                                        </button>
                                     })
                                 ) : (
                                     <p className="py-8 text-center text-zinc-500">

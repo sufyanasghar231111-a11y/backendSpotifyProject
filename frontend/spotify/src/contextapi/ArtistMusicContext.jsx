@@ -4,7 +4,7 @@ import { createMusicApi, deleteMusicApi, deleteThumbnail, updateArtistMusic } fr
 import { authSearchBar } from './SearchSeparateContext'
 import { authHome } from './HomeContext'
 import { authPlaylist } from './PlaylistContext'
-import { addSong, albumArtist, createAlbum, deleteAlbumThumbNail, particularAlbum } from '../api/albumApi'
+import { addSong, albumArtist, createAlbum, deleteAlbumThumbNail, deleteToSong, particularAlbum } from '../api/albumApi'
 import { useNavigate } from 'react-router-dom'
 import { resetContext } from './resetPasswordContext'
 
@@ -199,8 +199,6 @@ const ArtistMusicContext = ({ children }) => {
     try{
       const res = await particularAlbum()
       setOwnAlbum(res.data.myalbum)
-      console.log(res.data.myalbum);
-      
     }
     catch(err){
       console.log(err);
@@ -222,12 +220,22 @@ const ArtistMusicContext = ({ children }) => {
       console.log(err);
     }
   }
+  
+  const deleteAlbum = async (albumId, songId) => {
+    try{
+      await deleteToSong(albumId, songId)
+      await getParticularAlbum()
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
 
   return (
     <musicContext.Provider value={{ musicEditPopup, setMusicEditPopup, updateMusic, setTitle, setThumbNail, title, thumbNail, musicPreview, setMusicPreview, deleteMusicPic }}>
       <albumContext.Provider value={{ albumEditModal, setAlbumEditModal, albumName, setAlbumName, albumImage, setAlbumImage, albumPreview, setAlbumPreview, updateArtistAlbum, deleteAlbumPic }}>
         <CreateSongContext.Provider value={{ musicCreateModal, setMusicCreateModal, setSongTitle, setSonguri, songTitle, createSong, buttonLoader, deleteSong }}>
-          <CreateAlbumContext.Provider value={{albumCreateModal,setAlbumCreateModal, albumTitle,setAlbumTitle, albumButtonLoader, handleCreateAlbum, addToAlbum, addtoAlbumModal, setAddtoAlbumModal, ownAlbum}}>
+          <CreateAlbumContext.Provider value={{albumCreateModal,setAlbumCreateModal, albumTitle,setAlbumTitle, albumButtonLoader, handleCreateAlbum, addToAlbum, addtoAlbumModal, setAddtoAlbumModal, ownAlbum, deleteAlbum}}>
             {children}
           </CreateAlbumContext.Provider>
         </CreateSongContext.Provider>
