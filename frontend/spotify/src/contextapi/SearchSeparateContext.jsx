@@ -127,6 +127,8 @@ const SearchSeparateContext = ({ children }) => {
         getAlbumPlaylistMusic()
     },[page])
 
+    
+
 
     function handleNextSong() {
         if (!queue.length) return;
@@ -210,7 +212,8 @@ const SearchSeparateContext = ({ children }) => {
         handlePrevSong,
         handleNextSong,
         getAlbumPlaylistMusic,
-        setMusic
+        setMusic,
+        setAlbum
     }), [searchinput, searchMusic, Issearch, loader, searchAlbum, music, page, album, patchText, hideSearch, visible, searchPublicplay, playRef, currentSong])
 
     return (

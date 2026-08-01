@@ -9,7 +9,6 @@ const LikedSong = ({ music, index }) => {
     const { patchMusicPlaying, playRef } = useContext(musciControl)
     const { playing, currentSong, setQueue } = useContext(audioContext)
     const { deletemusic, fav } = useContext(authHome)
-      
     return (
         <div
             key={music?.item._id}
@@ -63,8 +62,8 @@ const LikedSong = ({ music, index }) => {
                     <div className='relative w-14 h-14 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-purple-500/20 transition-all duration-300'>
                         <img
                             className='w-full h-full object-cover'
-                            src={music?.item.image}
-                            alt={music?.item.title}
+                            src={music?.item?.image}
+                            alt={music?.item?.title}
                         />
 
                         {currentSong === music?.item?._id && playing && (

@@ -9,7 +9,7 @@ import HideExtraDetail from '../../modals/HideExtraDetail'
 import { UIPlaylistContext } from '../../contextapi/PlaylistContext'
 import { notificationContext } from '../../contextapi/UserRequest'
 import { authProvider } from '../../contextapi/AuthContext'
-import { CreateSongContext } from '../../contextapi/ArtistMusicContext'
+import { CreateAlbumContext, CreateSongContext } from '../../contextapi/ArtistMusicContext'
 
 
 const Right = () => {
@@ -19,6 +19,7 @@ const Right = () => {
   const {setNotificationpopup} =useContext(notificationContext)
   const {user} = useContext(authProvider)
   const {musicCreateModal, setMusicCreateModal} = useContext(CreateSongContext) 
+  const { setAlbumCreateModal, albumCreateModal } = useContext(CreateAlbumContext)
   
   let location = useLocation()
   useEffect(() => {
@@ -40,6 +41,10 @@ const Right = () => {
               <button className='px-4 py-1.5 rounded-full text-sm  font-semibold backdrop-blur-2xl bg-white/10 cursor-pointer'>Music</button>
              { user.role === 'artist' &&(
                 <button onClick={()=>{setMusicCreateModal(true)}} className={`px-4 py-1.5 rounded-full text-sm  font-semibold backdrop-blur-2xl ${musicCreateModal? 'bg-white text-black':'bg-white/10 text-white'}  cursor-pointer`}>Create Song</button>
+              )}
+
+             { user.role === 'artist' &&(
+                <button onClick={()=>{setAlbumCreateModal(true)}}  className={`px-4 py-1.5 rounded-full text-sm  font-semibold backdrop-blur-2xl ${albumCreateModal ? 'bg-white text-black':'bg-white/10 text-white'}  cursor-pointer`}>Create Album</button>
               )}
             </div>
            <RightsideMusic />

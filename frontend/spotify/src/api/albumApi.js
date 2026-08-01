@@ -28,3 +28,7 @@ export const albumArtist = (id, formData) => {
 export const deleteAlbumThumbNail = (id) => {
     return api.delete(`/creator/albumpic-delete/${id}`)
 }
+
+export const createAlbum = (title) =>{
+    return api.post(`/creator/album`, title)
+}

@@ -100,11 +100,11 @@ const PlayUI = () => {
         <div className='space-y-2 px-8 pt-4'>
           {separate?.music?.map((music, index) => {
             const favId = fav?.favorite?.some(
-              song => song.type === 'music' && song.item._id === music._id
+              song => song.type === 'music' && song.item?._id === music._id
             ) ?? false
 
             const deleteId = fav?.favorite?.find(
-              item => item.type === 'music' && item.item._id === music._id
+              item => item.type === 'music' && item.item?._id === music._id
             )
             return <SongsInPlaylist index={index}
               favId={favId}

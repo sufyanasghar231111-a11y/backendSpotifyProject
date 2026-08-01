@@ -19,6 +19,7 @@ import UserRequestModal from '../modals/UserRequestModal'
 import MusicEditModal from '../modals/MusicEditModal'
 import AlbumEditModal from '../modals/AlbumEditModal'
 import MusicCreateModal from '../modals/MusicCreateModal'
+import AlbumCreateModal from '../modals/AlbumCreateModal'
 
 
 function Home() {
@@ -57,6 +58,8 @@ function Home() {
       
       {/* CreatePlaylist */}
       <CreatePlaylist />
+
+      <AlbumCreateModal />
 
       <MusicEditModal />
 

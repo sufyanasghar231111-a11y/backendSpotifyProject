@@ -4,21 +4,25 @@ import { createMusicApi, deleteMusicApi, deleteThumbnail, updateArtistMusic } fr
 import { authSearchBar } from './SearchSeparateContext'
 import { authHome } from './HomeContext'
 import { authPlaylist } from './PlaylistContext'
-import { albumArtist, deleteAlbumThumbNail } from '../api/albumApi'
+import { albumArtist, createAlbum, deleteAlbumThumbNail } from '../api/albumApi'
 import { useNavigate } from 'react-router-dom'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const musicContext = createContext()
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const albumContext = createContext()
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const CreateSongContext = createContext()
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const CreateAlbumContext = createContext()
 const ArtistMusicContext = ({ children }) => {
 
   // music Context states and context
   const [musicEditPopup, setMusicEditPopup] = useState(false)
-  const { getAlbumPlaylistMusic, setMusic } = useContext(authSearchBar)
+  const { getAlbumPlaylistMusic, setMusic, setAlbum } = useContext(authSearchBar)
   const [thumbNail, setThumbNail] = useState(0)
   const [title, setTitle] = useState('')
   const [musicPreview, setMusicPreview] = useState(null)
@@ -37,7 +41,11 @@ const ArtistMusicContext = ({ children }) => {
   const [songuri, setSonguri] = useState(0)
   const [buttonLoader, setButtonLoader] = useState(false)
   let navigate = useNavigate()
-  
+
+  // album create modal context and state
+  const [albumCreateModal, setAlbumCreateModal] = useState(false)
+  const [albumTitle,setAlbumTitle] = useState('')
+  const [albumButtonLoader, setAlbumButtonLoader] = useState(false)
 
   useEffect(() => {
     if (data?.title) {
@@ -84,11 +92,11 @@ const ArtistMusicContext = ({ children }) => {
 
       // update currently viewed music data so UI reflects changes immediately
       if (detailData?._id === id) {
-        setDetailData(prev => ({ 
+        setDetailData(prev => ({
           ...prev,
-           title: res.data.updatealbum?.title,
-            image: res.data.updatealbum?.image
-           }))
+          title: res.data.updatealbum?.title,
+          image: res.data.updatealbum?.image
+        }))
       }
 
       await getAlbumPlaylistMusic()
@@ -100,38 +108,38 @@ const ArtistMusicContext = ({ children }) => {
   }
 
   const deleteMusicPic = async (id) => {
-    try{
+    try {
       const res = await deleteThumbnail(id)
       setData(prev => ({
         ...prev,
-        image:res.data.deleteThumbnail.image
+        image: res.data.deleteThumbnail.image
       }))
       await getAlbumPlaylistMusic()
       setMusicPreview(null)
     }
-    catch(err){
+    catch (err) {
       console.log(err);
     }
   }
 
   const deleteAlbumPic = async (id) => {
-    try{
+    try {
       const res = await deleteAlbumThumbNail(id)
       setDetailData(prev => ({
-        ...prev ,
-        image:res.data.deleteThumbnail.image
+        ...prev,
+        image: res.data.deleteThumbnail.image
       }))
-       await getAlbumPlaylistMusic()
-       setAlbumPreview(null)
+      await getAlbumPlaylistMusic()
+      setAlbumPreview(null)
     }
-    catch(err){
+    catch (err) {
       console.log(err);
     }
   }
 
   const createSong = async (e) => {
     e.preventDefault()
-    try{
+    try {
       setButtonLoader(true)
       let formData = new FormData()
       formData.append('file', songuri)
@@ -141,32 +149,53 @@ const ArtistMusicContext = ({ children }) => {
       await getAlbumPlaylistMusic()
       setMusicCreateModal(false)
     }
-    catch(err){
+    catch (err) {
       console.log(err);
     }
-    finally{
+    finally {
       setButtonLoader(false)
     }
   }
 
   const deleteSong = async (id) => {
-    try{
-     const res=  await deleteMusicApi(id)
-       setMusic(prev => prev.filter(elem => elem._id !== res.data.deletesong._id))
+    try {
+      const res = await deleteMusicApi(id)
+      setMusic(prev => prev.filter(elem => elem._id !== res.data.deletesong._id))
       await getAlbumPlaylistMusic()
       navigate('/')
     }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
+  const handleCreateAlbum = async () =>{
+    try{
+      setAlbumButtonLoader(true)
+      const res = await createAlbum(
+        {
+          title:albumTitle
+        }
+      )
+      setAlbum(prev => [res.data.albums, ...prev])
+      await getAlbumPlaylistMusic()
+      setAlbumCreateModal(false)
+    }
     catch(err){
       console.log(err);
-      
+    }
+    finally{
+      setAlbumButtonLoader(false)
     }
   }
 
   return (
     <musicContext.Provider value={{ musicEditPopup, setMusicEditPopup, updateMusic, setTitle, setThumbNail, title, thumbNail, musicPreview, setMusicPreview, deleteMusicPic }}>
       <albumContext.Provider value={{ albumEditModal, setAlbumEditModal, albumName, setAlbumName, albumImage, setAlbumImage, albumPreview, setAlbumPreview, updateArtistAlbum, deleteAlbumPic }}>
-        <CreateSongContext.Provider value={{musicCreateModal, setMusicCreateModal, setSongTitle, setSonguri, songTitle, createSong, buttonLoader, deleteSong}}>
-        {children}
+        <CreateSongContext.Provider value={{ musicCreateModal, setMusicCreateModal, setSongTitle, setSonguri, songTitle, createSong, buttonLoader, deleteSong }}>
+          <CreateAlbumContext.Provider value={{albumCreateModal,setAlbumCreateModal, albumTitle,setAlbumTitle, albumButtonLoader, handleCreateAlbum}}>
+            {children}
+          </CreateAlbumContext.Provider>
         </CreateSongContext.Provider>
       </albumContext.Provider>
     </musicContext.Provider>
