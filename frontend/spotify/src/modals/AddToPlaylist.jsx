@@ -3,9 +3,9 @@ import { authHome } from '../contextapi/HomeContext'
 import { authPlaylist, UIPlaylistContext } from '../contextapi/PlaylistContext'
 
 const AddToPlaylist = () => {
-  const { getPlayList, patchApi,deleteApi } = useContext(authPlaylist)
-  const {hideplaylist, setHidePlaylist}=useContext(UIPlaylistContext)
-  let {  data } = useContext(authHome)
+  const { getPlayList, patchApi, deleteApi } = useContext(authPlaylist)
+  const { hideplaylist, setHidePlaylist } = useContext(UIPlaylistContext)
+  let { data } = useContext(authHome)
 
   return (
     <div>
@@ -13,105 +13,85 @@ const AddToPlaylist = () => {
         hideplaylist && (
           <>
             <div onClick={() => { setHidePlaylist(false) }} className='w-full cursor-pointer h-full inset-0 bg-black/50 backdrop:backdrop-blur-sm  absolute z-160 '></div>
-            <div className='absolute top-1/2 left-1/2 z-161 -translate-x-1/2 -translate-y-1/2'>
+            <div className="absolute top-1/2 left-1/2 z-[161] w-[90%] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl bg-[#181818] p-6 shadow-xl">
 
-              <div className='w-72 max-h-80 overflow-hidden rounded-2xl border border-white/10 bg-[#1e1e1e]/95 backdrop-blur-xl shadow-2xl animate-in fade-in zoom-in-95 duration-200'>
+              {/* Close */}
+              <button
+                onClick={() => setHidePlaylist(false)}
+                className="absolute top-4 right-4 text-zinc-400 hover:text-white"
+              >
+                ✕
+              </button>
 
-                {/* Header */}
-                <div className='sticky top-0 z-10 border-b border-white/10 bg-[#252525] px-4 py-3'>
+              {/* Header */}
+              <h2 className="text-2xl font-bold text-white">
+                Add to Playlist
+              </h2>
 
-                  <div className='flex items-center justify-between'>
+              <p className="mt-2 text-sm text-zinc-400">
+                Select a playlist to add or remove this song.
+              </p>
 
-                    <div>
-                      <h1 className='text-lg font-bold text-white'>
-                        Your Playlists
-                      </h1>
+              {/* Playlist List */}
+              <div className="mt-5 max-h-72 space-y-2 overflow-y-auto">
 
-                      <p className='text-xs text-gray-400 mt-1'>
-                        Select a playlist
-                      </p>
-                    </div>
+                {getPlayList.length > 0 ? (
+                  getPlayList.map((elem, index) => {
+                    const exists = elem.music?.some(
+                      song => song._id === data._id
+                    );
 
-                    <h1
-                      onClick={() => { setHidePlaylist(false) }}
-                      className='cursor-pointer text-white text-lg hover:text-gray-300 transition'
-                    >
-                      ✕
-                    </h1>
-
-                  </div>
-                  
-                </div>
-
-                {/* Playlist */}
-                <div className='max-h-64 overflow-y-auto p-2 custom-scroll'>
-
-                  {getPlayList.length > 0 ? (
-                    getPlayList?.map((elem, index) => {
-                      const separateId = elem?.music?.some((song) =>
-                        song._id === data._id
-                      )
-
-                      return (
-                        <>
-                          {
-                            separateId ? (
-                              <div onClick={() => {
-                                deleteApi(elem._id, data._id)
-                                setHidePlaylist(false)
-                              }} key={elem._id} className='group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-white/10 hover:scale-[1.02] cursor-pointer'>
-
-                                <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold'>
-                                  {index + 1}
-                                </div>
-
-                                <h1 className='text-sm font-semibold text-gray-200 group-hover:text-white truncate'>
-                                  {separateId && (
-                                    <span className="ml-2 text-xs text-green-400">In playlist</span>
-                                  )}
-                                </h1>
-
-                              </div>
-                            ) : (
-                              <div onClick={() => {
-                                patchApi(elem._id, data._id)
-                                setHidePlaylist(false)
-                              }} key={elem._id} className='group flex items-center gap-3 rounded-xl px-3 py-3 transition-all duration-200 hover:bg-white/10 hover:scale-[1.02] cursor-pointer'>
-
-                                <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 text-white font-bold'>
-                                  {index + 1}
-                                </div>
-
-                                <h1 className='text-sm font-semibold text-gray-200 group-hover:text-white truncate'>
-                                  {elem.name}
-                                </h1>
-
-                              </div>
-                            )
+                    return (
+                      <button
+                        key={elem._id}
+                        onClick={() => {
+                          if (exists) {
+                            deleteApi(elem._id, data._id);
+                          } else {
+                            patchApi(elem._id, data._id);
                           }
 
-                        </>
-                      )
-                    })
-                  ) : (
-                    <div className='flex flex-col items-center justify-center text-center py-16 px-4'>
+                          setHidePlaylist(false);
+                        }}
+                        className={`flex w-full items-center gap-3 rounded-lg p-3 transition ${exists
+                            ? "bg-green-600 hover:bg-green-700"
+                            : "bg-[#282828] hover:bg-[#333]"
+                          }`}
+                      >
+                        <div className="flex h-12 w-12 items-center justify-center rounded-md bg-[#333] font-semibold text-white">
+                          {index + 1}
+                        </div>
 
-                      <div className='mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/10 text-3xl'>
-                        🎵
-                      </div>
+                        <div className="flex-1 text-left">
+                          <p className="font-medium text-white">
+                            {elem.name}
+                          </p>
 
-                      <h1 className='text-white font-semibold text-lg'>
-                        No playlists yet
-                      </h1>
+                          <p className="text-xs text-zinc-400">
+                            {elem.music?.length || 0} songs
+                          </p>
+                        </div>
 
-                      <p className='text-sm text-gray-400 mt-2 leading-5'>
-                        Your playlist library is empty.
-                        <br />
-                        Start by creating a playlist.
-                      </p>
-                    </div>
-                  )}
-                </div>
+                        {exists && (
+                          <span className="text-xs font-medium text-white">
+                            Added
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })
+                ) : (
+                  <div className="py-10 text-center">
+                    <p className="text-lg font-semibold text-white">
+                      No playlists found
+                    </p>
+
+                    <p className="mt-2 text-sm text-zinc-400">
+                      Create your first playlist to add songs.
+                    </p>
+                  </div>
+                )}
+
               </div>
             </div>
           </>

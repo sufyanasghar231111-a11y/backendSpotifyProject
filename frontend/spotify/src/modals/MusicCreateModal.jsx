@@ -13,10 +13,10 @@ const MusicCreateModal = () => {
                     <>
                         {/* Overlay */}
                         <div
-                            className={`fixed inset-0 z-299 bg-black/60  ${buttonLoader? 'bg-black/80 cursor-not-allowed':'bg-black/60 cursor-pointer '} `}
-                            onClick={() => { 
-                                if(!buttonLoader){
-                                    setMusicCreateModal(false) 
+                            className={`fixed inset-0 z-299 bg-black/60  ${buttonLoader ? 'bg-black/80 cursor-not-allowed' : 'bg-black/60 cursor-pointer '} `}
+                            onClick={() => {
+                                if (!buttonLoader) {
+                                    setMusicCreateModal(false)
                                 }
                             }}
                         />
@@ -27,7 +27,7 @@ const MusicCreateModal = () => {
                                 <h2 className="text-lg font-semibold text-white">Upload Song</h2>
                                 <button disabled={buttonLoader}
                                     onClick={() => { setMusicCreateModal(false) }}
-                                    className={`text-neutral-400 hover:text-white transition ${buttonLoader? 'opacity-50 cursor-not-allowed':'opacity-100 cursor-pointer '}`}
+                                    className={`text-neutral-400 hover:text-white transition ${buttonLoader ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer '}`}
                                 >
                                     <X size={20} />
                                 </button>
@@ -36,12 +36,15 @@ const MusicCreateModal = () => {
                             <form onSubmit={createSong} className="flex flex-col gap-4">
                                 {/* Song Upload */}
                                 <label className="relative h-36 bg-white/5 border-2 border-dashed border-white/15 rounded-xl flex flex-col items-center justify-center hover:border-green-500 hover:bg-white/[0.07] transition cursor-pointer group">
-                                    <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center mb-2 group-hover:scale-105 transition">
-                                        <Music className="w-6 h-6 text-green-500" strokeWidth={1.8} />
-                                    </div>
+                                    <div className='flex items-center justify-center flex-col'>
+                                        <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center mb-2 group-hover:scale-105 transition">
+                                            <Music className="w-6 h-6 text-green-500" strokeWidth={1.8} />
+                                        </div>
 
-                                    <p className="text-sm font-medium text-white">Choose Song</p>
-                                    <p className="text-xs text-neutral-400">MP3, WAV up to 20MB</p>
+                                        <p className="text-sm font-medium text-white">Choose Song</p>
+                                        <p className="text-xs text-neutral-400">MP3, WAV up to 20MB</p>
+
+                                    </div>
 
                                     <input
                                         onChange={(elem) => {
@@ -68,8 +71,8 @@ const MusicCreateModal = () => {
                                     buttonLoader ?
                                         (<button disabled={buttonLoader}
                                             type="submit"
-                                            className={`bg-green-500 hover:bg-green-400 text-black rounded-full ${buttonLoader? 'opacity-50 cursor-not-allowed':'opacity-100 cursor-pointer '} py-2.5 font-semibold text-sm transition active:scale-[0.98] flex items-center justify-center w-full h-full`} >
-                                             < RiLoader4Fill className='rotate' />
+                                            className={`bg-green-500 hover:bg-green-400 text-black rounded-full ${buttonLoader ? 'opacity-50 cursor-not-allowed' : 'opacity-100 cursor-pointer '} py-2.5 font-semibold text-sm transition active:scale-[0.98] flex items-center justify-center w-full h-full`} >
+                                            < RiLoader4Fill className='rotate' />
                                         </button>) : (<button
                                             type="submit"
                                             className="bg-green-500 hover:bg-green-400 text-black rounded-full py-2.5 font-semibold text-sm transition active:scale-[0.98]" >
@@ -88,4 +91,3 @@ const MusicCreateModal = () => {
 
 export default MusicCreateModal
 
-   

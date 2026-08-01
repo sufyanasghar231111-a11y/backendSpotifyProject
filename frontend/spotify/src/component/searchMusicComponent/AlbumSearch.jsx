@@ -1,6 +1,6 @@
-import { RiAddCircleLine, RiMoreLine } from '@remixicon/react'
+import { RiAddCircleLine, RiAlbumFill, RiAlbumLine, RiMoreLine, RiMusicLine } from '@remixicon/react'
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const AlbumSearch = ({ elem, selected }) => {
     return (
@@ -9,18 +9,25 @@ const AlbumSearch = ({ elem, selected }) => {
             className={`flex ${selected === elem._id ? 'bg-[#1F1F1F] hover:bg-[#141414]' : 'hover:bg-[#1F1F1F]'} cursor-pointer px-4 py-3 rounded-lg items-center justify-between`}
         >
             <div className="flex items-center gap-4">
-                <div className="rounded-lg w-20 h-20 overflow-hidden">
-                    <img
-                        className="w-full h-full object-cover"
-                        src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQn2nmWoa-66Yo5xylQwIiAxtvMrK2pB2l4CA&s'
-                        alt={elem.title}
-                    />
+                <div className="rounded-lg w-20 h-20 overflow-hidden relative">
+                    <div className='bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] w-full h-full absolute z-100 flex items-center justify-center' >
+                        <RiAlbumLine className=' w-10 h-10' />
+                    </div>
+                    {
+                        elem?.image && (
+                            <img
+                                className="w-full h-full object-cover absolute z-111"
+                                src={elem?.image}
+                                alt={elem.title}
+                            />
+                        )
+                    }
                 </div>
 
                 <div>
                     <h1 className="text-[24px] font-bold">{elem.title}</h1>
                     <h1 className="text-sm text-gray-400">
-                        Album • {elem.songs?.length || 0} songs
+                        Album • {elem.album?.length || 0} songs
                     </h1>
                 </div>
             </div>

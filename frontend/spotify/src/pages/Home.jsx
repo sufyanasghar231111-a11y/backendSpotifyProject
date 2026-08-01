@@ -20,6 +20,7 @@ import MusicEditModal from '../modals/MusicEditModal'
 import AlbumEditModal from '../modals/AlbumEditModal'
 import MusicCreateModal from '../modals/MusicCreateModal'
 import AlbumCreateModal from '../modals/AlbumCreateModal'
+import AddToAlbum from '../modals/AddToAlbum'
 
 
 function Home() {
@@ -32,6 +33,8 @@ function Home() {
       <SureForLogOut />
       {/* AddToPlaylist */}
       <AddToPlaylist />
+
+      <AddToAlbum />
 
       {/* updatepfp */}
       <UpdateProfile />

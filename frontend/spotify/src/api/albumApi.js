@@ -32,3 +32,11 @@ export const deleteAlbumThumbNail = (id) => {
 export const createAlbum = (title) =>{
     return api.post(`/creator/album`, title)
 }
+
+export const addSong = (albumId, songId) => {
+    return api.patch(`/creator/add-song/${albumId}/${songId}`)
+}
+
+export const particularAlbum = () => {
+    return api.get(`/creator/particularAlbum`)
+}

@@ -90,7 +90,7 @@ const Audioplay = () => {
         <div className='absolute inset-0 bg-black/30'></div>
       </label>
 
-      <RightSidePlayComponent isFav={isFav} lib={lib} deleteId={deleteId} />
+      <RightSidePlayComponent isFav={isFav} lib={lib} deleteId={deleteId} checkOwn={checkOwn} />
 
     </>
   )

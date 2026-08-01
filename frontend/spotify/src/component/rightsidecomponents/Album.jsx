@@ -3,6 +3,7 @@ import { RiAlbumLine, RiArrowLeftSLine, RiArrowRightSLine, RiMusicLine, RiPlayFi
 import { Link } from 'react-router-dom';
 import { authRecent } from '../../contextapi/RecentRoute';
 import { authSearchBar } from '../../contextapi/SearchSeparateContext';
+import { timeAgo } from '../../utils/TimeAgo';
 
 const Album = () => {
   const { album, visible } = useContext(authSearchBar)
@@ -91,9 +92,14 @@ const Album = () => {
                   <h1 className='font-semibold hover:underline w-fit'>
                     {item.title}
                   </h1>
+                  <div className='flex items-center justify-between'>
                   <h1 className='pt-1 text-sm font-semibold text-[#bebebe] hover:underline w-fit'>
                     {item.artist?.username}
                   </h1>
+                  <h1 className='pt-1 text-[10px] font-semibold text-[#bebebe]'>
+                    {timeAgo(item?.createdAt)}
+                  </h1>
+                  </div>
                 </div>
               </div>
             )}

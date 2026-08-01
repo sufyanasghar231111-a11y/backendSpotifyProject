@@ -5,10 +5,10 @@ import { audioContext } from '../../contextapi/AudioProvider'
 import { musciControl } from '../../contextapi/MusicControllerContext'
 import { authHome } from '../../contextapi/HomeContext'
 import { authRecent } from '../../contextapi/RecentRoute'
-import { RiAddCircleLine, RiCheckLine, RiDeleteBin6Line, RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListAddLine, RiPlayListLine } from '@remixicon/react'
-import { CreateSongContext } from '../../contextapi/ArtistMusicContext'
+import { RiAddCircleLine, RiAlbumLine, RiCheckLine, RiDeleteBin6Line, RiHeartFill, RiPauseFill, RiPlayFill, RiPlayListAddLine, RiPlayListLine } from '@remixicon/react'
+import { CreateAlbumContext, CreateSongContext } from '../../contextapi/ArtistMusicContext'
 
-const RightSidePlayComponent = ({deleteId, isFav, lib}) => {
+const RightSidePlayComponent = ({deleteId, isFav, lib, checkOwn}) => {
      const { createFav, deletemusic, data } = useContext(authHome)
       const { update } = useContext(authRecent)
       const { patchMusicPlaying ,playRef} = useContext(musciControl)
@@ -17,8 +17,8 @@ const RightSidePlayComponent = ({deleteId, isFav, lib}) => {
       const {setHidePlaylist}=useContext(UIPlaylistContext)
       const {deleteSong} = useContext(CreateSongContext)
       const {user} = useContext(authProvider)
-      
-      const checkOwn = user?._id === data?.artist?._id
+      const {setAddtoAlbumModal } =useContext(CreateAlbumContext)
+ 
     return (
         <div className='px-8 py-2 flex flex-col w-[40%] justify-center'>
             <p className='text-sm uppercase tracking-[4px] text-gray-400'>
@@ -99,6 +99,23 @@ const RightSidePlayComponent = ({deleteId, isFav, lib}) => {
                         <RiPlayListAddLine className="text-white w-5 h-5" />
                     </button>
                 </div>
+                {
+                    user?.role === 'artist' && checkOwn &&  (
+
+                <div onClick={()=>{setAddtoAlbumModal(true)}} className="relative group">
+
+                    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-black/80 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap">
+                        Add Album
+                    </span>
+                    <button
+                        className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 hover:bg-white/20 active:scale-95 transition-all duration-300 cursor-pointer"
+                    >
+                        <RiAlbumLine className="text-white w-5 h-5" />
+                    </button>
+                </div>
+                    )
+                }
+
                 {
                     user?.role === 'artist' && checkOwn &&   (
                         <div onClick={()=>{deleteSong(data?._id)}} className="relative group">

@@ -30,7 +30,6 @@ const AlbumDetail = () => {
   useEffect(() => {
     detail()
   }, [])
-  console.log(detailData);
   
 
   const checkOwn = !id || user?._id === detailData?.artist?._id

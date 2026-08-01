@@ -4,8 +4,9 @@ import { createMusicApi, deleteMusicApi, deleteThumbnail, updateArtistMusic } fr
 import { authSearchBar } from './SearchSeparateContext'
 import { authHome } from './HomeContext'
 import { authPlaylist } from './PlaylistContext'
-import { albumArtist, createAlbum, deleteAlbumThumbNail } from '../api/albumApi'
+import { addSong, albumArtist, createAlbum, deleteAlbumThumbNail, particularAlbum } from '../api/albumApi'
 import { useNavigate } from 'react-router-dom'
+import { resetContext } from './resetPasswordContext'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const musicContext = createContext()
@@ -46,6 +47,11 @@ const ArtistMusicContext = ({ children }) => {
   const [albumCreateModal, setAlbumCreateModal] = useState(false)
   const [albumTitle,setAlbumTitle] = useState('')
   const [albumButtonLoader, setAlbumButtonLoader] = useState(false)
+  const [addtoAlbumModal, setAddtoAlbumModal] = useState(false)
+  const {authReady} = useContext(resetContext)
+
+  // Particular album 
+  const [ownAlbum, setOwnAlbum] = useState([])
 
   useEffect(() => {
     if (data?.title) {
@@ -189,11 +195,39 @@ const ArtistMusicContext = ({ children }) => {
     }
   }
 
+  const getParticularAlbum = async () => {
+    try{
+      const res = await particularAlbum()
+      setOwnAlbum(res.data.myalbum)
+      console.log(res.data.myalbum);
+      
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+
+  useEffect(()=>{
+    if(!authReady) return
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    getParticularAlbum()
+  },[authReady])
+
+  const addToAlbum = async (albumId, songId) => {
+    try{
+       await addSong(albumId, songId)
+      await getParticularAlbum()
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+
   return (
     <musicContext.Provider value={{ musicEditPopup, setMusicEditPopup, updateMusic, setTitle, setThumbNail, title, thumbNail, musicPreview, setMusicPreview, deleteMusicPic }}>
       <albumContext.Provider value={{ albumEditModal, setAlbumEditModal, albumName, setAlbumName, albumImage, setAlbumImage, albumPreview, setAlbumPreview, updateArtistAlbum, deleteAlbumPic }}>
         <CreateSongContext.Provider value={{ musicCreateModal, setMusicCreateModal, setSongTitle, setSonguri, songTitle, createSong, buttonLoader, deleteSong }}>
-          <CreateAlbumContext.Provider value={{albumCreateModal,setAlbumCreateModal, albumTitle,setAlbumTitle, albumButtonLoader, handleCreateAlbum}}>
+          <CreateAlbumContext.Provider value={{albumCreateModal,setAlbumCreateModal, albumTitle,setAlbumTitle, albumButtonLoader, handleCreateAlbum, addToAlbum, addtoAlbumModal, setAddtoAlbumModal, ownAlbum}}>
             {children}
           </CreateAlbumContext.Provider>
         </CreateSongContext.Provider>

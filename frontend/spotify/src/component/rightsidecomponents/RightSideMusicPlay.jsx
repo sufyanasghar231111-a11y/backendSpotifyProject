@@ -42,9 +42,12 @@ const RightSideMusicPlay = () => {
             <h1 className='font-semibold hover:underline w-fit'>
               {item?.title}
             </h1>
+            <div className='flex items-center justify-between'>
             <h1 className='pt-1 text-sm font-semibold text-[#bebebe] hover:underline w-fit'>
               {item?.artist?.username}
             </h1>
+            <h1 className='pt-1 text-sm font-semibold text-[#bebebe]'>{}</h1>
+            </div>
           </div>
         </div>
       ))}
