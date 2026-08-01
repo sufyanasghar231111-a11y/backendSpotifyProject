@@ -65,6 +65,22 @@ const ArtistMusicContext = ({ children }) => {
     }
   }, [detailData])
 
+  const getParticularAlbum = async () => {
+    try{
+      const res = await particularAlbum()
+      setOwnAlbum(res.data.myalbum)
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
+
+  useEffect(()=>{
+    if(!authReady) return
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    getParticularAlbum()
+  },[authReady])
+
   const updateMusic = async (id) => {
     try {
       const formData = new FormData()
@@ -186,6 +202,7 @@ const ArtistMusicContext = ({ children }) => {
       setAlbum(prev => [res.data.albums, ...prev])
       await getAlbumPlaylistMusic()
       setAlbumCreateModal(false)
+      await getParticularAlbum()
     }
     catch(err){
       console.log(err);
@@ -195,21 +212,6 @@ const ArtistMusicContext = ({ children }) => {
     }
   }
 
-  const getParticularAlbum = async () => {
-    try{
-      const res = await particularAlbum()
-      setOwnAlbum(res.data.myalbum)
-    }
-    catch(err){
-      console.log(err);
-    }
-  }
-
-  useEffect(()=>{
-    if(!authReady) return
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    getParticularAlbum()
-  },[authReady])
 
   const addToAlbum = async (albumId, songId) => {
     try{
