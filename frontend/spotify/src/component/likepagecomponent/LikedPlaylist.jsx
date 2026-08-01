@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { authHome } from '../../contextapi/HomeContext'
+import { RiMusicLine, RiPlayListLine } from '@remixicon/react'
 
 const LikedPlaylist = ({ music, index }) => {
     const { deletemusic } = useContext(authHome)
@@ -18,12 +19,19 @@ const LikedPlaylist = ({ music, index }) => {
                 {/* Playlist Info */}
                 <div className="flex-1 min-w-0 px-4">
                     <div className="flex items-center gap-3">
-                        <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-lg">
-                            <img
-                                src=''
-                                alt={music?.item?.name}
-                                className="w-full h-full object-cover"
-                            />
+                        <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br relative from-[#3c17f5] via-[#8879ff] to-[#d7fff5]">
+                            <div className='w-full h-full flex items-center justify-center absolute z-100'>
+                                <RiPlayListLine />
+                            </div>
+                            {
+                                music.image && (
+                                    <img
+                                        src={music.image}
+                                        alt={music?.item?.name}
+                                        className="w-full h-full object-cover absolute z-120"
+                                    />
+                                )
+                            }
                         </div>
 
                         <div className="min-w-0 flex-1">

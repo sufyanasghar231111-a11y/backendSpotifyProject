@@ -5,7 +5,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 const ProtectedRoute = () => {
     let {user}=useContext(authProvider)
    
-  return  user? <Outlet /> : <Navigate to='/' replace />
+  return  user ? <Outlet /> : <Navigate to='/login' replace />
 }
 
 export default ProtectedRoute

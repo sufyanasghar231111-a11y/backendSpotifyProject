@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { musciControl } from '../../contextapi/MusicControllerContext'
 import { audioContext, audioTimeContext } from '../../contextapi/AudioProvider'
 import { Link } from 'react-router-dom'
-import { RiPauseFill, RiPlayFill, RiSkipLeftFill, RiSkipRightFill } from '@remixicon/react'
+import { RiMusicLine, RiPauseFill, RiPlayFill, RiSkipLeftFill, RiSkipRightFill } from '@remixicon/react'
 import PlayButton from '../rightsidecomponents/PlayButton'
 import { authRecent } from '../../contextapi/RecentRoute'
 import { authSearchBar } from '../../contextapi/SearchSeparateContext'
@@ -11,7 +11,7 @@ function FooterController() {
   const { currentTime, duration } = useContext(audioTimeContext)
   const { control, patchMusicPlaying, playRef } = useContext(musciControl)
   const { update } = useContext(authRecent)
-  const { handlePrevSong, handleNextSong } = useContext(authSearchBar)  
+  const { handlePrevSong, handleNextSong } = useContext(authSearchBar)
 
   return (
 
@@ -21,8 +21,11 @@ function FooterController() {
 
           return <div key={elem._id} className='flex  gap-40 pt-5 '>
             <div className='-pt-10 flex items-center justify-center gap-2'>
-              <div className='w-13 h-13 rounded-lg  overflow-hidden'>
-                <img className='w-full h-full object-cover' src={elem.music?.image} alt="" />
+              <div className='w-13 h-13 rounded-lg  overflow-hidden bg-gradient-to-br relative from-[#3c17f5] via-[#8879ff] to-[#d7fff5]'>
+                <div className='w-full h-full flex items-center justify-center absolute z-100'>
+                  <RiMusicLine />
+                </div>
+                <img className='w-full h-full object-cover absolute z-120' src={elem.music?.image} alt="" />
               </div>
               <div>
                 <Link to={`/detail/${elem.music?._id}`}>
@@ -34,7 +37,7 @@ function FooterController() {
             <div className='flex flex-col gap-2 items-center'>
               <div className='flex items-center gap-3'>
                 <div onClick={handlePrevSong}>
-                  <RiSkipLeftFill className={`${queue.length > 1 ? 'opacity-100 cursor-pointer':'opacity-30' }`} />
+                  <RiSkipLeftFill className={`${queue.length > 1 ? 'opacity-100 cursor-pointer' : 'opacity-30'}`} />
                 </div>
                 <div onClick={() => {
                   playRef(elem.music)
@@ -51,7 +54,7 @@ function FooterController() {
                   }
                 </div>
                 <div onClick={handleNextSong}>
-                  <RiSkipRightFill className={`${queue.length > 1 ? 'opacity-100 cursor-pointer':'opacity-30' }`} />
+                  <RiSkipRightFill className={`${queue.length > 1 ? 'opacity-100 cursor-pointer' : 'opacity-30'}`} />
                 </div>
               </div>
               <div className='flex items-center justify-center gap-3'>

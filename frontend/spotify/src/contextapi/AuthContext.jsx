@@ -311,7 +311,7 @@ const AuthContext = ({ children }) => {
     }), [library])
 
     const ui = useMemo(() => ({
-        loading, setLoading, name
+        loading, setLoading
     }), [loading])
 
     return (

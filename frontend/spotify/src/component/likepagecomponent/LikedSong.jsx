@@ -3,6 +3,7 @@ import { authHome } from '../../contextapi/HomeContext'
 import { authRecent } from '../../contextapi/RecentRoute'
 import { musciControl } from '../../contextapi/MusicControllerContext'
 import { audioContext } from '../../contextapi/AudioProvider'
+import { RiMusicLine } from '@remixicon/react'
 
 const LikedSong = ({ music, index }) => {
     const { update } = useContext(authRecent)
@@ -59,12 +60,19 @@ const LikedSong = ({ music, index }) => {
             {/* Music Info */}
             <div className='flex-1 min-w-0 px-4'>
                 <div className='flex items-center gap-3'>
-                    <div className='relative w-14 h-14 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-purple-500/20 transition-all duration-300'>
-                        <img
-                            className='w-full h-full object-cover'
-                            src={music?.item?.image}
-                            alt={music?.item?.title}
-                        />
+                    <div className='bg-gradient-to-br relative from-[#3c17f5] via-[#8879ff] to-[#d7fff5] w-14 h-14 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-purple-500/20 transition-all duration-300'>
+                    <div className='w-full h-full flex items-center justify-center absolute z-100'>
+                                <RiMusicLine />
+                            </div>
+                            {
+                                music?.item?.image && (
+                                    <img
+                                        className='w-full h-full object-cover absolute z-120'
+                                        src={music?.item?.image}
+                                        alt={music?.item?.title}
+                                    />
+                                )
+                            }
 
                         {currentSong === music?.item?._id && playing && (
                             <div className='absolute inset-0 bg-black/25 flex items-end justify-center pb-1'>

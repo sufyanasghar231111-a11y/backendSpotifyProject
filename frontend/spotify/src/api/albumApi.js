@@ -44,3 +44,7 @@ export const deleteToSong = (albumId, songId) => {
 export const particularAlbum = () => {
     return api.get(`/creator/particularAlbum`)
 }
+
+export const particularAlbumbyUser = (id) => {
+    return api.get(`/creator/particularAlbum/${id}`)
+}

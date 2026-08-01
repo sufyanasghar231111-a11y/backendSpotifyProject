@@ -22,7 +22,8 @@ const PlaylistContext = ({ children }) => {
     const [detailData, setDetailData] = useState({})
     const  [separate, setSeparate] = useState({})
     const [visibleParticular,setVisibleParticular]=useState([])
-    const {authReady}=useContext(resetContext)    
+    const {authReady}=useContext(resetContext) 
+    const [otherArtist, setOtherArtist] = useState([])   
     const navigate = useNavigate()
     
     const handleGetPlayList = useCallback(async () => {
@@ -112,8 +113,9 @@ const PlaylistContext = ({ children }) => {
       setSeparate,
       visibleParticular,
       setVisibleParticular,
-      deleteCompletePlaylist
-    }), [ detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi,visibleParticular, deleteCompletePlaylist])
+      deleteCompletePlaylist,
+      otherArtist, setOtherArtist
+    }), [ detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi,visibleParticular, deleteCompletePlaylist, otherArtist])
 
 
     const uiValue=useMemo(()=> ({

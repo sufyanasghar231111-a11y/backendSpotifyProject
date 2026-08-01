@@ -31,7 +31,7 @@ function App() {
     <div className='w-full bg-[#121212] text-white h-screen'>  
       <Routes >
         
-        // public route 
+        {/* public route */}
         <Route element={<PublicRoute />}>
         <Route path='/login' element={<Login />} />
          <Route path='/register' element={<Register />} />
@@ -39,12 +39,12 @@ function App() {
          <Route path='/reset-password/:token' element={<ResetPassword />} />
         </Route>
 
-        // Public opt-route
+        {/* Public opt-route */}
          <Route element={<ProtectedOtpRoute />} >
          <Route path='/opt-verify' element={<OtpPage />} />
          </Route>
 
-         // protected route only login user can access
+         {/* protected route only login user can access */}
          <Route element={<ProtectedRoute />} >
          <Route path='/' element={<Home />} >
         <Route path='showall' element={<ShowAll />} />
