@@ -15,6 +15,7 @@ const rotationRoute=require('./routes/refreshRotation.route')
 const otpRoute=require("./routes/otp.route")
 const requestRouter = require('./routes/userrequest.controller')
 const cors = require('cors');
+const activeRouter = require('./routes/active.route')
 
 
 const app= express()
@@ -52,5 +53,8 @@ app.use('/api/otp',otpRoute )
 
 // User request from admin for artist 
 app.use('/api/request', requestRouter)
+
+
+app.use('/api/active', activeRouter)
 
 module.exports=app

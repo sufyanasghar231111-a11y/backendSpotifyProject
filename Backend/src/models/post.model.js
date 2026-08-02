@@ -36,9 +36,24 @@ const postSchema = new mongoose.Schema({
     verified:{
         type:Boolean,
         default:false
+    },
+
+    lastActive:{
+        type:Date,
+        default:Date.now(),
+        index:true
+    },
+
+    isOnline:{
+        type:Boolean,
+        default:false
     }
 
-})
+},
+{
+    timestamps:true
+}
+)
 
 
 module.exports = mongoose.model('user', postSchema)

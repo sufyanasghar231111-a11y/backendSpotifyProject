@@ -9,6 +9,7 @@ const {otpGenerate, otpHtml}=require('../utils/email.util')
 const sendEmail=require('../services/email.service')
 const otpSchema=require('../models/otp.model')
 const otpModel = require('../models/otp.model')
+const userSchema = require('../models/playlist.model')
 
 async function register(req, res) {
     const { username, email, password, role = 'user' } = req.body
@@ -140,6 +141,11 @@ async function login(req, res) {
             }
         )
 
+         await postSchema.findByIdAndUpdate(user._id, {
+            lastActive:new Date(),
+            isOnline:true
+        })
+
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: false,
@@ -156,7 +162,7 @@ async function login(req, res) {
             email: user.email,
             role: user.role,
             pfp: user.pfp,
-            accessToken,
+            accessToken
         })
     }
     catch (e) {

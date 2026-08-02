@@ -107,7 +107,7 @@ const logoutAll = async (req, res) => {
 
         const refreshTokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex')
 
-        const getUser = await logoutSchema.updateMany({
+        const user = await logoutSchema.updateMany({
             refreshTokenHash,
             revoke: false
         },
@@ -115,11 +115,19 @@ const logoutAll = async (req, res) => {
                 revoke: true
             }
         )
-
+        const makeOffline = await postSchema.findByIdAndUpdate(req.user.id,
+            {
+                isOnline:false
+            }
+        )
+        
         res.clearCookie('refreshToken')
 
         res.status(200).json({
-            message: "successful logout from all device"
+            message: "successful logout from all device",
+            makeOffline:{
+                isOnline:makeOffline.isOnline
+            }
         })
     }
     catch (err) {
