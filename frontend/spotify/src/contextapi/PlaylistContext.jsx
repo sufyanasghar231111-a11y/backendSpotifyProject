@@ -5,138 +5,140 @@ import { deleteplaylist, deleteUserPlaylist, getplaylist, patchplaylist, postpla
 import { resetContext } from './resetPasswordContext'
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react'
+import { adminContext } from './AdminContext';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const authPlaylist = createContext()
 // eslint-disable-next-line react-refresh/only-export-components
-export const UIPlaylistContext=createContext()
+export const UIPlaylistContext = createContext()
 const PlaylistContext = ({ children }) => {
-    const [playlistLoader, setPlaylistLoader] = useState(false)
-    const [getPlayList, setGetPlayList] = useState([])
-    const [create, setCreate] = useState([])
-    const [name, setName] = useState('')
-    const [hideplay, setHidePlay] = useState(false)
-    const [hideplaylist, setHidePlaylist] = useState(false)
-    const [hideAlbumPlaylist, setHideAlbumPlaylist] = useState(false)
-    const [hideExtra,setHideExtra]=useState(false)
-    const [detailData, setDetailData] = useState({})
-    const  [separate, setSeparate] = useState({})
-    const [visibleParticular,setVisibleParticular]=useState([])
-    const {authReady}=useContext(resetContext) 
-    const [otherArtist, setOtherArtist] = useState([])   
-    const navigate = useNavigate()
-    
-    const handleGetPlayList = useCallback(async () => {
-      try {
-        setPlaylistLoader(true)
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        const res = await getplaylist()
-        setGetPlayList(res.data.particular || [])
+  const [playlistLoader, setPlaylistLoader] = useState(false)
+  const [getPlayList, setGetPlayList] = useState([])
+  const [create, setCreate] = useState([])
+  const [name, setName] = useState('')
+  const [hideplay, setHidePlay] = useState(false)
+  const [hideplaylist, setHidePlaylist] = useState(false)
+  const [hideAlbumPlaylist, setHideAlbumPlaylist] = useState(false)
+  const [hideExtra, setHideExtra] = useState(false)
+  const [detailData, setDetailData] = useState({})
+  const [separate, setSeparate] = useState({})
+  const [visibleParticular, setVisibleParticular] = useState([])
+  const { authReady } = useContext(resetContext)
+  const [otherArtist, setOtherArtist] = useState([])
+  const { user } = useState(adminContext)
+  const navigate = useNavigate()
 
-      }
-      catch (e) {
-        console.log(e);
-      }
-      finally {
-        setPlaylistLoader(false)
-      }
-    }, [])
+  const handleGetPlayList = useCallback(async () => {
+    try {
+      setPlaylistLoader(true)
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      const res = await getplaylist()
+      setGetPlayList(res.data.particular || [])
 
-
-    useEffect(() => {
-      if(!authReady) return 
-      handleGetPlayList();
-  
-    }, [authReady]);
-
-
-    
-
-    
-    async function handleCreatePlaylist() {
-        try {
-
-            const res = await postplaylist(name)
-            setCreate(res.data.createPlaylist)
-            await handleGetPlayList()
-        }
-        catch (err) {
-            console.log(err);
-        }
     }
-
-      const patchApi = useCallback(async (id, dataId) => {
-        try {
-           await patchplaylist(id, dataId)
-          await handleGetPlayList()
-        }
-        catch (err) {
-          console.log(err);
-        }
-      }, [])
-    
-      const deleteApi = useCallback(async (id, dataId) => {
-        try {
-           await deleteplaylist(id, dataId)
-          await handleGetPlayList()
-        }
-        catch (err) {
-          console.log(err);
-    
-        }
-      }, [])
-
-      const deleteCompletePlaylist = async (id) => {
-        try{
-           await deleteUserPlaylist(id)
-           navigate('/')
-           await handleGetPlayList()
-
-        }
-        catch(err){
-          console.log(err);
-        }
-      }
-    
-    const value = useMemo(() => ({
-      detailData,
-      setDetailData,
-      setName,
-      setGetPlayList,
-      create,
-      getPlayList,
-      handleGetPlayList,
-      handleCreatePlaylist,
-      patchApi,
-      deleteApi,
-      separate,
-      setSeparate,
-      visibleParticular,
-      setVisibleParticular,
-      deleteCompletePlaylist,
-      otherArtist, setOtherArtist
-    }), [ detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi,visibleParticular, deleteCompletePlaylist, otherArtist])
+    catch (e) {
+      console.log(e);
+    }
+    finally {
+      setPlaylistLoader(false)
+    }
+  }, [])
 
 
-    const uiValue=useMemo(()=> ({
-      hideAlbumPlaylist,
-      setHideAlbumPlaylist,
-      setPlaylistLoader,
-      playlistLoader,
-      hideplaylist,
-      setHidePlaylist,
-      hideplay,
-      setHidePlay,
-      hideExtra,setHideExtra
-    }),[hideAlbumPlaylist,playlistLoader,hideplaylist,hideplay,hideExtra])
+  useEffect(() => {
+    if (!authReady || !user) return;
+    if (user.role === "admin") return;
 
-    return (
-      <authPlaylist.Provider value={value}>
-        <UIPlaylistContext.Provider value={uiValue}>
+    handleGetPlayList();
+  }, [authReady, user]);
+
+
+
+
+  async function handleCreatePlaylist() {
+    try {
+
+      const res = await postplaylist(name)
+      setCreate(res.data.createPlaylist)
+      await handleGetPlayList()
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
+  const patchApi = useCallback(async (id, dataId) => {
+    try {
+      await patchplaylist(id, dataId)
+      await handleGetPlayList()
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }, [])
+
+  const deleteApi = useCallback(async (id, dataId) => {
+    try {
+      await deleteplaylist(id, dataId)
+      await handleGetPlayList()
+    }
+    catch (err) {
+      console.log(err);
+
+    }
+  }, [])
+
+  const deleteCompletePlaylist = async (id) => {
+    try {
+      await deleteUserPlaylist(id)
+      navigate('/')
+      await handleGetPlayList()
+
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
+  const value = useMemo(() => ({
+    detailData,
+    setDetailData,
+    setName,
+    setGetPlayList,
+    create,
+    getPlayList,
+    handleGetPlayList,
+    handleCreatePlaylist,
+    patchApi,
+    deleteApi,
+    separate,
+    setSeparate,
+    visibleParticular,
+    setVisibleParticular,
+    deleteCompletePlaylist,
+    otherArtist, setOtherArtist
+  }), [detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi, visibleParticular, deleteCompletePlaylist, otherArtist])
+
+
+  const uiValue = useMemo(() => ({
+    hideAlbumPlaylist,
+    setHideAlbumPlaylist,
+    setPlaylistLoader,
+    playlistLoader,
+    hideplaylist,
+    setHidePlaylist,
+    hideplay,
+    setHidePlay,
+    hideExtra, setHideExtra
+  }), [hideAlbumPlaylist, playlistLoader, hideplaylist, hideplay, hideExtra])
+
+  return (
+    <authPlaylist.Provider value={value}>
+      <UIPlaylistContext.Provider value={uiValue}>
         {children}
-        </UIPlaylistContext.Provider>
-      </authPlaylist.Provider>
-    )
+      </UIPlaylistContext.Provider>
+    </authPlaylist.Provider>
+  )
 }
 
 export default PlaylistContext

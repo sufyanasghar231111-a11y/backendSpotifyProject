@@ -3,13 +3,13 @@ import { playlistUpdate } from '../contextapi/PlaylistUpdateContext'
 import { authPlaylist } from '../contextapi/PlaylistContext'
 import { RiMoreLine, RiPlayListLine } from '@remixicon/react';
 import { authSearchBar } from '../contextapi/SearchSeparateContext';
-import { authProvider } from '../contextapi/AuthContext';
+import { adminContext } from '../contextapi/AdminContext';
 
 const PlaylistForm = () => {
     const { showUpdate, setShowUpdate, playlistName, setPlaylistName, setPlaylistPfp, updateDetail, imagePreview, setImagePreview, deleteShow, setDeleteShow, deleteDetail } = useContext(playlistUpdate)
     const { separate } = useContext(authPlaylist)
     const {updateVisibility} = useContext(authSearchBar)
-    const {user} =useContext(authProvider)
+    const {user} =useContext(adminContext)
     return (
         <>
             {

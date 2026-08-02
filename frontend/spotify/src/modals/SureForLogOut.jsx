@@ -1,9 +1,10 @@
 import React, { useContext } from 'react'
-import {  authProvider, LogoutContext } from '../contextapi/AuthContext'
+import { LogoutContext } from '../contextapi/AuthContext'
+import { adminContext } from '../contextapi/AdminContext'
 
 const SureForLogOut = () => {
     const {handleLogout}=useContext(LogoutContext)
-    const {user}=useContext(authProvider)
+    const {user}=useContext(adminContext)
     
     const {hideSure, setHideSure}=useContext(LogoutContext)
     

@@ -2,12 +2,14 @@ import React, { createContext, useCallback, useContext, useEffect, useRef, useSt
 import { audioContext } from '../contextapi/AudioProvider';
 import {getMusic, patchMusic} from '../api/favApi'
 import { resetContext } from './resetPasswordContext';
+import { adminContext } from './AdminContext';
 
 export const musciControl = createContext()
 function MusicControllerContext({ children }) {
     let [control, setControl] = useState([])
     let { audioRef, setPlaying, setCurrentSong, currentSong } = useContext(audioContext)
     const {authReady}=useContext(resetContext)
+    const {user} = useContext(adminContext)
 
     let currentSongRef=useRef(currentSong)
 
@@ -28,7 +30,7 @@ function MusicControllerContext({ children }) {
     }, [])
 
     useEffect(() => {
-        if(!authReady) return
+        if (!authReady || user?.role === "admin") return;
         getMusicPlaying()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authReady])

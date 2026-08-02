@@ -1,20 +1,18 @@
 import React, { useContext } from 'react'
 import {  RiLoader4Line, RiLoaderLine, RiSpotifyFill } from "@remixicon/react";
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { authProvider, UIContext } from '../../src/contextapi/AuthContext'
 import Home from './Home';
-import Admin from '../pages/Admin';
+import Admin from './adminpage/Admin';
 import Artist from '../pages/Artist'
 
 function Login() {
-  const  {handleLogin,login,handleChange,user}=useContext(authProvider)
+  const  {handleLogin,login,handleChange}=useContext(authProvider)
   const {loading}=useContext(UIContext)
   
 
   return (
     <div className='w-full  text-white'>
-      {
-        user  ? ( user.role === 'admin'? (<Admin /> ): (user.role==='user'?(<Home />):(<Artist />)) ) :(
         <div className='flex items-center justify-center pt-17'>
       <div className='w-100   flex justify-center pt-7'>
         <div className='text-center'>
@@ -41,11 +39,7 @@ function Login() {
           </div>
         </div>
         </div>
-      </div>)
-      }
-
-     
-        
+      </div>
     </div>
   )
 }

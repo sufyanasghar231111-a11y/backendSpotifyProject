@@ -17,13 +17,15 @@ import ResetPasswordContext from './contextapi/resetPasswordContext.jsx'
 import PlaylistUpdateContext from './contextapi/PlaylistUpdateContext.jsx'
 import UserRequest from './contextapi/UserRequest.jsx'
 import ArtistMusicContext from './contextapi/ArtistMusicContext.jsx'
+import AdminContext from './contextapi/AdminContext.jsx'
 
 
 createRoot(document.getElementById('root')).render(
 
   <StrictMode>
     <BrowserRouter>
-        <ResetPasswordContext>
+      <ResetPasswordContext>
+        <AdminContext>
           <UserRequest >
             <PlaylistContext >
               <PlaylistUpdateContext>
@@ -32,13 +34,13 @@ createRoot(document.getElementById('root')).render(
                     <RecentRoute>
                       <RecentSearchRoute >
                         <SearchSeparateContext>
-                            <AuthContext >
-                              <HomeContext >
-                          <ArtistMusicContext>
+                          <AuthContext >
+                            <HomeContext >
+                              <ArtistMusicContext>
                                 <App />
-                          </ArtistMusicContext>
-                              </HomeContext>
-                            </AuthContext>
+                              </ArtistMusicContext>
+                            </HomeContext>
+                          </AuthContext>
                         </SearchSeparateContext>
                       </RecentSearchRoute>
                     </RecentRoute>
@@ -47,7 +49,8 @@ createRoot(document.getElementById('root')).render(
               </PlaylistUpdateContext>
             </PlaylistContext>
           </UserRequest>
-        </ResetPasswordContext>
+        </AdminContext>
+      </ResetPasswordContext>
     </BrowserRouter>
   </StrictMode>
 )

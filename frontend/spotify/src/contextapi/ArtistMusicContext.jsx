@@ -7,6 +7,7 @@ import { authPlaylist } from './PlaylistContext'
 import { addSong, albumArtist, createAlbum, deleteAlbumThumbNail, deleteToSong, particularAlbum } from '../api/albumApi'
 import { useNavigate } from 'react-router-dom'
 import { resetContext } from './resetPasswordContext'
+import { adminContext } from './AdminContext'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const musicContext = createContext()
@@ -49,6 +50,7 @@ const ArtistMusicContext = ({ children }) => {
   const [albumButtonLoader, setAlbumButtonLoader] = useState(false)
   const [addtoAlbumModal, setAddtoAlbumModal] = useState(false)
   const {authReady} = useContext(resetContext)
+  const {user} = useContext(adminContext)
 
   // Particular album 
   const [ownAlbum, setOwnAlbum] = useState([])
@@ -76,7 +78,8 @@ const ArtistMusicContext = ({ children }) => {
   }
 
   useEffect(()=>{
-    if(!authReady) return
+    
+    if(!authReady || user.role === 'admin') return
     // eslint-disable-next-line react-hooks/set-state-in-effect
     getParticularAlbum()
   },[authReady])

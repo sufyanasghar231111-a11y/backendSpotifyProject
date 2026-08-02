@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { UIPlaylistContext } from '../../contextapi/PlaylistContext'
-import { authProvider, LibraryContext } from '../../contextapi/AuthContext'
+import { LibraryContext } from '../../contextapi/AuthContext'
+import { adminContext } from '../../contextapi/AdminContext'
 import { audioContext } from '../../contextapi/AudioProvider'
 import { musciControl } from '../../contextapi/MusicControllerContext'
 import { authHome } from '../../contextapi/HomeContext'
@@ -16,7 +17,7 @@ const RightSidePlayComponent = ({deleteId, isFav, lib, checkOwn}) => {
       const {  addToLibrary, removeTolibrary } = useContext(LibraryContext)
       const {setHidePlaylist}=useContext(UIPlaylistContext)
       const {deleteSong} = useContext(CreateSongContext)
-      const {user} = useContext(authProvider)
+      const {user} = useContext(adminContext)
       const {setAddtoAlbumModal } =useContext(CreateAlbumContext)
  
     return (

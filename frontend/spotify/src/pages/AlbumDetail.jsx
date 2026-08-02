@@ -7,13 +7,13 @@ import AlbumToPlaylist from '../modals/AlbumToPlaylist'
 import { authPlaylist } from '../contextapi/PlaylistContext'
 import AlbumMain from '../component/albumpagecomponent/AlbumMain'
 import { albumContext } from '../contextapi/ArtistMusicContext'
-import  { authProvider } from '../contextapi/AuthContext'
+import { adminContext } from '../contextapi/AdminContext'
 
 const AlbumDetail = () => {
   const { id } = useParams()
   const { fav } = useContext(authHome)
   const { detailData, setDetailData } = useContext(authPlaylist)
-  const {user} = useContext(authProvider)
+  const {user} = useContext(adminContext)
 
   const { setAlbumEditModal , setAlbumImage, setAlbumPreview} = useContext(albumContext)
 

@@ -11,7 +11,7 @@ import {
     RiHeart2Fill,
     RiAddBoxFill,
 } from "@remixicon/react";
-import { authProvider } from '../contextapi/AuthContext';
+import { adminContext } from '../contextapi/AdminContext';
 import { authHome } from '../contextapi/HomeContext';
 import { playlistUpdate } from '../contextapi/PlaylistUpdateContext';
 
@@ -19,7 +19,7 @@ const HideExtraDetail = () => {
     const { hideExtra, setHideExtra } = useContext(UIPlaylistContext)
     const { updateVisibility } = useContext(authSearchBar)
     const { separate, deleteCompletePlaylist } = useContext(authPlaylist)
-    const {user}=useContext(authProvider)
+    const {user}=useContext(adminContext)
     const {createFav,fav,deletemusic}=useContext(authHome)  
     const {setShowUpdate} = useContext(playlistUpdate)
 

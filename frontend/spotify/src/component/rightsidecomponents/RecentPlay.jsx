@@ -37,7 +37,7 @@ const RecentPlay = () => {
               className="min-w-[180px]  bg-[#181818] p-3 rounded-lg "
             >
               <div className='w-full  h-40 relative bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5]'>
-                <div onClick={() => { deleteData(item._id) }} className=' absolute top-3 right-3 cursor-pointer w-8 h-8 flex items-center justify-center rounded-full bg-[#5c5c5c]  hover:bg-[#353535] transition-all duration-150 '>
+                <div onClick={() => { deleteData(item._id) }} className=' absolute z-300 top-3 right-3 cursor-pointer w-8 h-8 flex items-center justify-center rounded-full bg-[#5c5c5c]  hover:bg-[#353535] transition-all duration-150 '>
                   <RiCloseLine size={20} />
                 </div>
                 {

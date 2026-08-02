@@ -2,7 +2,8 @@ import React, { useContext, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { authHome } from '../../contextapi/HomeContext'
 import { RiAddCircleLine, RiCheckLine, RiHeartFill, RiMusicLine, RiPauseFill, RiPencilLine, RiPlayFill, RiPlayListAddLine, RiPlayListLine } from '@remixicon/react'
-import { authProvider, LibraryContext } from '../../contextapi/AuthContext'
+import { LibraryContext } from '../../contextapi/AuthContext'
+import { adminContext } from '../../contextapi/AdminContext'
 import { UIPlaylistContext } from '../../contextapi/PlaylistContext'
 import { fetch } from '../../api/playlistApi'
 import RightSidePlayComponent from './RightSidePlayComponent';
@@ -13,7 +14,7 @@ const Audioplay = () => {
   let { fav, data, setData } = useContext(authHome)
   let { library } = useContext(LibraryContext)
   const { setMusicEditPopup, setThumbNail, setMusicPreview } = useContext(musicContext)
-  const { user } = useContext(authProvider)
+  const { user } = useContext(adminContext)
 
 
   async function fetchSingleMusic() {

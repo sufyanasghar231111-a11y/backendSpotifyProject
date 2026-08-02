@@ -6,7 +6,7 @@ import { authHome } from '../contextapi/HomeContext'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { authPlaylist, UIPlaylistContext } from '../contextapi/PlaylistContext'
 import { handleSingle, singlevisible } from '../api/recentSearch'
-import { authProvider } from '../contextapi/AuthContext'
+import { adminContext } from '../contextapi/AdminContext'
 import PlaylistUpdate from '../component/playlistpagecomponent/PlaylistUpdate'
 import PlaylistDetail from '../component/playlistpagecomponent/playlistDetail'
 import ToggleButton from '../component/playlistpagecomponent/ToggleButton'
@@ -17,7 +17,7 @@ const PlayUI = () => {
 
   const { fav } = useContext(authHome)
   const { separate, setSeparate } = useContext(authPlaylist)
-  const { user } = useContext(authProvider)
+  const { user } = useContext(adminContext)
   const { id } = useParams()
   const location = useLocation()
 

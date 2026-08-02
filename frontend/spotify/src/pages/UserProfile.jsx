@@ -1,7 +1,7 @@
 import { RiCamera4Line, RiPencilLine, RiPlayListLine } from '@remixicon/react'
 import { RiDiscLine, RiMusic2Line } from "@remixicon/react";
 import React, { useContext, useEffect } from 'react'
-import { authProvider, ProfileContext } from '../contextapi/AuthContext'
+import { adminContext } from '../contextapi/AdminContext'
 import { Link, useParams } from 'react-router-dom'
 import { authPlaylist } from '../contextapi/PlaylistContext'
 import CheckOwn from '../component/profilepagecomponent/CheckOwn'
@@ -15,7 +15,7 @@ import { particularAlbumbyUser } from '../api/albumApi';
 
 const UserProfile = () => {
 
-  const { user } = useContext(authProvider)
+  const { user } = useContext(adminContext)
 
   const { visibleParticular, setVisibleParticular, otherArtist, setOtherArtist } = useContext(authPlaylist)
   const [userId, setUserId] = useState([])

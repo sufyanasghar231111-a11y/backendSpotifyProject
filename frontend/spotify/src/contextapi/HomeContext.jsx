@@ -3,6 +3,7 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 import { createfav, deletefav, favGet } from '../api/favApi'
 import { resetContext } from './resetPasswordContext'
 import { authProvider } from './AuthContext'
+import { adminContext } from './AdminContext'
 
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -21,7 +22,7 @@ const HomeContext = ({ children }) => {
   let [fav, setFav] = useState([])
   
   let {  authReady } = useContext(resetContext)
-  const {user} = useContext(authProvider)
+  const {user} = useContext(adminContext)
   let [hideClose, setHideClose] = useState(false)
 
   
@@ -54,7 +55,7 @@ const HomeContext = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    
+     if (user?.role === "admin") return;
     if (!authReady || !user ) return
     
     // eslint-disable-next-line react-hooks/set-state-in-effect

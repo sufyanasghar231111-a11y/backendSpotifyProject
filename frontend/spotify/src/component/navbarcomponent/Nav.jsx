@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { RiChromeLine, RiCloseLargeFill, RiHome4Fill, RiHome5Line, RiNotification4Line, RiPauseFill, RiPlayFill, RiSearchLine, RiSpotifyFill } from '@remixicon/react'
 import {  UIHomeContex } from '../../contextapi/HomeContext'
-import { authProvider } from '../../contextapi/AuthContext'
+import { adminContext } from '../../contextapi/AdminContext'
 import Logout from '../navbarcomponent/Logout'
 import { Link } from 'react-router-dom'
 import NavSearch from './NavSearch'
@@ -9,7 +9,7 @@ import NotificationModal from '../../modals/NotificationModal'
 import { notificationContext } from '../../contextapi/UserRequest'
 
 function Nav() {
-  const { user } = useContext(authProvider)
+  const { user } = useContext(adminContext)
   const { setHidepro } = useContext(UIHomeContex)
   const { setNotificationpopup} = useContext(notificationContext)
 

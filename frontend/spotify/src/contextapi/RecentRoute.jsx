@@ -3,11 +3,13 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useS
 import axios from 'axios'
 import { deleterecent, getrecent, patchrecent, patchrecentalbum } from '../api/recent'
 import { resetContext } from './resetPasswordContext'
+import { adminContext } from './AdminContext'
 
 export const  authRecent=createContext()
 const RecentRoute = ({children}) => {
   let [recentActivity, setRecentActivity]=useState([])
   const {authReady}=useContext(resetContext)
+  const { user } = useContext(adminContext)
   
 const  fetchRecent= useCallback(async()=>{
     try{
@@ -20,7 +22,7 @@ const  fetchRecent= useCallback(async()=>{
   },[])
 
   useEffect(()=>{
-    if(!authReady) return 
+    if(!authReady || user.role === 'admin') return
     fetchRecent()
   },[authReady])
 

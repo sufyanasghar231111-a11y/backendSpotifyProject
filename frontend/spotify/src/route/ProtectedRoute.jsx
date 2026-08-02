@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { authProvider } from '../contextapi/AuthContext'
+import { adminContext } from '../contextapi/AdminContext'
 import { Navigate, Outlet } from 'react-router-dom'
 
 const ProtectedRoute = () => {
-    let {user}=useContext(authProvider)
+    let {user}=useContext(adminContext)
    
-  return  user ? <Outlet /> : <Navigate to='/login' replace />
+  return  user.role ==='artist' || user.role === 'user' ? <Outlet /> : <Navigate to='/login' replace />
 }
 
 export default ProtectedRoute

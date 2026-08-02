@@ -1,10 +1,11 @@
 import { RiCloseLine, RiPencilLine, RiUserLine } from '@remixicon/react'
 import React, { useContext } from 'react'
 // import { authControl } from '../contextapi/AudioControl'
-import { authProvider, ProfileContext } from '../contextapi/AuthContext'
+import { ProfileContext } from '../contextapi/AuthContext'
+import { adminContext } from '../contextapi/AdminContext'
 
 const UpdateProfile = () => {
-    const  {user}=useContext(authProvider)
+    const  {user}=useContext(adminContext)
     const {hideProfileDetail,setHideProfileDetail,updatePfp,setUpdateprofile,updatename,setUpdatename,removePfp, preview,setPreview,imageref}=useContext(ProfileContext)
 
     

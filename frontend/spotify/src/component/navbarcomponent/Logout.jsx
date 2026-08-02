@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { UIHomeContex } from '../../contextapi/HomeContext'
 import { RiCheckFill } from '@remixicon/react'
-import { authProvider, LogoutContext } from '../../contextapi/AuthContext'
+import { LogoutContext } from '../../contextapi/AuthContext'
+import { adminContext } from '../../contextapi/AdminContext'
 import { Link } from 'react-router-dom'
 import { requestContext } from '../../contextapi/UserRequest'
 import { CreateSongContext } from '../../contextapi/ArtistMusicContext'
@@ -9,7 +10,7 @@ import { CreateSongContext } from '../../contextapi/ArtistMusicContext'
 const Logout = () => {
   let { hidepro, setHidepro } = useContext(UIHomeContex)
   let { setHideSure } = useContext(LogoutContext)
-  const { user } = useContext(authProvider)
+  const { user } = useContext(adminContext)
   const { setRequestpopup } = useContext(requestContext)
   const { setMusicCreateModal} = useContext(CreateSongContext)
 

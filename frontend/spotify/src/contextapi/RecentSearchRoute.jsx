@@ -1,7 +1,7 @@
-import axios from 'axios';
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { deleterecentSearch, getrecentSearch, patchrecentalbumSearch, patchrecentSearch, songsearch } from '../api/recentSearch';
 import { resetContext } from './resetPasswordContext';
+import { adminContext } from './AdminContext';
 
 export const authSearch=createContext()
 const RecentSearchRoute = ({children}) => {
@@ -12,6 +12,7 @@ const RecentSearchRoute = ({children}) => {
     const [visibleresults, setVisibleResults]=useState([])
      const [skeletonLoader, setSkeletonLoader] = useState(false)
      const {authReady}=useContext(resetContext)
+     const {user} = useContext(adminContext)
 
     const getRecentSearch = useCallback(async () => {
       try{
@@ -24,7 +25,7 @@ const RecentSearchRoute = ({children}) => {
     }, [])
 
     useEffect(()=>{
-      if(!authReady) return
+      if(!authReady || user.role === 'admin') return
         getRecentSearch()
     },[authReady])
 

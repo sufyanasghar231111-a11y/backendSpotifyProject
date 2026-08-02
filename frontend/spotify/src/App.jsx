@@ -19,6 +19,15 @@ import { resetContext } from './contextapi/resetPasswordContext'
 import ProtectedOtpRoute from './route/ProtectedOtpRoute'
 import OtpPage from './pages/OtpPage'
 import PublicRoute from './route/PublicRoute'
+import Admin from './pages/adminpage/Admin'
+import AdminUserPage from './pages/adminpage/AdminUserPage'
+import AdminArtistPage from './pages/adminpage/AdminArtistPage'
+import AdminSongPage from './pages/adminpage/AdminSongPage'
+import AdminPlaylistpage from './pages/adminpage/AdminPlaylistpage'
+import AdminAlbumPage from './pages/adminpage/AdminAlbumPage'
+import AdminNotificationPage from './pages/adminpage/AdminNotificationPage'
+import AdminSettingpage from './pages/adminpage/AdminSettingpage'
+import AdminRoute from './route/AdminRoute'
 
 
 function App() {
@@ -45,6 +54,18 @@ function App() {
          </Route>
 
          {/* protected route only login user can access */}
+         <Route element={<AdminRoute />}>
+         <Route path='/admin' element={<Admin />} >
+         <Route path='users' element={<AdminUserPage />} />
+         <Route path='artists' element={<AdminArtistPage />} />
+         <Route path='songs' element={<AdminSongPage />} />
+         <Route path='playlists' element={<AdminPlaylistpage />} />
+         <Route path='albums' element={<AdminAlbumPage />} />
+         <Route path='notifications' element={<AdminNotificationPage />} />
+         <Route path='Settings' element={<AdminSettingpage />} />
+         </Route>
+         </Route>
+         
          <Route element={<ProtectedRoute />} >
          <Route path='/' element={<Home />} >
         <Route path='showall' element={<ShowAll />} />

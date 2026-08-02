@@ -8,7 +8,7 @@ import { authSearchBar } from '../../contextapi/SearchSeparateContext'
 import HideExtraDetail from '../../modals/HideExtraDetail'
 import { UIPlaylistContext } from '../../contextapi/PlaylistContext'
 import { notificationContext } from '../../contextapi/UserRequest'
-import { authProvider } from '../../contextapi/AuthContext'
+import { adminContext } from '../../contextapi/AdminContext'
 import { CreateAlbumContext, CreateSongContext } from '../../contextapi/ArtistMusicContext'
 
 
@@ -17,7 +17,7 @@ const Right = () => {
   const {setPage}   =useContext(authSearchBar)
   const {setHideExtra}=useContext(UIPlaylistContext)
   const {setNotificationpopup} =useContext(notificationContext)
-  const {user} = useContext(authProvider)
+  const {user} = useContext(adminContext)
   const {musicCreateModal, setMusicCreateModal} = useContext(CreateSongContext) 
   const { setAlbumCreateModal, albumCreateModal } = useContext(CreateAlbumContext)
   
