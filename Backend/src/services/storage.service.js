@@ -10,10 +10,12 @@ const imageKit=new ImageKit({
 
 async function uploadFile(file) {
     try{
+        
         const result= await imageKit.upload({
             file:file,
             fileName:'my-music'+ Date.now() +'.mp3',
         })
+
         return result
     }
     catch(e){
@@ -21,6 +23,7 @@ async function uploadFile(file) {
         throw e 
     }
 }
+
 async function uploadThumbnail(image){
     try{
         const result=await imageKit.upload({

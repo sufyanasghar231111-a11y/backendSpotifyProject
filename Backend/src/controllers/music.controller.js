@@ -5,30 +5,32 @@ const { uploadFile, uploadThumbnail } = require('../services/storage.service')
 const mongoose = require('mongoose')
 const uploadalbumPic = require('../services/album.service')
 const userSchema = require('../models/playlist.model')
+const postSchema = require('../models/post.model')
 
 async function music(req, res) {
   try {
-    let { title } = req.body
-    let file = req.files.file[0]
-    const result = await uploadFile(file.buffer.toString('base64'))
-
-    let imageUrl = ''
-    if (req.file) {
-      const result = await uploadThumbnail(req.file.buffer)
-      imageUrl = result.url
+    let { title, image } = req.body
+    let file = req.file
+    
+    if (!title || !file) {
+      return res.status(400).json({
+        message: "Missing Title or Song"
+      })
     }
 
-    const user = await musicSchema.create({
+    const result = await uploadFile(file.buffer)
+
+    const music = await musicSchema.create({
       artist: req.user.id,
       uri: result.url,
       title,
-      imageUrl
+      image
     })
 
     res.status(201).json({
       success: true,
       message: "Successful create music",
-      user
+      music
     })
 
   }
@@ -40,6 +42,34 @@ async function music(req, res) {
 
 }
 
+async function deleteSong(req, res){
+  try{
+    const {id} = req.params
+    const deletesong = await musicSchema.findOneAndDelete(
+      {artist:req.user.id,
+        _id:id
+      }
+    )
+
+    if(!deletesong){
+      return res.status(404).json({
+        message:"Not found"
+      })
+    }
+
+    res.status(201).json({
+      message:"Successful delete",
+      deletesong
+    })
+  }
+  catch(err){
+    res.status(500).json({
+      message:"Internal error",
+      error:err.message
+    })
+  }
+}
+
 async function Album(req, res) {
   let { title, album, artistName } = req.body
   let image = ''
@@ -47,7 +77,7 @@ async function Album(req, res) {
     const result = await uploadalbumPic(req.file.buffer)
     image = result.url
   }
-  const user = await albumExport.create({
+  const albums = await albumExport.create({
     title,
     artistName,
     album: [],
@@ -57,7 +87,8 @@ async function Album(req, res) {
 
   res.status(201).json({
     success: true,
-    message: "Successful Created"
+    message: "Successful Created",
+    albums
   })
 }
 
@@ -177,14 +208,72 @@ async function detail(req, res) {
 }
 
 async function particularArtist(req, res) {
+  try
+  {
+    
+    const myalbum = await albumExport.find({ artist: req.user.id }).sort({ createdAt: -1 }).populate('artist', 'username').populate('album')
+    res.status(200).json({
+      message: "successful get your album",
+      myalbum
+    })
+  }
+  catch(err){
+    res.status(500).json({
+      message:"Internal error"
+    })
+  }
 
-  const myalbum = await albumExport.find({ artist: req.user.id }).populate('artist', 'username')
+}
 
-  res.status(200).json({
-    message: "successful get your album",
-    myalbum
-  })
+async function particularArtistByUser(req, res) {
+  try
+  {
+   const {id} =req.params
+    const findUser = await postSchema.findById(id) 
+    if(!findUser){
+      return res.status(404).json({
+        message:"User is not found "
+      })
+    }
+    const myalbum = await albumExport.find({artist:id}).sort({ createdAt: -1 }).populate('artist', 'username').populate('album')
+    res.status(200).json({
+      message: "successful get your album",
+      myalbum
+    })
+  }
+  catch(err){
+    res.status(500).json({
+      message:"Internal error",
+      error:err.message
+    })
+  }
 
+}
+
+async function addSong (req, res){
+  try{
+    const {albumId, musicId} = req.params
+    const adding = await albumExport.findByIdAndUpdate(
+      {artist:req.user.id, _id:albumId},{
+        $addToSet:{
+          album:musicId
+        }
+      },
+      {
+        new:true
+      }
+    )
+    res.status(201).json({
+      message:"Successful add",
+      adding
+    })
+  }
+  catch(err){
+    res.status(500).json({
+      message:"Internal error",
+      error:err.message
+    })
+  }
 }
 
 async function deleteMusic(req, res) {
@@ -192,9 +281,10 @@ async function deleteMusic(req, res) {
 
     let { albumId, musicId } = req.params
 
-    const deleteMusicByAlbum = await albumExport.findByIdAndUpdate(albumId, {
+    const deleteMusicByAlbum = await albumExport.findByIdAndUpdate(
+      {_id:albumId, artist:req.user.id}, {
       $pull: {
-        album: new mongoose.Types.ObjectId(musicId)
+        album: musicId
       }
     },
       { new: true }
@@ -217,23 +307,23 @@ async function deleteMusic(req, res) {
 
 async function updateSong(req, res) {
   try {
-    const {id } =req.params
+    const { id } = req.params
     const { title } = req.body;
     let result = await uploadThumbnail(req.file.buffer)
 
     const updatemusic = await musicSchema.findByIdAndUpdate(
-      { user: req.user.id , _id:id},
+      { user: req.user.id, _id: id },
       {
         image: result.url,
         title
       },
       {
-        new:true
+        new: true
       }
     )
 
     res.status(200).json({
-      message:"successful update",
+      message: "successful update",
       updatemusic
     })
 
@@ -245,50 +335,50 @@ async function updateSong(req, res) {
   }
 }
 
-async function deleteSongDetail(req, res){
-  try{
-    const {id} =req.params
+async function deleteSongDetail(req, res) {
+  try {
+    const { id } = req.params
     const deleteThumbnail = await musicSchema.findByIdAndUpdate(
-      {user:req.user.id, _id:id},
+      { user: req.user.id, _id: id },
       {
-        image:''
+        image: ''
       },
       {
-        new:true
+        new: true
       }
     )
 
     res.status(201).json({
-      message:"Successful delete",
+      message: "Successful delete",
       deleteThumbnail
     })
   }
-  catch(err){
+  catch (err) {
     res.status(500).json({
-      message:"Internal error"
+      message: "Internal error"
     })
   }
 }
 
 async function updateAlbum(req, res) {
   try {
-    const {id } =req.params
+    const { id } = req.params
     const { title } = req.body;
     let result = await uploadalbumPic(req.file.buffer)
 
     const updatealbum = await albumExport.findByIdAndUpdate(
-      { user: req.user.id , _id:id},
+      { user: req.user.id, _id: id },
       {
         image: result.url,
         title
       },
       {
-        new:true
+        new: true
       }
     )
 
     res.status(200).json({
-      message:"successful update",
+      message: "successful update",
       updatealbum
     })
 
@@ -300,29 +390,29 @@ async function updateAlbum(req, res) {
   }
 }
 
-async function deleteAlbumPic(req, res){
-  try{
-    const {id} =req.params
+async function deleteAlbumPic(req, res) {
+  try {
+    const { id } = req.params
     const deleteThumbnail = await albumExport.findByIdAndUpdate(
-      {user:req.user.id, _id:id},
+      { user: req.user.id, _id: id },
       {
-        image:''
+        image: ''
       },
       {
-        new:true
+        new: true
       }
     )
 
     res.status(201).json({
-      message:"Successful delete",
+      message: "Successful delete",
       deleteThumbnail
     })
   }
-  catch(err){
+  catch (err) {
     res.status(500).json({
-      message:"Internal error"
+      message: "Internal error"
     })
   }
 }
 
-module.exports = { music, Album, getBothSongalbum, single, detail, particularArtist, deleteMusic, getSingleVisible, updateSong, deleteSongDetail, deleteAlbumPic, updateAlbum }
+module.exports = { music, Album, getBothSongalbum, single, detail, particularArtist, deleteMusic, getSingleVisible, updateSong, deleteSongDetail, deleteAlbumPic, updateAlbum, deleteSong, addSong, particularArtistByUser }

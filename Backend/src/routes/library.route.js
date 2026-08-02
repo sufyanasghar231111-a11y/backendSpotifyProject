@@ -10,5 +10,4 @@ libRouter.get('/getLibrary',middleware.authorize('user', 'artist'), libraryContr
 libRouter.patch('/addTolab/:musicId', middleware.authorize('user', 'artist'), libraryController.addTolab )
 libRouter.delete('/deleteLab/:musicId', middleware.authorize('user', 'artist'), libraryController.deleteLab )
 
-
 module.exports=libRouter

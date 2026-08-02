@@ -57,7 +57,7 @@ async function patchCurr(req,res){
                 duration:duration
             },
             {
-                new :true,
+                returnDocument:'after',
                 upsert:true
             }
         )

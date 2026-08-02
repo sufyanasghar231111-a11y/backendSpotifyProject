@@ -39,7 +39,7 @@ async function playlist(req, res) {
 async function particularUserPlaylist(req, res) {
 
     try {
-        const particular = await userSchema.find({ user: req.user.id }).populate('music', 'title uri').populate('user')
+        const particular = await userSchema.find({ user: req.user.id }).sort({ createdAt: -1 }).populate('music', 'title uri').populate('user')
         res.status(200).json({
             message: "successful get playlist",
             particular
