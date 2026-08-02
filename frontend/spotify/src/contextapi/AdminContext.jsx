@@ -7,11 +7,15 @@ export const adminContext = createContext()
 const AdminContext = ({children}) => {
     const [getMonthlyActive, setMonthlyActive] = useState([])
     const [user, setUser] = useState(null)
-    const [role, setRole] = useState('')
     const {authReady} = useContext(resetContext)
+    
     const getActiveApi = async  () =>{
         try{
-            const res = await montlyActiveUser(role)
+            const res = await montlyActiveUser({
+                params:{
+                    role:'user'
+                }
+            })
             setMonthlyActive(res.data.chartData)
         }
         catch(err){
@@ -21,11 +25,11 @@ const AdminContext = ({children}) => {
 
     useEffect(()=>{
         if(!authReady || user.role === 'artist' || user.role === 'user') return 
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         getActiveApi()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[authReady, user])
   return (
-    <adminContext.Provider value={{getMonthlyActive, role, setRole, user, setUser}}>
+    <adminContext.Provider value={{getMonthlyActive, user, setUser}}>
         {children}
     </adminContext.Provider>
   )
