@@ -1,5 +1,7 @@
 const postSchema = require('../models/post.model')
 const albumSchema = require('../models/album.model')
+const playlistSchema = require('../models/playlist.model')
+const musicSchema = require("../models/music.model")
 
 async function adminCheckRole(req, res) {
     const {role} = req.query
@@ -19,19 +21,56 @@ async function adminCheckRole(req, res) {
     })
 }
 
-async function allAlbum(req, res) {
+async function totalContent(req, res) {
     try {
-        const getalbum = await albumSchema.find().populate('artist', 'username email').populate('album')
+        const [music, album, playlist ] = await Promise.all([
+            musicSchema
+            .find().sort({createdAt:-1})
+            .select('_id uri title artist image')
+            .populate('artist', '_id username pfp isOnline')
+            ,
+            albumSchema
+            .find().sort({createdAt:-1}).populate('artist', '_id username pfp isOnline')
+            ,
+            req.user.role === 'admin' ?
+            playlistSchema
+            .find().sort({createdAt:-1}).populate('user', '_id username pfp isOnline')
+            :
+             playlistSchema.find({ user: req.user.id }).sort({ createdAt: -1 })
+
+        ])
+
+        res.status(200).json({
+            message:"Successful get",
+            music, album, playlist 
+        })
 
         res.status(200).json({
             message: "successful get all album",
-            allAlbum: getalbum
         })
     }
     catch (e) {
         res.status(500).json({
             message: "The error in your request",
             error: e.message
+        })
+    }
+}
+
+async function totalCount (req, res) {
+    try{
+        const album = await  albumSchema.countDocuments()
+        const playlist = await playlistSchema.countDocuments()
+        const music = await musicSchema.countDocuments()
+        res.status(200).json({
+            message:"Successful get ",
+            album, playlist, music
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Internal error",
+            error:err.message
         })
     }
 }
@@ -173,4 +212,4 @@ async function unblockUser(req, res) {
     }
 }
 
-module.exports = {  adminCheckRole, allAlbum, particularAlbum, deleteArtistAlbum, blockArtist, unblockArtist, blockUser, unblockUser, unblockUser }
+module.exports = {  adminCheckRole, totalContent, particularAlbum, deleteArtistAlbum, blockArtist, unblockArtist, blockUser, unblockUser, unblockUser, totalCount }

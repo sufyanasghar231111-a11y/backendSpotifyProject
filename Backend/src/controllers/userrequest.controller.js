@@ -50,7 +50,14 @@ const sendRequest = async (req, res) => {
 
 const getRequest = async (req, res) => {
     try {
-        const getrequest = await requestSchema.find().populate('user', '_id username pfp role ')
+        const page = parseInt(req.query.page)
+        let limit = 8
+        let skip = (page - 1) * limit
+        const getrequest = await requestSchema.find()
+        .sort({createdAt:-1}).
+        limit(limit)
+        .skip(skip)
+        .populate('user', '_id username pfp role email')
         res.status(200).json({
             status: true,
             message: "successful get",

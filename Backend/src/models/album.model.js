@@ -18,6 +18,12 @@ const albumModel= new mongoose.Schema({
     image:{
         type:String,
         default:''
+    },
+
+    lastCreate : {
+        type: Date,
+        default:Date.now(),
+        index:true
     }
 }
 ,{

@@ -27,10 +27,17 @@ async function music(req, res) {
       image
     })
 
+    const createTime = await musicSchema.findByIdAndUpdate(music._id,
+      {
+        lastCreate:new Date()
+      }
+    )
+
     res.status(201).json({
       success: true,
       message: "Successful create music",
-      music
+      music,
+      
     })
 
   }
@@ -83,6 +90,10 @@ async function Album(req, res) {
     album: [],
     artist: req.user.id,
     image
+  })
+
+  const createTime = await albumExport.findByIdAndUpdate(albums._id,{
+    lastCreate:new Date()
   })
 
   res.status(201).json({

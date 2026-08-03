@@ -141,7 +141,7 @@ async function login(req, res) {
             }
         )
 
-         await postSchema.findByIdAndUpdate(user._id, {
+        const online= await postSchema.findByIdAndUpdate(user._id, {
             lastActive:new Date(),
             isOnline:true
         })
@@ -183,7 +183,8 @@ async function getUser(req, res) {
                 username: getAuthData.username,
                 email: getAuthData.email,
                 role: getAuthData.role,
-                pfp: getAuthData.pfp
+                pfp: getAuthData.pfp,
+                isOnline: getAuthData.isOnline
             }
         })
     }

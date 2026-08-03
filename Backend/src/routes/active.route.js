@@ -5,6 +5,7 @@ const activeRouter = express.Router()
 
 activeRouter.get('/monthly-active-users-chart',middleware.auth, middleware.adminMan,  controller.getMonthlyActiveUsersChart)
 activeRouter.get('/get-all-role',middleware.auth, middleware.adminMan,  controller.getAllRole)
+activeRouter.get('/monthly-create-songs-chart',middleware.auth, middleware.adminMan,  controller.MonthlySongAndAlbum)
 
 
 module.exports= activeRouter
