@@ -28,7 +28,7 @@ const SingleUserChart = () => {
     const {getMonthlyActive} = useContext(adminContext)
     return (
 
-        <div className="w-[370px] rounded-2xl bg-[#141815] p-2 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
+        <div className="w-full  rounded-xl bg-[#141815] p-2 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
             {/* Header */}
             <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-[#e8ebe9]">

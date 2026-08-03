@@ -25,7 +25,7 @@ const DashBoardLeft = () => {
         { name: "Settings", path: "/admin/settings", icon: RiSettings3Line },
     ];
     return (
-        <div className='w-[20%] border-t mt-5 border-[#2e2e2e] pt-6'>
+        <div className='w-[25%] border-t mt-5 border-[#2e2e2e] pt-6'>
             <div className="flex flex-col gap-3">
                 {menuItems.map((item) => {
                     const Icon = item.icon;
