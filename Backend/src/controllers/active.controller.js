@@ -1,32 +1,6 @@
 const postSchema = require('../models/post.model')
 
 
-const monthlyActiveUser = async (req, res) => {
-    try {
-        const startOfMonth = new Date()
-        startOfMonth.getDate(1)
-        startOfMonth.setHours(0, 0, 0, 0)
-
-        const total = await postSchema.countDocuments(
-            {
-                lastActive: {
-                    $gte: startOfMonth
-                }
-            }
-        )
-
-        res.status(200).json({
-            message: "Successful get",
-            total
-        })
-    }
-    catch (err) {
-        res.status(500).json({
-            message: "Internal error"
-        })
-    }
-}
-
 const getMonthlyActiveUsersChart = async (req, res) => {
     try {
         const currentYear = new Date().getFullYear();
@@ -66,8 +40,10 @@ const getMonthlyActiveUsersChart = async (req, res) => {
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
         ];
 
-
-        const chartData = months.map((month, index) => {
+        const currentMonth = new Date().getMonth()
+        const chartData = months
+        .slice(0, currentMonth + 1)
+        .map((month, index) => {
             const item = result.find((r) => r._id === index + 1);
 
             return {
@@ -89,4 +65,20 @@ const getMonthlyActiveUsersChart = async (req, res) => {
     }
 }
 
-module.exports = { monthlyActiveUser, getMonthlyActiveUsersChart }
+const getAllRole = async (req, res) => {
+    try{
+        const user = await postSchema.findById(req.user.id)
+        const getRole = await postSchema.find({verified:true, _id:{$nin: user.blockedArtists}})
+        res.status(200).json({
+            message:"Successfull get",
+            getRole
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            message:"Internal error"
+        })
+    }
+}
+
+module.exports = { getMonthlyActiveUsersChart, getAllRole }
