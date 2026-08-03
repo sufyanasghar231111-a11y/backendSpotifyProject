@@ -28,6 +28,7 @@ import AdminAlbumPage from './pages/adminpage/AdminAlbumPage'
 import AdminNotificationPage from './pages/adminpage/AdminNotificationPage'
 import AdminSettingpage from './pages/adminpage/AdminSettingpage'
 import AdminRoute from './route/AdminRoute'
+import DashBoardRight from './component/adminPageComponent/dashBoardpageComponent/DashBoardRight'
 
 
 function App() {

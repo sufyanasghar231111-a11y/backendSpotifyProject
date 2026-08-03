@@ -59,7 +59,7 @@ const AlbumDetail = () => {
             </div>
             {
               detailData?.image && (
-                <img src={detailData?.image} className=' absolute z-110 w-full h-full object-cover ' src={detailData.image} alt="" />
+                <img src={detailData?.image} className=' absolute z-110 w-full h-full object-cover ' alt="" />
               )
             }
             {

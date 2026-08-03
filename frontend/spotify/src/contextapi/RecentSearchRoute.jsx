@@ -25,7 +25,7 @@ const RecentSearchRoute = ({children}) => {
     }, [])
 
     useEffect(()=>{
-      if(!authReady || user.role === 'admin') return
+      if(!authReady || user?.role === 'admin') return
         getRecentSearch()
     },[authReady])
 

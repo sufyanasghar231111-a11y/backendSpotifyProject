@@ -176,6 +176,7 @@ const AuthContext = ({ children }) => {
                 audioRef.current.src = ''
             }
             setCurrentSong(null)
+            navigate('/login')
         }
         catch (e) {
             console.log(e);

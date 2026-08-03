@@ -6,7 +6,6 @@ import { authPlaylist } from './PlaylistContext'
 import { getMusicAlbumPlaylist, patchtext, separateGet, updatevisibility } from '../api/albumApi'
 import { musciControl } from './MusicControllerContext'
 import { audioContext } from './AudioProvider'
-import { resetContext } from './resetPasswordContext'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const authSearchBar = createContext()

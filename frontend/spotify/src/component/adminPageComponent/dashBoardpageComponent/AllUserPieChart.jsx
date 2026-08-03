@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { adminContext } from '../../../contextapi/AdminContext'
+import { CustomTooltip } from '../../../utils/CustomToolTip'
 
 const AllUserPieChart = () => {
 
@@ -45,13 +46,20 @@ const AllUserPieChart = () => {
                   <Cell key={index} fill={entry.color} />
                 ))}
               </Pie>
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{
+                  stroke: "#39ff6a",
+                  strokeOpacity: 0.3,
+                }}
+              />
             </PieChart>
           </ResponsiveContainer>
         </div>
 
         <div className='w-[30%] flex flex-col gap-4'>
           <div className='flex flex-col items-center justify-center'>
-            <div className='flex items-center justify-center text-[13px] text-[#e8ebe9] gap-2'>
+            <div className='flex items-center justify-center text-[15px] text-[#e8ebe9] gap-2'>
               <span className='h-2 w-2 rounded-full bg-green-400'></span> Users
             </div>
             <div className='text-[10px]'>
@@ -62,7 +70,7 @@ const AllUserPieChart = () => {
           </div>
 
           <div className='flex flex-col items-center justify-center'>
-            <div className='flex items-center justify-center text-[13px] text-[#e8ebe9] gap-2'>
+            <div className='flex items-center justify-center text-[15px] text-[#e8ebe9] gap-2'>
               <span className='h-2 w-2 rounded-full bg-purple-400'></span> Artist
             </div>
             <div className='text-[10px]'>
@@ -73,7 +81,7 @@ const AllUserPieChart = () => {
           </div>
 
           <div className='flex flex-col items-center justify-center'>
-            <div className='flex items-center justify-center text-[13px] text-[#e8ebe9] gap-2'>
+            <div className='flex items-center justify-center text-[15px] text-[#e8ebe9] gap-2'>
               <span className='h-2 w-2 rounded-full bg-orange-400'></span> Admin
             </div>
             <div className='text-[10px]'>

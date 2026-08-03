@@ -1,13 +1,14 @@
 import React from 'react'
 import SingleUserChart from './SingleUserChart'
 import AllUserPieChart from './AllUserPieChart'
+import AlbumSongChart from './AlbumSongChart'
 
 const DashBoardMiddleChart = () => {
   return (
     <>
-    <div className=' flex  justify-center gap-4 mt-4 '>
+    <div className=' flex  p-6   justify-center gap-4  '>
         <div className=' w-[35%]  rounded-sm'>
-            
+          <AlbumSongChart />
         </div>
         <div className='w-[35%] rounded-sm'>
             <SingleUserChart />

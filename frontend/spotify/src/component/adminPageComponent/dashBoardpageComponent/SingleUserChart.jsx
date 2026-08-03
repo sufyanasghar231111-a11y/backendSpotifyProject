@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import {
     ResponsiveContainer,
     AreaChart,
@@ -9,26 +9,14 @@ import {
     Tooltip,
 } from "recharts";
 import { adminContext } from '../../../contextapi/AdminContext';
+import { CustomTooltip } from '../../../utils/CustomToolTip';
 
-function CustomTooltip({ active, payload, label }) {
-    if (!active || !payload?.length) return null;
-
-    return (
-        <div className="rounded-xl border border-[#2a2f2c] bg-[#1e2320] px-3 py-2 shadow-lg">
-            <p className="mb-1 text-xs text-gray-400">{label}</p>
-
-            <p className="text-sm font-semibold text-[#39ff6a]">
-                {payload[0].value.toLocaleString()} users
-            </p>
-        </div>
-    );
-}
 const SingleUserChart = () => {
 
-    const {getMonthlyActive} = useContext(adminContext)
+    const { getMonthlyActive } = useContext(adminContext)
     return (
 
-        <div className="w-full  rounded-xl bg-[#141815] p-2 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
+        <div className="w-full  rounded-xl bg-[#141414] p-2 shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
             {/* Header */}
             <div className="mb-4 flex items-center justify-between">
                 <h2 className="text-sm font-semibold text-[#e8ebe9]">
@@ -118,11 +106,11 @@ const SingleUserChart = () => {
                         axisLine={false}
                         tickLine={false}
                         tick={{ fill: "#7c8380", fontSize: 12 }}
-                        tickFormatter={(v) => `${v / 1000}K`}
+                        domain={[0, "dataMax + 1"]}
                     />
 
                     <Tooltip
-                        content={<CustomTooltip  />}
+                        content={<CustomTooltip />}
                         cursor={{
                             stroke: "#39ff6a",
                             strokeOpacity: 0.3,

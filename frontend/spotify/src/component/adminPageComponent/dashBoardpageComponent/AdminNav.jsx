@@ -3,7 +3,7 @@ import React from 'react'
 
 const AdminNav = () => {
     return (
-        <nav className='flex items-center justify-between'>
+        <nav className='flex fixed px-7 py-4 top-0 z-300 backdrop-blur-lg w-full items-center justify-between'>
             <div className='flex items-center justify-center gap-30'>
                 <div className='flex items-center justify-center gap-3'>
                     <RiSpotifyFill className='text-green-500 w-12 h-12' />

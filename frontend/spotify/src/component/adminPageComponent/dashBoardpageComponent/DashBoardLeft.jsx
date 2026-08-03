@@ -25,8 +25,8 @@ const DashBoardLeft = () => {
         { name: "Settings", path: "/admin/settings", icon: RiSettings3Line },
     ];
     return (
-        <div className='w-[25%] border-t mt-5 border-[#2e2e2e] pt-6'>
-            <div className="flex flex-col gap-3">
+        <div className='w-[25%] fixed bg-[#121212]  h-full  border-t mt-5 border-[#2e2e2e] pt-6'>
+            <div className="flex  flex-col gap-3 px-7  py-4">
                 {menuItems.map((item) => {
                     const Icon = item.icon;
 
@@ -35,8 +35,8 @@ const DashBoardLeft = () => {
                             key={item.name}
                             to={item.path}
                             className={({ isActive }) =>
-                                `flex items-center gap-4 rounded-xl px-5 py-3 text-sm transition-all duration-300 ${isActive
-                                    ? "bg-gradient-to-r from-green-950/80 to-green-900/50 text-green-400 shadow-[0_0_20px_rgba(34,197,94,0.12)] border border-green-500/10"
+                                `flex items-center gap-4 rounded-xl px-5 py-3.5 text-sm transition-all duration-300 ${isActive
+                                    ? "bg-gradient-to-r from-green-950/80 to-green-900/50 text-green-400 border-l-2 border-l-green-700 shadow-[0_0_20px_rgba(34,197,94,0.12)] border border-green-500/10"
                                     : "text-gray-400 hover:bg-zinc-800 hover:text-white"
                                 }`
                             }

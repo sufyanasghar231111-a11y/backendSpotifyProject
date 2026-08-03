@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { adminCheckRole, montlyActiveUser, totalRole } from '../api/AdminApi'
+import { adminCheckRole, montlyActiveUser, songAlbumCount, totalRole, withOutPage } from '../api/AdminApi'
 import { resetContext } from './resetPasswordContext'
+import { getMusicAlbumPlaylist } from '../api/albumApi'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const adminContext = createContext()
@@ -13,6 +14,10 @@ const AdminContext = ({ children }) => {
     const [totalArtist, setTotalArtist] = useState([])
     const [totalAdmin, setTotalAdmin] = useState([])
     const [totalRoles, setTotalRoles] = useState([])
+    const [totalMusic, setTotalMusic] = useState(null)
+    const [totalAlbum, setTotalAlbum] = useState(null)
+    const [totalPlaylist, setTotalPlaylist] = useState(null)
+    const [monthlyDataCount, setMonthlyDataCount] = useState([])
 
     const getActiveApi = async () => {
         try {
@@ -29,7 +34,7 @@ const AdminContext = ({ children }) => {
     }
 
     useEffect(() => {
-        if (!authReady || user.role === 'artist' || user.role === 'user') return
+        if (!authReady || user?.role === 'artist' || user?.role === 'user') return
         // eslint-disable-next-line react-hooks/set-state-in-effect
         getActiveApi()
     }, [authReady, user])
@@ -89,6 +94,29 @@ const AdminContext = ({ children }) => {
         }
     }
 
+    const getSongAlbum = async () =>{
+        try{
+            const res = await withOutPage()
+            setTotalMusic(res.data.music)
+            setTotalAlbum(res.data.album)
+            setTotalPlaylist(res.data.playlist)
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    const getSongAlbumCount = async () => {
+        try{
+            const res = await songAlbumCount()
+            setMonthlyDataCount(res.data.chart)
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+
     useEffect(() => {
         if (!authReady || user?.role !== "admin") return;
 
@@ -97,10 +125,13 @@ const AdminContext = ({ children }) => {
         getAdminApi();
         getArtistApi();
         totalPeople();
+        getSongAlbum()
+        getSongAlbumCount()
+        
     }, [authReady, user]);
 
     return (
-        <adminContext.Provider value={{ getMonthlyActive, user, setUser, totalUsers, totalRoles, totalArtist, totalAdmin }}>
+        <adminContext.Provider value={{ getMonthlyActive, user, setUser, totalUsers, totalRoles, totalArtist, totalAdmin, totalAlbum,totalMusic, totalPlaylist, monthlyDataCount }}>
             {children}
         </adminContext.Provider>
     )

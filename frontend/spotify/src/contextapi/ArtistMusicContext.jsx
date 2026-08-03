@@ -79,10 +79,10 @@ const ArtistMusicContext = ({ children }) => {
 
   useEffect(()=>{
     
-    if(!authReady || user.role === 'admin') return
+    if(!authReady || user?.role === 'admin' || user?.role === 'user') return
     // eslint-disable-next-line react-hooks/set-state-in-effect
     getParticularAlbum()
-  },[authReady])
+  },[authReady, user])
 
   const updateMusic = async (id) => {
     try {
