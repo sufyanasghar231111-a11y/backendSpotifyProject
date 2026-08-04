@@ -18,6 +18,7 @@ import PlaylistUpdateContext from './contextapi/PlaylistUpdateContext.jsx'
 import UserRequest from './contextapi/UserRequest.jsx'
 import ArtistMusicContext from './contextapi/ArtistMusicContext.jsx'
 import AdminContext from './contextapi/AdminContext.jsx'
+import AdminCountContext from './contextapi/AdminCountContext.jsx'
 
 
 createRoot(document.getElementById('root')).render(
@@ -26,29 +27,31 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <ResetPasswordContext>
         <AdminContext>
-          <UserRequest >
-            <PlaylistContext >
-              <PlaylistUpdateContext>
-                <AudioProvider >
-                  <MusicControllerContext >
-                    <RecentRoute>
-                      <RecentSearchRoute >
-                        <SearchSeparateContext>
-                          <AuthContext >
-                            <HomeContext >
-                              <ArtistMusicContext>
-                                <App />
-                              </ArtistMusicContext>
-                            </HomeContext>
-                          </AuthContext>
-                        </SearchSeparateContext>
-                      </RecentSearchRoute>
-                    </RecentRoute>
-                  </MusicControllerContext>
-                </AudioProvider>
-              </PlaylistUpdateContext>
-            </PlaylistContext>
-          </UserRequest>
+          <AdminCountContext>
+            <UserRequest >
+              <PlaylistContext >
+                <PlaylistUpdateContext>
+                  <AudioProvider >
+                    <MusicControllerContext >
+                      <RecentRoute>
+                        <RecentSearchRoute >
+                          <SearchSeparateContext>
+                            <AuthContext >
+                              <HomeContext >
+                                <ArtistMusicContext>
+                                  <App />
+                                </ArtistMusicContext>
+                              </HomeContext>
+                            </AuthContext>
+                          </SearchSeparateContext>
+                        </RecentSearchRoute>
+                      </RecentRoute>
+                    </MusicControllerContext>
+                  </AudioProvider>
+                </PlaylistUpdateContext>
+              </PlaylistContext>
+            </UserRequest>
+          </AdminCountContext>
         </AdminContext>
       </ResetPasswordContext>
     </BrowserRouter>

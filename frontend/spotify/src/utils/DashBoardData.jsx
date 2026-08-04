@@ -7,18 +7,20 @@ import {
 } from "@remixicon/react";
 import React, { useContext } from 'react'
 import { adminContext } from "../contextapi/AdminContext";
+import { adminCountContext } from "../contextapi/AdminCountContext";
 
 const DashBoardData = () => {
-  const { totalUsers, totalArtist ,totalAlbum,totalMusic, totalPlaylist} = useContext(adminContext)
-  const onlineArtist = (totalArtist.filter(elem => elem.isOnline)).length
-  const onlineUser = (totalUsers.filter(elem => elem.isOnline)).length
+  const { totalUsersData, totalArtistData ,totalAlbum,totalMusic, totalPlaylist} = useContext(adminContext)
+  const {  totalRoleArtist, totalUser } = useContext(adminCountContext)
+  const onlineArtist = (totalArtistData.filter(elem => elem.isOnline )).length
+  const onlineUser = (totalUsersData.filter(elem => elem.isOnline )).length
   
 
   return [
     {
       id: 1,
       title: "Total Users",
-      total: totalUsers.length,
+      total: totalUser,
       icon: RiUser3Line,
       color: "text-green-200",
       bg: "bg-green-500",
@@ -27,7 +29,7 @@ const DashBoardData = () => {
     {
       id: 2,
       title: "Artists",
-      total: totalArtist.length,
+      total: totalRoleArtist,
       icon: RiMicLine,
       color: "text-purple-200",
       bg: "bg-purple-500",

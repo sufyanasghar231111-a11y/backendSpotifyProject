@@ -1,22 +1,22 @@
 import React, { useContext } from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
-import { adminContext } from '../../../contextapi/AdminContext'
 import { CustomTooltip } from '../../../utils/CustomToolTip'
+import { adminCountContext } from '../../../contextapi/AdminCountContext'
 
 const AllUserPieChart = () => {
 
-  const { totalUsers, totalRoles, totalAdmin, totalArtist } = useContext(adminContext)
+  const { totalRole, totalRoleAdmin, totalRoleArtist, totalUser } = useContext(adminCountContext)
 
-  const total = totalRoles.length
+  const total = totalRole
 
-  const userPercentage = ((totalUsers.length / total) * 100).toFixed()
-  const adminPercentage = ((totalAdmin.length / total) * 100).toFixed()
-  const artistPercentage = ((totalArtist.length / total) * 100).toFixed()
+  const userPercentage = ((totalUser / total) * 100).toFixed()
+  const adminPercentage = ((totalRoleAdmin / total) * 100).toFixed()
+  const artistPercentage = ((totalRoleArtist / total) * 100).toFixed()
 
   const data = [
-    { name: 'Users', value: totalUsers.length, color: '#4ade80' },
-    { name: 'Artist', value: totalArtist.length, color: '#c084fc' },
-    { name: 'Admin', value: totalAdmin.length, color: '#fb923c' },
+    { name: 'Users', value: totalUser, color: '#4ade80' },
+    { name: 'Artist', value: totalRoleAdmin, color: '#c084fc' },
+    { name: 'Admin', value: totalRoleArtist, color: '#fb923c' },
   ]
 
   return (
@@ -64,7 +64,7 @@ const AllUserPieChart = () => {
             </div>
             <div className='text-[10px]'>
               <div>
-                {totalUsers.length} ({userPercentage}%)
+                {totalUser} ({userPercentage}%)
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@ const AllUserPieChart = () => {
             </div>
             <div className='text-[10px]'>
               <div>
-                {totalArtist.length} ({artistPercentage}%)
+                {totalRoleArtist} ({artistPercentage}%)
               </div>
             </div>
           </div>
@@ -86,7 +86,7 @@ const AllUserPieChart = () => {
             </div>
             <div className='text-[10px]'>
               <div>
-                {totalAdmin.length} ({adminPercentage}%)
+                {totalRoleAdmin} ({adminPercentage}%)
               </div>
             </div>
           </div>

@@ -2,11 +2,12 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import React, { createContext, useEffect, useState, useContext, use } from 'react'
 import { resetContext } from './ResetPasswordContext'
-import { getNotificationData, getRequest, postApi } from '../api/userrequest'
-import {adminContext} from './AdminContext'
+import { deleteRequest, getNotificationData, getRequest, patchRequest, postApi } from '../api/userrequest'
+import { adminContext } from './AdminContext'
 
 export const requestContext = createContext()
 export const notificationContext = createContext()
+export const adminApprovalContext = createContext()
 const UserRequest = ({ children }) => {
     const [requestpopup, setRequestpopup] = useState(false)
     // const [requestData, setRequestData] = useState([])
@@ -19,7 +20,7 @@ const UserRequest = ({ children }) => {
 
     const requestArtist = async () => {
         try {
-             await postApi({
+            await postApi({
                 requestDescription: description
             })
         }
@@ -32,42 +33,65 @@ const UserRequest = ({ children }) => {
 
     const { authReady } = useContext(resetContext)
 
-    const notificationGet = async () =>{
-        try{
+    const notificationGet = async () => {
+        try {
             const res = await getNotificationData()
             setGetnotification(res.data.response)
         }
-        catch(err){
+        catch (err) {
             console.log(err);
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         if (!authReady || user?.role === 'admin') return
         notificationGet()
-    },[authReady, user])
+    }, [authReady, user])
 
 
     const adminGetRequest = async () => {
-        try{
+        try {
             const res = await getRequest()
             setGetRequests(res.data.getrequest)
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        if (!authReady || !user?.role === 'admin') return
+        adminGetRequest()
+    }, [user, authReady])
+
+
+    const updateRequest =async (id) => {
+        try{
+           await patchRequest(id)
+            await adminGetRequest()
         }
         catch(err){
             console.log(err);
         }
     }
 
-    useEffect(()=>{
-        if(!authReady || !user?.role === 'admin') return
-        adminGetRequest()
-    },[user, authReady])
+    const deleteRequests = async (id) => {
+        try{
+            await deleteRequest(id)
+            await adminGetRequest()
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
 
 
     return (
-        <requestContext.Provider value={{ requestpopup, setRequestpopup, description, setDescription, requestArtist, setPopup, popup, getRequests}}>
+        <requestContext.Provider value={{ requestpopup, setRequestpopup, description, setDescription, requestArtist, setPopup, popup, getRequests }}>
             <notificationContext.Provider value={{ notificationpopup, setNotificationpopup, getnotification }}>
-            {children}
+                <adminApprovalContext.Provider value={{updateRequest, deleteRequests}}>
+                    {children}
+                </adminApprovalContext.Provider>
             </notificationContext.Provider>
         </requestContext.Provider>
     )

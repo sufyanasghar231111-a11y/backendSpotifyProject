@@ -2,7 +2,7 @@ import React from 'react'
 
 const AdminAlbumPage = () => {
   return (
-    <div>AdminAlbumPage</div>
+    <div className='ml-84'>AdminAlbumPage</div>
   )
 }
 

@@ -12,6 +12,13 @@ export const adminCheckRole = (config) =>{
     return api.get(`/admin/admin-check-role`,config)
 }
 
+export const adminCountRole = (config) =>{
+    return api.get(`/admin/count-role`,config)
+}
+export const totalCountRole = () =>{
+    return api.get(`/admin/count-role`)
+}
+
 export const withOutPage = () => {
     return api.get(`/admin/count-song-album-playlist`);
 };

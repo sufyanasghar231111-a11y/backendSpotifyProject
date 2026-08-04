@@ -11,3 +11,11 @@ export const getNotificationData = () =>{
 export const getRequest = () => {
     return api.get('/request/get-request')
 }
+
+export const patchRequest = (id) => {
+    return api.post(`/request/patch-request/${id}`)
+}
+
+export const deleteRequest = (id) => {
+    return api.post(`/request/reject-request/${id}`)
+}

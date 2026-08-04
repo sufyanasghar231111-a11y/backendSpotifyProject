@@ -6,18 +6,22 @@ import { getMusicAlbumPlaylist } from '../api/albumApi'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const adminContext = createContext()
+// eslint-disable-next-line react-refresh/only-export-components
+export const adminUiContext = createContext()
 const AdminContext = ({ children }) => {
     const [getMonthlyActive, setMonthlyActive] = useState([])
     const [user, setUser] = useState(null)
     const { authReady } = useContext(resetContext)
-    const [totalUsers, setTotalUsers] = useState([])
-    const [totalArtist, setTotalArtist] = useState([])
-    const [totalAdmin, setTotalAdmin] = useState([])
-    const [totalRoles, setTotalRoles] = useState([])
+    const [totalUsersData, setTotalUsersData] = useState([])
+    const [totalArtistData, setTotalArtistData] = useState([])
+    const [totalAdminData, setTotalAdminData] = useState([])
+    const [totalRolesData, setTotalRolesData] = useState([])
     const [totalMusic, setTotalMusic] = useState(null)
     const [totalAlbum, setTotalAlbum] = useState(null)
     const [totalPlaylist, setTotalPlaylist] = useState(null)
     const [monthlyDataCount, setMonthlyDataCount] = useState([])
+    const [adminNotification, setAdminNotification] = useState(false)
+    const [adminProfileModal, setAdminProfileModal] = useState(false)
 
     const getActiveApi = async () => {
         try {
@@ -46,7 +50,8 @@ const AdminContext = ({ children }) => {
                     role: 'user'
                 }
             })
-            setTotalUsers(res.data.data)
+            setTotalUsersData(res.data.data)
+            
         }
         catch (err) {
             console.log(err);
@@ -60,7 +65,7 @@ const AdminContext = ({ children }) => {
                     role: 'admin'
                 }
             })
-            setTotalAdmin(res.data.data)
+            setTotalAdminData(res.data.data)
 
         }
         catch (err) {
@@ -75,7 +80,7 @@ const AdminContext = ({ children }) => {
                     role: 'artist'
                 }
             })
-            setTotalArtist(res.data.data)
+            setTotalArtistData(res.data.data)
 
         }
         catch (err) {
@@ -86,7 +91,7 @@ const AdminContext = ({ children }) => {
     const totalPeople = async () => {
         try {
             const res = await totalRole()
-            setTotalRoles(res.data.getRole)
+            setTotalRolesData(res.data.getRole)
 
         }
         catch (err) {
@@ -131,8 +136,10 @@ const AdminContext = ({ children }) => {
     }, [authReady, user]);
 
     return (
-        <adminContext.Provider value={{ getMonthlyActive, user, setUser, totalUsers, totalRoles, totalArtist, totalAdmin, totalAlbum,totalMusic, totalPlaylist, monthlyDataCount }}>
+        <adminContext.Provider value={{ getMonthlyActive, user, setUser, totalUsersData, totalRolesData, totalArtistData, totalAdminData, totalAlbum,totalMusic, totalPlaylist, monthlyDataCount }}>
+            <adminUiContext.Provider value={{adminNotification, setAdminNotification, adminProfileModal, setAdminProfileModal}}>
             {children}
+            </adminUiContext.Provider>
         </adminContext.Provider>
     )
 }
