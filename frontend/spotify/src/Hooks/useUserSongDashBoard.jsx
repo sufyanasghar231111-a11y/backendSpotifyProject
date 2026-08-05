@@ -1,11 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { RiAlbumLine, RiDownload2Fill, RiDownloadFill, RiMusicLine, RiTimeLine, } from '@remixicon/react'
+import { adminContext } from '../contextapi/AdminContext'
+import { authSearchBar } from '../contextapi/SearchSeparateContext'
 const useUserSongDashBoard = () => {
+    const { totalMusic } = useContext(adminContext)
+        const { music } = useContext(authSearchBar)
+        const now = new Date()
+        const newThisMonth= (music.filter((elem)=>{
+            const created = new Date(elem.createdAt)
+            return (
+                created.getFullYear() === now.getFullYear() &&
+                created.getMonth() === now.getMonth()
+            )
+        })).length
     return [
         {
             id: 1,
             title: "Total Songs",
-            total: '10',
+            total: totalMusic,
             icon: RiMusicLine,
             color: "text-green-200",
             bg: "bg-green-500"
@@ -13,7 +25,7 @@ const useUserSongDashBoard = () => {
         {
             id: 2,
             title: "Published Songs",
-            total: '10',
+            total: totalMusic,
             icon: RiMusicLine,
             color: "text-purple-200",
             bg: "bg-purple-500",
@@ -29,7 +41,7 @@ const useUserSongDashBoard = () => {
         {
             id: 4,
             title: "New This Month",
-            total: '10',
+            total: newThisMonth,
             icon: RiDownload2Fill,
             color: "text-blue-200",
             bg: "bg-blue-500",

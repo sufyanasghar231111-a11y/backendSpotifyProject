@@ -1,18 +1,17 @@
-import { RiArrowLeftSLine, RiArrowRightSLine } from '@remixicon/react'
 import React, { useContext } from 'react'
 import { authSearchBar } from '../../../contextapi/SearchSeparateContext'
 import { adminContext } from '../../../contextapi/AdminContext'
+import { RiArrowLeftSLine, RiArrowRightSLine } from '@remixicon/react'
 
-const PaginationForMusic = () => {
-    const { page, music, setPage } = useContext(authSearchBar)
-    const { totalMusic } = useContext(adminContext)
-
-    const totalPage = Math.ceil(totalMusic / 8)
+const PaginationInPlaylistDashBoard = () => {
+    const { page, visible, setPage } = useContext(authSearchBar)
+    const { totalPlaylist } = useContext(adminContext)
+    const totalPage = Math.ceil(totalPlaylist / 8)
     return (
         <div className='pt-3'>
             <div className=' flex items-center justify-between'>
                 <div className='text-[12px] text-gray-400'>
-                    Showing 1 to {music.length} of {totalMusic} songs
+                    Showing 1 to {visible.length} of {totalPlaylist} songs
                 </div>
                 <div className='flex items-center gap-3'>
                     <button disabled={page === 1} onClick={() => { setPage(prev => prev - 1) }} className={`border border-zinc-600 px-2 py-1.5  ${page === 1 ? 'hover:border-gray-400 opacity-50 cursor-not-allowed' : 'hover:border-green-400 opacity-100 cursor-pointer'} transition-all duration-200  rounded-lg`}>
@@ -33,7 +32,7 @@ const PaginationForMusic = () => {
                     ))}
 
                     .....
-                    <button disabled={music.length < 8} onClick={() => { setPage(prev => prev + 1) }} className={`border border-zinc-600 ${music.length < 8 ? 'hover:border-gray-400 cursor-not-allowed  opacity-50' : 'hover:border-green-400 cursor-pointer  opacity-100'}  px-2 py-1.5  transition-all duration-200 rounded-lg`}>
+                    <button disabled={page === totalPage} onClick={() => { setPage(prev => prev + 1) }} className={`border border-zinc-600 ${page === totalPage ? 'hover:border-gray-400 cursor-not-allowed  opacity-50' : 'hover:border-green-400 cursor-pointer  opacity-100'}  px-2 py-1.5  transition-all duration-200 rounded-lg`}>
                         <RiArrowRightSLine className='w-4 h-4' />
                     </button>
                 </div>
@@ -42,4 +41,4 @@ const PaginationForMusic = () => {
     )
 }
 
-export default PaginationForMusic
+export default PaginationInPlaylistDashBoard
