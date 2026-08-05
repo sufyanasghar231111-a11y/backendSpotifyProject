@@ -6,6 +6,8 @@ import { authPlaylist } from './PlaylistContext'
 import { getMusicAlbumPlaylist, patchtext, separateGet, updatevisibility } from '../api/albumApi'
 import { musciControl } from './MusicControllerContext'
 import { audioContext } from './AudioProvider'
+import { resetContext } from './resetPasswordContext'
+import { adminContext } from './AdminContext'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const authSearchBar = createContext()
@@ -39,6 +41,8 @@ const SearchSeparateContext = ({ children }) => {
     const { setSeparate, handleGetPlayList } = useContext(authPlaylist)
     const { playRef } = useContext(musciControl)
     const { currentSong, queue } = useContext(audioContext)
+    const {authReady} = useContext(resetContext)
+    const { user } = useContext(adminContext)
     // custom hook
     const debounceSearch = useDebounce(searchinput, 600)
 
@@ -123,8 +127,9 @@ const SearchSeparateContext = ({ children }) => {
     }
 
     useEffect(()=>{
+        if(!authReady || !user?.role === '') return 
         getAlbumPlaylistMusic()
-    },[page])
+    },[page, authReady])
 
     
 

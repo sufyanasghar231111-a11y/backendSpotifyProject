@@ -3,9 +3,9 @@ import React, { useContext } from 'react'
 import { LogoutContext } from '../../../contextapi/AuthContext'
 import { adminContext, adminUiContext } from '../../../contextapi/AdminContext'
 import AdminNotificationModal from '../../../modals/adminmodal/AdminNotificationModal'
-import Username from '../../../utils/Username'
 import { requestContext } from '../../../contextapi/UserRequest'
 import AdminPfpModal from '../../../modals/adminmodal/AdminPfpModal'
+import UserNames from '../../../utils/UserNames'
 
 const AdminNav = () => {
     
@@ -52,7 +52,7 @@ const AdminNav = () => {
                             setAdminNotification(false)
                          }} className='w-10 h-10 rounded-full overflow-hidden relative cursor-pointer'>
                             <div className=' absolute z-39 w-full h-full flex items-center bg-green-500 justify-center'>
-                                <Username />
+                                <UserNames user={user?.username} />
                             </div>
                             {
                                 user?.pfp && (

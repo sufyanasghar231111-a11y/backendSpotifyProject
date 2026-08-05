@@ -1,17 +1,14 @@
 import React, { useContext } from 'react'
-import { Search, MoreVertical } from 'lucide-react'
 import { adminContext, bannedUserContext } from '../../../contextapi/AdminContext'
-import UserNames from '../../../utils/UserNames'
+import { Search, MoreVertical } from 'lucide-react'
 import { timeAgo } from '../../../utils/TimeAgo'
-import PaginationInUserDashBoard from './PaginationInUserDashBoard'
+import UserNames from '../../../utils/UserNames'
+import PaginationInArtistDashBoard from './PaginationInArtistDashBoard'
 
-
-// Shared column widths so the header row and each data row line up
-const gridCols = 'grid-cols-[2fr_2fr_1fr_1fr_1fr_1fr_1fr]'
-
-const AllUserInUserPage = () => {
-    const { totalUsersData } = useContext(adminContext)
+const gridCols = 'grid-cols-[2fr_2.5fr_1fr_1fr_1fr_1fr_1fr]'
+const AllArtistInArtistPage = () => {
     const { blockRole, unblockRole } = useContext(bannedUserContext)
+    const { totalArtistData } = useContext(adminContext)
     return (
         <div className='w-full bg-[#141414] rounded-xl border mt-4 border-[#232323] p-4'>
             {/* Toolbar */}
@@ -38,7 +35,7 @@ const AllUserInUserPage = () => {
                     </div>
 
                     {/* Data rows */}
-                    {totalUsersData.map((elem) => {
+                    {totalArtistData.map((elem) => {
                         return <div
                             key={elem?._id}
                             className={`grid ${gridCols} items-center border-b border-[#1e1e1e] hover:bg-[#1a1a1a]/60 text-sm`}>
@@ -95,7 +92,7 @@ const AllUserInUserPage = () => {
                                 </span>
                             </div>
 
-                            <div className='py-3 px-2 text-gray-400'>{timeAgo(elem.createdAt)}</div>
+                            <div className='py-3 px-2 text-gray-400'>{timeAgo(elem.artistApprovedAt)}</div>
                             <div className='py-3 px-2 text-gray-400'>{timeAgo(elem.lastActive)}</div>
 
                             <div className='py-3 px-2 text-right'>
@@ -117,9 +114,11 @@ const AllUserInUserPage = () => {
                     })}
                 </div>
             </div>
-            <PaginationInUserDashBoard />
+            <div>
+                <PaginationInArtistDashBoard />
+            </div>
         </div>
     )
 }
 
-export default AllUserInUserPage
+export default AllArtistInArtistPage

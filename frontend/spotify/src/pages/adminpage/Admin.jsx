@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Login from '../Login'
 import { LogoutContext } from '../../contextapi/AuthContext'
 import AdminNav from '../../component/adminPageComponent/dashBoardpageComponent/AdminNav'

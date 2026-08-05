@@ -7,6 +7,16 @@ const useUserDashBoardData = () => {
    const {  totalUser } = useContext(adminCountContext)
    const { totalUsersData} = useContext(adminContext)
    const totalActive = (totalUsersData.filter(elem => elem.isOnline)).length
+   const totalBan = (totalUsersData.filter(elem => !elem.isActive)).length
+   const now = new Date()
+   const newThisMonth = totalUsersData.filter((elem) =>{
+    const created = new Date(elem.createdAt);
+
+    return (
+      created.getFullYear() === now.getFullYear() &&
+      created.getMonth() === now.getMonth()
+    )
+   }).length
          
   return  [
     {
@@ -28,7 +38,7 @@ const useUserDashBoardData = () => {
     {
       id: 3,
       title: "Banned Users",
-      total: '10',
+      total: totalBan,
       icon: RiUserForbidLine,
       color: "text-yellow-200",
       bg: "bg-yellow-500",
@@ -36,7 +46,7 @@ const useUserDashBoardData = () => {
     {
       id: 4,
       title: "New This Month",
-      total: '10',
+      total: newThisMonth,
       icon: RiUserReceivedLine,
       color: "text-blue-200",
       bg: "bg-blue-500",

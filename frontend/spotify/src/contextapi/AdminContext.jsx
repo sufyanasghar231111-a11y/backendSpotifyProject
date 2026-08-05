@@ -1,13 +1,17 @@
 /* eslint-disable no-unused-vars */
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { adminCheckRole, montlyActiveUser, songAlbumCount, totalRole, withOutPage } from '../api/AdminApi'
+import { adminCheckRole, blockRoles, montlyActiveUser, songAlbumCount, totalRole, unblockRoles, withOutPage } from '../api/AdminApi'
 import { resetContext } from './resetPasswordContext'
 import { getMusicAlbumPlaylist } from '../api/albumApi'
+import { create } from 'axios'
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const adminContext = createContext()
 // eslint-disable-next-line react-refresh/only-export-components
 export const adminUiContext = createContext()
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const bannedUserContext = createContext()
 const AdminContext = ({ children }) => {
     const [getMonthlyActive, setMonthlyActive] = useState([])
     const [user, setUser] = useState(null)
@@ -22,6 +26,7 @@ const AdminContext = ({ children }) => {
     const [monthlyDataCount, setMonthlyDataCount] = useState([])
     const [adminNotification, setAdminNotification] = useState(false)
     const [adminProfileModal, setAdminProfileModal] = useState(false)
+    const [adminPage, setAdminPage] = useState(1)
 
     const getActiveApi = async () => {
         try {
@@ -47,11 +52,14 @@ const AdminContext = ({ children }) => {
         try {
             const res = await adminCheckRole({
                 params: {
-                    role: 'user'
+                    role: 'user',
+                    page:adminPage
                 }
-            })
+            },
+                
+            )
             setTotalUsersData(res.data.data)
-            
+
         }
         catch (err) {
             console.log(err);
@@ -62,7 +70,8 @@ const AdminContext = ({ children }) => {
         try {
             const res = await adminCheckRole({
                 params: {
-                    role: 'admin'
+                    role: 'admin',
+                    page:adminPage
                 }
             })
             setTotalAdminData(res.data.data)
@@ -77,7 +86,8 @@ const AdminContext = ({ children }) => {
         try {
             const res = await adminCheckRole({
                 params: {
-                    role: 'artist'
+                    role: 'artist',
+                    page:adminPage
                 }
             })
             setTotalArtistData(res.data.data)
@@ -99,46 +109,75 @@ const AdminContext = ({ children }) => {
         }
     }
 
-    const getSongAlbum = async () =>{
-        try{
+    const getSongAlbum = async () => {
+        try {
             const res = await withOutPage()
             setTotalMusic(res.data.music)
             setTotalAlbum(res.data.album)
             setTotalPlaylist(res.data.playlist)
         }
-        catch(err){
+        catch (err) {
             console.log(err);
-            
+
         }
     }
 
     const getSongAlbumCount = async () => {
-        try{
+        try {
             const res = await songAlbumCount()
             setMonthlyDataCount(res.data.chart)
         }
-        catch(err){
+        catch (err) {
             console.log(err);
         }
     }
 
     useEffect(() => {
         if (!authReady || user?.role !== "admin") return;
+        getUserApi();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [authReady, user, adminPage]);
+
+    const blockRole = async (id) =>{
+        try{
+            const res = await blockRoles(id)
+            await getArtistApi()
+            await getUserApi()
+        }
+        catch(err){
+            console.log(err);
+        }
+    } 
+    const unblockRole = async (id) =>{
+        try{
+            const res = await unblockRoles(id)
+            await getArtistApi()
+            await getUserApi()
+        }
+        catch(err){
+            console.log(err);
+        }
+    } 
+
+
+    useEffect(() => {
+        if (!authReady || user?.role !== "admin") return;
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
-        getUserApi();
         getAdminApi();
         getArtistApi();
         totalPeople();
         getSongAlbum()
         getSongAlbumCount()
-        
+
     }, [authReady, user]);
 
     return (
-        <adminContext.Provider value={{ getMonthlyActive, user, setUser, totalUsersData, totalRolesData, totalArtistData, totalAdminData, totalAlbum,totalMusic, totalPlaylist, monthlyDataCount }}>
-            <adminUiContext.Provider value={{adminNotification, setAdminNotification, adminProfileModal, setAdminProfileModal}}>
-            {children}
+        <adminContext.Provider value={{ getMonthlyActive, user, setUser, totalUsersData, totalRolesData, totalArtistData, totalAdminData, totalAlbum, totalMusic, totalPlaylist, monthlyDataCount, getArtistApi }}>
+            <adminUiContext.Provider value={{ adminNotification, setAdminNotification, adminProfileModal, setAdminProfileModal, adminPage, setAdminPage }}>
+                <bannedUserContext.Provider value={{blockRole, unblockRole}}>
+                {children}
+                </bannedUserContext.Provider>
             </adminUiContext.Provider>
         </adminContext.Provider>
     )

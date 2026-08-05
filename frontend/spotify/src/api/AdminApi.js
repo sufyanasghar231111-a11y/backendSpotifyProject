@@ -8,8 +8,8 @@ export const totalRole = () => {
     return api.get(`/active/get-all-role`)
 }
 
-export const adminCheckRole = (config) =>{
-    return api.get(`/admin/admin-check-role`,config)
+export const adminCheckRole = (config, adminPage) =>{
+    return api.get(`/admin/admin-check-role?page=${adminPage}`,config)
 }
 
 export const adminCountRole = (config) =>{
@@ -25,4 +25,11 @@ export const withOutPage = () => {
 
 export const songAlbumCount = () =>{
     return api.get('/active/monthly-create-songs-chart')
+}
+
+export const blockRoles = (id) => {
+    return api.patch(`/admin/blockartist/${id}`)
+}
+export const unblockRoles = (id) => {
+    return api.patch(`/admin/unblock/${id}`)
 }

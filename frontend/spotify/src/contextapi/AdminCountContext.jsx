@@ -12,6 +12,7 @@ const AdminCountContext = ({ children }) => {
     const [totalUser, setTotalUser] = useState(null)
     const [totalRoleArtist, setTotalRoleArtist] = useState(null)
     const [totalRoleAdmin, setTotalRoleAdmin] = useState(null)
+    
 
     const totalCount = async () => {
         try {
@@ -65,12 +66,14 @@ const AdminCountContext = ({ children }) => {
 
 
     useEffect(() => {
-        if (!authReady || !user.role === 'admin') return
+        if (!authReady || !user?.role === 'admin') return
         totalCount()
         totalCountArtist()
         totalCountAdmin()
         totalCountUser()
     }, [authReady, user])
+
+
     return (
         <adminCountContext.Provider value={{ totalRole, totalRoleAdmin, totalRoleArtist, totalUser }}>
             {children}

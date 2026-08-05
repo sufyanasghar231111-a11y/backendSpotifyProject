@@ -15,8 +15,8 @@ const AllUserPieChart = () => {
 
   const data = [
     { name: 'Users', value: totalUser, color: '#4ade80' },
-    { name: 'Artist', value: totalRoleAdmin, color: '#c084fc' },
-    { name: 'Admin', value: totalRoleArtist, color: '#fb923c' },
+    { name: 'Artist', value: totalRoleArtist, color: '#c084fc' },
+    { name: 'Admin', value: totalRoleAdmin, color: '#fb923c' },
   ]
 
   return (
