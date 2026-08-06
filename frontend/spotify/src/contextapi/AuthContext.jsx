@@ -11,6 +11,7 @@ import { setAccessToken } from '../api/accessToken';
 import { resetContext } from './resetPasswordContext';
 import { adminContext } from './AdminContext';
 
+let authInitializationPromise = null;
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const authProvider = createContext()
@@ -144,9 +145,13 @@ const AuthContext = ({ children }) => {
             setLoading(false)
         }
 
-    }, [login.email, login.password, setAuthReady, handleGetPlayList, fetchRecent, getLibrary, getMusicPlaying, getRecentSearch])
+    }, [login.email, login.password, setUser, setAuthReady, handleGetPlayList, fetchRecent, getMusicPlaying, getRecentSearch])
 
     useEffect(() => {
+        if (authInitializationPromise) {
+            return;
+        }
+
         async function initializeAuth() {
             try {
                 const rotationRes = await rotation();
@@ -156,16 +161,16 @@ const AuthContext = ({ children }) => {
                 setUser(userRes.data.getAuthData);
 
             } catch (err) {
-                // User not logged in or session expired - this is expected for new users
                 console.log('Auth initialization: User not authenticated', err?.response?.status);
-
             } finally {
                 setAuthReady(true);
+                authInitializationPromise = null;
             }
         }
 
-        initializeAuth();
-    }, [setAuthReady]);
+        authInitializationPromise = initializeAuth();
+        void authInitializationPromise;
+    }, [setAuthReady, setUser]);
 
     async function handleLogout() {
         try {

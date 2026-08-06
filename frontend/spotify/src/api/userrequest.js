@@ -19,3 +19,7 @@ export const patchRequest = (id) => {
 export const deleteRequest = (id) => {
     return api.post(`/request/reject-request/${id}`)
 }
+
+export const getSingleRequest = (id) => {
+    return api.get(`/request/get-single-request/${id}`)
+}

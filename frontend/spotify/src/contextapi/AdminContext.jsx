@@ -43,10 +43,9 @@ const AdminContext = ({ children }) => {
     }
 
     useEffect(() => {
-        if (!authReady || user?.role === 'artist' || user?.role === 'user') return
-        // eslint-disable-next-line react-hooks/set-state-in-effect
+        if (!authReady || user?.role !== 'admin') return
         getActiveApi()
-    }, [authReady, user])
+    }, [authReady, user?.role])
 
     const getUserApi = async () => {
         try {
@@ -135,8 +134,9 @@ const AdminContext = ({ children }) => {
     useEffect(() => {
         if (!authReady || user?.role !== "admin") return;
         getUserApi();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authReady, user, adminPage]);
+        getAdminApi();
+        getArtistApi()
+    }, [authReady, user?.role, adminPage]);
 
     const blockRole = async (id) =>{
         try{
@@ -162,15 +162,10 @@ const AdminContext = ({ children }) => {
 
     useEffect(() => {
         if (!authReady || user?.role !== "admin") return;
-
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        getAdminApi();
-        getArtistApi();
         totalPeople();
         getSongAlbum()
         getSongAlbumCount()
-
-    }, [authReady, user]);
+    }, [authReady, user?.role]);
 
     return (
         <adminContext.Provider value={{ getMonthlyActive, user, setUser, totalUsersData, totalRolesData, totalArtistData, totalAdminData, totalAlbum, totalMusic, totalPlaylist, monthlyDataCount, getArtistApi }}>

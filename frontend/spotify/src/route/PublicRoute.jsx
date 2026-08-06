@@ -8,7 +8,7 @@ const PublicRoute = () => {
     return <Outlet />
   }
 
-  switch (user.role){
+  switch (user?.role){
     case 'admin':
       return <Navigate to='/admin' replace />
 

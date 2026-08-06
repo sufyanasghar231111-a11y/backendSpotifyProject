@@ -1,4 +1,4 @@
-import api from "./axios"
+import api, { refreshApi } from "./axios"
 
 
 export const register = (data) => {
@@ -14,7 +14,7 @@ export const checkUser = () => {
 };
 
 export const rotation = () => {
-    return api.get('/rotation/refresh-token')
+    return refreshApi.get('/rotation/refresh-token')
 }
 
 export const logoutUser = () => {

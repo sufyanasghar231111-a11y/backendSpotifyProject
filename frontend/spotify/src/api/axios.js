@@ -2,20 +2,29 @@ import axios from "axios";
 import { getAccessToken } from "./accessToken";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const SKIP_RETRY_URLS = ['/rotation/refresh-token', '/rotation/logoutAll', '/auth/login', '/auth/register'];
 
-const api=axios.create({
+export const refreshApi = axios.create({
     baseURL: API_BASE_URL,
-    withCredentials:true
+    withCredentials: true
 });
 
-api.interceptors.request.use((config)=>{
-    let token = getAccessToken()
-    if(token) {
-    config.headers.Authorization = `Bearer ${token}`
-    }
-    
+const api = axios.create({
+    baseURL: API_BASE_URL,
+    withCredentials: true
+});
 
-    return config
-})
+api.interceptors.request.use((config) => {
+    const token = getAccessToken();
+
+    if (token) {
+        config.headers = config.headers || {};
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+});
+
+
 
 export default api

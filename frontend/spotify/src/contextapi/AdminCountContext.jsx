@@ -66,7 +66,7 @@ const AdminCountContext = ({ children }) => {
 
 
     useEffect(() => {
-        if (!authReady || !user?.role === 'admin') return
+        if (!authReady || user?.role !== 'admin') return
         totalCount()
         totalCountArtist()
         totalCountAdmin()

@@ -84,6 +84,7 @@ const SearchSeparateContext = ({ children }) => {
                 if (currentRef !== requestRef.current) return
 
                 setSearchMusic(res.data.music)
+                
                 setSearchAlbum(res.data.album)
                 setSearchPublicplay(res.data.visible)
                 setIssearch(true)
@@ -127,9 +128,9 @@ const SearchSeparateContext = ({ children }) => {
     }
 
     useEffect(()=>{
-        if(!authReady || !user?.role === '') return 
+        if(!authReady || !user?.role) return 
         getAlbumPlaylistMusic()
-    },[page, authReady])
+    },[page, authReady , user?.role])
 
     
 

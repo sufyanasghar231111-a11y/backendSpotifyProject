@@ -13,7 +13,8 @@ import { NavLink } from "react-router-dom";
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const DashBoardLeft = () => {
+const DashBoardLeft = ({totalUnread}) => {
+    
     const menuItems = [
         { name: "Dashboard", path: "/admin", icon: RiDashboardLine },
         { name: "Users", path: "/admin/users", icon: RiUser3Line },
@@ -21,8 +22,8 @@ const DashBoardLeft = () => {
         { name: "Songs", path: "/admin/songs", icon: RiMusic2Line },
         { name: "Albums", path: "/admin/albums", icon: RiAlbumLine },
         { name: "Playlists", path: "/admin/playlists", icon: RiPlayListLine },
-        { name: "Notifications", path: "/admin/notifications", icon: RiNotification3Line },
-        { name: "Settings", path: "/admin/settings", icon: RiSettings3Line },
+        { name: "Notifications", path: "/admin/notifications", icon: RiNotification3Line, total:totalUnread },
+        { name: "Profile", path: "/admin/settings", icon: RiUser3Line },
     ];
     return (
         <div className='w-[25%] fixed bg-[#121212]  h-full  border-t mt-5 border-[#2e2e2e] pt-6'>
@@ -43,6 +44,14 @@ const DashBoardLeft = () => {
                         >
                             <Icon size={16} />
                             <span className="font-semibold">{item.name}</span>
+                            {
+                                item.total ? (
+                            <div className="flex items-center justify-end text-end w-full text-green-500 [text-shadow:0_0_8px_#1DB954,0_0_20px_#1DB954] font-semibold">{item.total}
+                            </div>
+                                ):
+                                    null
+                                
+                            }
                         </NavLink>
                     );
                 })}
