@@ -20,10 +20,10 @@ const postSchema = new mongoose.Schema({
         enum: ['user', 'artist', 'admin'],
         default: "user"
     },
-    blockedArtists: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
-    }],
+    isActive: {
+        type:Boolean,
+        default:false
+    },
 
     pfp: {
         type: String,
@@ -47,6 +47,11 @@ const postSchema = new mongoose.Schema({
     isOnline:{
         type:Boolean,
         default:false
+    },
+
+    artistApprovedAt:{
+        type:Date,
+        default:null
     }
 
 },

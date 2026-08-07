@@ -146,4 +146,5 @@ const musicSchema = require('../models/music.model')
   }
 }
 
+
 module.exports = { authartist, getMusic, adminMan, auth, authorize }

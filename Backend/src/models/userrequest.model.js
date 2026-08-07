@@ -24,15 +24,9 @@ const requestSchema = new mongoose.Schema({
         enum: ['Pending', 'Approved', 'Rejected'],
         default: 'Pending'
     },
-
-    reviewedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'user'
-    },
-
-    reviewMessage: {
-        type: String,
-        default: ''
+    isChecked : {
+        type:Boolean,
+        default:false
     }
 
 },

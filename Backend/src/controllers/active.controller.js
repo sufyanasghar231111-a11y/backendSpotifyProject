@@ -9,6 +9,7 @@ const getMonthlyActiveUsersChart = async (req, res) => {
         const { role } = req.query
 
         const match = {
+            verified:true,
             lastActive: {
                 $gte: new Date(`${currentYear}-01-01`),
                 $lt: new Date(`${currentYear + 1}-01-01`)

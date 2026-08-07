@@ -12,7 +12,7 @@ routeMusic.post('/music',  middleware.authartist ,  upload.single('file') , cont
 routeMusic.delete('/deleteSong/:id', middleware.authartist ,  controlAlbum.deleteSong )
 routeMusic.post('/album', middleware.authartist ,  controlAlbum.Album )
 
-routeMusic.get('/getmusicalbum' ,  getController.getBothSongalbum )
+routeMusic.get('/getmusicalbum' , middleware.auth,  getController.getBothSongalbum )
 
 routeMusic.get('/singlevisible/:id', getController.getSingleVisible )
 

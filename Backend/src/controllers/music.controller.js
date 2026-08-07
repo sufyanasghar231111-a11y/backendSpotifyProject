@@ -105,7 +105,7 @@ async function Album(req, res) {
 
 async function getBothSongalbum(req, res) {
   try {
-
+    
     const page = parseInt(req.query.page) || 1
     const limit = 8;
     const skip = (page - 1) * limit
@@ -113,7 +113,12 @@ async function getBothSongalbum(req, res) {
     const search = req.query.search || ''
     const genre = req.query.genre
 
-
+    const user = await postSchema.findById(req.user.id)
+    if(!user){
+      return res.status(400).json({
+        message:"User not found"
+      })
+    }
 
     if (search) {
       filter.title = { $regex: search, $options: 'i' }
@@ -129,7 +134,7 @@ async function getBothSongalbum(req, res) {
     const [music, album, visible] = await Promise.all([
       musicSchema
         .find(filter).sort({ createdAt: -1 })
-        .select('_id uri title artist image')
+        .select('_id uri title artist image createdAt')
         .populate('artist', 'username email')
         .skip(skip)
         .limit(limit),
@@ -144,13 +149,18 @@ async function getBothSongalbum(req, res) {
 
 
       // visible get
-      userSchema
-        .find({ visibility: 'public', name: { $regex: search, $options: 'i' } }).sort({ createdAt: -1 }).populate({ path: "music", populate: { path: 'artist', select: '_id username' } }).populate({ path: 'user', select: "_id username" })
-        .skip(skip)
-        .limit(limit)
+      user.role === 'admin' ? (
+        userSchema
+          .find({  name: { $regex: search, $options: 'i' } }).sort({ createdAt: -1 }).populate({ path: "music", populate: { path: 'artist', select: '_id username' } }).populate({ path: 'user', select: "_id username pfp" })
+          .skip(skip)
+          .limit(limit)
+      ):(
+        userSchema
+          .find({visibility: 'public',  name: { $regex: search, $options: 'i' } }).sort({ createdAt: -1 }).populate({ path: "music", populate: { path: 'artist', select: '_id username' } }).populate({ path: 'user', select: "_id username pfp" })
+          .skip(skip)
+          .limit(limit)
+      )
     ])
-
-
 
     res.status(200).json({
       message: "Music fetched successfully",

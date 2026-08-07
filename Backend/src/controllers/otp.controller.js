@@ -64,7 +64,8 @@ const verifyEmail = async (req, res) => {
 
         await postSchema.findByIdAndUpdate(user._id, {
             lastActive:new Date(),
-            isOnline:true
+            isOnline:true,
+            isActive:true
         })
 
         res.cookie('refreshToken', refreshToken, {

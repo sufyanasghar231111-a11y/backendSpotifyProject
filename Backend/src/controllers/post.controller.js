@@ -5,9 +5,9 @@ const bcrypt = require('bcryptjs')
 const uploadPfp = require('../services/auth.service')
 const logoutSchema = require('../models/logout.model')
 const crypto = require('crypto')
-const {otpGenerate, otpHtml}=require('../utils/email.util')
-const sendEmail=require('../services/email.service')
-const otpSchema=require('../models/otp.model')
+const { otpGenerate, otpHtml } = require('../utils/email.util')
+const sendEmail = require('../services/email.service')
+const otpSchema = require('../models/otp.model')
 const otpModel = require('../models/otp.model')
 const userSchema = require('../models/playlist.model')
 
@@ -50,15 +50,15 @@ async function register(req, res) {
         pfp: imagUrl
     })
 
-    const otp=otpGenerate()
-    const html=otpHtml(otp)
+    const otp = otpGenerate()
+    const html = otpHtml(otp)
 
     await sendEmail(email, 'OTP Verification', `Your otp is ${otp}`, html)
 
-    const otpHash=crypto.createHash('sha256').update(otp.toString()).digest('hex')
+    const otpHash = crypto.createHash('sha256').update(otp.toString()).digest('hex')
 
-  await otpModel.create({
-        user:user._id,
+    await otpModel.create({
+        user: user._id,
         email,
         otpHash
     })
@@ -71,7 +71,7 @@ async function register(req, res) {
             email: user.email,
             role: user.role,
             pfp: imagUrl,
-            verified:user.verified
+            verified: user.verified
         }
     })
 }
@@ -100,10 +100,16 @@ async function login(req, res) {
             })
         }
 
-        if(!user.verified){
+        if (!user.verified) {
             return res.status(400).json({
-                message:"Invalid user"
+                message: "Invalid user"
             })
+        }
+
+        if (!user.isActive) {
+            return res.status(403).json({
+                message: "Your account has been blocked. Contact support."
+            });
         }
 
         const comparePassword = await bcrypt.compare(password, user.password)
@@ -141,9 +147,10 @@ async function login(req, res) {
             }
         )
 
-        const online= await postSchema.findByIdAndUpdate(user._id, {
-            lastActive:new Date(),
-            isOnline:true
+        const online = await postSchema.findByIdAndUpdate(user._id, {
+            lastActive: new Date(),
+            isOnline: true,
+            isActive: true
         })
 
         res.cookie('refreshToken', refreshToken, {
@@ -217,10 +224,61 @@ async function updatePfp(req, res) {
     }
     catch (err) {
         res.status(500).json({
-            message: "Invalid Pfp"
+            message: "Internal error"
         })
     }
 }
+
+
+async function updateAdminPfp(req, res) {
+    try {
+        let { username, email } = req.body
+
+        const find = await postSchema.findOne(
+           { 
+            _id:{$ne: req.user.id},
+            $or:[
+                {username},
+                {email}
+            ]}
+        )
+
+        if(find){
+            return res.status(409).json({
+                message:"Email Already exist"
+            })
+        }
+
+        const updateData = {
+            username,
+            email
+        }
+
+        if(req.file){
+            const result = await uploadPfp(req.file.buffer)
+            updateData.pfp = result.url
+        }
+        const user = await postSchema.findByIdAndUpdate(
+            req.user.id,
+             updateData,
+            { new: true }
+        )
+
+        res.status(200).json({
+            message: "successfull update image",
+            pfp: user.pfp,
+            username,
+            email
+        })
+    }
+    catch (err) {
+        res.status(500).json({
+            message: "Internal error",
+            error:err.message
+        })
+    }
+}
+
 
 async function removePfp(req, res) {
     try {
@@ -251,4 +309,4 @@ async function removePfp(req, res) {
 
 }
 
-module.exports = { register, login, getUser, updatePfp, removePfp }
+module.exports = { register, login, getUser, updatePfp, removePfp, updateAdminPfp }

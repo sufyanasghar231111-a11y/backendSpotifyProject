@@ -10,6 +10,7 @@ router.post('/register',upload.single('pfp'),routerRegister.register)
 router.post('/login', routerLogin.login)
 router.get('/user', middleware.auth,  routerLogin.getUser)
 router.put('/updatepfp',upload.single('pfp') ,middleware.authorize('user', 'artist'), routerLogin.updatePfp )
-router.delete('/removePfp', upload.single('pfp') , middleware.authorize('user', 'artist'), routerLogin.removePfp )
+router.patch('/updateadminpfp',upload.single('pfp') ,middleware.authorize('admin'), routerLogin.updateAdminPfp )
+router.delete('/removePfp', upload.single('pfp') , middleware.authorize('user', 'artist', 'admin'), routerLogin.removePfp )
 
 module.exports=router

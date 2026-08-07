@@ -28,6 +28,9 @@ const userSchemas= new mongoose.Schema({
         type:String,
         default:''
     }
+},
+{
+    timestamps:true
 })
 
 const userSchema=mongoose.model('playlist', userSchemas)

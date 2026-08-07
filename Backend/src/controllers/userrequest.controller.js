@@ -50,13 +50,9 @@ const sendRequest = async (req, res) => {
 
 const getRequest = async (req, res) => {
     try {
-        const page = parseInt(req.query.page)
-        let limit = 8
-        let skip = (page - 1) * limit
+       
         const getrequest = await requestSchema.find()
-        .sort({createdAt:-1}).
-        limit(limit)
-        .skip(skip)
+        .sort({createdAt:-1})
         .populate('user', '_id username pfp role email')
         res.status(200).json({
             status: true,
@@ -68,6 +64,24 @@ const getRequest = async (req, res) => {
         res.status(500).json({
             message: "Internal Server Error",
             error: err.message
+        })
+    }
+}
+
+const getSingleRequest = async (req, res) => {
+    try{
+        const {id} = req.params
+        const getSingle = await requestSchema.findById({_id:id, user:req.user.id}).populate('user', '_id username pfp')
+        getSingle.isChecked=true
+        await getSingle.save()
+        res.status(200).json({
+            message:"Successful get",
+            getSingle
+        })
+    }
+    catch (err) {
+        res.status(500).json({
+            message: "Internal error"
         })
     }
 }
@@ -88,7 +102,8 @@ const updateRequest = async (req, res) => {
         const data = await postSchema.findByIdAndUpdate(
             request.user,
             {
-                role: 'artist'
+                role: 'artist',
+                artistApprovedAt:new Date()
             }
             ,
             {
@@ -173,4 +188,4 @@ const updateNotification = async ( req, res) =>{
 }
 
 
-module.exports = { sendRequest, getRequest, updateRequest, deleteRejected, getNotification }
+module.exports = { sendRequest, getRequest, updateRequest, deleteRejected, getNotification, getSingleRequest }

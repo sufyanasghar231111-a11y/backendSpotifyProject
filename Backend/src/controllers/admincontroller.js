@@ -4,10 +4,20 @@ const playlistSchema = require('../models/playlist.model')
 const musicSchema = require("../models/music.model")
 
 async function adminCheckRole(req, res) {
-    const {role} = req.query
+    const { role, page } = req.query
+    const limit = 8
+    const skip = (page - 1) * limit
     const user = await postSchema.findById(req.user.id)
+    const query = {
+        verified: true
+    }
+    if (role) {
+        query.role = role
+    }
 
-    const getArtist = await postSchema.find({ role, verified: true, _id: { $nin: user.blockedArtists } })
+    const getArtist = await postSchema.find(query).sort({ createdAt: -1 })
+        .limit(limit)
+        .skip(skip)
 
     res.status(200).json({
         message: "Successful Get",
@@ -15,34 +25,67 @@ async function adminCheckRole(req, res) {
             return {
                 id: elem._id,
                 role: elem.role,
-                isOnline:elem.isOnline
+                isOnline: elem.isOnline,
+                username: elem.username,
+                email: elem.email,
+                role: elem.role,
+                pfp: elem.pfp,
+                verified: elem.verified,
+                isOnline: elem.isOnline,
+                lastActive: elem.lastActive,
+                isActive: elem.isActive,
+                createdAt: elem.createdAt,
+                artistApprovedAt:elem.artistApprovedAt
             }
         })
     })
 }
 
+async function totalRoleCount(req, res) {
+    try {
+        const { role } = req.query
+        const query = {
+            verified: true
+        }
+        if (role) {
+            query.role = role
+        }
+
+        const totalCount = await postSchema.countDocuments(query)
+        res.status(200).json({
+            message: "Successful get",
+            totalCount
+        })
+    }
+    catch (err) {
+        res.status(500).json({
+            message: "Internal Error"
+        })
+    }
+}
+
 async function totalContent(req, res) {
     try {
-        const [music, album, playlist ] = await Promise.all([
+        const [music, album, playlist] = await Promise.all([
             musicSchema
-            .find().sort({createdAt:-1})
-            .select('_id uri title artist image')
-            .populate('artist', '_id username pfp isOnline')
+                .find().sort({ createdAt: -1 })
+                .select('_id uri title artist image')
+                .populate('artist', '_id username pfp isOnline')
             ,
             albumSchema
-            .find().sort({createdAt:-1}).populate('artist', '_id username pfp isOnline')
+                .find().sort({ createdAt: -1 }).populate('artist', '_id username pfp isOnline')
             ,
             req.user.role === 'admin' ?
-            playlistSchema
-            .find().sort({createdAt:-1}).populate('user', '_id username pfp isOnline')
-            :
-             playlistSchema.find({ user: req.user.id }).sort({ createdAt: -1 })
+                playlistSchema
+                    .find().sort({ createdAt: -1 }).populate('user', '_id username pfp isOnline')
+                :
+                playlistSchema.find({ user: req.user.id }).sort({ createdAt: -1 })
 
         ])
 
         res.status(200).json({
-            message:"Successful get",
-            music, album, playlist 
+            message: "Successful get",
+            music, album, playlist
         })
 
         res.status(200).json({
@@ -57,20 +100,20 @@ async function totalContent(req, res) {
     }
 }
 
-async function totalCount (req, res) {
-    try{
-        const album = await  albumSchema.countDocuments()
+async function totalCount(req, res) {
+    try {
+        const album = await albumSchema.countDocuments()
         const playlist = await playlistSchema.countDocuments()
         const music = await musicSchema.countDocuments()
         res.status(200).json({
-            message:"Successful get ",
+            message: "Successful get ",
             album, playlist, music
         })
     }
-    catch(err){
+    catch (err) {
         res.status(500).json({
-            message:"Internal error",
-            error:err.message
+            message: "Internal error",
+            error: err.message
         })
     }
 }
@@ -121,11 +164,10 @@ async function blockArtist(req, res) {
     try {
         let userId = req.user.id
         let { id } = req.params
-        const block = await postSchema.findByIdAndUpdate(userId,
+        const block = await postSchema.findByIdAndUpdate({ userId, _id: id },
             {
-                $addToSet: {
-                    blockedArtists: id
-                }
+                isActive: false,
+                isOnline:false
             },
             { new: true }
         )
@@ -146,10 +188,8 @@ async function blockArtist(req, res) {
 async function unblockArtist(req, res) {
     let userId = req.user.id
     let { id } = req.params
-    const unblock = await postSchema.findByIdAndUpdate(userId, {
-        $pull: {
-            blockedArtists: id
-        }
+    const unblock = await postSchema.findByIdAndUpdate({ userId, _id: id }, {
+        isActive: true
     },
 
         { new: true }
@@ -160,56 +200,6 @@ async function unblockArtist(req, res) {
     })
 }
 
-async function blockUser(req, res) {
-    try {
-        const { id } = req.params;
-        const userId = req.user.id
 
-        const block = await postSchema.findByIdAndUpdate(userId, {
-            $addToSet: {
-                blockedArtists: id
-            }
-        },
-            { new: true }
-        )
 
-        res.status(200).json({
-            message: "Successful block",
-            block: {
-                blockedArtists: block.blockedArtists
-            }
-        })
-    }
-    catch (e) {
-        res.status(500).json({
-            message: "Error in request",
-            error: e.message
-        })
-    }
-}
-
-async function unblockUser(req, res) {
-    try {
-        const { id } = req.params
-        const userId = req.user.id
-        const unblock = await postSchema.findByIdAndUpdate(userId, {
-            $pull: {
-                blockedArtists: id
-            }
-        },
-            { new: true }
-        )
-        res.status(200).json({
-            message: "Successful unblock user",
-            unblock
-        })
-
-    }
-    catch (err) {
-        res.status(500).json({
-            message: "Error in your request or server"
-        })
-    }
-}
-
-module.exports = {  adminCheckRole, totalContent, particularAlbum, deleteArtistAlbum, blockArtist, unblockArtist, blockUser, unblockUser, unblockUser, totalCount }
+module.exports = { adminCheckRole, totalContent, particularAlbum, deleteArtistAlbum, blockArtist, unblockArtist, totalCount, totalRoleCount }
