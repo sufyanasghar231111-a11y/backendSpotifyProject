@@ -33,3 +33,7 @@ export const blockRoles = (id) => {
 export const unblockRoles = (id) => {
     return api.patch(`/admin/unblock/${id}`)
 }
+
+export const updateadminProfile = (formData) => {
+    return api.patch('/auth/updateadminpfp', formData)
+}

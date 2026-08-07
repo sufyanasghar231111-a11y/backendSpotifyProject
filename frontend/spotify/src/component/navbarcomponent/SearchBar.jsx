@@ -67,7 +67,7 @@ function SearchBar() {
             {
                 hideSearch && (
                     <>
-                        <div onClick={() => { setHideSearch(false) }} className='w-full h-full z-150 bg-black/30 inset-0  absolute '></div>
+                        <div onClick={() => { setHideSearch(false) }} className={`w-full h-full z-150  bg-black/30 inset-0  absolute `}></div>
                         <div className={`w-100 max-h-90  absolute left-42  top-15 overflow-y-auto overflow-x-hidden  z-151 bg-[#2A2A2A] rounded-lg`}>
                             <div className='w-full py-4 relative'>
                                 <div className='flex text-[#9f9f9f] text-sm items-center gap-2 justify-center py-1'>

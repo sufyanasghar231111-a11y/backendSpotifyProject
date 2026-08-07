@@ -29,7 +29,7 @@ const AdminNav = () => {
                     </div>
                     <div className='flex items-center justify-center gap-4 border rounded border-[#636363] py-2.5 px-4 w-110'>
                         <RiSearchLine />
-                        <input type="text" className='w-full h-full outline-0' placeholder='Search for users, artists, songs, albums....' />
+                        <input type="text" className='w-full h-full outline-0' placeholder='Search for albums, songs, playlist, ....' />
                         <button className='px-2 py-0.5 bg-white/10 rounded font-semibold cursor-point text-sm '>Search</button>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ const AdminNav = () => {
                             </div>
                             {
                                 user?.pfp && (
-                                    <img src={user.pfp} alt="" className=' absolute z-30 w-full h-full object-cover' />
+                                    <img src={user.pfp} alt="" className=' absolute z-40 w-full h-full object-cover' />
                                 )
                             }
                         </div>
