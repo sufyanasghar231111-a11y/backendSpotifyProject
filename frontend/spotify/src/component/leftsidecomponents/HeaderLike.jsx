@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { authHome, UIHomeContex } from '../../contextapi/HomeContext'
 import { Link } from 'react-router-dom'
-import { RiAddLine, RiHeartFill } from '@remixicon/react'
+import { RiAddLine, RiCloseCircleLine, RiCloseLine, RiHeartFill } from '@remixicon/react'
 import {  UIPlaylistContext } from '../../contextapi/PlaylistContext'
 
 const HeaderLike = () => {
@@ -17,8 +17,8 @@ const HeaderLike = () => {
        <header className=' py-4 max-sm:py-8 px-3 bg-[#1a1a1a]  sticky top-0 z-10 '>
                 <div className='flex relative items-center justify-between'>
                     <h1 className='font-semibold max-sm:text-[13px]'>Your Library</h1>
-                    <button onClick={() => { setHidePlay(true) }} className='bg-white/10 rounded-full max-sm:px-2 px-3 max-sm:py-0.5 max-sm:gap-1 py-1.5 font-semibold flex items-center gap-2 max-sm:text-sm cursor-pointer'> <RiAddLine className='max-sm:w-5 max-sm:h-5' />  Create</button>
-                    <div onClick={() => { setHide(true) }} className=' absolute right-0 md:hidden  -top-6 text-sm'>X</div>
+                    <button onClick={() => { setHidePlay(true) }} className='bg-white/10 rounded-full max-sm:px-2 lg:px-3 px-2 md:px-2.5  max-sm:py-0.5 max-sm:gap-1 py-1.5 font-semibold flex items-center lg:gap-2 md:gap-1 gap-1 md:text-sm text-sm lg:text-[15px] max-sm:text-[10px] cursor-pointer'> <RiAddLine className='max-sm:w-4 lg:w-6 lg:h-6 w-3 h-3 md:w-5 md:h-5 max-sm:h-4' />  Create</button>
+                    <div onClick={() => { setHide(true) }} className=' absolute right-0 md:hidden max-lg:hidden max-sm:flex -top-7 text-sm'><RiCloseLine /></div>
                 </div>
                 <div className='pt-5'>
                     <button className='bg-white/10 rounded-full max-sm:px-2 max-sm:text-sm px-4 py-1 max-sm:py-0.5 font-semibold   cursor-pointer'>Playlist</button>

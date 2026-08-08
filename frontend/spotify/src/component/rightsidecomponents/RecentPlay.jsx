@@ -25,7 +25,7 @@ const RecentPlay = () => {
 
   return (
 
-    <div className="pb-5">
+    <div className="pb-10">
       <h2 className="text-xl font-bold mb-4">Recently Played</h2>
 
       <div className="flex gap-4 overflow-x-auto scrollbar-hide">
@@ -37,14 +37,14 @@ const RecentPlay = () => {
               className="min-w-[180px]  bg-[#181818] p-3 rounded-lg "
             >
               <div className='w-full  h-40 relative bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5]'>
-                <div onClick={() => { deleteData(item._id) }} className=' absolute z-300 top-3 right-3 cursor-pointer w-8 h-8 flex items-center justify-center rounded-full bg-[#5c5c5c]  hover:bg-[#353535] transition-all duration-150 '>
+                <div onClick={() => { deleteData(item._id) }} className=' absolute z-40 top-3 right-3 cursor-pointer w-8 h-8 flex items-center justify-center rounded-full bg-[#5c5c5c]  hover:bg-[#353535] transition-all duration-150 '>
                   <RiCloseLine size={20} />
                 </div>
                 {
-                  item.type === 'songs' ? (<div className=' z-15 absolute z-100 flex items-center justify-center w-full h-full'>
+                  item.type === 'songs' ? (<div className='  absolute z-39 flex items-center justify-center w-full h-full'>
                     <RiMusicLine className='w-15 h-15' />
                   </div>) : (
-                    <div className=' z-15 absolute flex items-center z-100 justify-center w-full h-full'>
+                    <div className=' z-39 absolute flex items-center  justify-center w-full h-full'>
                       <RiAlbumLine className='w-15 h-15' />
                     </div>
                   )
@@ -59,7 +59,7 @@ const RecentPlay = () => {
                       )
                       }
                       alt={item.title}
-                      className="w-full h-full absolute z-110 object-cover "
+                      className="w-full h-full absolute z-40 object-cover "
                     />
                   )
                 }

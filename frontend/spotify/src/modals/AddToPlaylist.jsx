@@ -13,22 +13,22 @@ const AddToPlaylist = () => {
         hideplaylist && (
           <>
             <div onClick={() => { setHidePlaylist(false) }} className='w-full cursor-pointer h-full inset-0 bg-black/50 backdrop:backdrop-blur-sm  absolute z-160 '></div>
-            <div className="absolute top-1/2 left-1/2 z-[161] w-[90%] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl bg-[#181818] p-6 shadow-xl">
+            <div className="absolute top-1/2 left-1/2 z-161 w-[90%] max-sm:w-[70%] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl bg-[#181818] p-6 shadow-xl">
 
               {/* Close */}
               <button
                 onClick={() => setHidePlaylist(false)}
-                className="absolute top-4 right-4 text-zinc-400 hover:text-white"
+                className="absolute max-sm:text-sm top-4 max-sm:top-3 max-sm:right-3 right-4 text-zinc-400 hover:text-white"
               >
                 ✕
               </button>
 
               {/* Header */}
-              <h2 className="text-2xl font-bold text-white">
+              <h2 className="text-2xl max-sm:text-lg font-bold text-white">
                 Add to Playlist
               </h2>
 
-              <p className="mt-2 text-sm text-zinc-400">
+              <p className="mt-2 max-sm:text-[10px] text-sm text-zinc-400">
                 Select a playlist to add or remove this song.
               </p>
 
@@ -53,27 +53,27 @@ const AddToPlaylist = () => {
 
                           setHidePlaylist(false);
                         }}
-                        className={`flex w-full items-center gap-3 rounded-lg p-3 transition ${exists
+                        className={`flex w-full items-center gap-3 max-sm:p-2 rounded-lg p-3 transition ${exists
                             ? "bg-green-600 hover:bg-green-700"
                             : "bg-[#282828] hover:bg-[#333]"
                           }`}
                       >
-                        <div className="flex h-12 w-12 items-center justify-center rounded-md bg-[#333] font-semibold text-white">
+                        <div className="flex h-12 max-sm:h-8 max-sm:w-8 w-12 items-center justify-center rounded-md bg-[#333] font-semibold text-white">
                           {index + 1}
                         </div>
 
                         <div className="flex-1 text-left">
-                          <p className="font-medium text-white">
+                          <p className="font-medium max-sm:text-xs text-white">
                             {elem.name}
                           </p>
 
-                          <p className="text-xs text-zinc-400">
+                          <p className="text-xs max-sm:text-[10px] text-zinc-400">
                             {elem.music?.length || 0} songs
                           </p>
                         </div>
 
                         {exists && (
-                          <span className="text-xs font-medium text-white">
+                          <span className="text-xs max-sm:text-[10px] font-medium text-white">
                             Added
                           </span>
                         )}

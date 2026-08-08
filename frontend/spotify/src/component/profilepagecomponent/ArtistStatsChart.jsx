@@ -12,7 +12,7 @@ import {
 import { CreateAlbumContext } from "../../contextapi/ArtistMusicContext";
 import { authPlaylist } from "../../contextapi/PlaylistContext";
 
-const COLORS = ["#22c55e", "#3b82f6"];
+const COLORS = ["#22c55e", "#3b82f6", "#f59e0b"];
 
 const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
@@ -36,18 +36,18 @@ const ArtistStatsChart = ({ otherArtist }) => {
   ];
 
   return (
-    <div className="rounded-xl bg-[#181818] p-6 shadow-lg shadow-black/20">
-      <h2 className="mb-6 text-lg font-semibold tracking-tight text-white">
+    <div className="rounded-xl bg-[#181818] p-4 sm:p-6 shadow-lg shadow-black/20">
+      <h2 className="mb-4 sm:mb-6 text-base sm:text-lg font-semibold tracking-tight text-white">
         Library Overview
       </h2>
 
-      <div className="h-56 w-full">
+      <div className="h-52 sm:h-56 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
             layout="vertical"
-            margin={{ top: 0, right: 16, left: 0, bottom: 0 }}
-            barSize={22}
+            margin={{ top: 0, right: 12, left: 0, bottom: 0 }}
+            barSize={20}
           >
             <CartesianGrid
               horizontal={false}
@@ -57,17 +57,20 @@ const ArtistStatsChart = ({ otherArtist }) => {
             <XAxis
               type="number"
               allowDecimals={false}
-              tick={{ fill: "#a1a1aa", fontSize: 12 }}
+              tick={{ fill: "#a1a1aa", fontSize: 11 }}
               axisLine={{ stroke: "#3f3f46" }}
               tickLine={false}
             />
             <YAxis
               type="category"
               dataKey="name"
-              tick={{ fill: "#d4d4d8", fontSize: 13 }}
+              tick={{ fill: "#d4d4d8", fontSize: 11 }}
               axisLine={false}
               tickLine={false}
-              width={70}
+              width={60}
+              tickFormatter={(value) =>
+                value.length > 10 ? `${value.slice(0, 9)}…` : value
+              }
             />
             <Tooltip cursor={{ fill: "rgba(255,255,255,0.04)" }} content={<CustomTooltip />} />
             <Bar dataKey="value" radius={[0, 6, 6, 0]}>

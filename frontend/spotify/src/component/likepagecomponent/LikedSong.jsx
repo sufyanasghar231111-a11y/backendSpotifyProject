@@ -13,7 +13,7 @@ const LikedSong = ({ music, index }) => {
     return (
         <div
             key={music?.item._id}
-            className='group flex items-center p-3 rounded-2xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/10'
+            className='group flex items-center lg:p-3 max-sm:p-1 md:p-2 p-2 rounded lg:rounded-2xl bg-white/5 hover:bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/10'
         >
             {/* Index / Play Button */}
             <div className='relative flex-shrink-0 w-12 h-12'>
@@ -29,7 +29,7 @@ const LikedSong = ({ music, index }) => {
                         update(music?.item._id)
                     }}
                     className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-        w-10 h-10 rounded-full bg-[#1DB954]
+        lg:w-10 max-sm:w-6 md:w-6 w-6  lg:h-10 max-sm:h-6 md:h-6 h-6  rounded-full bg-[#1DB954]
         flex items-center justify-center
         scale-0 max-sm:scale-100 group-hover:scale-100
         transition-all duration-300
@@ -58,21 +58,21 @@ const LikedSong = ({ music, index }) => {
             </div>
 
             {/* Music Info */}
-            <div className='flex-1 min-w-0 px-4'>
+            <div className='flex-1 min-w-0 '>
                 <div className='flex items-center gap-3'>
-                    <div className='bg-gradient-to-br relative from-[#3c17f5] via-[#8879ff] to-[#d7fff5] w-14 h-14 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-purple-500/20 transition-all duration-300'>
-                    <div className='w-full h-full flex items-center justify-center absolute z-100'>
-                                <RiMusicLine />
-                            </div>
-                            {
-                                music?.item?.image && (
-                                    <img
-                                        className='w-full h-full object-cover absolute z-120'
-                                        src={music?.item?.image}
-                                        alt={music?.item?.title}
-                                    />
-                                )
-                            }
+                    <div className='bg-gradient-to-br relative from-[#3c17f5] via-[#8879ff] to-[#d7fff5]  lg:w-14 max-sm:w-9 md:w-10 w-10     lg:h-14 max-sm:h-9 md:h-10 h-10 rounded overflow-hidden shadow-lg group-hover:shadow-purple-500/20 transition-all duration-300'>
+                        <div className='w-full h-full flex items-center justify-center absolute z-100'>
+                            <RiMusicLine />
+                        </div>
+                        {
+                            music?.item?.image && (
+                                <img
+                                    className='w-full h-full object-cover absolute z-120'
+                                    src={music?.item?.image}
+                                    alt={music?.item?.title}
+                                />
+                            )
+                        }
 
                         {currentSong === music?.item?._id && playing && (
                             <div className='absolute inset-0 bg-black/25 flex items-end justify-center pb-1'>
@@ -113,11 +113,11 @@ const LikedSong = ({ music, index }) => {
                 {/* Favorite / Delete */}
                 <button
                     onClick={() => deletemusic(music._id)}
-                    className='p-2 rounded-xl bg-white/10 hover:bg-red-500/20 hover:border-red-500/30 border border-transparent hover:border-red-500/50 transition-all duration-200 group/like'
+                    className='lg:p-2 max-sm:p-1 p-1 md:p-1 rounded lg:rounded-xl bg-white/10 hover:bg-red-500/20 hover:border-red-500/30 border border-transparent hover:border-red-500/50 transition-all duration-200 group/like'
                     title='Remove from favorites'
                 >
                     <svg
-                        className='w-5 h-5 text-red-400 group-hover/like:text-red-500 group-hover/like:scale-110 transition-all duration-200'
+                        className='lg:w-5 max-sm:w-3 md:w-3 w-3  lg:h-5 max-sm:h-3 h-3 md:h-3 text-red-400 group-hover/like:text-red-500 group-hover/like:scale-110 transition-all duration-200'
                         fill='currentColor'
                         viewBox='0 0 20 20'
                     >

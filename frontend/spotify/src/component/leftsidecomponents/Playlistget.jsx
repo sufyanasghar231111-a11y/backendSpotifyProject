@@ -2,14 +2,16 @@ import React, { useContext } from 'react'
 import { RiPlayListLine } from '@remixicon/react'
 import { Link } from 'react-router-dom'
 import { authPlaylist } from '../../contextapi/PlaylistContext'
+import { LibraryContext } from '../../contextapi/AuthContext'
 
 const Playlistget = () => {
     const {  getPlayList } = useContext(authPlaylist)
+    const {library} = useContext(LibraryContext)
     
     
   return (
     <div>
-       {getPlayList.length > 0 ? (
+       {getPlayList.length  > 0  ? (
                     getPlayList?.map((elem, index) => {
                         return <div key={elem?._id} className=' flex items-center px-4 max-sm:px-2 py-2'>
                             <Link to={`/playlist/${elem._id}`} >
@@ -37,7 +39,7 @@ const Playlistget = () => {
                         </div>
                     })
                 ) : (
-                    <div className=' absolute top-30 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xl z-9 font-semibold'>Your playlist library  is empty. Start by creating a playlist.</div>
+                    <div className=' absolute top-30 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center text-xl z-9 font-semibold max-sm:text-sm max-sm:top-20'>Your playlist library  is empty. Start by creating a playlist.</div>
                 )
                 }
     </div>

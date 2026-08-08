@@ -149,7 +149,7 @@ const Album = () => {
       </div>
       <button
         onClick={rightRef}
-        className={` cursor-pointer absolute  hover:bg-black/90 -right-6  top-1/2 -translate-y-1/2 z-20
+        className={` cursor-pointer absolute  hover:bg-black/90 -right-3 top-1/2 -translate-y-1/2 z-20
         w-10 h-10 rounded-full bg-black/70 text-white
         flex items-center justify-center` }
       >

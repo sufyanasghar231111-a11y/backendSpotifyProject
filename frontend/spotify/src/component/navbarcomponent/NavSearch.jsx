@@ -38,13 +38,13 @@ const NavSearch = () => {
   },[searchinput])
 
   return (
-    <div onClick={() => { setHideSearch(true) }} className='w-100 max-sm:w-50 hover:bg-[#292929] transition-all duration-200  hover:border-white/10 border border-[#282828]  flex bg-[#282828] items-center gap-2 max-sm:gap-1 px-2.5 max-sm:px-1 max-sm:py-1  rounded-full'>
+    <div onClick={() => { setHideSearch(true) }} className=' w-70 max-[500px]:w-48 md:w-80 lg:w-100 hover:bg-[#292929] transition-all duration-200  hover:border-white/10 border border-[#282828]  flex bg-[#282828] items-center gap-2 max-sm:gap-1 px-2.5 max-sm:px-1.5   rounded-full'>
             <div onClick={() => { setHideSearch(true) }}>
-              <RiSearchLine className='text-[#898881] cursor-pointer hover:scale-105 transition-all duration-300 hover:text-[#dbd9d9] max-sm:w-4 max-sm:h-4' />
+              <RiSearchLine className='text-[#898881] cursor-pointer hover:scale-105 transition-all duration-300 hover:text-[#dbd9d9] max-sm:w-3 max-sm:h-3' />
             </div>
             <form onSubmit={handleSubmit} className='w-full'>
-              <input type="text" value={searchinput} onChange={(elem) => { setSearchinput(elem.target.value) }} className='outline-0 rounded-full max-sm:text-sm w-full px-1.5 py-3 ' placeholder='What you want to play? ' />
-            </form>
+              <input type="text" value={searchinput} onChange={(elem) => { setSearchinput(elem.target.value) }} className='outline-0 rounded-full max-sm:text-xs w-full px-1.5 py-3 max-sm:py-0.5  ' placeholder='What you want to play? ' />
+            </form> 
             <div className='flex items-center gap-3'>
               {
                 hideClose && (
@@ -58,7 +58,7 @@ const NavSearch = () => {
                 )
               }
               <div className='border-l  px-2 border-[#706e6e]'>
-                <RiChromeLine className='text-[#898881] max-sm:w-4 max-sm:h-4' />
+                <RiChromeLine className='text-[#898881] max-sm:w-3 max-sm:h-3' />
               </div>
             </div>
           </div>

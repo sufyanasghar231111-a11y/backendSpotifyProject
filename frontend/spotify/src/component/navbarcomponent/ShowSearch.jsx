@@ -9,8 +9,8 @@ const ShowSearch = ({ elem, handleClick }) => {
             {
                 elem.type === 'song' && (
                     <div key={elem._id} onClick={() => { handleClick(elem) }} >
-                        <div className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3  flex items-center'>
-                            <h1 className='px-2.5 py-2.5 rounded-full bg-[#282828]'><RiSearchLine /></h1>
+                        <div className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3   flex items-center'>
+                            <h1 className='px-2.5 max-sm:px-1.5 max-sm:py-1.5 py-2.5 rounded-full bg-[#282828]'><RiSearchLine /></h1>
                             <h1 className='font-semibold '>{elem.title}</h1>
                         </div>
                     </div>
@@ -20,8 +20,8 @@ const ShowSearch = ({ elem, handleClick }) => {
             {
                 elem.type === 'album' && (
                     <div key={elem._id} onClick={() => { handleClick(elem) }} >
-                        <div className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3  flex items-center'>
-                            <h1 className='px-2.5 py-2.5 rounded-full bg-[#282828]'><RiSearchLine /></h1>
+                        <div className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3   flex items-center'>
+                            <h1 className='px-2.5 max-sm:px-1.5 max-sm:py-1.5 py-2.5 rounded-full bg-[#282828]'><RiSearchLine /></h1>
                             <h1 className='font-semibold '>{elem.title}</h1>
                         </div>
                     </div>
@@ -31,8 +31,8 @@ const ShowSearch = ({ elem, handleClick }) => {
             {
                 elem.type === 'visible' && elem.visibility === "public" && (
                     <div key={elem._id} onClick={() => { handleClick(elem) }} >
-                        <div className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3  flex items-center'>
-                            <h1 className='px-2.5 py-2.5 rounded-full bg-[#282828]'><RiSearchLine /></h1>
+                        <div className='mx-2 cursor-pointer hover:bg-[#404040] rounded-lg py-2  gap-6 px-3   flex items-center'>
+                            <h1 className='px-2.5 max-sm:px-1.5 max-sm:py-1.5 py-2.5 rounded-full bg-[#282828]'><RiSearchLine /></h1>
                             <h1 className='font-semibold '>{elem.name}</h1>
                         </div>
                     </div>

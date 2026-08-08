@@ -46,12 +46,9 @@ const PlaylistContext = ({ children }) => {
 
 
   useEffect(() => {
-    if(!user) return
-    if ( !authReady || user?.role === "admin") return;
-
-    handleGetPlayList();
+    if (!authReady) return;
+      handleGetPlayList();
   }, [authReady, user]);
-
 
 
 

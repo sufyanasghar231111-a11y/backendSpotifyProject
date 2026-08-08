@@ -18,14 +18,14 @@ function AllAlbum() {
       ...elem,
       type: 'visible',
     })),
-  ]
+  ].sort((a,b)=> new Date(b.createdAt)- new Date(a.createdAt))
 
   return (
     <div className="relative">
       <div className="w-full bg-[#282828] px-5 max-sm:px-4 py-2 h-[80vh] overflow-y-auto pb-20">
         <h1 className="text-2xl font-bold mb-3">Playlist & Album</h1>
 
-        <div className="flex flex-wrap gap-4 max-sm:justify-center">
+        <div className="flex flex-wrap gap-3 md:items-center md:justify-center shrink-0 max-sm:justify-center">
           {item.map((elem) => (
             <React.Fragment key={elem._id}>
               {/* All Albums */}

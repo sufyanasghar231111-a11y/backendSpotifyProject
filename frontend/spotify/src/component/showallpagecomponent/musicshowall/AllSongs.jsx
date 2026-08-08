@@ -3,21 +3,30 @@ import { musciControl } from '../../../contextapi/MusicControllerContext'
 import { authRecent } from '../../../contextapi/RecentRoute'
 import { audioContext } from '../../../contextapi/AudioProvider'
 import { Link } from 'react-router-dom'
-import { RiPauseFill, RiPlayFill } from '@remixicon/react'
+import { RiMusicLine, RiPauseFill, RiPlayFill } from '@remixicon/react'
 
 const AllSongs = ({ elem }) => {
     const { update } = useContext(authRecent)
     const { playing, currentSong } = useContext(audioContext)
     const { patchMusicPlaying, playRef } = useContext(musciControl)
     return (
-        <div key={elem._id} className='shrink-0 rounded-lg group lg:w-54 xl:w-55   max-sm:w-70  rounded-lgtransition-all duration-300 hover:bg-white/10 p-2 mt-5 cursor-pointer'>
-            <div className='relative rounded-lg overflow-hidden w-full  h-50'>
+        <div key={elem._id} className='shrink-0 rounded-lg group lg:w-54 md:w-50 xl:w-55   max-sm:w-70   transition-all duration-300 hover:bg-white/10 p-2 mt-5 cursor-pointer'>
+            <div className='relative rounded-lg overflow-hidden   h-50'>
                 <Link to={`/detail/${elem._id}`} >
-                    <img
-                        className='w-full h-full object-cover rounded'
-                        src={elem.image}
-                        alt='' />
+                {
+                    elem.image && (
+                        <img
+                            className='w-full h-full absolute z-40 object-cover rounded'
+                            src={elem.image}
+                            alt='' />
+                    )
+                }
+
+                        <div className='w-full h-full flex items-center justify-center z-39 bg-green-500'>
+                            <RiMusicLine className='w-15 h-15' />
+                        </div>
                 </Link>
+
 
                 <div onClick={() => {
                     playRef(elem)
@@ -29,6 +38,7 @@ const AllSongs = ({ elem }) => {
               opacity-0 translate-y-4
               group-hover:translate-y-0
               group-hover:opacity-100
+              z-40
               transition-all duration-300 ease-out shadow-lg'>
                     {
                         currentSong === elem._id && playing ? (<RiPauseFill className='text-black w-7 h-7' />) : (<RiPlayFill className='text-black w-7 h-7' />)

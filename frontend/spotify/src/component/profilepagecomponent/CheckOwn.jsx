@@ -2,45 +2,70 @@ import React, { useContext } from 'react'
 import { ProfileContext } from '../../contextapi/AuthContext'
 import { RiPencilLine } from '@remixicon/react'
 
-const CheckOwn = ({isown,trimname,profileData}) => {
-    const { setHideProfileDetail, setUpdateprofile, setPreview  } = useContext(ProfileContext)
-    
+const CheckOwn = ({ isown, trimname, profileData }) => {
+  const {
+    setHideProfileDetail,
+    setUpdateprofile,
+    setPreview,
+  } = useContext(ProfileContext)
+
   return (
-    
-        <div onClick={() => {
-          if(isown){
-             setHideProfileDetail(true)
-          }
-         }}>
+    <div
+      onClick={() => {
+        if (isown) {
+          setHideProfileDetail(true)
+        }
+      }}
+    >
+      <div className="group relative flex h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 items-center justify-center overflow-hidden rounded-full bg-[#2f2f2f] text-white shadow-2xl shadow-black">
 
-          <div className='shadow-2xl shadow-black group  relative overflow-hidden group text-white   bg-[#2f2f2f] rounded-full w-32 h-32 flex items-center justify-center'>
-            {
-              isown && (
-                <>
-                <div className=' absolute w-full h-full inset-0  z-45 group-hover:bg-black/50 '></div>
-                <div className='absolute flex items-center opacity-0 group-hover:opacity-100 justify-center flex-col z-50'>
-              <RiPencilLine className='text-white  w-8 h-8  ' />
-              <h1 className='font-semibold text-sm '>Choose photo</h1>
-            </div>
-                </>
-              )
-            }
-            <span className='text-4xl absolute font-bold text-[#aaa]'>{trimname}</span>
-            <img src={profileData?.pfp} className='w-full h-full absolute scale-105 z-20 inset-0 object-cover' />
-            {
-              isown && (
-                <input name="profileImage" accept="image/*" onChange={(elem) => {
-                  let file = elem.target.files[0]
-                  setUpdateprofile(file)
-                  if (file) {
-                    setPreview(URL.createObjectURL(file))
-                  }
-                }} type="file" className='absolute inset-0 z-50  w-full h-full opacity-0 cursor-pointer' />
-              )
-            }
+        {/* Dark Overlay */}
+        {isown && (
+          <div className="absolute inset-0 z-30 bg-black/20 sm:bg-transparent sm:group-hover:bg-black/50 transition-all" />
+        )}
 
+        {/* Edit Icon */}
+        {isown && (
+          <div className="absolute z-40 flex flex-col items-center justify-center sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+            <RiPencilLine className="h-5 w-5 sm:h-8 sm:w-8 text-white" />
+            <h1 className="text-[10px] sm:text-sm font-semibold">
+              Edit
+            </h1>
           </div>
-        </div>
+        )}
+
+        {/* Fallback Letter */}
+        <span className="absolute text-2xl sm:text-3xl md:text-4xl font-bold text-[#aaa]">
+          {trimname}
+        </span>
+
+        {/* Profile Image */}
+        <img
+          src={profileData?.pfp}
+          alt=""
+          className="absolute inset-0 z-20 h-full w-full scale-105 object-cover"
+        />
+
+        {/* File Input */}
+        {isown && (
+          <input
+            name="profileImage"
+            accept="image/*"
+            type="file"
+            className="absolute inset-0 z-50 h-full w-full cursor-pointer opacity-0"
+            onChange={(e) => {
+              const file = e.target.files[0]
+
+              setUpdateprofile(file)
+
+              if (file) {
+                setPreview(URL.createObjectURL(file))
+              }
+            }}
+          />
+        )}
+      </div>
+    </div>
   )
 }
 

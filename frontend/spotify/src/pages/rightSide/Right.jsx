@@ -1,4 +1,4 @@
-import { RiArrowLeftSLine, RiArrowRightSLine, RiPauseFill, RiPlayFill } from '@remixicon/react'
+import { RiArrowLeftSLine, RiArrowRightSLine, RiMenu2Line, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import React, { useContext, useEffect } from 'react'
 import HomeContext, {  UIHomeContex } from '../../contextapi/HomeContext'
 
@@ -13,7 +13,7 @@ import { CreateAlbumContext, CreateSongContext } from '../../contextapi/ArtistMu
 
 
 const Right = () => {
-  const { setHide } = useContext(UIHomeContex)
+  
   const {setPage}   =useContext(authSearchBar)
   const {setHideExtra}=useContext(UIPlaylistContext)
   const {setNotificationpopup} =useContext(notificationContext)
@@ -35,16 +35,15 @@ const Right = () => {
       <Outlet />
       {location.pathname === '/' && (
           <>
-            <div className='w-full flex gap-3 bg-[#282828]  sticky p-6 px-7 '>
-              <button className='md:hidden' onClick={() => { setHide(false) }}>show</button>
-              <button className='px-4 py-1.5 rounded-full text-sm font-semibold bg-white text-black cursor-pointer'>All</button>
-              <button className='px-4 py-1.5 rounded-full text-sm  font-semibold backdrop-blur-2xl bg-white/10 cursor-pointer'>Music</button>
+            <div className='w-full flex gap-3 items-center bg-[#282828]  sticky p-6 max-sm:py-4  max-sm:px-4 '>
+              
+              <button className='px-4  max-sm:text-[10px] py-1.5 rounded-full text-sm font-semibold bg-white text-black cursor-pointer'>All</button>
              { user.role === 'artist' &&(
-                <button onClick={()=>{setMusicCreateModal(true)}} className={`px-4 py-1.5 rounded-full text-sm  font-semibold backdrop-blur-2xl ${musicCreateModal? 'bg-white text-black':'bg-white/10 text-white'}  cursor-pointer`}>Create Music</button>
+                <button onClick={()=>{setMusicCreateModal(true)}} className={`px-4 max-sm:text-[10px] py-1.5 rounded-full text-sm  font-semibold backdrop-blur-2xl ${musicCreateModal? 'bg-white text-black':'bg-white/10 text-white'}  cursor-pointer`}>Create Music</button>
               )}
 
              { user.role === 'artist' &&(
-                <button onClick={()=>{setAlbumCreateModal(true)}}  className={`px-4 py-1.5 rounded-full text-sm  font-semibold backdrop-blur-2xl ${albumCreateModal ? 'bg-white text-black':'bg-white/10 text-white'}  cursor-pointer`}>Create Album</button>
+                <button onClick={()=>{setAlbumCreateModal(true)}}  className={`px-4 py-1.5 max-sm:text-[10px] rounded-full text-sm  font-semibold backdrop-blur-2xl ${albumCreateModal ? 'bg-white text-black':'bg-white/10 text-white'}  cursor-pointer`}>Create Album</button>
               )}
             </div>
            <RightsideMusic />

@@ -45,8 +45,8 @@ function MusicControllerContext({ children }) {
                 currentTime: audio.currentTime,
                 duration:audio.duration
             })
-
             await getMusicPlaying()
+            
         }
         catch (err) {
             console.log(err.response?.data);
@@ -99,12 +99,13 @@ function MusicControllerContext({ children }) {
         let audio = audioRef.current
         if (!audio ) return
 
-        let lastUpdate=0
+        let lastUpdate = 0
+        const PATCH_INTERVAL = 5000
         const saveTime = () => {
-            if(! currentSongRef.current) return 
-            let now =Date.now()
-            if(now-lastUpdate < 300) return
-            lastUpdate=now
+            if (!currentSongRef.current) return
+            let now = Date.now()
+            if (now - lastUpdate < PATCH_INTERVAL) return
+            lastUpdate = now
             patchRef.current(currentSongRef.current)
         }
 

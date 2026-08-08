@@ -12,6 +12,12 @@ export const separateGet = (page) => {
     );
 };
 
+export const getOnlySearch = (search) => {
+    return api.get(
+        `/creator/getmusicalbum?search=${search}`
+    );
+};
+
 
 export const patchtext = (text) => {
     return api.patch('/search/recenttext', text);

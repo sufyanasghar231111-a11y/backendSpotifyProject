@@ -53,7 +53,7 @@ const Audioplay = () => {
         if(checkOwn){
           setMusicEditPopup(true)
         }
-         }} className='relative  h-[70vh] w-[60%] bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] rounded-2xl overflow-hidden group '>
+         }} className='relative  h-[70vh] max-sm:w-full max-sm:h-[50vh] w-[60%] bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] rounded-lg lg:rounded-2xl overflow-hidden group '>
           {
             checkOwn && (
               <input type="file" accept='image/*' onChange={(elem)=>{
@@ -65,10 +65,10 @@ const Audioplay = () => {
               }} className='hidden' />
             )
           }
-        <div className=' absolute flex items-center z-100 justify-center w-full h-full'>
+        <div className=' absolute flex items-center z-38 justify-center w-full h-full'>
           <RiMusicLine className='w-15 h-15' />
         </div>
-        <div className='w-full absolute overflow-hidden z-110 h-full'>
+        <div className='w-full absolute overflow-hidden z-39 h-full'>
           {
             data?.image && (
               <img
@@ -80,7 +80,7 @@ const Audioplay = () => {
 
           {
             checkOwn && (
-              <div className=' absolute z-111 group-hover:bg-black/50 w-full h-full group-hover:flex hidden items-center justify-center  flex-col'>
+              <div className=' absolute z-40 group-hover:bg-black/50 w-full h-full group-hover:flex hidden items-center justify-center  flex-col'>
                 <RiPencilLine className='w-17 h-17' />
                 <h1 className='text-4xl font-semibold'>Choose Image </h1>
               </div>

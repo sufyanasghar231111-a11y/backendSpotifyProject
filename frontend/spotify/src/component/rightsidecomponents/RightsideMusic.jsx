@@ -22,7 +22,7 @@ const RightsideMusic = () => {
               </div>
               <button
                 onClick={leftRef}
-                className={` cursor-pointer absolute  hover:bg-black/90  left-2  top-45 -translate-y-1/2 z-40
+                className={` cursor-pointer absolute  hover:bg-black/90  left-2  top-45 -translate-y-1/2 z-41
         w-10 h-10 rounded-full bg-black/70 text-white
         flex items-center justify-center`}>
 
@@ -33,7 +33,7 @@ const RightsideMusic = () => {
               </div>
               <button
                 onClick={rightRef}
-                className='absolute cursor-pointer hover:bg-black/90 right-2 max-sm:right-0  top-45 -translate-y-1/2 z-20
+                className='absolute cursor-pointer hover:bg-black/90 right-2 max-sm:right-0  top-45 -translate-y-1/2 z-40
         w-10 h-10 rounded-full bg-black/70 text-white
         flex items-center justify-center' >
                 <RiArrowRightSLine />

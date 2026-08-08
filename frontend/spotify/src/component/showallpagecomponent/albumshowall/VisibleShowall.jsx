@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const VisibleShowall = ({ elem }) => {
     return (
-        <div className="group w-[160px] max-sm:w-[46%] rounded-lg p-2 transition-all duration-300 hover:bg-white/10 cursor-pointer">
+        <div className="group w-[200px] max-sm:w-[70%]  rounded-lg p-2 transition-all duration-300 hover:bg-white/10 cursor-pointer">
             <div className="w-full aspect-square rounded-lg overflow-hidden">
                 <Link to={`/visible/${elem._id}`}>
                     {elem.playlistPic ? (

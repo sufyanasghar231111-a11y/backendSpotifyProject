@@ -68,7 +68,7 @@ const PlayUI = () => {
               {separate?.visibility} Playlist
             </h1>
             <Link to={`/profile/${separate?.user?._id}`}>
-              <h1 className='text-8xl font-extrabold'>{separate?.name}</h1>
+              <h1 className='lg:text-8xl max-sm:text-2xl md:text-4xl text-4xl font-extrabold'>{separate?.name}</h1>
             </Link>
             <h1 className='font-bold pt-4'>{separate?.user?.username} <span className='text-[#b9b6b6]'>. {separate?.music?.length} songs</span> </h1>
           </div>
@@ -80,9 +80,9 @@ const PlayUI = () => {
         <PlaylistDetail />
 
         {/* Header */}
-        <div className=' top-0 z-10 px-15 pt-2 pb-2 flex items-center justify-between  backdrop-blur-sm border-b border-white/10'>
-          <div className='flex items-center gap-6'>
-            <div className='px-3'>
+        <div className=' top-0 z-10 px-15 max-sm:px-0 pt-2 pb-2 flex items-center justify-between  backdrop-blur-sm border-b border-white/10'>
+          <div className='flex items-center gap-6 max-sm:gap-2'>
+            <div className='px-3 max-sm:px-1'>
               <span className='text-white font-bold text-[15px]'>#</span>
             </div>
             <div>
@@ -91,13 +91,13 @@ const PlayUI = () => {
             </div>
           </div>
           <div className='flex items-center gap-4 text-white/60'>
-            <span className='text-sm font-medium'>Duration</span>
+           
             <span>Liked</span>
           </div>
         </div>
 
         {/* Music List */}
-        <div className='space-y-2 px-8 pt-4'>
+        <div className='space-y-2 lg:px-8  max-sm:px-0 md:px-7 px-7  py-4'>
           {separate?.music?.map((music, index) => {
             const favId = fav?.favorite?.some(
               song => song.type === 'music' && song.item?._id === music._id

@@ -25,6 +25,7 @@ const UserRequest = ({ children }) => {
             await postApi({
                 requestDescription: description
             })
+            setRequestpopup(false)
         }
         catch (err) {
             if (err.response?.status === 409) {

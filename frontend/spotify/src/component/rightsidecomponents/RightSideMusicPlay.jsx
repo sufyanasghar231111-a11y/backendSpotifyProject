@@ -20,10 +20,10 @@ const RightSideMusicPlay = () => {
             p-2 mt-5 cursor-pointer'>
           <Link to={`/detail/${item?._id}`}>
             <div  className='relative rounded-lg overflow-hidden w-full bg-gradient-to-br from-[#3c17f5] via-[#8879ff] to-[#d7fff5] h-40'>
-              <div className=' absolute flex items-center z-100 justify-center w-full h-full'>
+              <div className=' absolute flex items-center z-39 justify-center w-full h-full'>
                 <RiMusicLine className='w-15 h-15' />
               </div>
-              <div className=' w-full h-full absolute z-110'>
+              <div className=' w-full h-full absolute z-40'>
                 {
                   item?.image && (
                     <img

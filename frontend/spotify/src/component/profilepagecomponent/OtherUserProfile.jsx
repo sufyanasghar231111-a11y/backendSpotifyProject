@@ -8,7 +8,7 @@ const OtherUserProfile = ({visibleParticular, isown}) => {
   return (
     <>
               <h1 className='text-xl font-semibold mb-4'>Playlists</h1>
-              <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5 relative'>
+              <div className='grid grid-cols-2 max-sm:grid-cols-1 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 gap-5 relative'>
                 {
                   visibleParticular?.length > 0 ? (
                     visibleParticular.map((elem) => {
@@ -28,11 +28,11 @@ const OtherUserProfile = ({visibleParticular, isown}) => {
                               🎵
                             </div>
 
-                            <h1 className='text-white font-semibold text-lg'>
+                            <h1 className='text-white font-semibold text-lg max-sm:text-sm'>
                               No public playlists yet
                             </h1>
 
-                            <p className='text-sm text-gray-400 mt-2 leading-5'>
+                            <p className='text-sm text-gray-400 mt-2 max-sm:text-xs leading-5'>
                               This user hasn't created any public playlists yet.
                             </p>
                           </div>

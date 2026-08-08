@@ -37,8 +37,8 @@ const HideExtraDetail = () => {
             {
                 hideExtra && (
                     <>
-                        <div onClick={() => { setHideExtra(false) }} className='w-full h-full absolute z-150 '></div>
-                        <div className=' absolute w-55 max-h-70 z-151  rounded  bg-[#404040] top-40 left-40 overflow-hidden'>
+                        <div onClick={() => { setHideExtra(false) }} className='w-full h-full absolute lg:z-150 z-39 '></div>
+                        <div className=' absolute w-55 max-h-70 lg:z-150 z-40 rounded  bg-[#404040] lg:top-40 max-sm:top-10 md:top-20 top-20 lg:left-40 max-sm:left-10 md:left-20 left-20  overflow-hidden'>
                             {
                                 separate?.user?._id === user?._id ? (
                                     <>

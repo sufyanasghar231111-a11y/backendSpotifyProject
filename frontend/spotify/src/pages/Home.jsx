@@ -75,7 +75,7 @@ function Home() {
       </div>
 
       {/* footer */}
-      <footer className='w-full h-22 bg-black'>
+      <footer className='w-full h-22 max-sm:h-20 bg-black'>
      <Footer />
       </footer>
     </div>

@@ -8,6 +8,7 @@ import { authSearch } from '../../contextapi/RecentSearchRoute'
 import MusicSearch from './MusicSearch'
 import AlbumSearch from './AlbumSearch'
 import VisibleSearch from './VisibleSearch'
+import { getOnlySearch } from '../../api/albumApi'
 
 const SearchMusicDetail = () => {
     const [params] = useSearchParams()
@@ -18,9 +19,7 @@ const SearchMusicDetail = () => {
     useEffect(() => {
         async function fetchData() {
 
-            const res = await axios.get(
-                `http://localhost:3000/api/creator/getmusicalbum?search=${query}`
-            )
+            const res = await getOnlySearch(query)
 
             setAlbumResults(res.data.album)
             setMusicResults(res.data.music)
@@ -28,7 +27,7 @@ const SearchMusicDetail = () => {
         }
 
         fetchData()
-    }, [query])
+    }, [query, setAlbumResults, setMusicResults, setVisibleResults])
 
 
     const selected = params.get('selected')
