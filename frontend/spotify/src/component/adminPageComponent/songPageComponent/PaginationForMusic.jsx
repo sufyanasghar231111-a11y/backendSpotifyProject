@@ -10,7 +10,7 @@ const PaginationForMusic = () => {
     const totalPage = Math.ceil(totalMusic / 8)
     return (
         <div className='pt-3'>
-            <div className=' flex items-center justify-between'>
+            <div className=' flex items-center max-sm:flex-col gap-3 justify-between'>
                 <div className='text-[12px] text-gray-400'>
                     Showing 1 to {music.length} of {totalMusic} songs
                 </div>

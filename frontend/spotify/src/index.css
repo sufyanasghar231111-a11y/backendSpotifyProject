@@ -38,3 +38,24 @@
   animation: slide 1.4s infinite ease-in-out;
 }
 
+.left{
+  scrollbar-width: thin;
+  scrollbar-color: #3a3a3a #121212;
+}
+
+.left::-webkit-scrollbar {
+  width: 8px;
+}
+
+.left::-webkit-scrollbar-track {
+  background: #121212;
+}
+
+.left::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+  border-radius: 10px;
+}
+
+.left::-webkit-scrollbar-thumb:hover {
+  background: #4a4a4a;
+}

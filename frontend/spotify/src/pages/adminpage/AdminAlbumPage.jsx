@@ -5,17 +5,17 @@ import AllAlbumInAlbumDashBoard from '../../component/adminPageComponent/albumpa
 const AdminAlbumPage = () => {
   const albumsData = useUserAlbumDashData()
   return (
-    <div className='w-[75%]  ml-84 border-t mt-5 border-[#2e2e2e] p-6  bg-[#121212]'>
+    <div className='lg:w-[75%] w-[67%] md:w-[67%] max-sm:ml-0 md:ml-[250px] lg:ml-[250px] xl:ml-[320px]  max-sm:w-full  border-t mt-5 border-[#2e2e2e] p-6  bg-[#121212]'>
       <h1 className='text-xl font-semibold leading-5'>
         Albums <br />
         <span className='text-[12px] font-normal text-gray-400'>Manage and oversee platform albums</span>
       </h1>
       <div className=' pt-2'>
-        <div className='flex items-center justify-between gap-2 flex-warp shrink-0'>
+        <div className='flex items-center flex-wrap  justify-center  gap-2 flex-warp shrink-0'>
           {
             albumsData.map((elem) => {
               const Icon = elem.icon
-              return <div className='w-60 h-30  bg-[#141414] border border-zinc-700 rounded-xl  hover:-translate-y-1.5
+              return <div className='lg:w-58 max-sm:w-50 md:w-50 w-50 h-30  bg-[#141414] border border-zinc-700 rounded-xl  hover:-translate-y-1.5
                           hover:border-[#1DB954]/40
                           hover:shadow-[0_10px_30px_rgba(29,185,84,0.18)] transition-all ease duration-300 group flex items-center px-7 gap-5'>
                 <div className={`w-15 h-15  flex items-center group-hover:-rotate-10 transition-all ease duration-300 justify-center rounded-full ${elem.bg} `}>

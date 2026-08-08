@@ -10,7 +10,7 @@ const AdminNotificationModal = () => {
 
 
             <div
-                className={`absolute w-60 top-8 -left-54 rounded-lg border border-zinc-800
+                className={`absolute w-60 max-sm:w-50 top-8 -left-54 max-sm:-left-45 max-sm:top-10 rounded-lg border border-zinc-800
   bg-[#141414] shadow-xl transition-all duration-300 ease-in-out z-50
   ${adminNotification
                         ? "opacity-100 translate-y-0 max-h-80  p-1 pointer-events-auto overflow-y-auto"

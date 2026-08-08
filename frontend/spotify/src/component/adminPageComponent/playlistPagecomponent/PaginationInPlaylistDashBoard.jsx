@@ -9,7 +9,7 @@ const PaginationInPlaylistDashBoard = () => {
     const totalPage = Math.ceil(totalPlaylist / 8)
     return (
         <div className='pt-3'>
-            <div className=' flex items-center justify-between'>
+            <div className=' flex items-center max-sm:flex-col gap-3 justify-between'>
                 <div className='text-[12px] text-gray-400'>
                     Showing 1 to {visible.length} of {totalPlaylist} songs
                 </div>
