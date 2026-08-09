@@ -6,7 +6,6 @@ import { LibraryContext } from '../../contextapi/AuthContext'
 
 const Playlistget = () => {
     const {  getPlayList } = useContext(authPlaylist)
-    const {library} = useContext(LibraryContext)
     
     
   return (

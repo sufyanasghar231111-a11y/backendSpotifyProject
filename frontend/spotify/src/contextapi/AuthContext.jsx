@@ -30,7 +30,7 @@ const AuthContext = ({ children }) => {
     // All Null states
     let [preview, setPreview] = useState(null)
     let [updateprofile, setUpdateprofile] = useState(null)
-    
+
     // All Input field states
     let [username, setUsername] = useState('')
     let [emailreg, setEmailreg] = useState('')
@@ -45,6 +45,9 @@ const AuthContext = ({ children }) => {
         otpHash: ''
     })
     const [otpBased, setOtpBased] = useState(false)
+     const [otploading, setOtpLoading] = useState(false)
+     const [wrongPassword, setWrongPassword] = useState(false)
+     const [alreadyExist, setAlreadtExist] = useState(false)
 
     // All Toggle or true & false states 
     let [loading, setLoading] = useState(false)
@@ -54,17 +57,17 @@ const AuthContext = ({ children }) => {
 
     // All ref
     let imageref = useRef()
-    
+
     // All Array
     let [library, setLibrary] = useState([])
-    
+
     // All Usecontext from context api
     let { fetchRecent } = useContext(authRecent)
     let { getRecentSearch } = useContext(authSearch)
     let { getMusicPlaying } = useContext(musciControl)
     let { handleGetPlayList } = useContext(authPlaylist)
     let { setCurrentSong, audioRef } = useContext(audioContext)
-    const {user, setUser} = useContext(adminContext)
+    const { user, setUser } = useContext(adminContext)
     const { authReady, setAuthReady } = useContext(resetContext)
 
 
@@ -87,9 +90,16 @@ const AuthContext = ({ children }) => {
         }
     }
 
+    const regValid = emailreg !== '' &&
+    passwordreg !== '' &&
+    passwordreg.length === 8 &&
+    username !== ''
+
     const handleSumbit = useCallback(async (e) => {
         e.preventDefault()
+        if(!regValid) return 
         try {
+            setLoading(true)
             await register(
                 {
                     username: username,
@@ -103,16 +113,24 @@ const AuthContext = ({ children }) => {
             setEmailreg('')
             setPasswordreg('')
 
-
-
         }
         catch (err) {
             console.log(err);
+            
         }
-    }, [username, emailreg, passwordreg, navigate])
+        finally{
+            setLoading(false)
+        }
+    }, [regValid, username, emailreg, passwordreg, navigate])
+
+
+    const loginValid = login.email !=='' &&
+    login.password !== '' &&
+    login.password.length === 8
 
     const handleLogin = useCallback(async (e) => {
         e.preventDefault()
+        if(!loginValid) return
         try {
             setLoading(true)
             const res = await loginUser(
@@ -139,13 +157,16 @@ const AuthContext = ({ children }) => {
 
         }
         catch (e) {
-            console.log(e);
+
+            if(e?.response?.status === 401){
+                setWrongPassword(true)
+            }
         }
         finally {
             setLoading(false)
         }
 
-    }, [login.email, login.password, setUser, setAuthReady, handleGetPlayList, fetchRecent, getMusicPlaying, getRecentSearch])
+    }, [loginValid, login.email, login.password, setUser, setAuthReady, handleGetPlayList, fetchRecent, getMusicPlaying, getRecentSearch])
 
     useEffect(() => {
         if (authInitializationPromise) {
@@ -155,13 +176,22 @@ const AuthContext = ({ children }) => {
         async function initializeAuth() {
             try {
                 const rotationRes = await rotation();
-                setAccessToken(rotationRes.data.accessToken);
+                if (!rotationRes?.data?.accessToken) {
+                    setUser(null)
+                    setAccessToken(null);
+                    return
+                }
+                const token = rotationRes.data.accessToken
+                setAccessToken(token);
 
                 const userRes = await checkUser();
                 setUser(userRes.data.getAuthData);
 
             } catch (err) {
-                console.log('Auth initialization: User not authenticated', err?.response?.status);
+                if (err?.response?.status === 401) {
+                    console.error("Auth initialization failed:", err);
+                }
+                
             } finally {
                 setAuthReady(true);
                 authInitializationPromise = null;
@@ -169,30 +199,43 @@ const AuthContext = ({ children }) => {
         }
 
         authInitializationPromise = initializeAuth();
-        void authInitializationPromise;
+        
     }, [setAuthReady, setUser]);
 
     async function handleLogout() {
+
         try {
+            setLoading(true)
             await logoutUser()
+        }
+        catch (e) {
+            console.log('Logout failed:', e);
+        }
+        finally {
             if (audioRef.current) {
                 audioRef.current.pause()
                 audioRef.current.currentTime = 0
                 audioRef.current.src = ''
             }
             setCurrentSong(null)
+            setAccessToken(null)
+            setUser(null)
+            setHideSure(false)
+            setLoading(false)
             navigate('/login')
         }
-        catch (e) {
-            console.log(e);
-        }
-        setUser(null)
     }
+
+    const valid =
+    otp.email !== '' &&
+    otp.otpHash !== '' &&
+    otp.otpHash.length === 6
 
     async function handleOtp(e) {
         e.preventDefault()
+        if(!valid) return 
         try {
-
+            setOtpLoading(true)
             const res = await otpCreate({
                 otpHash: otp.otpHash,
                 email: otp.email
@@ -213,13 +256,16 @@ const AuthContext = ({ children }) => {
                 ])
             }
 
+            navigate('/')
+
         }
         catch (err) {
             console.log(err);
 
         }
         finally {
-            setLoading(false)
+            setOtpLoading(false)
+
         }
     }
 
@@ -276,12 +322,12 @@ const AuthContext = ({ children }) => {
     }
 
     useEffect(() => {
-         if (user?.role === "admin") return;
-        if (!authReady) return
+        if (!authReady || !user) return
+        if (user?.role === "admin") return;
         // eslint-disable-next-line react-hooks/set-state-in-effect
         getLibrary()
 
-    }, [authReady])
+    }, [authReady, user])
 
     async function addToLibrary(id) {
         try {
@@ -305,8 +351,8 @@ const AuthContext = ({ children }) => {
     }
 
     const auth = useMemo(() => ({
-         handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, login, setLogin, otpBased, handleOtp, otp, setOtp, handleOtpChange   // eslint-disable-next-line react-hooks/exhaustive-deps
-    }), [ emailreg, passwordreg, login, otpBased, otp])
+        handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, login, setLogin, otpBased, handleOtp, otp, setOtp, handleOtpChange   // eslint-disable-next-line react-hooks/exhaustive-deps
+    }), [emailreg, passwordreg, login, otpBased, otp])
 
     const logout = useMemo(() => ({
         handleLogout, hideSure, setHideSure
@@ -324,8 +370,8 @@ const AuthContext = ({ children }) => {
     }), [library])
 
     const ui = useMemo(() => ({
-        loading, setLoading
-    }), [loading])
+        loading, setLoading, otploading, setOtpLoading, valid, loginValid,wrongPassword, regValid, alreadyExist
+    }), [loading, otploading, valid, loginValid, wrongPassword, regValid, alreadyExist])
 
     return (
         <authProvider.Provider value={auth}>

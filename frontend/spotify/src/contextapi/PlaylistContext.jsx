@@ -25,7 +25,7 @@ const PlaylistContext = ({ children }) => {
   const [visibleParticular, setVisibleParticular] = useState([])
   const { authReady } = useContext(resetContext)
   const [otherArtist, setOtherArtist] = useState([])
-  const { user } = useState(adminContext)
+  const { user } = useContext(adminContext)
   const navigate = useNavigate()
 
   const handleGetPlayList = useCallback(async () => {
@@ -46,9 +46,9 @@ const PlaylistContext = ({ children }) => {
 
 
   useEffect(() => {
-    if (!authReady) return;
-      handleGetPlayList();
-  }, [authReady, user]);
+    if (!authReady || !user) return;
+    handleGetPlayList();
+  }, [authReady, user, handleGetPlayList]);
 
 
 
@@ -58,6 +58,7 @@ const PlaylistContext = ({ children }) => {
       const res = await postplaylist(name)
       setCreate(res.data.createPlaylist)
       await handleGetPlayList()
+      setHidePlay(false)
     }
     catch (err) {
       console.log(err);

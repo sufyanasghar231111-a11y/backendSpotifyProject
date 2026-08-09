@@ -78,8 +78,8 @@ const ArtistMusicContext = ({ children }) => {
   }
 
   useEffect(()=>{
-    
-    if(!authReady || user?.role === 'admin' || user?.role === 'user') return
+    if(!user || !authReady) return
+    if( user?.role === 'admin' || user?.role === 'user') return
     // eslint-disable-next-line react-hooks/set-state-in-effect
     getParticularAlbum()
   },[authReady, user])

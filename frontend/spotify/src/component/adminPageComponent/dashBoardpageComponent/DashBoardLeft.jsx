@@ -98,7 +98,7 @@ const DashBoardLeft = ({ totalUnread, hide, setHide }) => {
                     <RiCloseFill size={20} />
                 </button>
 
-                <div className=" absolute top-7 left-4">
+                <div className=" absolute  md:hidden top-7 left-4">
                     <RiSpotifyFill size={25} className="text-green-500" />
                 </div>
                 {/* Menu */}

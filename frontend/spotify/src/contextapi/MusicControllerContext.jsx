@@ -30,10 +30,11 @@ function MusicControllerContext({ children }) {
     }, [])
 
     useEffect(() => {
+        if(!user) return 
         if (!authReady || user?.role === "admin") return;
         getMusicPlaying()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authReady])
+    }, [authReady, user])
 
     const patchMusicPlaying = useCallback(async (id) => {
 

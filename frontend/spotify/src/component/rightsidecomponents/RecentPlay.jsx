@@ -15,13 +15,15 @@ const RecentPlay = () => {
     ...(recentActivity?.songs?.map((i) => ({
       ...i.item,
       createdAt: i.createdAt,
-      type: 'songs'
+      type: 'songs',
+      recentId: i._id
     })) || []),
 
     ...(recentActivity?.album?.map((i) => ({
       ...i.item,
       createdAt: i.createdAt,
-      type: 'album'
+      type: 'album',
+      recentId: i._id
     })) || [])
   ].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -49,7 +51,7 @@ const RecentPlay = () => {
 
           return (
             <div
-              key={`${item.type}-${item._id}`}
+              key={`${item.type}-${item.recentId || item._id}`}
               className="
                 group relative flex items-center
                 gap-3
@@ -163,7 +165,7 @@ const RecentPlay = () => {
                   type="button"
                   onClick={(e) => {
                     e.stopPropagation()
-                    deleteData(item._id)
+                    deleteData(item.recentId || item._id)
                   }}
                   aria-label="Remove from history"
                   className="

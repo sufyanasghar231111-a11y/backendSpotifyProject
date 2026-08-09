@@ -25,12 +25,12 @@ const CustomTooltip = ({ active, payload }) => {
   );
 };
 
-const ArtistStatsChart = ({ otherArtist }) => {
-  const { ownSongs = [] } = useContext(CreateAlbumContext);
+const ArtistStatsChart = ({ otherArtist, totalMusicByArtist }) => {
+  // const { ownSongs = [] } = useContext(CreateAlbumContext);
   const { visibleParticular } = useContext(authPlaylist)
 
   const data = [
-    { name: `Song${ownSongs.length>1?'s':''}`, value: ownSongs.length },
+    { name: `Song${totalMusicByArtist>1?'s':''}`, value: totalMusicByArtist },
     { name: `Album${otherArtist.length>1?'s':''}`, value: otherArtist.length },
     {name:`Public Playlist${visibleParticular.length>1?'s':''}`, value:visibleParticular.length}
   ];

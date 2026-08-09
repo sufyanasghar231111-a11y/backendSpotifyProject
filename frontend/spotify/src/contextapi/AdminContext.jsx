@@ -163,9 +163,14 @@ const AdminContext = ({ children }) => {
     useEffect(() => {
         if (!authReady || user?.role !== "admin") return;
         totalPeople();
-        getSongAlbum()
+        
         getSongAlbumCount()
     }, [authReady, user?.role]);
+
+    useEffect(()=>{
+        if(!authReady || !user) return
+         getSongAlbum()
+    },[authReady, user])
 
     return (
         <adminContext.Provider value={{ getMonthlyActive, user, setUser, totalUsersData, totalRolesData, totalArtistData, totalAdminData, totalAlbum, totalMusic, totalPlaylist, monthlyDataCount, getArtistApi }}>

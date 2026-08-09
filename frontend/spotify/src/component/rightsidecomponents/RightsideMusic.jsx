@@ -13,7 +13,7 @@ const RightsideMusic = () => {
 
      
   return (
-     <div className='h-[65vh] relative px-8 max-sm:px-3 py-3 bg-[#282828]   overflow-y-auto '>
+     <div className='h-[65vh] relative px-8 max-sm:px-3 py-3 bg-[#282828]  left overflow-y-auto '>
 
               <h1 className='text-sm font-semibold text-[#bbb]'>Inspired by your recent activity</h1>
               <div className='flex items-center justify-between'>
@@ -28,7 +28,7 @@ const RightsideMusic = () => {
 
                 <RiArrowLeftSLine />
               </button>
-              <div ref={silderRef} className='flex   overflow-x-auto scroll'>
+              <div ref={silderRef} className='flex  overflow-x-auto scroll'>
                <RightSideMusicPlay />
               </div>
               <button

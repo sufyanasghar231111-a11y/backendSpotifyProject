@@ -1,13 +1,44 @@
 import React, { useContext } from 'react'
 import { authSearchBar } from '../../../contextapi/SearchSeparateContext'
+import { adminContext } from '../../../contextapi/AdminContext'
+import { RiArrowLeftSLine, RiArrowRightSLine } from '@remixicon/react'
 
 const NextPrevButton = () => {
     const {page, setPage, music} = useContext(authSearchBar)
+    const { totalMusic } = useContext(adminContext)
+
+    const total = Math.ceil(totalMusic / 8)
+
     return (
-        <>
-            <button disabled={page === 1} onClick={() => { setPage(prev => prev - 1) }} className={`px-2 py-2 rounded-lg ${page === 1 ? 'opacity-60 cursor-not-allowed' : 'opacity-100 cursor-pointer'}  bg-[#4b4a4a] `}>Prev</button>
-            <button disabled={music.length < 8 && page === 1} onClick={() => { setPage(prev => prev + 1) }} className={`px-2 py-2 rounded-lg ${music.length < 8 ? 'opacity-60 cursor-not-allowed' : 'opacity-100 cursor-pointer'}  bg-[#4b4a4a] `}>Next</button>
-        </>
+       
+ <div className=' flex items-center max-sm:flex-col gap-3 justify-between w-full'>
+                <div className='text-[12px] text-gray-400'>
+                    Showing 1 to {music.length} of {totalMusic} songs
+                </div>
+                <div className='flex items-center gap-3'>
+                    <button disabled={page === 1} onClick={() => { setPage(prev => prev - 1) }} className={`border border-zinc-600 px-2 py-1.5  ${page === 1 ? 'hover:border-gray-400 opacity-50 cursor-not-allowed' : 'hover:border-green-400 opacity-100 cursor-pointer'} transition-all duration-200  rounded-lg`}>
+                        <RiArrowLeftSLine className='w-4 h-4' />
+                    </button>
+                    {[1, 2, 3].map((pages) => (
+                        <button disabled={pages > total} key={pages} onClick={() => { setPage(pages) }} className={`border rounded-lg px-2.5 py-0.5 transition-all duration-200
+      ${page === pages
+                                ? "border-green-600"
+                                : "border-zinc-600"
+                            }
+      ${pages > total
+                                ? "cursor-not-allowed opacity-50 hover:border-gray-400"
+                                : "cursor-pointer opacity-100 hover:border-green-400"
+                            }`}>
+                            {pages}
+                        </button>
+                    ))}
+
+                    .....
+                    <button disabled={music.length < 8} onClick={() => { setPage(prev => prev + 1) }} className={`border border-zinc-600 ${music.length < 8 ? 'hover:border-gray-400 cursor-not-allowed  opacity-50' : 'hover:border-green-400 cursor-pointer  opacity-100'}  px-2 py-1.5  transition-all duration-200 rounded-lg`}>
+                        <RiArrowRightSLine className='w-4 h-4' />
+                    </button>
+                </div>
+            </div>       
     )
 }
 

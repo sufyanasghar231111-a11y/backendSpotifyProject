@@ -22,9 +22,10 @@ const  fetchRecent= useCallback(async()=>{
   },[])
 
   useEffect(()=>{
+    if(!user) return
     if(!authReady || user?.role === 'admin') return
     fetchRecent()
-  },[authReady])
+  },[authReady, user])
 
   const  update= useCallback (async (id) => {
     try{

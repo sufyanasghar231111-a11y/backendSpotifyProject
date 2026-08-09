@@ -28,7 +28,7 @@ const AlbumShowall = ({ elem }) => {
                 </h1>
 
                 <p className="text-sm text-[#b3b3b3] truncate">
-                    {elem.artistName}
+                    {elem.artist?.username}
                 </p>
             </div>
         </div>

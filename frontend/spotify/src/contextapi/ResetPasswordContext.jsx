@@ -5,15 +5,16 @@ import React, { createContext, useState } from 'react'
 export const resetContext = createContext()
 const ResetPasswordContext = ({ children }) => {
     const [resetEmail, setResetEmail] = useState('')
-    const [popup,setPopup]=useState(false)
-    const [resetLoading,setResetLoading]=useState(false)
+    const [popup, setPopup] = useState(false)
+    const [resetLoading, setResetLoading] = useState(false)
     const [authReady, setAuthReady] = useState(false);
-    const [password,setpassword]=useState({
-        newPassword:'',
-        confirmPassword:''
+    
+    const [password, setpassword] = useState({
+        newPassword: '',
+        confirmPassword: ''
     })
 
-     
+
 
     async function checkEmail(e) {
         e.preventDefault()
@@ -22,29 +23,27 @@ const ResetPasswordContext = ({ children }) => {
             await api.post('/reset/postreset', {
                 email: resetEmail
             })
+
             setPopup(true)
 
-            setTimeout(() => {
-                setPopup(false)
-            }, 1000);
         }
         catch (err) {
-            console.error('Error checking email:', err);
+            console.log(err)
         }
-        finally{
+        finally {
             setResetLoading(false)
         }
     }
 
-    function handlePasswordChange(e){
-        setpassword(prev =>({
+    function handlePasswordChange(e) {
+        setpassword(prev => ({
             ...prev,
-            [e.target.name]:e.target.value
+            [e.target.name]: e.target.value
         }))
     }
 
     return (
-        <resetContext.Provider value={{ resetEmail, setResetEmail, checkEmail,popup,setPopup,password,setpassword,handlePasswordChange,resetLoading,authReady, setAuthReady}}>
+        <resetContext.Provider value={{ resetEmail, setResetEmail, checkEmail, popup, setPopup, password, setpassword, handlePasswordChange, resetLoading, authReady, setAuthReady }}>
             {children}
         </resetContext.Provider>
     )

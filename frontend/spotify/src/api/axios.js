@@ -2,7 +2,6 @@ import axios from "axios";
 import { getAccessToken } from "./accessToken";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
-const SKIP_RETRY_URLS = ['/rotation/refresh-token', '/rotation/logoutAll', '/auth/login', '/auth/register'];
 
 export const refreshApi = axios.create({
     baseURL: API_BASE_URL,

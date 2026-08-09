@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { UIHomeContex } from '../../contextapi/HomeContext'
-import { RiCheckFill } from '@remixicon/react'
-import { LogoutContext } from '../../contextapi/AuthContext'
+import { RiCheckFill, RiLoader4Line } from '@remixicon/react'
+import { LogoutContext, UIContext } from '../../contextapi/AuthContext'
 import { adminContext } from '../../contextapi/AdminContext'
 import { Link } from 'react-router-dom'
 import { requestContext } from '../../contextapi/UserRequest'
@@ -13,6 +13,7 @@ const Logout = () => {
   const { user } = useContext(adminContext)
   const { setRequestpopup } = useContext(requestContext)
   const { setMusicCreateModal} = useContext(CreateSongContext)
+  const { loading} = useContext(UIContext)
 
   return (
     <div className={`bg-[#1a1a1a]   ${hidepro ? ' opacity-100 pointer-events-auto  translate-y-0 h-80 p-1 z-40 ' : ' pointer-events-none  opacity-0 -translate-y-2  h-0 p-0 border-0'} right-12 max-sm:right-3 max-sm:top-10 top-16   duration-300 rounded absolute   w-60  transition-all ease-in-out `}>
@@ -34,7 +35,11 @@ const Logout = () => {
         <button onClick={() => {
           setHideSure(true)
           setHidepro(false)
-        }} className='hover:bg-white/10 hover:border-white/10 w-full py-2 px-3 cursor-pointer text-left border-b border-[#525151]' >Log out</button>
+        }} className='hover:bg-white/10 hover:border-white/10 w-full py-2 px-3 cursor-pointer text-left border-b border-[#525151]' >{loading ? (
+                  <RiLoader4Line size={22} className="animate-spin" />
+                ) : (
+                  "Logout"
+                )}</button>
         <div className='p-4'>
           <h1 className='text-lg text-white'>Your Updates</h1>
         </div>

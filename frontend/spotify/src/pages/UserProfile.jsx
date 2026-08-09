@@ -12,6 +12,7 @@ import NoPublicPlaylistComponent from '../component/profilepagecomponent/NoPubli
 import ArtistStatsChart from '../component/profilepagecomponent/ArtistStatsChart';
 import OtherUserProfile from '../component/profilepagecomponent/OtherUserProfile';
 import { particularAlbumbyUser } from '../api/albumApi';
+import { totalSong } from '../api/artistMusic';
 
 const UserProfile = () => {
 
@@ -19,6 +20,7 @@ const UserProfile = () => {
 
   const { visibleParticular, setVisibleParticular, otherArtist, setOtherArtist } = useContext(authPlaylist)
   const [userId, setUserId] = useState([])
+  const [totalMusicByArtist, setTotalMusicByArtist] = useState(null)
 
   const { id } = useParams()
   async function handleVisiblePlaylist() {
@@ -41,6 +43,22 @@ const UserProfile = () => {
       console.log(err);
     }
   }
+
+  async function totalMusic() {
+    try {
+      const res = await totalSong(id)
+      setTotalMusicByArtist(res.data.totalSong)
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(()=>{
+    if(id){
+      totalMusic()
+    }
+  },[id])
 
   const profileData = id && id !== user?._id ? userId : user
 
@@ -91,13 +109,13 @@ const UserProfile = () => {
       </div>
 
       {/* CONTENT */}
-      <div className='h-[65vh] overflow-y-auto relative bg-[#181818] px-6 py-6 pb-30'>
+      <div className='h-[65vh] overflow-y-auto relative bg-[#181818] px-6 py-6 pb-30 left'>
         {
           user?.role === 'user' ? (
             <OtherUserProfile visibleParticular={visibleParticular} isown={isown} />
           ) :
             (
-              <ArtistStatsChart otherArtist={otherArtist} />
+              <ArtistStatsChart otherArtist={otherArtist} totalMusicByArtist={totalMusicByArtist} />
             )
         }
       </div>

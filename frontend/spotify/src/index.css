@@ -17,6 +17,9 @@
 .scroll::-webkit-scrollbar{
   display: none;
 }
+.scroll {
+  scrollbar-width: none;
+}
 
 @keyframes slide {
   0% {
@@ -38,12 +41,14 @@
   animation: slide 1.4s infinite ease-in-out;
 }
 
-.left{
+.left {
+  overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #3a3a3a #121212;
 }
 
 .left::-webkit-scrollbar {
+  display: block;
   width: 8px;
 }
 

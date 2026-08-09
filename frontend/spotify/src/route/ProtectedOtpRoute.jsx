@@ -6,7 +6,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 const ProtectedOtpRoute = () => {
     const {otpBased}=useContext(authProvider)
     if(!otpBased){
-        return <Navigate to='/login' replace />
+        return <Navigate to='/register' replace />
     }
   return <Outlet />
 }

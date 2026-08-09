@@ -15,3 +15,7 @@ export const createMusicApi = (formData) =>{
 export const deleteMusicApi = (id) => {
     return api.delete(`/creator/deleteSong/${id}`)
 }
+
+export const totalSong = ( id ) => {
+    return api.get(`/creator/particular-music/${id}`)
+}
