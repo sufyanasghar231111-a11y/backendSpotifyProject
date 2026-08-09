@@ -3,6 +3,7 @@ import { adminApprovalContext, requestContext } from '../../../contextapi/UserRe
 import { RiPlayListLine, RiUserLine } from '@remixicon/react'
 import { timeAgo } from '../../../utils/TimeAgo'
 import { Search, MoreVertical } from 'lucide-react'
+import { useState } from 'react'
 
 const StatusBadge = ({ elem }) => (
     elem.requestStatus === 'Pending' ? (
@@ -35,6 +36,9 @@ const AllNotificationInPage = ({ customTab }) => {
     const { getRequests } = useContext(requestContext)
     const { singleRequest } = useContext(adminApprovalContext)
 
+    const [searchNotification, setSearchNotification] = useState('')
+
+    const filterData = getRequests.filter(elem => elem.user?.username.trim().toLowerCase().includes(searchNotification.trim().toLowerCase()))
 
     return (
         <div className='w-full bg-[#141414] rounded-xl border mt-4 border-[#232323] p-3 sm:p-4'>
@@ -42,6 +46,8 @@ const AllNotificationInPage = ({ customTab }) => {
             <div className='relative w-full sm:w-64 mb-4'>
                 <Search className='absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500' />
                 <input
+                value={searchNotification}
+                onChange={(elem)=>{setSearchNotification(elem.target.value)}}
                     type='text'
                     placeholder='Search users...'
                     className='w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg pl-9 pr-3 py-2 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-600'
@@ -50,7 +56,7 @@ const AllNotificationInPage = ({ customTab }) => {
 
             {/* ===== Mobile / small screens: stacked cards ===== */}
             <div className='flex flex-col gap-3 md:hidden'>
-                {getRequests.map((elem) => {
+                {filterData.map((elem) => {
                     if (customTab === "unread" && elem.isChecked) return null;
                     if (customTab === "read" && !elem.isChecked) return null;
                     return (
@@ -103,7 +109,7 @@ const AllNotificationInPage = ({ customTab }) => {
                     </div>
 
                     {/* Data rows */}
-                    {getRequests.map((elem) => {
+                    {filterData.map((elem) => {
                         if (customTab === "unread" && elem.isChecked) return null;
                         if (customTab === "read" && !elem.isChecked) return null;
                         return (

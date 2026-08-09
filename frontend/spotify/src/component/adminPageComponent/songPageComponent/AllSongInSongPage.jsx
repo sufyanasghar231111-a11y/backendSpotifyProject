@@ -6,27 +6,31 @@ import { RiMusicLine, RiPauseLine, RiPlayLine } from '@remixicon/react'
 import { audioContext } from '../../../contextapi/AudioProvider'
 import { musciControl } from '../../../contextapi/MusicControllerContext'
 import PaginationForMusic from './PaginationForMusic'
+import { useState } from 'react'
 const AllSongInSongPage = () => {
     const gridCols = 'grid-cols-[2fr_2fr_1fr_1fr_1fr]'
     const { music } = useContext(authSearchBar)
     const { playRef } = useContext(musciControl)
     const { playing, currentSong } = useContext(audioContext)
-
+    const [searchMusic, setSearchMusic] = useState('')
+    const filter = music.filter(name =>  name.title.toLowerCase().includes(searchMusic.trim().toLowerCase()))
     return (
         <div className='w-full bg-[#141414] rounded-xl border mt-4 border-[#232323] p-4'>
             {/* Toolbar */}
             <div className='relative w-64 max-sm:w-60 mb-4'>
                 <Search className='absolute left-3  top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500' />
-                <input
+                <input onChange={(elem) => { setSearchMusic(elem.target.value) }}
                     type='text'
+                    value={searchMusic}
                     placeholder='Search users...'
                     className='w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg pl-9 pr-3 py-2 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-600'
                 />
             </div>
             <div className='md:hidden gap-2 flex flex-col '>
                 {
-                    music.map((elem) => {
-                        return <div className='overflow-hidden bg-[#1a1a1a] rounded-lg w-full p-3'>
+                   filter 
+                    .map((elem) => {     
+                        return <div key={elem._id} className='overflow-hidden bg-[#1a1a1a] rounded-lg w-full p-3'>
                     <div className=' flex items-center  justify-between'>
                         <div className='flex items-center  gap-3'>
                             <div className='w-10 h-10 rounded-full  relative overflow-hidden'>
@@ -58,16 +62,16 @@ const AllSongInSongPage = () => {
                     </div>
                     <div className='border-t border-zinc-600 mt-4 py-3'>
                         <div className='  flex items-center justify-center text-right'>
-                                <button onClick={() => { playRef(elem) }} className='p-1.5 rounded-full bg-green-500 hover:bg-green-600'>
-                                    {currentSong === elem?._id && playing ? (<RiPauseLine />) : (<RiPlayLine />)}
-                                </button>
-                            </div>
+                            <button onClick={() => { playRef(elem) }} className='p-1.5 rounded-full bg-green-500 hover:bg-green-600'>
+                                {currentSong === elem?._id && playing ? (<RiPauseLine />) : (<RiPlayLine />)}
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                     })
                 }
-                
+
             </div>
 
             <div className='md:block hidden overflow-x-auto'>
@@ -83,7 +87,7 @@ const AllSongInSongPage = () => {
                     </div>
 
                     {/* Data rows */}
-                    {music.map((elem) => {
+                    {filter.map((elem) => {
                         return <div
                             key={elem?._id}
                             className={`grid ${gridCols} items-center border-b border-[#1e1e1e] hover:bg-[#1a1a1a]/60 text-sm`}>

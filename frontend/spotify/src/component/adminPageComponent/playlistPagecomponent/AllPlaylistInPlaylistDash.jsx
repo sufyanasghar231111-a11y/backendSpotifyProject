@@ -4,6 +4,7 @@ import { Search, MoreVertical } from 'lucide-react'
 import { RiPlayListLine, RiUserLine } from '@remixicon/react'
 import { timeAgo } from '../../../utils/TimeAgo'
 import PaginationInPlaylistDashBoard from './PaginationInPlaylistDashBoard'
+import { useState } from 'react'
 
 const VisibilityBadge = ({ elem }) => (
     elem.visibility === 'private' ? (
@@ -20,12 +21,15 @@ const VisibilityBadge = ({ elem }) => (
 const AllPlaylistInPlaylistDash = () => {
     const gridCols = 'md:grid-cols-[2fr_2fr_1fr_0.5fr_1.5fr_1fr]'
     const { visible } = useContext(authSearchBar)
+    const [playListSearch, setPlaylistSearch] = useState('')
+    const filterData = visible.filter(elem => elem.name.toLowerCase().trim().includes(playListSearch.trim().toLowerCase()))
     return (
         <div className='w-full bg-[#141414] rounded-xl border mt-4 border-[#232323] p-3 sm:p-4'>
             {/* Toolbar */}
             <div className='relative w-full sm:w-64 mb-4'>
                 <Search className='absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500' />
-                <input
+                <input onChange={(elem)=>{setPlaylistSearch(elem.target.value)}}
+                value={playListSearch}
                     type='text'
                     placeholder='Search users...'
                     className='w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg pl-9 pr-3 py-2 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-600'
@@ -34,7 +38,7 @@ const AllPlaylistInPlaylistDash = () => {
 
             {/* ===== Mobile / small screens: stacked cards ===== */}
             <div className='flex flex-col gap-3 md:hidden'>
-                {visible.map((elem) => (
+                {filterData.map((elem) => (
                     <div key={elem?._id} className='bg-[#1a1a1a] border border-[#232323] rounded-lg p-3'>
                         <div className='flex items-start justify-between gap-3'>
                             <div className='flex items-center gap-3 min-w-0'>
@@ -99,7 +103,7 @@ const AllPlaylistInPlaylistDash = () => {
                     </div>
 
                     {/* Data rows */}
-                    {visible.map((elem) => {
+                    {filterData.map((elem) => {
                         return <div
                             key={elem?._id}
                             className={`grid ${gridCols} items-center border-b border-[#1e1e1e] hover:bg-[#1a1a1a]/60 text-sm`}>

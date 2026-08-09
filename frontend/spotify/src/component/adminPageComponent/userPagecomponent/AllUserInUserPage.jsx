@@ -4,6 +4,7 @@ import { adminContext, bannedUserContext } from '../../../contextapi/AdminContex
 import UserNames from '../../../utils/UserNames'
 import { timeAgo } from '../../../utils/TimeAgo'
 import PaginationInUserDashBoard from './PaginationInUserDashBoard'
+import { useState } from 'react'
 
 
 // Shared column widths so the header row and each data row line up (desktop/tablet only)
@@ -51,13 +52,16 @@ const ActionButton = ({ elem, blockRole, unblockRole }) => (
 const AllUserInUserPage = () => {
     const { totalUsersData } = useContext(adminContext)
     const { blockRole, unblockRole } = useContext(bannedUserContext)
+    const [searchUser, setSearchUser] = useState('')
+    const filterData = totalUsersData.filter(elem => elem.username.trim().toLowerCase().includes(searchUser.trim().toLowerCase()))
     return (
         <div className='w-full bg-[#141414] rounded-xl border border-[#232323] p-3 sm:p-4 mt-4'>
             {/* Toolbar */}
             <div className='relative w-full sm:w-64 mb-4'>
                 <Search className='absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500' />
-                <input
+                <input onChange={(elem) => { setSearchUser(elem.target.value) }}
                     type='text'
+                    value={searchUser}
                     placeholder='Search users...'
                     className='w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg pl-9 pr-3 py-2 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-600'
                 />
@@ -65,7 +69,7 @@ const AllUserInUserPage = () => {
 
             
             <div className='flex flex-col gap-3 md:hidden'>
-                {totalUsersData.map((elem) => (
+                {filterData.map((elem) => (
                     <div
                         key={elem?._id}
                         className='bg-[#1a1a1a] border border-[#232323] rounded-lg p-3'
@@ -131,7 +135,7 @@ const AllUserInUserPage = () => {
                     </div>
 
                     {/* Data rows */}
-                    {totalUsersData.map((elem) => {
+                    {filterData.map((elem) => {
                         return <div
                             key={elem?._id}
                             className={`grid ${gridCols} items-center border-b border-[#1e1e1e] hover:bg-[#1a1a1a]/60 text-sm`}>
