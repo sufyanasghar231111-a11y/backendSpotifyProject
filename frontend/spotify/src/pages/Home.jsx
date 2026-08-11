@@ -21,11 +21,14 @@ import AlbumEditModal from '../modals/AlbumEditModal'
 import MusicCreateModal from '../modals/MusicCreateModal'
 import AlbumCreateModal from '../modals/AlbumCreateModal'
 import AddToAlbum from '../modals/AddToAlbum'
+import FooterSkeletonLoader from '../modals/FooterSkeletonLoader'
+import { authSearchBar } from '../contextapi/SearchSeparateContext'
 
 
 function Home() {
 
   let {  detailData } = useContext(authPlaylist)
+  const {musicLoader } = useContext(authSearchBar)
  
   return (
     <div className='w-full relative '>
@@ -75,7 +78,11 @@ function Home() {
       </div>
 
       {/* footer */}
-      <footer className='w-full h-22 max-sm:h-20 bg-black'>
+      <footer className='w-full h-22 relative max-sm:h-20 bg-black'>
+        {
+          musicLoader && <FooterSkeletonLoader />
+        }
+        
      <Footer />
       </footer>
     </div>

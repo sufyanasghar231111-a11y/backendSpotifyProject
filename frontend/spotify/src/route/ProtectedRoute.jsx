@@ -1,11 +1,26 @@
 import React, { useContext } from 'react'
 import { adminContext } from '../contextapi/AdminContext'
 import { Navigate, Outlet } from 'react-router-dom'
+import { resetContext } from '../contextapi/resetPasswordContext'
+import LoadingAnimation from '../component/homepagecomponent/LoadingAnimation'
 
 const ProtectedRoute = () => {
-    let {user}=useContext(adminContext)
-   
-  return  user?.role ==='artist' || user?.role === 'user' ? <Outlet /> : <Navigate to='/' replace />
+    const { user } = useContext(adminContext)
+    const { authReady} = useContext(resetContext)
+
+    if(!authReady){
+        return null
+    }
+
+    if (!user) {
+        return <Navigate to='/' replace />
+    }
+
+    if (user?.role === 'admin') {
+        return <Navigate to='/admin' replace />
+    }
+
+    return <Outlet />
 }
 
 export default ProtectedRoute

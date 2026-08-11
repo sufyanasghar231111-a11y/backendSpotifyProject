@@ -47,10 +47,10 @@ const AllSongs = ({ elem }) => {
             </div>
             <div>
                 <h1 className='font-semibold hover:underline w-fit'>
-                    {elem.title}
+                    {elem.title }
                 </h1>
                 <h1 className='pt-1 text-sm font-semibold text-[#bebebe] hover:underline w-fit'>
-                    {elem.artist?.username}
+                    {elem.artist?.username || 'Unknown Title'}
                 </h1>
             </div>
         </div>

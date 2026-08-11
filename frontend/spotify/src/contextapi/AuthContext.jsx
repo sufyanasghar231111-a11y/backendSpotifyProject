@@ -7,7 +7,7 @@ import { audioContext } from '../contextapi/AudioProvider';
 import { authPlaylist } from '../contextapi/PlaylistContext';
 import { checkUser, deleteUserPfp, loginUser, logoutUser, otpCreate, register, rotation, updateUserPfp } from '../api/authApi';
 import { deleteLibraryData, getLibraryData, updateLibraryData } from '../api/library';
-import { setAccessToken } from '../api/accessToken';
+import { setAccessToken, removeAccessToken } from '../api/accessToken';
 import { resetContext } from './resetPasswordContext';
 import { adminContext } from './AdminContext';
 
@@ -219,10 +219,11 @@ const AuthContext = ({ children }) => {
             }
             setCurrentSong(null)
             setAccessToken(null)
+            removeAccessToken()
             setUser(null)
             setHideSure(false)
             setLoading(false)
-            navigate('/login')
+            navigate('/')
         }
     }
 

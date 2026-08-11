@@ -97,7 +97,7 @@ const LikedSong = ({ music, index }) => {
                         </h3>
 
                         <p className='text-xs text-white/60 truncate'>
-                            {music?.item?.artist?.username}
+                            {music?.item?.artist?.username || "UnKnown"}
                         </p>
                     </div>
                 </div>

@@ -59,7 +59,7 @@ const SongsInPlaylist = ({favId, deleteId, music, index, separate}) => {
                     <h3 className='font-bold text-white max-sm:text-[10px] text-xs md:text-xs lg:text-sm truncate group-hover:text-purple-400 transition-colors'>
                       {music.title}
                     </h3>
-                    <p className='text-xs text-white/60 truncate'>test</p>
+                    <p className='text-xs text-white/60 truncate'>{music.artist?.username || 'Unknown '}</p>
                   </div>
                 </div>
               </div>

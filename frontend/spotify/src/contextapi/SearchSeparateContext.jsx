@@ -26,6 +26,7 @@ const SearchSeparateContext = ({ children }) => {
     const [loader, setLoader] = useState(false)
 
     let [hideSearch, setHideSearch] = useState(false)
+    const [musicLoader, setMusicLoader] = useState(true)
 
     //page and input 
     const [searchinput, setSearchinput] = useState('')
@@ -41,7 +42,7 @@ const SearchSeparateContext = ({ children }) => {
     const { setSeparate, handleGetPlayList } = useContext(authPlaylist)
     const { playRef } = useContext(musciControl)
     const { currentSong, queue } = useContext(audioContext)
-    const {authReady} = useContext(resetContext)
+    const { authReady } = useContext(resetContext)
     const { user } = useContext(adminContext)
     // custom hook
     const debounceSearch = useDebounce(searchinput, 600)
@@ -84,7 +85,7 @@ const SearchSeparateContext = ({ children }) => {
                 if (currentRef !== requestRef.current) return
 
                 setSearchMusic(res.data.music)
-                
+
                 setSearchAlbum(res.data.album)
                 setSearchPublicplay(res.data.visible)
                 setIssearch(true)
@@ -112,40 +113,44 @@ const SearchSeparateContext = ({ children }) => {
     }, [debounceSearch, page])
 
 
-    
 
-    const getAlbumPlaylistMusic = async () =>{
-        try{
-             const res = await separateGet(page)
-             setMusic(res.data.music)
-             setAlbum(res.data.album)
-             setVisible(res.data.visible)
-             
+
+    const getAlbumPlaylistMusic = async () => {
+        try {
+            setMusicLoader(true)
+            const res = await separateGet(page)
+            setMusic(res.data.music)
+            setAlbum(res.data.album)
+            setVisible(res.data.visible)
+
         }
-        catch(err){
+        catch (err) {
             console.log(err);
+        }
+        finally {
+            setMusicLoader(false)
         }
     }
 
-    useEffect(()=>{
-        if(!authReady || !user?.role) return 
+    useEffect(() => {
+        if (!authReady || !user?.role) return
         getAlbumPlaylistMusic()
-    },[page, authReady , user?.role])
+    }, [page, authReady, user?.role])
 
-    
+
 
 
     function handleNextSong() {
         if (!queue.length) return;
 
-        if(!currentSong){
+        if (!currentSong) {
             playRef(queue[0])
             return
         }
-        const index = queue.findIndex(song =>  song?._id === currentSong)
+        const index = queue.findIndex(song => song?._id === currentSong)
 
         if (index === -1) {
-             playRef(queue[0])
+            playRef(queue[0])
             return
         }
 
@@ -156,12 +161,12 @@ const SearchSeparateContext = ({ children }) => {
     function handlePrevSong() {
         if (!queue.length) return;
 
-        if(!currentSong){
+        if (!currentSong) {
             playRef(queue[queue.length - 1])
             return
         }
-        const index = queue.findIndex(song =>  song?._id === currentSong)
-        if (index === -1) return        
+        const index = queue.findIndex(song => song?._id === currentSong)
+        if (index === -1) return
 
         const currentIndex = index === 0 ? (queue.length - 1) : index - 1
         playRef(queue[currentIndex])
@@ -218,7 +223,9 @@ const SearchSeparateContext = ({ children }) => {
         handleNextSong,
         getAlbumPlaylistMusic,
         setMusic,
-        setAlbum
+        setAlbum,
+        musicLoader
+
     }), [searchinput, searchMusic, Issearch, loader, searchAlbum, music, page, album, patchText, hideSearch, visible, searchPublicplay, playRef, currentSong])
 
     return (

@@ -25,7 +25,7 @@ const LikeSong = () => {
               <div>
                 <h1 className=' max-sm:text-2xl lg:text-7xl md:text-5xl text-5xl font-extrabold'>Liked Songs</h1>
                 <h1 className='text-sm pt-5 max-sm:pt-2 font-semibold'>
-                  {fav?.user?.username}
+                  {fav?.user?.username || 'UnKnown'}
                 </h1>
               </div>
 

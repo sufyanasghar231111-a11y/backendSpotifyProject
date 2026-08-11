@@ -27,6 +27,7 @@ const AdminContext = ({ children }) => {
     const [adminNotification, setAdminNotification] = useState(false)
     const [adminProfileModal, setAdminProfileModal] = useState(false)
     const [adminPage, setAdminPage] = useState(1)
+    
 
     const getActiveApi = async () => {
         try {
@@ -175,7 +176,7 @@ const AdminContext = ({ children }) => {
     return (
         <adminContext.Provider value={{ getMonthlyActive, user, setUser, totalUsersData, totalRolesData, totalArtistData, totalAdminData, totalAlbum, totalMusic, totalPlaylist, monthlyDataCount, getArtistApi }}>
             <adminUiContext.Provider value={{ adminNotification, setAdminNotification, adminProfileModal, setAdminProfileModal, adminPage, setAdminPage }}>
-                <bannedUserContext.Provider value={{blockRole, unblockRole}}>
+                <bannedUserContext.Provider value={{blockRole, unblockRole }}>
                 {children}
                 </bannedUserContext.Provider>
             </adminUiContext.Provider>

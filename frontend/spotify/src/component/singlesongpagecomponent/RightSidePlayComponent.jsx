@@ -28,7 +28,7 @@ const RightSidePlayComponent = ({deleteId, isFav, lib, checkOwn}) => {
             <h1 className='text-4xl max-sm:text-xl md:text-3xl font-bold mt-3 max-sm:mt-2'>
                 {data?.title}
             </h1>
-            <p className='text-xl max-sm:text-sm max-sm:mt-0 text-gray-300 mt-3'>{data?.artist?.username}</p>
+            <p className='text-xl max-sm:text-sm max-sm:mt-0 text-gray-300 mt-3'>{data?.artist?.username || "UnKnown"}</p>
 
             <button onClick={() => {
                 playRef(data)

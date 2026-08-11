@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Routes ,Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import ShowAll from './pages/ShowAll'
@@ -29,60 +29,67 @@ import AdminNotificationPage from './pages/adminpage/AdminNotificationPage'
 import AdminSettingpage from './pages/adminpage/AdminSettingpage'
 import AdminRoute from './route/AdminRoute'
 import DashBoardRight from './component/adminPageComponent/dashBoardpageComponent/DashBoardRight'
+import DemoProtectedRoute from './route/DemoProtectedRoute'
+import DemoPage from './pages/DemoPage'
 
 
 function App() {
-  let {authReady}=useContext(resetContext)
-    if (!authReady){
-      return <LoadingAnimation />
-      }
+  let { authReady } = useContext(resetContext)
+  if (!authReady) {
+    return <LoadingAnimation />
+  }
   return (
 
-    <div className='w-full bg-[#121212] text-white h-screen'>  
+    <div className='w-full bg-[#121212] text-white h-screen'>
       <Routes >
-        
+
         {/* public route */}
         <Route element={<PublicRoute />}>
-        <Route path='/login' element={<Login />} />
-         <Route path='/register' element={<Register />} />
-         <Route path='/forget-password' element={<ForgetPassword />} />
-         <Route path='/reset-password/:token' element={<ResetPassword />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/forget-password' element={<ForgetPassword />} />
+          <Route path='/reset-password/:token' element={<ResetPassword />} />
         </Route>
 
         {/* Public opt-route */}
-         <Route element={<ProtectedOtpRoute />} >
-         <Route path='/opt-verify' element={<OtpPage />} />
-         </Route>
-
-         {/* protected route only login user can access */}
-         <Route element={<AdminRoute />}>
-         <Route path='/admin' element={<Admin />} >
-         <Route path='users' element={<AdminUserPage />} />
-         <Route path='artists' element={<AdminArtistPage />} />
-         <Route path='songs' element={<AdminSongPage />} />
-         <Route path='playlists' element={<AdminPlaylistpage />} />
-         <Route path='albums' element={<AdminAlbumPage />} />
-         <Route path='notifications' element={<AdminNotificationPage />} />
-         <Route path='Settings' element={<AdminSettingpage />} />
-         </Route>
-         </Route>
-         
-         <Route element={<ProtectedRoute />} >
-         <Route path='/' element={<Home />} >
-        <Route path='showall' element={<ShowAll />} />
-        <Route path='detail/:id' element={<Detail />} />
-        <Route path='showallalbum' element={<AllAlbum />} />
-        <Route path='albumdetail/:id' element={<AlbumDetail />} />
-        <Route path='like' element={ <LikeSong />} />
-        <Route path='playlist/:id' element={ <PlayUI  />} />
-        <Route path='visible/:id' element={ <PlayUI  />} />
-        <Route path='profile' element={<UserProfile />} />
-        <Route path='profile/:id' element={<UserProfile />} />
-        <Route path='searchmusic' element={<Musicforsearch />} />
+        <Route element={<ProtectedOtpRoute />} >
+          <Route path='/opt-verify' element={<OtpPage />} />
         </Route>
-         </Route>
-        </Routes> 
-          </div>
+
+
+        {/* protected route only login user can access */}
+        <Route element={<AdminRoute />}>
+          <Route path='/admin' element={<Admin />} >
+            <Route path='users' element={<AdminUserPage />} />
+            <Route path='artists' element={<AdminArtistPage />} />
+            <Route path='songs' element={<AdminSongPage />} />
+            <Route path='playlists' element={<AdminPlaylistpage />} />
+            <Route path='albums' element={<AdminAlbumPage />} />
+            <Route path='notifications' element={<AdminNotificationPage />} />
+            <Route path='Settings' element={<AdminSettingpage />} />
+          </Route>
+        </Route>
+
+
+        <Route path='/' element={<DemoProtectedRoute />} />
+
+        <Route element={<ProtectedRoute />} >
+          <Route element={<Home />}>
+            <Route path='showall' element={<ShowAll />} />
+            <Route path='detail/:id' element={<Detail />} />
+            <Route path='showallalbum' element={<AllAlbum />} />
+            <Route path='albumdetail/:id' element={<AlbumDetail />} />
+            <Route path='like' element={<LikeSong />} />
+            <Route path='playlist/:id' element={<PlayUI />} />
+            <Route path='visible/:id' element={<PlayUI />} />
+            <Route path='profile' element={<UserProfile />} />
+            <Route path='profile/:id' element={<UserProfile />} />
+            <Route path='searchmusic' element={<Musicforsearch />} />
+          </Route>
+        </Route>
+
+      </Routes>
+    </div>
   )
 }
 

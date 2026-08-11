@@ -70,7 +70,7 @@ const PlayUI = () => {
             <Link to={`/profile/${separate?.user?._id}`}>
               <h1 className='lg:text-8xl max-sm:text-2xl md:text-4xl text-4xl font-extrabold'>{separate?.name}</h1>
             </Link>
-            <h1 className='font-bold pt-4'>{separate?.user?.username} <span className='text-[#b9b6b6]'>. {separate?.music?.length} songs</span> </h1>
+            <h1 className='font-bold pt-4'>{separate?.user?.username || 'UnKnown'} <span className='text-[#b9b6b6]'>. {separate?.music?.length} songs</span> </h1>
           </div>
         </div>
 

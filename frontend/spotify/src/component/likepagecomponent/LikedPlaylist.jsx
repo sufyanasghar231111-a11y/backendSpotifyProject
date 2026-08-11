@@ -48,6 +48,7 @@ const LikedPlaylist = ({ music, index }) => {
                 <button
                     onClick={(e) => {
                         e.preventDefault()
+                        e.stopPropagation()
                         deletemusic(music._id)
                     }}
                     className='p-1.5 sm:p-2 rounded-lg sm:rounded-xl bg-white/10 hover:bg-red-500/20 hover:border-red-500/30 border border-transparent hover:border-red-500/50 transition-all duration-200 group/like shrink-0'

@@ -7,7 +7,7 @@ import { authRecent } from '../../contextapi/RecentRoute'
 import { RiHeartFill, RiMusicLine, RiPauseFill, RiPlayFill, RiPlayList2Fill } from '@remixicon/react'
 
 const AlbumMain = ({ index, elem, isFav }) => {
-    const { setHideAlbumPlaylist, detailData, setHidePlaylist } = useContext(UIPlaylistContext)
+    const {  detailData, setHidePlaylist } = useContext(UIPlaylistContext)
     const {  createFav, deletemusic } = useContext(authHome)
     const { playing, currentSong } = useContext(audioContext)
     const { patchMusicPlaying, playRef } = useContext(musciControl)
@@ -40,7 +40,7 @@ const AlbumMain = ({ index, elem, isFav }) => {
                     </div>
                     <div>
                         <h1 className='font-semibold max-sm:text-xs'>{elem.title}</h1>
-                        <h1 className='text-sm text-white/60 max-sm:text-[10px]'>{detailData?.artist?.username}</h1>
+                        <h1 className='text-sm text-white/60 max-sm:text-[10px]'>{detailData?.artist?.username || 'UnKnown Title'}</h1>
                     </div>
                 </div>
                 <div className='flex items-center gap-6 max-sm:gap-2'>

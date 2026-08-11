@@ -12,7 +12,7 @@ export const authPlaylist = createContext()
 // eslint-disable-next-line react-refresh/only-export-components
 export const UIPlaylistContext = createContext()
 const PlaylistContext = ({ children }) => {
-  const [playlistLoader, setPlaylistLoader] = useState(false)
+ 
   const [getPlayList, setGetPlayList] = useState([])
   const [create, setCreate] = useState([])
   const [name, setName] = useState('')
@@ -30,8 +30,7 @@ const PlaylistContext = ({ children }) => {
 
   const handleGetPlayList = useCallback(async () => {
     try {
-      setPlaylistLoader(true)
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      
       const res = await getplaylist()
       setGetPlayList(res.data.particular || [])
 
@@ -39,9 +38,7 @@ const PlaylistContext = ({ children }) => {
     catch (e) {
       console.log(e);
     }
-    finally {
-      setPlaylistLoader(false)
-    }
+    
   }, [])
 
 
@@ -121,14 +118,13 @@ const PlaylistContext = ({ children }) => {
   const uiValue = useMemo(() => ({
     hideAlbumPlaylist,
     setHideAlbumPlaylist,
-    setPlaylistLoader,
-    playlistLoader,
+    
     hideplaylist,
     setHidePlaylist,
     hideplay,
     setHidePlay,
     hideExtra, setHideExtra
-  }), [hideAlbumPlaylist, playlistLoader, hideplaylist, hideplay, hideExtra])
+  }), [hideAlbumPlaylist, hideplaylist, hideplay, hideExtra])
 
   return (
     <authPlaylist.Provider value={value}>
