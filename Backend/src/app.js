@@ -16,13 +16,15 @@ const otpRoute=require("./routes/otp.route")
 const requestRouter = require('./routes/userrequest.controller')
 const cors = require('cors');
 const activeRouter = require('./routes/active.route')
+const demoRouter =require('./routes/Demo.route')
 
 
 const app= express()
+
 app.use(cors({
-    origin:'http://localhost:5173',
-    credentials:true
-}))
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
 app.use(express.json())
 
 app.use(cookie())
@@ -56,5 +58,7 @@ app.use('/api/request', requestRouter)
 
 
 app.use('/api/active', activeRouter)
+
+app.use('/api/demo', demoRouter)
 
 module.exports=app

@@ -22,10 +22,15 @@ const musicSchema = require('../models/music.model')
     next()
   }
   catch (e) {
-    console.log(e);
-    res.status(500).json({
-      message: 'Unauthorized'
-    })
+     if (e.name === "TokenExpiredError") {
+        return res.status(401).json({
+            message: "Access token expired"
+        });
+    }
+
+    return res.status(401).json({
+        message: "Invalid access token"
+    });
 
   }
 }
@@ -52,10 +57,15 @@ const musicSchema = require('../models/music.model')
   }
 
   catch (e) {
-    console.log(e);
-    res.status(500).json({
-      message: 'Unauthorized'
-    })
+     if (e.name === "TokenExpiredError") {
+        return res.status(401).json({
+            message: "Access token expired"
+        });
+    }
+
+    return res.status(401).json({
+        message: "Invalid access token"
+    });
 
   }
 }
@@ -84,9 +94,15 @@ const musicSchema = require('../models/music.model')
     next()
   }
   catch (err) {
-    res.status(500).json({
-      message: "Internal error"
-    })
+     if (err.name === "TokenExpiredError") {
+        return res.status(401).json({
+            message: "Access token expired"
+        });
+    }
+
+    return res.status(401).json({
+        message: "Invalid access token"
+    });
   }
 
 
@@ -107,10 +123,15 @@ const musicSchema = require('../models/music.model')
     next()
   }
   catch (e) {
-    res.status(500).json({
-      message: "Internal error",
-      error:e.message
-    })
+     if (e.name === "TokenExpiredError") {
+        return res.status(401).json({
+            message: "Access token expired"
+        });
+    }
+
+    return res.status(401).json({
+        message: "Invalid access token"
+    });
   }
 }
 
@@ -139,9 +160,15 @@ const musicSchema = require('../models/music.model')
     next();
   }
   catch(err){
-    res.status(500).json({
-      message:"Internal Error"
-    })
+    if (err.name === "TokenExpiredError") {
+        return res.status(401).json({
+            message: "Access token expired"
+        });
+    }
+
+    return res.status(401).json({
+        message: "Invalid access token"
+    });
   }
   }
 }

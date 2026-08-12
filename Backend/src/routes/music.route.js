@@ -21,6 +21,7 @@ routeMusic.get('/allAlbum/:id', getController.detail)
 
 routeMusic.get('/particularAlbum', middleware.authartist, getController.particularArtist)
 routeMusic.get('/particularAlbum/:id', getController.particularArtistByUser)
+routeMusic.get('/particular-music/:id', getController.totalSongByArtist)
 
 routeMusic.patch('/add-song/:albumId/:musicId', middleware.authartist, getController.addSong )
 routeMusic.delete('/deleteMusic/:albumId/:musicId', middleware.authartist, getController.deleteMusic )

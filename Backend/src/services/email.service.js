@@ -26,7 +26,7 @@ transport.verify((error, success)=>{
 
 const sendEmail = (to, subject, text, html) => {
     const info=transport.sendMail({
-        from:`Your Email is ${config.EMAIL}`,
+        from:`Your Email is ${process.env.EMAIL}`,
         to,
         subject,
         text,

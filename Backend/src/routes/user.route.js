@@ -7,7 +7,7 @@ const upload = multer({storage: multer.memoryStorage()})
 const middleware=require('../middleware/middle')
 
 router.post('/playlist', middleware.authorize('user', 'artist') , userController.playlist)
-router.get('/particularUserPlaylist', middleware.authorize('user', 'artist'), userController.particularUserPlaylist)
+router.get('/particularUserPlaylist', middleware.authorize('user', 'artist', 'admin'), userController.particularUserPlaylist)
 router.get('/separate/:id', middleware.authorize('user', 'artist') , userController.separate)
 router.patch('/visible/:id', middleware.authorize('user', 'artist'), userController.visibilityPlaylist)
 router.patch('/updatePlaylistData/:id', upload.single('pfp') , middleware.authorize('user', 'artist'), userController.updateName)

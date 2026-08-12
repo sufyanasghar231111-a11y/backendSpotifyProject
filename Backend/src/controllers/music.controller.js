@@ -271,6 +271,20 @@ async function particularArtistByUser(req, res) {
 
 }
 
+async function totalSongByArtist ( req , res) {
+  try{
+    const {id} = req.params
+    const totalSong = await musicSchema.countDocuments({artist:id})
+    res.status(200).json({
+      message:"Successful get ",
+      totalSong
+    })
+  }
+  catch(err){
+    console.log(err);
+  }
+}
+
 async function addSong (req, res){
   try{
     const {albumId, musicId} = req.params
@@ -324,6 +338,7 @@ async function deleteMusic(req, res) {
     })
   }
 }
+
 
 
 async function updateSong(req, res) {
@@ -436,4 +451,4 @@ async function deleteAlbumPic(req, res) {
   }
 }
 
-module.exports = { music, Album, getBothSongalbum, single, detail, particularArtist, deleteMusic, getSingleVisible, updateSong, deleteSongDetail, deleteAlbumPic, updateAlbum, deleteSong, addSong, particularArtistByUser }
+module.exports = { music, Album, getBothSongalbum, single, detail, particularArtist, deleteMusic, getSingleVisible, updateSong, deleteSongDetail, deleteAlbumPic, updateAlbum, deleteSong, addSong, particularArtistByUser, totalSongByArtist }
