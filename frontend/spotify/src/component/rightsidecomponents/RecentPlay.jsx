@@ -1,4 +1,3 @@
-
 import React, { useContext } from 'react'
 import { authRecent } from '../../contextapi/RecentRoute'
 import {
@@ -32,7 +31,7 @@ const RecentPlay = () => {
   if (!items.length) return null
 
   return (
-    <section className="w-full">
+    <section className="w-full pb-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg sm:text-xl font-semibold text-white">
@@ -41,7 +40,7 @@ const RecentPlay = () => {
       </div>
 
       {/* Items */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 sm:gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {items.map((item) => {
           const isAlbum = item.type === 'album'
 
@@ -54,14 +53,15 @@ const RecentPlay = () => {
               key={`${item.type}-${item.recentId || item._id}`}
               className="
                 group relative flex items-center
-                gap-3
+                gap-4
                 min-w-0
                 bg-[#181818]
                 hover:bg-[#242424]
                 border border-transparent
                 hover:border-[#303030]
-                rounded-lg
-                p-2.5
+                rounded-xl
+                p-3.5
+                min-h-[84px]
                 transition-all duration-200
                 cursor-pointer
               "
@@ -71,11 +71,11 @@ const RecentPlay = () => {
                 className={`
                   relative
                   flex-shrink-0
-                  w-12 h-12
-                  sm:w-14 sm:h-14
+                  w-16 h-16
+                  sm:w-20 sm:h-20
                   overflow-hidden
                   bg-[#252525]
-                  ${isAlbum ? 'rounded-md' : 'rounded-full'}
+                  ${isAlbum ? 'rounded-lg' : 'rounded-full'}
                 `}
               >
                 {/* Fallback */}
@@ -87,9 +87,9 @@ const RecentPlay = () => {
                   "
                 >
                   {isAlbum ? (
-                    <RiAlbumLine className="w-6 h-6" />
+                    <RiAlbumLine className="w-8 h-8" />
                   ) : (
-                    <RiMusicLine className="w-6 h-6" />
+                    <RiMusicLine className="w-8 h-8" />
                   )}
                 </div>
 
@@ -109,14 +109,15 @@ const RecentPlay = () => {
               </div>
 
               {/* Title + Username */}
-              <div className="min-w-0 flex-1 pr-1">
+              <div className="min-w-0 flex-1 pr-6">
                 <h3
                   className="
-                    text-sm
+                    text-sm sm:text-base
                     font-medium
                     text-white
-                    truncate
                     leading-5
+                    break-words
+                    line-clamp-2
                   "
                   title={item?.title}
                 >
@@ -125,8 +126,8 @@ const RecentPlay = () => {
 
                 <p
                   className="
-                    mt-0.5
-                    text-xs
+                    mt-1
+                    text-xs sm:text-sm
                     text-gray-400
                     truncate
                     leading-4
@@ -135,55 +136,45 @@ const RecentPlay = () => {
                 >
                   {username || 'Unknown Artist'}
                 </p>
-              </div>
 
-              {/* Time + Close */}
-              <div
-                className="
-                  flex
-                  items-center
-                  gap-1
-                  flex-shrink-0
-                "
-              >
-                {/* Time */}
+                {/* Time (moved under artist so it's never squeezed) */}
                 <span
                   className="
-                    text-[7px]
-                    max-sm:text-[11px]
+                    mt-1
+                    block
+                    text-[11px]
                     text-gray-500
                     whitespace-nowrap
                   "
                 >
                   {timeAgo(item.createdAt)}
                 </span>
-
-                
-                
               </div>
+
+              {/* Close */}
               <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    deleteData(item.recentId || item._id)
-                  }}
-                  aria-label="Remove from history"
-                  className="
-                    flex items-center justify-center
-                    w-3 h-3
-                    rounded-full
-                    text-gray-500
-                    opacity-0
-                    max-sm:opacity-100
-                    group-hover:opacity-100
-                    hover:text-white
-                    hover:bg-[#353535]
-                    transition-all duration-150,
-                    absolute top-2 right-2 
-                  "
-                >
-                  <RiCloseLine size={15} />
-                </button>
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  deleteData(item.recentId || item._id)
+                }}
+                aria-label="Remove from history"
+                className="
+                  flex items-center justify-center
+                  w-6 h-6
+                  rounded-full
+                  text-gray-500
+                  opacity-0
+                  max-sm:opacity-100
+                  group-hover:opacity-100
+                  hover:text-white
+                  hover:bg-[#353535]
+                  transition-all duration-150
+                  absolute top-2 right-2
+                "
+              >
+                <RiCloseLine size={15} />
+              </button>
             </div>
           )
         })}

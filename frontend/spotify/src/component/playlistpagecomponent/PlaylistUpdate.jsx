@@ -18,7 +18,7 @@ const PlaylistUpdate = ({isOwn, separate}) => {
                     <img
                 src={separate?.playlistPic}
                 alt=""
-                className="absolute inset-0 z-11 h-full  w-full object-cover transition duration-300 group-hover:brightness-50"
+                className={`absolute inset-0 z-11 h-full  w-full object-cover transition duration-300 ${isOwn ? 'group-hover:brightness-50':""} `}
               />
                   ):(
                     null

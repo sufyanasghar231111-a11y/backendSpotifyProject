@@ -19,6 +19,7 @@ import UserRequest from './contextapi/UserRequest.jsx'
 import ArtistMusicContext from './contextapi/ArtistMusicContext.jsx'
 import AdminContext from './contextapi/AdminContext.jsx'
 import AdminCountContext from './contextapi/AdminCountContext.jsx'
+import DemoContext from './contextapi/DemoContext.jsx'
 
 
 createRoot(document.getElementById('root')).render(
@@ -39,7 +40,9 @@ createRoot(document.getElementById('root')).render(
                             <AuthContext >
                               <HomeContext >
                                 <ArtistMusicContext>
-                                  <App />
+                                  <DemoContext>
+                                    <App />
+                                  </DemoContext>
                                 </ArtistMusicContext>
                               </HomeContext>
                             </AuthContext>

@@ -11,8 +11,9 @@ import { notificationContext } from '../../contextapi/UserRequest'
 function Nav() {
   const { user } = useContext(adminContext)
   const { setHidepro, setHide } = useContext(UIHomeContex)
-  const { setNotificationpopup} = useContext(notificationContext)
+  const { setNotificationpopup, getnotification} = useContext(notificationContext)
   
+  const filterRead = (getnotification.filter(elem => !elem.isRead)).length
 
   const fetchname = user?.username 
   ? ((user.username.trim().split(' ')[0][0] + user.username.trim().split(' ').pop()[0]).toUpperCase())
@@ -29,8 +30,11 @@ function Nav() {
         </div>
       </div>
       <div className='flex items-center max-sm:gap-1  gap-5 '>
-      <div className=' cursor-pointer' onClick={()=>{setNotificationpopup(prev => !prev)}}>
-        <RiNotification4Line className='w-5 h-5 max-sm:w-2 max-sm:h-2' />
+      <div className=' cursor-pointer  relative' onClick={()=>{setNotificationpopup(prev => !prev)}}>
+        <RiNotification4Line className='w-6 h-6 max-sm:w-2 max-sm:h-2' />
+        <div className=' absolute w-3.5 max-sm:w-1 max-sm:h-1 h-3.5 text-[8px] max-sm:text-[5px] flex items-center justify-center top-0 right-0 rounded-full bg-green-500'>
+          {filterRead}
+        </div>
       </div>
       <div className=''>
       <NotificationModal />

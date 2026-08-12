@@ -45,9 +45,9 @@ const AuthContext = ({ children }) => {
         otpHash: ''
     })
     const [otpBased, setOtpBased] = useState(false)
-     const [otploading, setOtpLoading] = useState(false)
-     const [wrongPassword, setWrongPassword] = useState(false)
-     const [alreadyExist, setAlreadtExist] = useState(false)
+    const [otploading, setOtpLoading] = useState(false)
+    const [wrongPassword, setWrongPassword] = useState(false)
+    const [alreadyExist, setAlreadtExist] = useState(false)
 
     // All Toggle or true & false states 
     let [loading, setLoading] = useState(false)
@@ -91,13 +91,13 @@ const AuthContext = ({ children }) => {
     }
 
     const regValid = emailreg !== '' &&
-    passwordreg !== '' &&
-    passwordreg.length === 8 &&
-    username !== ''
+        passwordreg !== '' &&
+        passwordreg.length === 8 &&
+        username !== ''
 
     const handleSumbit = useCallback(async (e) => {
         e.preventDefault()
-        if(!regValid) return 
+        if (!regValid) return
         try {
             setLoading(true)
             await register(
@@ -116,21 +116,21 @@ const AuthContext = ({ children }) => {
         }
         catch (err) {
             console.log(err);
-            
+
         }
-        finally{
+        finally {
             setLoading(false)
         }
     }, [regValid, username, emailreg, passwordreg, navigate])
 
 
-    const loginValid = login.email !=='' &&
-    login.password !== '' &&
-    login.password.length === 8
+    const loginValid = login.email !== '' &&
+        login.password !== '' &&
+        login.password.length === 8
 
     const handleLogin = useCallback(async (e) => {
         e.preventDefault()
-        if(!loginValid) return
+        if (!loginValid) return
         try {
             setLoading(true)
             const res = await loginUser(
@@ -158,7 +158,7 @@ const AuthContext = ({ children }) => {
         }
         catch (e) {
 
-            if(e?.response?.status === 401){
+            if (e?.response?.status === 401) {
                 setWrongPassword(true)
             }
         }
@@ -191,7 +191,7 @@ const AuthContext = ({ children }) => {
                 if (err?.response?.status === 401) {
                     console.error("Auth initialization failed:", err);
                 }
-                
+
             } finally {
                 setAuthReady(true);
                 authInitializationPromise = null;
@@ -199,7 +199,7 @@ const AuthContext = ({ children }) => {
         }
 
         authInitializationPromise = initializeAuth();
-        
+
     }, [setAuthReady, setUser]);
 
     async function handleLogout() {
@@ -228,13 +228,13 @@ const AuthContext = ({ children }) => {
     }
 
     const valid =
-    otp.email !== '' &&
-    otp.otpHash !== '' &&
-    otp.otpHash.length === 6
+        otp.email !== '' &&
+        otp.otpHash !== '' &&
+        otp.otpHash.length === 6
 
     async function handleOtp(e) {
         e.preventDefault()
-        if(!valid) return 
+        if (!valid) return
         try {
             setOtpLoading(true)
             const res = await otpCreate({
@@ -260,8 +260,10 @@ const AuthContext = ({ children }) => {
             navigate('/')
 
         }
-        catch (err) {
-            console.log(err);
+        catch (error) {
+            if (error.response?.status !== 401) {
+                console.error("Auth initialization failed:", error);
+            }
 
         }
         finally {
@@ -371,7 +373,7 @@ const AuthContext = ({ children }) => {
     }), [library])
 
     const ui = useMemo(() => ({
-        loading, setLoading, otploading, setOtpLoading, valid, loginValid,wrongPassword, regValid, alreadyExist
+        loading, setLoading, otploading, setOtpLoading, valid, loginValid, wrongPassword, regValid, alreadyExist
     }), [loading, otploading, valid, loginValid, wrongPassword, regValid, alreadyExist])
 
     return (

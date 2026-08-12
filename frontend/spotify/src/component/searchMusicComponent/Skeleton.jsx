@@ -9,8 +9,8 @@ const Skeleton = () => {
 
 
   return (
-    <div className="absolute inset-0 h-screen overflow-hidden bg-[#282828] z-[100] p-2 sm:p-4">
-      {[1, 2, 3, 4, 5, 6].map((item) => (
+    <div className="absolute inset-0 h-[65vh] overflow-hidden bg-[#282828] z-[100] p-2 sm:p-4">
+      {[1, 2, 3, 4].map((item) => (
         <div
           key={item}
           className="flex items-center justify-between px-2 sm:px-4 py-2 sm:py-3 rounded-lg animate-pulse gap-2"

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { resetContext } from '../../contextapi/resetPasswordContext'
 import { RiLoader4Line, RiSpotifyFill } from '@remixicon/react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { useState } from 'react'
 
@@ -11,6 +11,7 @@ const ResetPasswordComponent = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
+    let navigate = useNavigate()
     async function resetpassword(e) {
         e.preventDefault()
         setError('')
@@ -36,7 +37,7 @@ const ResetPasswordComponent = () => {
         try {
             setLoading(true)
             await axios.post(`http://localhost:3000/api/reset/resetpassword/${token}`, { password: password.confirmPassword })
-            
+            navigate('/login')
         }
         catch (err) {
             console.log(err);
