@@ -1,7 +1,8 @@
 const postSchema = require('../models/post.model')
 const crypto = require('crypto')
 const nodemailer = require('nodemailer')
-const bcrypt=require('bcryptjs')
+const bcrypt=require('bcryptjs');
+const config = require('../config/config');
 
 async function checkAuth(req, res) {
     try {
@@ -24,14 +25,14 @@ async function checkAuth(req, res) {
         await user.save()
 
         // create Link 
-        const link = `${process.env.FRONTEND_URL}/reset-password/${token}`;
+        const link = `${config.FRONTEND_URL}/reset-password/${token}`;
 
         // send email
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL,
-                pass: process.env.EMAIL_PASS
+                user: config.EMAIL,
+                pass: config.EMAIL_PASS
             }
         })
 

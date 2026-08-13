@@ -133,12 +133,17 @@ async function updateName (req, res) {
     try{
         const {name} = req.body
         const {id} = req.params
-        const result = await uploadPfp(req.file.buffer)        
+        const updateContent = {
+            name
+        }
+        if(req.file){
+            const result = await uploadPfp(req.file.buffer)        
+            updateContent.playlistPic= result.url
+        }
         const updateData= await userSchema.findByIdAndUpdate(
             {user:req.user.id, _id:id},
             {
-             playlistPic:result.url,
-             name   
+             $set:updateContent 
             },
             {
                 new:true

@@ -10,15 +10,14 @@ const sendEmail = require('../services/email.service')
 const otpSchema = require('../models/otp.model')
 const otpModel = require('../models/otp.model')
 const userSchema = require('../models/playlist.model')
+const config = require('../config/config')
+const AppError = require('../utils/AppError')
 
 async function register(req, res) {
     const { username, email, password, role = 'user' } = req.body
 
     if (!username || !email || !password) {
-        return res.status(400).json({
-            success: false,
-            message: "All fields required"
-        });
+        throw new AppError('All Fields Required', 400)
     }
 
     let imagUrl = ''
@@ -35,9 +34,7 @@ async function register(req, res) {
     })
 
     if (alreadyExist) {
-        return res.status(409).json({
-            message: 'Already exist'
-        })
+        throw new AppError('User Already Exist ', 409)
     }
 
     const hashPassword = await bcrypt.hash(password, 10)
@@ -63,6 +60,7 @@ async function register(req, res) {
         otpHash
     })
 
+
     res.status(201).json({
         success: true,
         message: 'Successful register',
@@ -77,107 +75,91 @@ async function register(req, res) {
 }
 
 async function login(req, res) {
-    try {
-        const { username, email, password, role } = req.body
 
-        if (!email || !password) {
-            return res.status(400).json({
-                success: false,
-                message: "All fields required"
-            });
-        }
+    const { username, email, password, role } = req.body
 
-        const user = await postSchema.findOne({
-            $or: [
-                { username },
-                { email }
-            ]
-        })
+    if (!email || !password) {
+        throw new AppError('All Field Required', 400)
+    }
 
-        if (!user) {
-            return res.status(404).json({
-                message: 'user not found'
-            })
-        }
+    const user = await postSchema.findOne({
+        $or: [
+            { username },
+            { email }
+        ]
+    })
 
-        if (!user.verified) {
-            return res.status(400).json({
-                message: "Invalid user"
-            })
-        }
+    if (!user) {
+        throw new AppError('User is not found', 404)
+    }
 
-        if (!user.isActive) {
-            return res.status(403).json({
-                message: "Your account has been blocked. Contact support."
-            });
-        }
+    if (!user.verified) {
+        throw new AppError('User is not verify', 400)
+    }
 
-        const comparePassword = await bcrypt.compare(password, user.password)
-        if (!comparePassword) {
-            return res.status(401).json({
-                message: "Unauthorized"
-            })
-        }
+    if (!user.isActive) {
+        throw new AppError('Your account has been blocked. Contact support.', 403)
+    }
 
-        const refreshToken = jwt.sign({
+    const comparePassword = await bcrypt.compare(password, user.password)
+    
+    if (!comparePassword) {
+        throw new AppError('Unauthorized', 401)
+    }
+
+    const refreshToken = jwt.sign({
+        id: user._id,
+        role: user.role
+    }, config.SECRET_JWT, {
+        expiresIn: '7d'
+    })
+
+    const refreshTokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex')
+
+    const session = await logoutSchema.create({
+        user: user._id,
+        refreshTokenHash,
+        ip: req.ip,
+        userAgent: req.headers['user-agent']
+    })
+
+    const accessToken = jwt.sign(
+        {
             id: user._id,
-            role: user.role
-        }, process.env.SECRET_JWT, {
-            expiresIn: '7d'
-        })
-
-        const refreshTokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex')
-
-        const session = await logoutSchema.create({
-            user: user._id,
-            refreshTokenHash,
-            ip: req.ip,
-            userAgent: req.headers['user-agent']
-        })
-
-        const accessToken = jwt.sign(
-            {
-                id: user._id,
-                role: user.role,
-                sessionId: session._id
-            },
-            process.env.ACCESS_TOKEN,
-            {
-                expiresIn: '10m'
-            }
-        )
-
-        const online = await postSchema.findByIdAndUpdate(user._id, {
-            lastActive: new Date(),
-            isOnline: true,
-            isActive: true
-        })
-
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: false,
-            sameSite: 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
-
-        res.status(201).json({
-            message: "successful",
-            _id: user._id,
-            success: true,
-            message: "Successful login",
-            username: user.username,
-            email: user.email,
             role: user.role,
-            pfp: user.pfp,
-            accessToken
-        })
-    }
-    catch (e) {
-        res.status(500).json({
-            message: "Internal error",
-            error: e.message
-        })
-    }
+            sessionId: session._id
+        },
+        config.ACCESS_TOKEN,
+        {
+            expiresIn: '10m'
+        }
+    )
+
+    const online = await postSchema.findByIdAndUpdate(user._id, {
+        lastActive: new Date(),
+        isOnline: true,
+        isActive: true
+    })
+
+    res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    })
+
+    res.status(201).json({
+        message: "successful",
+        _id: user._id,
+        success: true,
+        message: "Successful login",
+        username: user.username,
+        email: user.email,
+        role: user.role,
+        pfp: user.pfp,
+        accessToken
+    })
+
 }
 
 async function getUser(req, res) {
@@ -206,12 +188,18 @@ async function updatePfp(req, res) {
     try {
         let { username } = req.body
 
+        const updateData = {
+            username
+        }
 
-        const result = await uploadPfp(req.file.buffer)
+        if(req.file){
+            const result = await uploadPfp(req.file.buffer)
+            updateData.pfp = result.url
+        }
+
         const user = await postSchema.findByIdAndUpdate(
             req.user.id, {
-            username,
-            pfp: result.url
+            updateData
         },
             { new: true }
         )
@@ -224,7 +212,8 @@ async function updatePfp(req, res) {
     }
     catch (err) {
         res.status(500).json({
-            message: "Internal error"
+            message: "Internal error",
+            err:err.message
         })
     }
 }
@@ -235,17 +224,18 @@ async function updateAdminPfp(req, res) {
         let { username, email } = req.body
 
         const find = await postSchema.findOne(
-           { 
-            _id:{$ne: req.user.id},
-            $or:[
-                {username},
-                {email}
-            ]}
+            {
+                _id: { $ne: req.user.id },
+                $or: [
+                    { username },
+                    { email }
+                ]
+            }
         )
 
-        if(find){
+        if (find) {
             return res.status(409).json({
-                message:"Email Already exist"
+                message: "Email Already exist"
             })
         }
 
@@ -254,13 +244,13 @@ async function updateAdminPfp(req, res) {
             email
         }
 
-        if(req.file){
+        if (req.file) {
             const result = await uploadPfp(req.file.buffer)
             updateData.pfp = result.url
         }
         const user = await postSchema.findByIdAndUpdate(
             req.user.id,
-             updateData,
+            updateData,
             { new: true }
         )
 
@@ -274,7 +264,7 @@ async function updateAdminPfp(req, res) {
     catch (err) {
         res.status(500).json({
             message: "Internal error",
-            error:err.message
+            error: err.message
         })
     }
 }

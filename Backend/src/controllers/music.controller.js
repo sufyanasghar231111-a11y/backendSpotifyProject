@@ -345,13 +345,18 @@ async function updateSong(req, res) {
   try {
     const { id } = req.params
     const { title } = req.body;
-    let result = await uploadThumbnail(req.file.buffer)
+    const updateData = {
+      title
+    }
+    if(req.file){
+      const result = await uploadThumbnail(req.file.buffer)
+      updateData.image = result.url
+    }
 
     const updatemusic = await musicSchema.findByIdAndUpdate(
       { user: req.user.id, _id: id },
       {
-        image: result.url,
-        title
+       $set:updateData
       },
       {
         new: true
@@ -400,13 +405,19 @@ async function updateAlbum(req, res) {
   try {
     const { id } = req.params
     const { title } = req.body;
-    let result = await uploadalbumPic(req.file.buffer)
+    const updateData = {
+      title
+    }
+
+    if(req.file){
+      let result = await uploadalbumPic(req.file.buffer)
+      updateData.image = result.url
+    }
 
     const updatealbum = await albumExport.findByIdAndUpdate(
       { user: req.user.id, _id: id },
       {
-        image: result.url,
-        title
+        $set:updateData
       },
       {
         new: true

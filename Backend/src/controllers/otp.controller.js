@@ -3,6 +3,7 @@ const otpSchema = require('../models/otp.model')
 const jwt = require('jsonwebtoken')
 const logoutSchema=require('../models/logout.model')
 const crypto = require('crypto')
+const config = require('../config/config')
 
 const verifyEmail = async (req, res) => {
     try {
@@ -37,7 +38,7 @@ const verifyEmail = async (req, res) => {
         const refreshToken = jwt.sign({
             id: user._id,
             role: user.role
-        }, process.env.SECRET_JWT, {
+        }, config.SECRET_JWT, {
             expiresIn: '7d'
         })
 
@@ -56,7 +57,7 @@ const verifyEmail = async (req, res) => {
                 role: user.role,
                 sessionId: session._id
             },
-            process.env.ACCESS_TOKEN,
+            config.ACCESS_TOKEN,
             {
                 expiresIn: '10m'
             }

@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken')
 const musicSchema = require('../models/music.model')
+const config = require('../config/config')
 
  function authartist(req, res, next) {
   try {
@@ -11,7 +12,7 @@ const musicSchema = require('../models/music.model')
     }
     const accessToken = header.split(' ')[1]
 
-    const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN)
+    const decoded = jwt.verify(accessToken, config.ACCESS_TOKEN)
 
     if (decoded.role !== 'artist') {
       return res.status(403).json({
@@ -45,7 +46,7 @@ const musicSchema = require('../models/music.model')
     }
     const accessToken = header.split(' ')[1]
 
-    const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN)
+    const decoded = jwt.verify(accessToken, config.ACCESS_TOKEN)
 
     if (decoded.role !== 'admin') {
       res.status(403).json({
@@ -82,7 +83,7 @@ const musicSchema = require('../models/music.model')
     const accessToken = header.split(' ')[1]
     
 
-    const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN)
+    const decoded = jwt.verify(accessToken, config.ACCESS_TOKEN)
     if (decoded.role !== 'user') {
       return res.status(403).json({
         message: 'Unauthorized'
@@ -118,7 +119,7 @@ const musicSchema = require('../models/music.model')
     }
     const accessToken = header.split(' ')[1]
 
-    const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN)
+    const decoded = jwt.verify(accessToken, config.ACCESS_TOKEN)
     req.user = decoded
     next()
   }
@@ -148,7 +149,7 @@ const musicSchema = require('../models/music.model')
     }
 
     const accessToken = header.split(' ')[1]
-    const decoded = jwt.verify(accessToken, process.env.ACCESS_TOKEN)
+    const decoded = jwt.verify(accessToken, config.ACCESS_TOKEN)
 
     if(!roles.includes(decoded.role)){
       return res.status(403).json({

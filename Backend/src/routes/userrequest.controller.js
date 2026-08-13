@@ -9,5 +9,6 @@ requestRouter.get('/get-single-request/:id', middleWare.adminMan, requestControl
 requestRouter.get('/get-notification', middleWare.auth, requestController.getNotification )
 requestRouter.post('/patch-request/:id', middleWare.adminMan, requestController.updateRequest )
 requestRouter.post('/reject-request/:id', middleWare.adminMan, requestController.deleteRejected )
+requestRouter.get('/update-request/:id', middleWare.authorize('admin', 'artist', 'user'), requestController.updateNotification )
 
 module.exports= requestRouter

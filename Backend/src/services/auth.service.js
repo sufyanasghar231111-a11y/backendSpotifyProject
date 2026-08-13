@@ -1,9 +1,10 @@
-const ImageKit=require('imagekit')
+const ImageKit=require('imagekit');
+const config = require('../config/config');
 
 const imagekit=new ImageKit({
-    publicKey:process.env.PUBLIC_KEY,
-    privateKey:process.env.PRIVATE_KEY,
-    urlEndpoint:process.env.URL_ENDPOINT
+    publicKey:config.PUBLIC_KEY,
+    privateKey:config.PRIVATE_KEY,
+    urlEndpoint:config.URL_ENDPOINT
 })
 
 async function uploadPfp(buffer){

@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken')
 const postSchema = require('../models/post.model')
 const logoutSchema = require("../models/logout.model")
 const crypto = require('crypto')
+const config = require('../config/config')
 
 function generatedAccessToken(user,session) {
     return jwt.sign(
@@ -10,7 +11,7 @@ function generatedAccessToken(user,session) {
             role: user.role,
             sessionId:session._id
         },
-        process.env.ACCESS_TOKEN,
+        config.ACCESS_TOKEN,
         {
             expiresIn: '10m'
         }
@@ -23,7 +24,7 @@ function generatedRefreshToken(user) {
             id: user._id,
             role: user.role
         },
-        process.env.SECRET_JWT,
+        config.SECRET_JWT,
         {
             expiresIn: '7d'
         }
@@ -39,7 +40,7 @@ const refreshTokenRotation = async (req, res) => {
             })
         }
 
-        const decoded = jwt.verify(refreshToken, process.env.SECRET_JWT)
+        const decoded = jwt.verify(refreshToken, config.SECRET_JWT)
         
         const user = await postSchema.findById(decoded.id)
         

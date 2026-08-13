@@ -5,7 +5,7 @@ const playlistSchema = require('../models/playlist.model')
 async function demoApi (req, res) {
     try{
         const [music, album, playlist] = await Promise.all([
-            musicSchema.find().populate('artist', 'username').limit(8)
+            musicSchema.find().populate('artist', 'username').limit(10)
             ,
             albumSchema.find().populate('artist', 'username').limit(5),
             playlistSchema.find({visibility:'public'}).populate('user', 'username').limit(5)

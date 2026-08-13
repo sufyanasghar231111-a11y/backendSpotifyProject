@@ -1,7 +1,8 @@
-const mongoose=require('mongoose')
+const mongoose=require('mongoose');
+const config = require('../config/config');
 
 async function connectDb() {
-    await mongoose.connect(process.env.MONGO_URI)
+    await mongoose.connect(config.MONGO_URI)
     console.log("DB connect Successful");
     
 }

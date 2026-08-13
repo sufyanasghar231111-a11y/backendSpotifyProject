@@ -177,8 +177,15 @@ const getNotification = async (req, res) => {
 }
 
 const updateNotification = async ( req, res) =>{
+    const { id } = req.params
     try{
-        
+        const updateData =await notificationSchema.findById({user:req.user.id, _id:id}).populate('user', '_id username')
+        updateData.isRead= true
+        await updateData.save()
+        res.status(201).json({
+            message:"Successful update",
+            updateData
+        })
     }
     catch{
         res.status(500).json({
@@ -188,4 +195,6 @@ const updateNotification = async ( req, res) =>{
 }
 
 
-module.exports = { sendRequest, getRequest, updateRequest, deleteRejected, getNotification, getSingleRequest }
+
+
+module.exports = { sendRequest, getRequest, updateRequest, deleteRejected, getNotification, getSingleRequest, updateNotification }

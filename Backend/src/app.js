@@ -17,7 +17,7 @@ const requestRouter = require('./routes/userrequest.controller')
 const cors = require('cors');
 const activeRouter = require('./routes/active.route')
 const demoRouter =require('./routes/Demo.route')
-
+const errorHanlder = require('./middleware/errorHandler')
 
 const app= express()
 
@@ -60,5 +60,7 @@ app.use('/api/request', requestRouter)
 app.use('/api/active', activeRouter)
 
 app.use('/api/demo', demoRouter)
+
+app.use(errorHanlder)
 
 module.exports=app
