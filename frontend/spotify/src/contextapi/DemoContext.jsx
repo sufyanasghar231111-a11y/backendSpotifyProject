@@ -8,6 +8,7 @@ const DemoContext = ({children}) => {
     const [playlistData, setPlaylistData] = useState([])
     const [loader, setLoader] = useState(true)
     const [loginPopup, setLoginPopup] = useState(false)
+    const [demoInput, setDemoInput ] = useState('')
     const getData = async ()=>{
         try{
             setLoader(true)
@@ -29,7 +30,7 @@ const DemoContext = ({children}) => {
         getData()
     },[])
   return (
-    <demoContext.Provider value={{musicData, albumData ,playlistData, loader, loginPopup, setLoginPopup}}>
+    <demoContext.Provider value={{musicData, albumData ,playlistData, loader, loginPopup, setLoginPopup, demoInput, setDemoInput }}>
         {children}
     </demoContext.Provider>
   )

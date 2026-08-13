@@ -1,5 +1,5 @@
 import { RiArrowLeftSLine, RiArrowRightSLine } from '@remixicon/react'
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import DemoSong from './DemoSong'
 import DemoAlbumPlaylist from './DemoAlbumPlaylist'
@@ -8,6 +8,21 @@ import { demoContext } from '../../contextapi/DemoContext'
 
 const DemoRight = () => {
   const { loader } = useContext(demoContext)
+  const sliderRef = useRef(null)
+
+  function leftRef (){
+    sliderRef.current.scrollBy({
+      left:-250,
+       behavior:'smooth'
+    })
+  }
+
+  function rightRef (){
+    sliderRef.current.scrollBy({
+      left:250,
+      behavior:'smooth'
+    })
+  }
   return (
     <div className="w-full md:w-[70%] relative max-sm:px-3 max-sm:mx-3 bg-[#282828] h-[76vh] overflow-hidden rounded-xl flex flex-col">
       {
@@ -20,10 +35,10 @@ const DemoRight = () => {
         </h1>
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto px-3 sm:px-5 md:px-7">
+      <div  className="flex-1 min-h-0 overflow-y-auto px-3 sm:px-5 md:px-7">
 
         <div className="relative py-3">
-          <button
+          <button onClick={leftRef}
             className="cursor-pointer absolute hover:bg-black/90
               -left-2 sm:-left-4 top-1/2 -translate-y-1/2 z-45
               w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/70 text-white
@@ -32,11 +47,11 @@ const DemoRight = () => {
             <RiArrowLeftSLine />
           </button>
 
-          <div className="flex overflow-x-auto scroll gap-2 sm:gap-3">
+          <div ref={sliderRef} className="flex overflow-x-auto scroll gap-2 sm:gap-3">
             <DemoSong />
           </div>
 
-          <button
+          <button onClick={rightRef}
             className="cursor-pointer absolute hover:bg-black/90
               -right-2 sm:-right-4 top-1/2 -translate-y-1/2 z-40
               w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/70 text-white

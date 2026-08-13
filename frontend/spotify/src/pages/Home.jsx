@@ -23,12 +23,15 @@ import AlbumCreateModal from '../modals/AlbumCreateModal'
 import AddToAlbum from '../modals/AddToAlbum'
 import FooterSkeletonLoader from '../modals/FooterSkeletonLoader'
 import { authSearchBar } from '../contextapi/SearchSeparateContext'
+import NotificationCheckPopupModal from '../modals/NotificationCheckPopupModal'
+import { notificationContext } from '../contextapi/UserRequest'
 
 
 function Home() {
 
   let {  detailData } = useContext(authPlaylist)
   const {musicLoader } = useContext(authSearchBar)
+  const {notificationCheck  } = useContext(notificationContext)
  
   return (
     <div className='w-full relative '>
@@ -68,8 +71,13 @@ function Home() {
       <AlbumCreateModal />
 
       <MusicEditModal />
+      {
+        notificationCheck && (
+          <NotificationCheckPopupModal />
+        )
+      }
 
-      {/* navbar  */}
+    {/* navbar  */}
       <Nav />
       
       <div className='flex relative px-2 gap-3 justify-between w-full'>

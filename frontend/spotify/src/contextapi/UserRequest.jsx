@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react-hooks/set-state-in-effect */
-import React, { createContext, useEffect, useState, useContext } from 'react'
+import React, { createContext, useEffect, useState, useContext, use } from 'react'
 import { resetContext } from './ResetPasswordContext'
-import { deleteRequest, getNotificationData, getRequest, getSingleRequest, patchRequest, postApi } from '../api/userrequest'
+import { deleteRequest, getNotificationData, getRequest, getSingleRequest, patchRequest, postApi, singleFetch } from '../api/userrequest'
 import { adminContext } from './AdminContext'
 
 export const requestContext = createContext()
@@ -19,6 +19,8 @@ const UserRequest = ({ children }) => {
     const { user } = useContext(adminContext)
     const [singleRequestData, setSingleRequestData] = useState({})
     const [openSingleRequest, setOpenSingleRequest] = useState(false)
+    const [notificationCheck, setNotificationCheck] = useState(false)
+    const [getSingleNotification, setGetSingleNotification ] = useState({})
 
     const requestArtist = async () => {
         try {
@@ -110,10 +112,30 @@ const UserRequest = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[authReady, user ])
 
+    const singleNotification = async (id) => {
+        if(!id) return
+        try{
+            const res = await singleFetch(id)
+            setGetSingleNotification(res.data.updateData)
+            await notificationGet()
+            setNotificationCheck(true)
+            setNotificationpopup(false)
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+    useEffect(()=>{
+        if(!authReady || !user) return
+        singleNotification()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[authReady, user])
+
+
 
     return (
         <requestContext.Provider value={{ requestpopup, setRequestpopup, description, setDescription, requestArtist, setPopup, popup, getRequests }}>
-            <notificationContext.Provider value={{ notificationpopup, setNotificationpopup, getnotification,  }}>
+            <notificationContext.Provider value={{ notificationpopup, setNotificationpopup, getnotification, notificationCheck, setNotificationCheck, getSingleNotification , singleNotification }}>
                 <adminApprovalContext.Provider value={{updateRequest, deleteRequests, singleRequestData, singleRequest, openSingleRequest, setOpenSingleRequest}}>
                     {children}
                 </adminApprovalContext.Provider>

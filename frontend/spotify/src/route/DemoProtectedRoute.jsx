@@ -14,7 +14,7 @@ const DemoProtectedRoute = () => {
 
 
   if (!authReady) {
-    return null
+    return <LoadingAnimation />
   }
 
   if (!user) {
@@ -25,11 +25,9 @@ const DemoProtectedRoute = () => {
     return <Navigate to='/admin' replace />
   }
 
-  if (user?.role == 'user' || user?.role === 'artist') {
-    return <Home />
-  }
+  
 
-  return <DemoPage />
+  return <Home />
 }
 
 export default DemoProtectedRoute

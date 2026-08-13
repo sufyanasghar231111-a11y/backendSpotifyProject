@@ -1,7 +1,6 @@
 import { RiHeartFill, RiPlayListLine, RiPlayFill, RiShuffleLine, RiPencilLine } from '@remixicon/react'
 import React, { useContext, useEffect } from 'react'
 
-import Input from '../like/Input'
 import { authHome } from '../contextapi/HomeContext'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { authPlaylist, UIPlaylistContext } from '../contextapi/PlaylistContext'

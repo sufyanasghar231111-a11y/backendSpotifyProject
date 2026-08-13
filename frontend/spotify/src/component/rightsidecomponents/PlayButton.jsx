@@ -16,7 +16,7 @@ const PlayButton = ({ item }) => {
       setQueue(music)
       update(item._id)
       patchMusicPlaying(item._id)
-    }} className='absolute z-100 bottom-3 right-3
+    }} className='absolute z-40 bottom-3 right-3
               flex items-center justify-center
               w-12 h-12 rounded-full hover:bg-green-600 bg-green-500
               opacity-0 translate-y-4

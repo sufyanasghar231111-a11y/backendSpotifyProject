@@ -223,7 +223,7 @@ const AuthContext = ({ children }) => {
             setUser(null)
             setHideSure(false)
             setLoading(false)
-            navigate('/')
+            navigate('/', { replace: true })
         }
     }
 

@@ -4,7 +4,7 @@ import { RiCheckLine, RiCloseLine } from '@remixicon/react'
 import { timeAgo } from '../utils/TimeAgo'
 
 const NotificationModal = () => {
-    const { notificationpopup, getnotification } = useContext(notificationContext)
+    const { notificationpopup, getnotification, singleNotification } = useContext(notificationContext)
 
     return (
         <div className={`absolute  ${notificationpopup ? ' overflow-auto opacity-100 pointer-events-auto  translate-y-0 max-h-80 max-sm:max-h-50 p-1 z-40 ' : 'pointer-events-none  opacity-0 -translate-y-2  h-0 p-0 border-0 overflow-hidden '} w-45  max-[500px]:w-45 md:w-55 lg:w-60 right-26 max-sm:right-10 max-sm:top-10 top-14  border rounded transition-all ease duration-400 bg-zinc-900 border-zinc-700 shadow-2xl p-1 left`}>
@@ -12,7 +12,7 @@ const NotificationModal = () => {
 
             {
                 getnotification.map((elem) => {
-                    return <div key={elem._id} className="flex gap-3 rounded-lg bg-zinc-800 p-3 hover:bg-zinc-700 transition-colors cursor-pointer">
+                    return <div onClick={()=>{singleNotification(elem?._id)}} key={elem._id} className="flex gap-3 rounded-lg bg-zinc-800 p-3 hover:bg-zinc-700 transition-colors cursor-pointer">
                             {
                                 elem?.isApproved ? (
                                     <div className="flex h-10 max-sm:h-8 max-sm:w-8 w-10 items-center justify-center rounded-full bg-green-600 text-white text-lg">

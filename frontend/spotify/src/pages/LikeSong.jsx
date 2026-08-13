@@ -1,7 +1,6 @@
 import { RiHeartFill, RiPauseFill, RiPlayFill } from '@remixicon/react'
 import React, { useContext } from 'react'
 import { authHome } from '../contextapi/HomeContext'
-import Input from '../like/Input'
 import { Link, Navigate } from 'react-router-dom'
 import LikedPlaylist from '../component/likepagecomponent/LikedPlaylist'
 import LikedSong from '../component/likepagecomponent/LikedSong'

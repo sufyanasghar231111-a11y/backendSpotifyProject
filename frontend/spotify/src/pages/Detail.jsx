@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { RiHeartFill, RiPauseFill, RiPlayFill } from '@remixicon/react'
-import Input from '../like/Input'
 import Audioplay from '../component/singlesongpagecomponent/Audioplay'
 const Detail = () => {
 

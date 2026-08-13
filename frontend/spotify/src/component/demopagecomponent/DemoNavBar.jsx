@@ -6,9 +6,12 @@ import {
   RiSearchLine,
   RiSpotifyFill,
 } from '@remixicon/react'
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { demoContext } from '../../contextapi/DemoContext'
 
 const DemoNavBar = ({ setShowMobile}) => {
+  const { demoInput, setDemoInput } = useContext(demoContext)
 
   return (
     <nav className='flex items-center justify-between gap-2 w-full px-3 sm:px-5 md:px-7 lg:px-10 py-2 relative z-[150]'>
@@ -29,7 +32,7 @@ const DemoNavBar = ({ setShowMobile}) => {
           {/* Search bar: hidden on mobile, shown from sm up */}
           <div className='hidden sm:flex items-center gap-2 px-2.5 rounded-full border border-[#191919] bg-[#282828] hover:bg-[#292929] hover:border-white/10 transition-all duration-200 w-40 sm:w-48 md:w-72 lg:w-96'>
             <RiSearchLine className='text-[#898881] hover:text-[#dbd9d9] transition-all duration-300 hover:scale-105 cursor-pointer w-4 h-4 shrink-0' />
-            <input
+            <input onChange={(elem)=>{setDemoInput(elem.target.value)}} value={demoInput}
               type='text'
               className='outline-0 bg-transparent rounded-full w-full min-w-0 px-1.5 py-2 md:py-3 text-xs sm:text-sm'
               placeholder='What you want to play?'
@@ -39,7 +42,6 @@ const DemoNavBar = ({ setShowMobile}) => {
             </div>
           </div>
 
-          {/* Search icon button: mobile only, toggles search input below */}
           
         </div>
       </div>

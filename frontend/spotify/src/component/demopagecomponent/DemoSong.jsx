@@ -3,10 +3,11 @@ import { demoContext } from '../../contextapi/DemoContext'
 import { RiMusicLine, RiPlayFill } from '@remixicon/react'
 
 const DemoSong = () => {
-    const { musicData, setLoginPopup } = useContext(demoContext)
+    const { musicData, setLoginPopup, demoInput } = useContext(demoContext)
+    const filterData = musicData.filter(elem => elem.title.trim().toLowerCase().includes(demoInput.trim().toLowerCase()))
   return (
     <>
-        {musicData.map((item) => (
+        {filterData.map((item) => (
         <div
           key={item?._id}
           className='shrink-0 group w-44 rounded-lg

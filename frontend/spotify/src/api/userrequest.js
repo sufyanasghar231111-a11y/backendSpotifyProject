@@ -23,3 +23,7 @@ export const deleteRequest = (id) => {
 export const getSingleRequest = (id) => {
     return api.get(`/request/get-single-request/${id}`)
 }
+
+export const singleFetch = (id ) =>{
+    return api.get(`/request/update-request/${id}`)
+}

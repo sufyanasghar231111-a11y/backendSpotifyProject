@@ -1,10 +1,10 @@
 import { RiAlbumLine, RiArrowLeftSLine, RiArrowRightSLine, RiPlayListLine } from '@remixicon/react'
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import { timeAgo } from '../../utils/TimeAgo'
 import { demoContext } from '../../contextapi/DemoContext'
 
 const DemoAlbumPlaylist = () => {
-  const { albumData, playlistData } = useContext(demoContext)
+  const { albumData, playlistData, demoInput } = useContext(demoContext)
 
   const items = [
     ...albumData.map(elem => ({
@@ -18,6 +18,30 @@ const DemoAlbumPlaylist = () => {
     }))
   ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
+  const search = demoInput.trim().toLowerCase();
+
+  const filterData = items.filter(elem => {
+    const value = elem.type === 'playlist' ? elem.name : elem.title;
+
+    return value?.trim().toLowerCase().includes(search);
+  });
+
+  const sliderRef = useRef()
+
+  function rightRef() {
+    sliderRef.current.scrollBy({
+      left: 250,
+      behavior: 'smooth'
+    })
+  }
+
+  function leftRef() {
+    sliderRef.current.scrollBy({
+      left: -250,
+      behavior: 'smooth'
+    })
+  }
+
   return (
     <div className='relative'>
       <div className='flex items-center justify-between'>
@@ -26,7 +50,7 @@ const DemoAlbumPlaylist = () => {
         </h1>
       </div>
 
-      <button
+      <button onClick={leftRef}
         className='cursor-pointer absolute hover:bg-black/90
           -left-2 sm:-left-4 md:-left-5 top-1/2 -translate-y-1/2 z-20
           w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-black/70 text-white
@@ -35,8 +59,8 @@ const DemoAlbumPlaylist = () => {
         <RiArrowLeftSLine />
       </button>
 
-      <div className='flex relative overflow-x-auto scroll gap-2 sm:gap-3'>
-        {items.map((item) => {
+      <div ref={sliderRef} className='flex relative overflow-x-auto scroll gap-2 sm:gap-3'>
+        {filterData.map((item) => {
           return <React.Fragment key={item._id}>
             {item.type === 'album' && (
               <div
@@ -121,7 +145,7 @@ const DemoAlbumPlaylist = () => {
         })}
       </div>
 
-      <button
+      <button onClick={rightRef}
         className='cursor-pointer absolute hover:bg-black/90
           -right-2 sm:-right-3 top-1/2 -translate-y-1/2 z-20
           w-7 h-7 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-black/70 text-white

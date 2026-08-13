@@ -7,14 +7,14 @@ const AdminRoute = () => {
     const {user}=useContext(adminContext)
     const { authReady } = useContext(resetContext)
     if(!authReady){
-        return null
+        return <LoadingAnimation />
     }
     
     if(!user) {
         return <Navigate to='/login' replace />
     }
 
-    return user?.role === 'admin' ? <Outlet /> : <Navigate to='/login' replace />
+    return user?.role === 'admin' ? <Outlet /> : <Navigate to='/' replace />
 }
 
 export default AdminRoute

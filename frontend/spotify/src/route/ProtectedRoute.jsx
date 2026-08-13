@@ -9,7 +9,7 @@ const ProtectedRoute = () => {
     const { authReady} = useContext(resetContext)
 
     if(!authReady){
-        return null
+        return <LoadingAnimation />
     }
 
     if (!user) {
