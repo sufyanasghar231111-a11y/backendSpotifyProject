@@ -42,6 +42,7 @@ const ArtistMusicContext = ({ children }) => {
   const [songTitle, setSongTitle] = useState('')
   const [songuri, setSonguri] = useState(0)
   const [buttonLoader, setButtonLoader] = useState(false)
+  const [fielderror, setFielderror] = useState(false)
   let navigate = useNavigate()
 
   // album create modal context and state
@@ -173,9 +174,13 @@ const ArtistMusicContext = ({ children }) => {
       setMusic(prev => [res.data.music, ...prev])
       await getAlbumPlaylistMusic()
       setMusicCreateModal(false)
+      setSonguri('')
+      setSongTitle('')
     }
     catch (err) {
-      console.log(err);
+      if(err.response?.status === 400){
+        setFielderror(true)
+      }
     }
     finally {
       setButtonLoader(false)
@@ -239,7 +244,7 @@ const ArtistMusicContext = ({ children }) => {
   return (
     <musicContext.Provider value={{ musicEditPopup, setMusicEditPopup, updateMusic, setTitle, setThumbNail, title, thumbNail, musicPreview, setMusicPreview, deleteMusicPic }}>
       <albumContext.Provider value={{ albumEditModal, setAlbumEditModal, albumName, setAlbumName, albumImage, setAlbumImage, albumPreview, setAlbumPreview, updateArtistAlbum, deleteAlbumPic }}>
-        <CreateSongContext.Provider value={{ musicCreateModal, setMusicCreateModal, setSongTitle, setSonguri, songTitle, createSong, buttonLoader, deleteSong }}>
+        <CreateSongContext.Provider value={{ musicCreateModal, setMusicCreateModal, setSongTitle, setSonguri, songuri, songTitle, createSong, buttonLoader, deleteSong, fielderror }}>
           <CreateAlbumContext.Provider value={{albumCreateModal,setAlbumCreateModal, albumTitle,setAlbumTitle, albumButtonLoader, handleCreateAlbum, addToAlbum, addtoAlbumModal, setAddtoAlbumModal, ownAlbum, deleteAlbum}}>
             {children}
           </CreateAlbumContext.Provider>

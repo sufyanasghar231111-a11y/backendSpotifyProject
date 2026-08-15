@@ -14,7 +14,7 @@ const AdminNav = () => {
     const { user } = useContext(adminContext)
     const { getRequests } = useContext(requestContext)
     const pending = (getRequests.filter(elem => elem.requestStatus === 'Pending' && !elem.isChecked)).length
-    const { setHide, hide } = useContext(UIHomeContex)
+    const { setHide } = useContext(UIHomeContex)
 
 
     return (

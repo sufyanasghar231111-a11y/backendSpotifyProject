@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { authProvider, UIContext } from '../contextapi/AuthContext'
 import { RiLoader4Line, RiSpotifyFill } from '@remixicon/react'
 
+
 const OtpPage = () => {
   const { handleOtp, otp, handleOtpChange } = useContext(authProvider)
-  const { otploading, valid } = useContext(UIContext)
+  const { otploading, valid, invalidOtp } = useContext(UIContext)
  
 
   
@@ -80,7 +81,13 @@ const OtpPage = () => {
               </p>
             )}
           </div>
-
+          {
+            invalidOtp && (
+              <div className='pb-3 text-sm font-semibold text-red-500'>
+                Invalid Credentails
+              </div>
+            )
+          }
           {/* Button */}
           <button
             disabled={!valid || otploading}

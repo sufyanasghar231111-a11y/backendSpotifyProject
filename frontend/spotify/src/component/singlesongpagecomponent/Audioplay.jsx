@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { authHome } from '../../contextapi/HomeContext'
+import { authHome, UIHomeContex } from '../../contextapi/HomeContext'
 import { RiAddCircleLine, RiCheckLine, RiHeartFill, RiMusicLine, RiPauseFill, RiPencilLine, RiPlayFill, RiPlayListAddLine, RiPlayListLine } from '@remixicon/react'
 import { LibraryContext } from '../../contextapi/AuthContext'
 import { adminContext } from '../../contextapi/AdminContext'
@@ -15,15 +15,20 @@ const Audioplay = () => {
   let { library } = useContext(LibraryContext)
   const { setMusicEditPopup, setThumbNail, setMusicPreview } = useContext(musicContext)
   const { user } = useContext(adminContext)
+  const {  setDetailLoading } = useContext(UIHomeContex)
 
 
   async function fetchSingleMusic() {
     try {
+      setDetailLoading(true)
       const res = await fetch(id)
       setData(res.data.detail)
     }
     catch (err) {
       console.log(err);
+    }
+    finally{
+      setDetailLoading(false)
     }
   }
   useEffect(() => {

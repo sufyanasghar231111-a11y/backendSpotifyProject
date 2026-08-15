@@ -2,19 +2,25 @@ import React, { useContext } from 'react'
 import { adminUiContext } from '../../contextapi/AdminContext'
 import { RiCheckFill } from '@remixicon/react'
 import { LogoutContext } from '../../contextapi/AuthContext'
+import { Link } from 'react-router-dom'
 
 const AdminPfpModal = () => {
     const { adminProfileModal, setAdminProfileModal } = useContext(adminUiContext)
-    const {  setHideSure } = useContext(LogoutContext)
+    const { setHideSure } = useContext(LogoutContext)
     return (
         <div>
             <div className={`border border-zinc-800
   bg-[#141414] shadow-xl   ${adminProfileModal ? ' opacity-100 pointer-events-auto  translate-y-0 h-90 p-1 z-40 ' : ' pointer-events-none  opacity-0 -translate-y-2  h-0 p-0 border-0'} right-12 max-sm:right-5  max-sm:top-10 top-13   duration-300 rounded absolute   w-60  transition-all ease-in-out `}>
                 <div className='font-semibold text-sm text-[#bdbdbd] text-left w-full'>
+                    <Link to='/admin' >
                     <button onClick={() => { setAdminProfileModal(false) }} className='hover:bg-white/10 w-full py-2 px-3 text-left cursor-pointer' >DashBoard</button>
+                    </Link>
+                    <Link to='/admin/Settings' >
                     <button onClick={() => { setAdminProfileModal(false) }} className='hover:bg-white/10 w-full py-2 px-3 text-left cursor-pointer' >Admin Profile</button>
-                    <button onClick={() => { setAdminProfileModal(false) }} className='hover:bg-white/10 w-full py-2 px-3 text-left cursor-pointer' >Setting</button>
+                    </Link>
+                    <Link to='/admin/notifications'>
                     <button onClick={() => { setAdminProfileModal(false) }} className='hover:bg-white/10 w-full py-2 px-3 text-left cursor-pointer' >Notifications</button>
+                    </Link>
                     <button onClick={() => {
                         setHideSure(true)
                         setAdminProfileModal(false)

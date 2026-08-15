@@ -44,10 +44,10 @@ const AuthContext = ({ children }) => {
         email: '',
         otpHash: ''
     })
-    const [otpBased, setOtpBased] = useState(false)
     const [otploading, setOtpLoading] = useState(false)
     const [wrongPassword, setWrongPassword] = useState(false)
-    const [alreadyExist, setAlreadtExist] = useState(false)
+    const [alreadyExist, setAlreadyExist] = useState(false)
+     const [invalidOtp, setInvalidOtp] = useState(false)
 
     // All Toggle or true & false states 
     let [loading, setLoading] = useState(false)
@@ -107,7 +107,6 @@ const AuthContext = ({ children }) => {
                     password: passwordreg
                 }
             )
-            setOtpBased(true)
             navigate('/opt-verify')
             setUsername('')
             setEmailreg('')
@@ -115,8 +114,9 @@ const AuthContext = ({ children }) => {
 
         }
         catch (err) {
-            console.log(err);
-
+            if(err.response.status === 409){
+                setAlreadyExist(true)
+            }
         }
         finally {
             setLoading(false)
@@ -188,9 +188,10 @@ const AuthContext = ({ children }) => {
                 setUser(userRes.data.getAuthData);
 
             } catch (err) {
-                if (err?.response?.status === 401) {
-                    console.error("Auth initialization failed:", err);
-                }
+                console.log(err);
+                
+                setUser(null);
+            setAccessToken(null);
 
             } finally {
                 setAuthReady(true);
@@ -263,6 +264,10 @@ const AuthContext = ({ children }) => {
         catch (error) {
             if (error.response?.status !== 401) {
                 console.error("Auth initialization failed:", error);
+            }
+
+            if(error.response?.status === 400){
+                setInvalidOtp(true)
             }
 
         }
@@ -354,8 +359,8 @@ const AuthContext = ({ children }) => {
     }
 
     const auth = useMemo(() => ({
-        handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, login, setLogin, otpBased, handleOtp, otp, setOtp, handleOtpChange   // eslint-disable-next-line react-hooks/exhaustive-deps
-    }), [emailreg, passwordreg, login, otpBased, otp])
+        handleSumbit, emailreg, setEmailreg, passwordreg, setPasswordreg, handleLogin, handleChange, login, setLogin, handleOtp, otp, setOtp, handleOtpChange   // eslint-disable-next-line react-hooks/exhaustive-deps
+    }), [emailreg, passwordreg, login, otp])
 
     const logout = useMemo(() => ({
         handleLogout, hideSure, setHideSure
@@ -373,8 +378,8 @@ const AuthContext = ({ children }) => {
     }), [library])
 
     const ui = useMemo(() => ({
-        loading, setLoading, otploading, setOtpLoading, valid, loginValid, wrongPassword, regValid, alreadyExist
-    }), [loading, otploading, valid, loginValid, wrongPassword, regValid, alreadyExist])
+        loading, setLoading, otploading, setOtpLoading, valid, loginValid, wrongPassword, regValid, alreadyExist, invalidOtp
+    }), [loading, otploading, valid, loginValid, wrongPassword, regValid, alreadyExist, invalidOtp])
 
     return (
         <authProvider.Provider value={auth}>

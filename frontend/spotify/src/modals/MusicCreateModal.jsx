@@ -1,10 +1,11 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { X, Music } from 'lucide-react'
 import { CreateSongContext } from '../contextapi/ArtistMusicContext'
 import { RiLoader4Fill } from '@remixicon/react'
 
 const MusicCreateModal = () => {
-    const { musicCreateModal, setMusicCreateModal, setSongTitle, setSonguri, songTitle, createSong, buttonLoader } = useContext(CreateSongContext)
+    const { musicCreateModal, setMusicCreateModal, setSongTitle, setSonguri, songTitle, createSong, buttonLoader, fielderror } = useContext(CreateSongContext)
+    const [preview, setPreview] = useState(null)
 
     return (
         <>
@@ -12,12 +13,14 @@ const MusicCreateModal = () => {
                 musicCreateModal && (
                     <>
                         {/* Overlay */}
-                        <div
-                            className={`fixed inset-0 z-299 ${buttonLoader ? 'bg-black/80 cursor-not-allowed' : 'bg-black/60 cursor-pointer'}`}
+                        <div 
+                            className={`fixed inset-0 z-299 ${buttonLoader && fielderror ? 'bg-black/80 cursor-not-allowed' : 'bg-black/60 cursor-pointer'}`}
                             onClick={() => {
                                 if (!buttonLoader) {
                                     setMusicCreateModal(false)
                                 }
+                                setPreview(null)
+                                setSonguri(null)
                             }}
                         />
 
@@ -35,14 +38,25 @@ const MusicCreateModal = () => {
 
                             <form onSubmit={createSong} className="flex flex-col gap-3 sm:gap-4">
                                 {/* Song Upload */}
-                                <label className="relative h-28 sm:h-36 bg-white/5 border-2 border-dashed border-white/15 rounded-xl flex flex-col items-center justify-center hover:border-green-500 hover:bg-white/[0.07] transition cursor-pointer group">
-                                    <div className='flex items-center justify-center flex-col px-2 text-center'>
-                                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500/10 flex items-center justify-center mb-2 group-hover:scale-105 transition">
-                                            <Music className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" strokeWidth={1.8} />
-                                        </div>
 
-                                        <p className="text-sm font-medium text-white">Choose Song</p>
-                                        <p className="text-xs text-neutral-400">MP3, WAV up to 20MB</p>
+                                <label className={`relative h-28 sm:h-36 bg-white/5 border-2 border-dashed  rounded-xl flex flex-col items-center justify-center  ${fielderror ? 'hover:border-red-500 border-red-500/50 ' : 'hover:border-green-500 border-white/15'}  transition cursor-pointer group`}>
+                                    <div className='flex items-center justify-center flex-col px-2 text-center'>
+                                        {
+                                            preview ? (<p className="text-sm font-medium text-green-500">
+                                                Song Selected
+                                            </p>) : (
+                                                <>
+                                                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-green-500/10 flex items-center justify-center mb-2 group-hover:scale-105 transition">
+                                                        <Music className="w-5 h-5 sm:w-6 sm:h-6 text-green-500" strokeWidth={1.8} />
+                                                    </div>
+
+                                                    <p className="text-sm font-medium text-white">Choose Song</p>
+                                                    <p className="text-xs text-neutral-400">MP3, WAV up to 20MB</p>
+
+                                                </>
+                                            )
+                                        }
+
 
                                     </div>
 
@@ -50,12 +64,15 @@ const MusicCreateModal = () => {
                                         onChange={(elem) => {
                                             let file = elem.target.files[0]
                                             setSonguri(file)
+                                            setPreview(true)
                                         }}
                                         type="file"
                                         accept="audio/*"
                                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                     />
+
                                 </label>
+
 
                                 {/* Song Name */}
                                 <input
@@ -63,9 +80,13 @@ const MusicCreateModal = () => {
                                     onChange={(elem) => { setSongTitle(elem.target.value) }}
                                     type="text"
                                     placeholder="Song title"
-                                    className="bg-white/5 border border-white/10 text-white placeholder-neutral-500 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-green-500 focus:bg-white/[0.07] transition"
+                                    className={`bg-white/5 border  text-white placeholder-neutral-500 rounded-lg px-3 ${fielderror ? 'border-red-500' : 'border-white/10'} py-2.5 text-sm outline-none focus:border-green-500 focus:bg-white/[0.07] transition`}
                                 />
-
+                                {
+                                    fielderror && (
+                                        <div className='text-sm font-semibold text-red-500'>All Field Required</div>
+                                    )
+                                }
                                 {/* Button */}
                                 {
                                     buttonLoader ?

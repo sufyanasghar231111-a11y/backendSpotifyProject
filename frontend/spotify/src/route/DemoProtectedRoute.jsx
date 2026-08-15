@@ -17,7 +17,7 @@ const DemoProtectedRoute = () => {
     return <LoadingAnimation />
   }
 
-  if (!user) {
+  if (user === null ) {
     return <DemoPage />
   }
 

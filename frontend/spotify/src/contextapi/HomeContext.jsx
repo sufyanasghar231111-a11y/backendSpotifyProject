@@ -2,7 +2,6 @@ import React, { createContext, useCallback, useContext, useEffect, useMemo, useR
 
 import { createfav, deletefav, favGet } from '../api/favApi'
 import { resetContext } from './resetPasswordContext'
-import { authProvider } from './AuthContext'
 import { adminContext } from './AdminContext'
 
 
@@ -24,6 +23,8 @@ const HomeContext = ({ children }) => {
   let {  authReady } = useContext(resetContext)
   const {user} = useContext(adminContext)
   let [hideClose, setHideClose] = useState(false)
+  
+  const [detailLoading, setDetailLoading] = useState(true)
 
   
 
@@ -93,8 +94,8 @@ const HomeContext = ({ children }) => {
   }), [ fav,  createFav, deletemusic, data])
 
   const uiValue=useMemo(()=>({
-    hide,setHide,hidepro,setHidepro,hideClose,setHideClose
-  }),[hide, hidepro,hideClose])
+    hide,setHide,hidepro,setHidepro,hideClose,setHideClose , detailLoading, setDetailLoading
+  }),[hide, hidepro,hideClose, detailLoading])
 
   const value =useMemo(()=>({
     rightRef, silderRef, leftRef

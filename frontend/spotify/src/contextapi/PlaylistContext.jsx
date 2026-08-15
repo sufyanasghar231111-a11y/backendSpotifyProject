@@ -99,6 +99,7 @@ const PlaylistContext = ({ children }) => {
     detailData,
     setDetailData,
     setName,
+    name,
     setGetPlayList,
     create,
     getPlayList,
@@ -112,7 +113,7 @@ const PlaylistContext = ({ children }) => {
     setVisibleParticular,
     deleteCompletePlaylist,
     otherArtist, setOtherArtist
-  }), [detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi, visibleParticular, deleteCompletePlaylist, otherArtist])
+  }), [detailData, create, getPlayList, handleGetPlayList, handleCreatePlaylist, patchApi, deleteApi, visibleParticular, deleteCompletePlaylist, otherArtist, name])
 
 
   const uiValue = useMemo(() => ({

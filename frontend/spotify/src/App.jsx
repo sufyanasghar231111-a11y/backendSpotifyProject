@@ -31,6 +31,7 @@ import AdminRoute from './route/AdminRoute'
 import DashBoardRight from './component/adminPageComponent/dashBoardpageComponent/DashBoardRight'
 import DemoProtectedRoute from './route/DemoProtectedRoute'
 import DemoPage from './pages/DemoPage'
+import Page404 from './pages/Page404'
 
 
 function App() {
@@ -87,7 +88,7 @@ function App() {
             <Route path='searchmusic' element={<Musicforsearch />} />
           </Route>
         </Route>
-
+        <Route path='*' element={<Page404 />} />
       </Routes>
     </div>
   )

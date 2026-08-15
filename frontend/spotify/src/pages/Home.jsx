@@ -86,7 +86,7 @@ function Home() {
       </div>
 
       {/* footer */}
-      <footer className='w-full h-22 relative max-sm:h-20 bg-black'>
+      <footer className='w-full h-22 relative max-sm:h-18 bg-black'>
         {
           musicLoader && <FooterSkeletonLoader />
         }

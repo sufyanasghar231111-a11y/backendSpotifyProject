@@ -32,9 +32,9 @@ const Right = () => {
 
   return (
     <div className='w-[70%] max-sm:w-full relative ml-auto  rounded-lg overflow-hidden h-[76vh]'>
-      {
-        musicLoader && <RightSideSkeletonLoader />
-      }
+      {location.pathname === '/' && musicLoader && (
+      <RightSideSkeletonLoader />
+    )}
       
       <HideExtraDetail />
       <Outlet />

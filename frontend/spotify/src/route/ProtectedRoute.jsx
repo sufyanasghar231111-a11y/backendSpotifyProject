@@ -12,7 +12,7 @@ const ProtectedRoute = () => {
         return <LoadingAnimation />
     }
 
-    if (!user) {
+    if (user === null) {
         return <Navigate to='/' replace />
     }
 

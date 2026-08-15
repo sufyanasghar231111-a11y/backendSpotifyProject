@@ -22,7 +22,7 @@ export const logoutUser = () => {
 };
 
 export const updateUserPfp = (formData) => {
-    return api.put('/auth/updatepfp',formData)
+    return api.patch('/auth/updatepfp',formData)
 };
 
 export const deleteUserPfp=()=>{
@@ -32,4 +32,8 @@ export const deleteUserPfp=()=>{
 
 export const otpCreate = (data) => {
     return api.post('/otp/email-verify', data)
+}
+
+export const OtpSession = () => {
+    return api.get('/otp/check-otp-session')
 }

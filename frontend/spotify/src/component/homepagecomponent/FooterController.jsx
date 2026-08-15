@@ -33,9 +33,9 @@ function FooterController() {
               </div>
               <div>
                 <Link to={`/detail/${elem.music?._id}`}>
-                  <div className='text-green-500  font-mono'>{elem.music?.title}</div>
+                  <div className='text-green-500 max-sm:text-xs  font-mono'>{elem.music?.title}</div>
                 </Link>
-                <h1 className='text-sm text-[#807f7f] max-sm:text-xs font-mono'>{elem.music?.artist?.username}</h1>
+                <h1 className=' text-[#807f7f] max-sm:text-[10px] font-mono'>{elem.music?.artist?.username}</h1>
               </div>
             </div>
             <div className='flex flex-col gap-2 max-sm:gap-2 items-center'>
