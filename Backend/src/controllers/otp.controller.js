@@ -1,7 +1,7 @@
 const postSchema = require('../models/post.model')
 const otpSchema = require('../models/otp.model')
 const jwt = require('jsonwebtoken')
-const logoutSchema=require('../models/logout.model')
+const logoutSchema = require('../models/logout.model')
 const crypto = require('crypto')
 const config = require('../config/config')
 
@@ -13,7 +13,8 @@ const verifyEmail = async (req, res) => {
 
         const findOtp = await otpSchema.findOne({
             otpHash: otp,
-            email
+            email,
+            expiresAt: { $gt: Date.now() }
         })
 
         if (!findOtp) {
@@ -23,12 +24,19 @@ const verifyEmail = async (req, res) => {
         }
 
         const user = await postSchema.findByIdAndUpdate(findOtp.user, {
-            verified: true
+            verified: true,
+            expiresAt:null
         },
             {
                 new: true
             }
         )
+
+        if (!user) {
+            return res.status(400).json({
+                message: "User not found or registration expired"
+            })
+        }
 
         await otpSchema.deleteMany({
             user: findOtp.user
@@ -64,9 +72,9 @@ const verifyEmail = async (req, res) => {
         )
 
         await postSchema.findByIdAndUpdate(user._id, {
-            lastActive:new Date(),
-            isOnline:true,
-            isActive:true
+            lastActive: new Date(),
+            isOnline: true,
+            isActive: true
         })
 
         res.cookie('refreshToken', refreshToken, {
@@ -78,13 +86,13 @@ const verifyEmail = async (req, res) => {
 
         res.status(200).json({
             message: "successfull register",
-            user:{
-                _id:user._id,
-                username:user.username,
-                email:user.email,
-                role:user.role,
-                verified:user.verified,
-                pfp:user.pfp
+            user: {
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                verified: user.verified,
+                pfp: user.pfp
             },
             accessToken
         })
@@ -98,4 +106,39 @@ const verifyEmail = async (req, res) => {
     }
 }
 
-module.exports = { verifyEmail }
+const otpSession = async (req, res ) => {
+    try{
+        const token = req.cookies.tokenRegister
+
+        if(!token){
+          return  res.status(401).json({
+                message:"Token is Not Provide"
+            })
+        }
+        const decoded = jwt.verify(token, config.SECRET_JWT)
+
+        const user = await postSchema.findOne({
+            _id:decoded.userId,
+            verified:false
+        })
+
+        if(!user){
+            return res.status(401).json({
+                message:'Otp session is expired'
+            })
+        }
+
+        res.status(200).json({
+            success:true,
+            email:user.email
+        })
+
+    }
+    catch(err){
+        res.status(401).json({
+            message:"Otp session is expired"
+        })
+    }
+}
+
+module.exports = { verifyEmail, otpSession }

@@ -52,6 +52,12 @@ const postSchema = new mongoose.Schema({
     artistApprovedAt:{
         type:Date,
         default:null
+    },
+
+    expiresAt:{
+        type:Date,
+        default:null,
+        index:{expires:0}
     }
 
 },

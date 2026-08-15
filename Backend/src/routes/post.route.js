@@ -10,7 +10,7 @@ const asyncHandler = require('../utils/asyncHandler')
 router.post('/register',upload.single('pfp'),asyncHandler(routerRegister.register))
 router.post('/login', asyncHandler(routerLogin.login))
 router.get('/user', middleware.auth,  routerLogin.getUser)
-router.put('/updatepfp',upload.single('pfp') ,middleware.authorize('user', 'artist'), routerLogin.updatePfp )
+router.patch('/updatepfp',upload.single('pfp') ,middleware.authorize('user', 'artist'), routerLogin.updatePfp )
 router.patch('/updateadminpfp',upload.single('pfp') ,middleware.authorize('admin'), routerLogin.updateAdminPfp )
 router.delete('/removePfp', upload.single('pfp') , middleware.authorize('user', 'artist', 'admin'), routerLogin.removePfp )
 

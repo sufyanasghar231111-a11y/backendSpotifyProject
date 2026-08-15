@@ -44,7 +44,9 @@ async function register(req, res) {
         email,
         password: hashPassword,
         role,
-        pfp: imagUrl
+        pfp: imagUrl,
+        verified: false,
+        expiresAt: new Date(Date.now() + 15 * 60 * 1000)
     })
 
     const otp = otpGenerate()
@@ -57,7 +59,26 @@ async function register(req, res) {
     await otpModel.create({
         user: user._id,
         email,
-        otpHash
+        otpHash,
+        expiresAt: new Date(Date.now() + 15 * 60 * 1000)
+    })
+
+
+    const tokenRegister = jwt.sign(
+        {
+            userId: user._id
+        },
+        config.SECRET_JWT,
+        {
+            expiresIn: '15m'
+        }
+    )
+
+    res.cookie('tokenRegister', tokenRegister, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: false,
+        maxAge: 15 * 60 * 1000
     })
 
 
@@ -102,7 +123,7 @@ async function login(req, res) {
     }
 
     const comparePassword = await bcrypt.compare(password, user.password)
-    
+
     if (!comparePassword) {
         throw new AppError('Unauthorized', 401)
     }
@@ -192,14 +213,14 @@ async function updatePfp(req, res) {
             username
         }
 
-        if(req.file){
+        if (req.file) {
             const result = await uploadPfp(req.file.buffer)
             updateData.pfp = result.url
         }
 
         const user = await postSchema.findByIdAndUpdate(
             req.user.id, {
-            updateData
+            $set:updateData
         },
             { new: true }
         )
@@ -213,7 +234,7 @@ async function updatePfp(req, res) {
     catch (err) {
         res.status(500).json({
             message: "Internal error",
-            err:err.message
+            err: err.message
         })
     }
 }

@@ -24,8 +24,8 @@ transport.verify((error, success)=>{
 })
 
 
-const sendEmail = (to, subject, text, html) => {
-    const info=transport.sendMail({
+const sendEmail = async (to, subject, text, html) => {
+    const info= await transport.sendMail({
         from:`Your Email is ${process.env.EMAIL}`,
         to,
         subject,
