@@ -18,14 +18,14 @@ transport.verify((error, success)=>{
         console.error(`Email is not ready to send ${error}`);
     }
     else{
-        console.log(` Email is ready to send ${success}` );
+        console.log("Email is ready to send");
         
     }
 })
 
 
-const sendEmail = async (to, subject, text, html) => {
-    const info= await transport.sendMail({
+const sendEmail =   (to, subject, text, html) => {
+    const info=  transport.sendMail({
         from:`Your Email is ${process.env.EMAIL}`,
         to,
         subject,

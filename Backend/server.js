@@ -1,7 +1,22 @@
 const app=require('./src/app')
 const connectDb=require('./src/db/db')
-connectDb()
+const dns = require('dns')
+dns.setDefaultResultOrder('ipv4first')
 
-app.listen(3000, ()=>{
-    console.log("Port no 3000 is running http://localhost:3000 ");
-})
+const PORT = process.env.PORT || 3000
+
+const startServer =  async ()  => {
+    try{
+        await connectDb()
+        app.listen(PORT, '0.0.0.0', ()=>{
+             console.log(`Server running on port ${PORT}`)
+        })
+    }
+    catch(error){
+        console.error('Server startup failed:', error.message)
+        process.exit(1)
+    }
+}
+startServer()
+
+

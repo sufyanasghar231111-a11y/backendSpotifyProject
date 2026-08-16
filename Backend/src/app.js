@@ -18,14 +18,30 @@ const cors = require('cors');
 const activeRouter = require('./routes/active.route')
 const demoRouter =require('./routes/Demo.route')
 const errorHanlder = require('./middleware/errorHandler')
+const path = require('path')
 
 const app= express()
 
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:3008',
+    'http://localhost:3009'
+]
+
 app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true
-}));
+    origin: (origin, callback) =>{
+        if(!origin || allowedOrigins.includes(origin)){
+            callback(null, true)
+        }
+        else{
+            callback(new Error('Not allowed by cors'))
+        }
+    },
+    credentials:true
+}))
+
 app.use(express.json())
+
 
 app.use(cookie())
 app.use('/api/auth', router)
@@ -61,6 +77,13 @@ app.use('/api/active', activeRouter)
 
 app.use('/api/demo', demoRouter)
 
+
+const frontendpath = path.join(__dirname, '../public')
+app.use(express.static(frontendpath))
+
+app.get('/{*splat}', (req, res) => {
+    res.sendFile(path.join(frontendpath, 'index.html'))
+})
 app.use(errorHanlder)
 
 module.exports=app
