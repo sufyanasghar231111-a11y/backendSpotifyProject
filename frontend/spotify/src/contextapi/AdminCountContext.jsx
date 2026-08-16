@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { adminCountRole, totalCountRole, updateadminProfile } from '../api/AdminApi'
 import { adminContext } from './AdminContext'
-import { resetContext } from './resetPasswordContext'
+import { resetContext } from './ResetPasswordContext'
 
 export const adminCountContext = createContext()
 export const updateProfileContext = createContext()

@@ -4,7 +4,7 @@ import Home from '../pages/Home'
 import DemoPage from '../pages/DemoPage'
 import { Navigate, Outlet } from 'react-router-dom'
 import Admin from '../pages/adminpage/Admin'
-import { resetContext } from '../contextapi/resetPasswordContext'
+import { resetContext } from '../contextapi/ResetPasswordContext'
 import LoadingAnimation from '../component/homepagecomponent/LoadingAnimation'
 
 const DemoProtectedRoute = () => {

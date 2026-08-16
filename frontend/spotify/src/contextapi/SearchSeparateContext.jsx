@@ -6,7 +6,7 @@ import { authPlaylist } from './PlaylistContext'
 import { getMusicAlbumPlaylist, patchtext, separateGet, updatevisibility } from '../api/albumApi'
 import { musciControl } from './MusicControllerContext'
 import { audioContext } from './AudioProvider'
-import { resetContext } from './resetPasswordContext'
+import { resetContext } from './ResetPasswordContext'
 import { adminContext } from './AdminContext'
 
 // eslint-disable-next-line react-refresh/only-export-components

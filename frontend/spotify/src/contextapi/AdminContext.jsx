@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { adminCheckRole, blockRoles, montlyActiveUser, songAlbumCount, totalRole, unblockRoles, withOutPage } from '../api/AdminApi'
-import { resetContext } from './resetPasswordContext'
+import { resetContext } from './ResetPasswordContext'
 import { getMusicAlbumPlaylist } from '../api/albumApi'
 import { create } from 'axios'
 

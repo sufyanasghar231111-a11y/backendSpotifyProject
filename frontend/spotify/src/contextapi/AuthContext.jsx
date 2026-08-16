@@ -8,7 +8,7 @@ import { authPlaylist } from '../contextapi/PlaylistContext';
 import { checkUser, deleteUserPfp, loginUser, logoutUser, otpCreate, register, rotation, updateUserPfp } from '../api/authApi';
 import { deleteLibraryData, getLibraryData, updateLibraryData } from '../api/library';
 import { setAccessToken, removeAccessToken } from '../api/accessToken';
-import { resetContext } from './resetPasswordContext';
+import { resetContext } from './ResetPasswordContext';
 import { adminContext } from './AdminContext';
 
 let authInitializationPromise = null;
@@ -107,13 +107,14 @@ const AuthContext = ({ children }) => {
                     password: passwordreg
                 }
             )
-            navigate('/opt-verify')
+            navigate('/otp-verify')
             setUsername('')
             setEmailreg('')
             setPasswordreg('')
 
         }
         catch (err) {
+            console.log("REGISTER ERROR:", err)
             if(err.response.status === 409){
                 setAlreadyExist(true)
             }

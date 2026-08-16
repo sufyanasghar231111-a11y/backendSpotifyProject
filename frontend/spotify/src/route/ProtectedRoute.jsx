@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { adminContext } from '../contextapi/AdminContext'
 import { Navigate, Outlet } from 'react-router-dom'
-import { resetContext } from '../contextapi/resetPasswordContext'
+import { resetContext } from '../contextapi/ResetPasswordContext'
 import LoadingAnimation from '../component/homepagecomponent/LoadingAnimation'
 
 const ProtectedRoute = () => {

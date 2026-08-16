@@ -2,7 +2,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import axios from 'axios'
 import { deleterecent, getrecent, patchrecent, patchrecentalbum } from '../api/recent'
-import { resetContext } from './resetPasswordContext'
+import { resetContext } from './ResetPasswordContext'
 import { adminContext } from './AdminContext'
 
 export const  authRecent=createContext()

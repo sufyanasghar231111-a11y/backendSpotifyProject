@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { RiMailSendLine, RiCloseLine } from '@remixicon/react'
-import { resetContext } from '../../contextapi/resetPasswordContext'
+import { resetContext } from '../../contextapi/ResetPasswordContext'
 
 const PopUpModel = () => {
   const { popup, setPopup } = useContext(resetContext)

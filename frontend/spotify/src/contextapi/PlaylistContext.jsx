@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react'
 import { deleteplaylist, deleteUserPlaylist, getplaylist, patchplaylist, postplaylist } from '../api/playlistApi'
-import { resetContext } from './resetPasswordContext'
+import { resetContext } from './ResetPasswordContext'
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react'
 import { adminContext } from './AdminContext';

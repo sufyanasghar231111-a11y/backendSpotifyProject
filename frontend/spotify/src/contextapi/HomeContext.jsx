@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 
 import { createfav, deletefav, favGet } from '../api/favApi'
-import { resetContext } from './resetPasswordContext'
+import { resetContext } from './ResetPasswordContext'
 import { adminContext } from './AdminContext'
 
 

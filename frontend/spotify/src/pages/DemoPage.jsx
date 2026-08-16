@@ -3,7 +3,7 @@ import DemoLeft from '../component/demopagecomponent/DemoLeft'
 import DemoRight from '../component/demopagecomponent/DemoRight'
 import DemoFooter from '../component/demopagecomponent/DemoFooter'
 import DemoNavBar from '../component/demopagecomponent/DemoNavBar'
-import DemoLoginPopup from '../modals/demoLoginPopup'
+import DemoLoginPopup from '../modals/DemoLoginPopup'
 import { demoContext } from '../contextapi/DemoContext'
 import { useLocation } from 'react-router-dom'
 

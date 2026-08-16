@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { resetContext } from '../../contextapi/resetPasswordContext'
+import { resetContext } from '../../contextapi/ResetPasswordContext'
 import { RiLoader4Line, RiSpotifyFill } from '@remixicon/react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'

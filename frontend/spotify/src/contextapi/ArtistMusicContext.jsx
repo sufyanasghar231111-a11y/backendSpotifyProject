@@ -6,7 +6,7 @@ import { authHome } from './HomeContext'
 import { authPlaylist } from './PlaylistContext'
 import { addSong, albumArtist, createAlbum, deleteAlbumThumbNail, deleteToSong, particularAlbum } from '../api/albumApi'
 import { useNavigate } from 'react-router-dom'
-import { resetContext } from './resetPasswordContext'
+import { resetContext } from './ResetPasswordContext'
 import { adminContext } from './AdminContext'
 
 // eslint-disable-next-line react-refresh/only-export-components

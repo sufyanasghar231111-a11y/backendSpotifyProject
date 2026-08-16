@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { resetContext } from '../../contextapi/resetPasswordContext'
+import { resetContext } from '../../contextapi/ResetPasswordContext'
 import { RiLoader4Line, RiSpotifyFill } from '@remixicon/react'
 const ForgetComponent = () => {
     const {resetEmail,setResetEmail,checkEmail,resetLoading}=useContext(resetContext)

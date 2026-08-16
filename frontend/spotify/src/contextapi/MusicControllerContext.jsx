@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState, useMemo } from 'react'
 import { audioContext } from '../contextapi/AudioProvider';
 import {getMusic, patchMusic} from '../api/favApi'
-import { resetContext } from './resetPasswordContext';
+import { resetContext } from './ResetPasswordContext';
 import { adminContext } from './AdminContext';
 
 export const musciControl = createContext()

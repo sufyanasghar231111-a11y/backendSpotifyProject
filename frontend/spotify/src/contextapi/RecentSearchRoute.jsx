@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { deleterecentSearch, getrecentSearch, patchrecentalbumSearch, patchrecentSearch, songsearch } from '../api/recentSearch';
-import { resetContext } from './resetPasswordContext';
+import { resetContext } from './ResetPasswordContext';
 import { adminContext } from './AdminContext';
 
 export const authSearch=createContext()

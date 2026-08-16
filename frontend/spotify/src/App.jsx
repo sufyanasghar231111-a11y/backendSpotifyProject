@@ -15,7 +15,7 @@ import LoadingAnimation from './component/homepagecomponent/LoadingAnimation'
 import Musicforsearch from './pages/Musicforsearch'
 import ForgetPassword from './pages/ForgetPassword'
 import ResetPassword from './pages/ResetPassword'
-import { resetContext } from './contextapi/resetPasswordContext'
+import { resetContext } from './contextapi/ResetPasswordContext'
 import ProtectedOtpRoute from './route/ProtectedOtpRoute'
 import OtpPage from './pages/OtpPage'
 import PublicRoute from './route/PublicRoute'
@@ -52,9 +52,9 @@ function App() {
           <Route path='/reset-password/:token' element={<ResetPassword />} />
         </Route>
 
-        {/* Public opt-route */}
+        {/* Public otp-route */}
         <Route element={<ProtectedOtpRoute />} >
-          <Route path='/opt-verify' element={<OtpPage />} />
+          <Route path='/otp-verify' element={<OtpPage />} />
         </Route>
 
 

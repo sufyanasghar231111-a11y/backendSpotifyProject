@@ -7,7 +7,7 @@ import { authPlaylist, UIPlaylistContext } from '../contextapi/PlaylistContext'
 import { handleSingle, singlevisible } from '../api/recentSearch'
 import { adminContext } from '../contextapi/AdminContext'
 import PlaylistUpdate from '../component/playlistpagecomponent/PlaylistUpdate'
-import PlaylistDetail from '../component/playlistpagecomponent/playlistDetail'
+import PlaylistDetail from '../component/playlistpagecomponent/PlaylistDetail'
 import ToggleButton from '../component/playlistpagecomponent/ToggleButton'
 import SongsInPlaylist from '../component/playlistpagecomponent/SongsInPlaylist'
 
