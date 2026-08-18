@@ -7,7 +7,6 @@ COPY ./frontend/spotify/package*.json ./
 RUN npm install
 
 COPY ./frontend/spotify ./
-COPY ./frontend/spotify/.env.example ./.env
 RUN npm run build
 
 
@@ -21,8 +20,10 @@ RUN npm install
 
 COPY ./Backend ./
 
+// Remove Old Public file 
+RUN rm -rf /app/public 
 COPY --from=frontend-builder /app/dist ./public
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["node", "server.js"]
