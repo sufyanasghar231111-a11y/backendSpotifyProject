@@ -6,15 +6,20 @@ if(!process.env.EMAIL){
     throw new Error('Email is not defined in env file')
 }
 
-const hasAppPassword = Boolean(process.env.EMAIL_PASS)
-const hasOAuth2 = Boolean(
-    process.env.GOOGLE_CLIENT_ID &&
-    process.env.GOOGLE_CLIENT_SECRET &&
-    process.env.GOOGLE_REFRESH_TOKEN
-)
+if(!process.env.EMAIL_PASS){
+    throw new Error('EMAIL_PASS is not defined in env file')
+}
 
-if(!hasAppPassword && !hasOAuth2){
-    throw new Error('Set EMAIL_PASS for Gmail app-password auth, or configure GOOGLE_CLIENT_ID/GOOGLE_CLIENT_SECRET/GOOGLE_REFRESH_TOKEN for OAuth2.')
+if(!process.env.GOOGLE_CLIENT_ID){
+    throw new Error('GOOGLE_CLIENT_ID is not defined in env file')
+}
+
+if(!process.env.GOOGLE_CLIENT_SECRET){
+    throw new Error('GOOGLE_CLIENT_SECRET is not defined in env file')
+}
+
+if(!process.env.GOOGLE_REFRESH_TOKEN){
+    throw new Error('GOOGLE_REFRESH_TOKEN is not defined in env file')
 }
 
 if(!process.env.MONGO_URI){
@@ -44,6 +49,8 @@ if(!process.env.ACCESS_TOKEN){
 if(!process.env.SECRET_JWT){
     throw new Error('SECRET_JWT is not defined in env file')
 }
+
+
 
 const config = {
     EMAIL:process.env.EMAIL,

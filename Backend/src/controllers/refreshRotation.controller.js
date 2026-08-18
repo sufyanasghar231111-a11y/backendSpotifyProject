@@ -4,12 +4,12 @@ const logoutSchema = require("../models/logout.model")
 const crypto = require('crypto')
 const config = require('../config/config')
 
-function generatedAccessToken(user,session) {
+function generatedAccessToken(user, session) {
     return jwt.sign(
         {
             id: user._id,
             role: user.role,
-            sessionId:session._id
+            sessionId: session._id
         },
         config.ACCESS_TOKEN,
         {
@@ -41,40 +41,40 @@ const refreshTokenRotation = async (req, res) => {
         }
 
         const decoded = jwt.verify(refreshToken, config.SECRET_JWT)
-        
+
         const user = await postSchema.findById(decoded.id)
-        
+
         if (!user) {
             return res.status(404).json({
                 message: "user is not found"
             })
         }
-        const refreshTokenHash= crypto.createHash('sha256').update(refreshToken).digest('hex')
-        
-        const session=await logoutSchema.findOne({
-           refreshTokenHash:refreshTokenHash,
-            revoke:false
+        const refreshTokenHash = crypto.createHash('sha256').update(refreshToken).digest('hex')
+
+        const session = await logoutSchema.findOne({
+            refreshTokenHash: refreshTokenHash,
+            revoke: false
         })
 
-        if(!session){
+        if (!session) {
             return res.status(401).json({
-                message:"invalid token"
+                message: "invalid token"
             })
         }
 
         const RefreshToken = generatedRefreshToken(user)
 
-        const refreshHash= crypto.createHash('sha256').update(RefreshToken).digest('hex')
+        const refreshHash = crypto.createHash('sha256').update(RefreshToken).digest('hex')
 
-        session.refreshTokenHash=refreshHash,
-        await session.save()
+        session.refreshTokenHash = refreshHash,
+            await session.save()
 
         const accessToken = generatedAccessToken(user, session)
 
         res.cookie('refreshToken', RefreshToken, {
             httpOnly: true,
-            sameSite: "lax",
-            secure: false,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
@@ -118,23 +118,27 @@ const logoutAll = async (req, res) => {
         )
         const makeOffline = await postSchema.findByIdAndUpdate(req.user.id,
             {
-                isOnline:false
+                isOnline: false
             }
         )
-        
-        res.clearCookie('refreshToken')
+
+        res.clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+        })
 
         res.status(200).json({
             message: "successful logout from all device",
-            makeOffline:{
-                isOnline:makeOffline.isOnline
+            makeOffline: {
+                isOnline: makeOffline.isOnline
             }
         })
     }
     catch (err) {
         res.status(500).json({
             message: "Internal Error",
-            error:err.message
+            error: err.message
         })
     }
 }

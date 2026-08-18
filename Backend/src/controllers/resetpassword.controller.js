@@ -29,7 +29,10 @@ async function checkAuth(req, res) {
 
         // send email
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port:465,
+            secure:true,
+            family:4,
             auth: {
                 user: config.EMAIL,
                 pass: config.EMAIL_PASS

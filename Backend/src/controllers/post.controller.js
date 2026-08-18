@@ -76,8 +76,8 @@ async function register(req, res) {
 
     res.cookie('tokenRegister', tokenRegister, {
         httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        secure: false,
         maxAge: 15 * 60 * 1000
     })
 
@@ -164,13 +164,12 @@ async function login(req, res) {
 
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: false,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         maxAge: 7 * 24 * 60 * 60 * 1000
     })
 
     res.status(201).json({
-        message: "successful",
         _id: user._id,
         success: true,
         message: "Successful login",
@@ -220,7 +219,7 @@ async function updatePfp(req, res) {
 
         const user = await postSchema.findByIdAndUpdate(
             req.user.id, {
-            $set:updateData
+            $set: updateData
         },
             { new: true }
         )
