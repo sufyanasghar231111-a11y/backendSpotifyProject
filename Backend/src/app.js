@@ -18,11 +18,14 @@ const cors = require('cors');
 const activeRouter = require('./routes/active.route')
 const demoRouter = require('./routes/Demo.route')
 const errorHanlder = require('./middleware/errorHandler')
+const conversationRoute = require("./routes/conversation.route")
+const messageRoute = require('./routes/message.route')
 const path = require('path')
 
 const app = express()
 
-// one error here during deployment time i did'nt add frontend URL mean railway domain also first frontendpath then cors and in the last splat like frontend path and then error handler 
+// one error here during deployment time i did'nt add frontend URL mean railway domain also first frontendpath then cors and in the last splat like frontend path and then error handler
+// Express CORS → REST/API requests 
 const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:3009',
@@ -94,14 +97,13 @@ app.use('/api/otp', otpRoute)
 // User request from admin for artist 
 app.use('/api/request', requestRouter)
 
-
 app.use('/api/active', activeRouter)
 
 app.use('/api/demo', demoRouter)
 
+app.use('/api/conversations', conversationRoute)
 
-
-
+app.use('/api/message', messageRoute)
 
 app.get('/{*splat}', (req, res) => {
 
