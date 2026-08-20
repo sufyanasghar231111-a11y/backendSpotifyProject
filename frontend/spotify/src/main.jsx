@@ -20,6 +20,7 @@ import ArtistMusicContext from './contextapi/ArtistMusicContext.jsx'
 import AdminContext from './contextapi/AdminContext.jsx'
 import AdminCountContext from './contextapi/AdminCountContext.jsx'
 import DemoContext from './contextapi/DemoContext.jsx'
+import ChatContext from './contextapi/ChatContext.jsx'
 
 
 createRoot(document.getElementById('root')).render(
@@ -30,29 +31,31 @@ createRoot(document.getElementById('root')).render(
         <AdminContext>
           <AdminCountContext>
             <UserRequest >
-              <PlaylistContext >
-                <PlaylistUpdateContext>
-                  <AudioProvider >
-                    <MusicControllerContext >
-                      <RecentRoute>
-                        <RecentSearchRoute >
-                          <SearchSeparateContext>
-                            <AuthContext >
-                              <HomeContext >
-                                <ArtistMusicContext>
-                                  <DemoContext>
-                                    <App />
-                                  </DemoContext>
-                                </ArtistMusicContext>
-                              </HomeContext>
-                            </AuthContext>
-                          </SearchSeparateContext>
-                        </RecentSearchRoute>
-                      </RecentRoute>
-                    </MusicControllerContext>
-                  </AudioProvider>
-                </PlaylistUpdateContext>
-              </PlaylistContext>
+              <ChatContext>
+                <PlaylistContext >
+                  <PlaylistUpdateContext>
+                    <AudioProvider >
+                      <MusicControllerContext >
+                        <RecentRoute>
+                          <RecentSearchRoute >
+                            <SearchSeparateContext>
+                              <AuthContext >
+                                <HomeContext >
+                                  <ArtistMusicContext>
+                                    <DemoContext>
+                                      <App />
+                                    </DemoContext>
+                                  </ArtistMusicContext>
+                                </HomeContext>
+                              </AuthContext>
+                            </SearchSeparateContext>
+                          </RecentSearchRoute>
+                        </RecentRoute>
+                      </MusicControllerContext>
+                    </AudioProvider>
+                  </PlaylistUpdateContext>
+                </PlaylistContext>
+              </ChatContext>
             </UserRequest>
           </AdminCountContext>
         </AdminContext>

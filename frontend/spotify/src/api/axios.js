@@ -1,7 +1,8 @@
 import axios from "axios";
 import { getAccessToken, setAccessToken } from "./accessToken";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL 
+
 
 export const refreshApi = axios.create({
     baseURL: API_BASE_URL,

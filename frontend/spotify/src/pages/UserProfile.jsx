@@ -13,13 +13,14 @@ import ArtistStatsChart from '../component/profilepagecomponent/ArtistStatsChart
 import OtherUserProfile from '../component/profilepagecomponent/OtherUserProfile';
 import { particularAlbumbyUser } from '../api/albumApi';
 import { totalSong } from '../api/artistMusic';
+import { ConversationContext } from '../contextapi/ChatContext';
 
 const UserProfile = () => {
 
-  const { user } = useContext(adminContext)
-
+  const { user, userId, setUserId } = useContext(adminContext)
+  const { setChatInput, chatInput, sendMessage, conversation} = useContext(ConversationContext)
+  
   const { visibleParticular, setVisibleParticular, otherArtist, setOtherArtist } = useContext(authPlaylist)
-  const [userId, setUserId] = useState([])
   const [totalMusicByArtist, setTotalMusicByArtist] = useState(null)
 
   const { id } = useParams()
@@ -88,10 +89,10 @@ const UserProfile = () => {
     <div className='w-full ml-auto rounded-xl overflow-hidden h-[76vh] bg-[#1f1f1f] text-white'>
 
       {/* HEADER */}
-      <div className='w-full flex gap-6 items-center bg-gradient-to-br from-[#4a4a4a] to-[#2b2b2b] sticky top-0 py-5 px-8 shadow-lg'>
+      <div className='w-full flex justify-between  gap-6 items-center bg-gradient-to-br from-[#4a4a4a] to-[#2b2b2b] sticky top-0 py-5 px-8 shadow-lg'>
 
         {/* Avatar */}
-
+        <div className=' flex items-center gap-6'>
         <CheckOwn isown={isown} trimname={trimname} profileData={profileData} />
 
         {/* Info */}
@@ -105,6 +106,11 @@ const UserProfile = () => {
           <h1 className='pt-2 font-medium text-sm text-[#b5b5b5]'>
             {visibleParticular.length} Playlists
           </h1>
+        </div>
+        </div>
+        <div className=''>
+          <input type="text" value={chatInput} onChange={(elem) =>{setChatInput(elem.target.value)}} className=' border ' />
+          <button disabled={!conversation?._id || !chatInput} onClick={sendMessage}>Send</button>
         </div>
       </div>
 

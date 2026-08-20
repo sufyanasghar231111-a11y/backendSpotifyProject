@@ -13,11 +13,11 @@ function Login() {
 
   return (
     <div className='w-full  text-white'>
-      <div className='flex items-center justify-center lg:pt-17 md:pt-0 pt-0 max-sm:pt-0'>
-        <div className='w-100 max-sm:w-full  flex justify-center pt-7 max-sm:pt-5'>
+      <div className='flex items-center justify-center lg:pt-17 md:pt-0 pt-0 max-sm:pt-10'>
+        <div className='w-100 max-sm:w-full  flex justify-center pt-7 max-sm:pt-7'>
           <div className='text-center'>
-            <h1 className='flex items-center justify-center'><RiSpotifyFill className='w-10 max-sm:w-6 max-sm:h-6  h-10' /></h1>
-            <h1 className='py-3 max-sm:py-1 font-bold text-4xl lg:text-5xl max-sm:text-3xl md:text-4xl'>Welcome back</h1>
+            <h1 className='flex items-center justify-center'><RiSpotifyFill className='w-10 max-sm:w-8 max-sm:h-8  h-10' /></h1>
+            <h1 className='py-3 max-sm:py-3 font-bold text-4xl lg:text-5xl max-sm:text-3xl md:text-4xl'>Welcome back</h1>
             <form
               onSubmit={handleLogin}
               className="w-full flex flex-col"

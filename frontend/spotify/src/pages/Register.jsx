@@ -11,12 +11,12 @@ function Register() {
 
   return (
     <div className='text-white'>
-      <div className='flex items-center justify-center px-4 pt-0 lg:pt-3 md:pt-0 max-sm:pt-0'>
-          <div className='w-full max-w-md flex justify-center md:pt-4 pt-4 lg:pt-3 max-sm:pt-5'>
+      <div className='flex items-center justify-center px-4 pt-0 lg:pt-3 md:pt-0 max-sm:pt-7'>
+          <div className='w-full max-w-md flex justify-center  md:pt-4 pt-4 lg:pt-3 max-sm:pt-5'>
             <div className='text-center w-100 max-sm:w-70'>
               <h1 className='flex items-center justify-center'><RiSpotifyFill className='w-7 h-7 sm:w-10 sm:h-10' /></h1>
               <h1 className='py-3 max-sm:pt-1 font-extrabold text-3xl lg:text-5xl max-sm:text-3xl md:text-3xl leading-tight'>Sign up to <br /> start listening</h1>
-              <form onSubmit={handleSumbit} className='text-start md:pt-0 pt-0 lg:pt-5 max-sm:pt-0'>
+              <form onSubmit={handleSumbit} className='text-start md:pt-0 pt-0 lg:pt-5 max-sm:pt-4'>
                 <h1 className='pb-1 font-semibold max-sm:text-xs'>Username</h1>
                 <input
                   required
@@ -62,7 +62,7 @@ function Register() {
                   )}
                 </button>
               </form>
-              <div className='pt-3 max-sm:pt-2'>
+              <div className='pt-3 max-sm:pt-4'>
                 <h1 className='text-[#A9B3B3] max-sm:text-xs' >Already have an account?</h1>
                 <Link to='/login' className='font-bold'>Log in</Link>
               </div>

@@ -15,6 +15,7 @@ export const bannedUserContext = createContext()
 const AdminContext = ({ children }) => {
     const [getMonthlyActive, setMonthlyActive] = useState([])
     const [user, setUser] = useState(null)
+    const [userId, setUserId] = useState([])
     const { authReady } = useContext(resetContext)
     const [totalUsersData, setTotalUsersData] = useState([])
     const [totalArtistData, setTotalArtistData] = useState([])
@@ -42,6 +43,8 @@ const AdminContext = ({ children }) => {
             console.log(err);
         }
     }
+
+    
 
     useEffect(() => {
         if (!authReady || user?.role !== 'admin') return
@@ -174,7 +177,7 @@ const AdminContext = ({ children }) => {
     },[authReady, user])
 
     return (
-        <adminContext.Provider value={{ getMonthlyActive, user, setUser, totalUsersData, totalRolesData, totalArtistData, totalAdminData, totalAlbum, totalMusic, totalPlaylist, monthlyDataCount, getArtistApi }}>
+        <adminContext.Provider value={{ getMonthlyActive, user, setUser, totalUsersData, totalRolesData, totalArtistData, totalAdminData, totalAlbum, totalMusic, totalPlaylist, monthlyDataCount, getArtistApi, userId, setUserId }}>
             <adminUiContext.Provider value={{ adminNotification, setAdminNotification, adminProfileModal, setAdminProfileModal, adminPage, setAdminPage }}>
                 <bannedUserContext.Provider value={{blockRole, unblockRole }}>
                 {children}

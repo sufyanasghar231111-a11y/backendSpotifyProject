@@ -10,6 +10,7 @@ import { deleteLibraryData, getLibraryData, updateLibraryData } from '../api/lib
 import { setAccessToken, removeAccessToken } from '../api/accessToken';
 import { resetContext } from './ResetPasswordContext';
 import { adminContext } from './AdminContext';
+import socket from '../socket/socket';
 
 let authInitializationPromise = null;
 
@@ -70,6 +71,18 @@ const AuthContext = ({ children }) => {
     const { user, setUser } = useContext(adminContext)
     const { authReady, setAuthReady } = useContext(resetContext)
 
+    useEffect(()=>{
+        // if not user return if user connected and return disconnected
+        if(!user) return 
+        socket.connect()
+
+        socket.emit('join-user', user._id)
+
+        return ()=>{
+            socket.disconnect()
+        }
+
+    },[ user ])
 
     // this is for input field in profile update input it by default set user name 
     useEffect(() => {

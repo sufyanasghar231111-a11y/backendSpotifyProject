@@ -36,3 +36,7 @@ export const deletePlaylistPfp = (id) => {
 export const deleteUserPlaylist = (id) => {
     return api.delete(`/user/deletePlaylist/${id}`)
 }
+
+export const demoApi = () => {
+    return api.get(`/demo/demo-playlist-album-song`)
+}
