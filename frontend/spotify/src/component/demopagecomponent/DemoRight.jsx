@@ -24,7 +24,7 @@ const DemoRight = () => {
     })
   }
   return (
-    <div className="w-full md:w-[70%] relative max-sm:px-3 max-sm:mx-3 bg-[#282828] h-[76vh] overflow-hidden rounded-xl flex flex-col">
+    <div className="w-full md:w-[70%] relative max-sm:px-3 max-sm:mx-3 bg-[#282828] h-[76vh] overflow-hidden left rounded-xl flex flex-col">
       {
         loader && <DemoSkeletonLoader />
       }

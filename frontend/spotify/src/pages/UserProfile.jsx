@@ -1,4 +1,4 @@
-import { RiCamera4Line, RiPencilLine, RiPlayListLine } from '@remixicon/react'
+import { RiCamera4Line, RiChat3Line, RiMessage2Line, RiMessage3Line, RiPencilLine, RiPlayListLine } from '@remixicon/react'
 import { RiDiscLine, RiMusic2Line } from "@remixicon/react";
 import React, { useContext, useEffect } from 'react'
 import { adminContext } from '../contextapi/AdminContext'
@@ -13,16 +13,14 @@ import ArtistStatsChart from '../component/profilepagecomponent/ArtistStatsChart
 import OtherUserProfile from '../component/profilepagecomponent/OtherUserProfile';
 import { particularAlbumbyUser } from '../api/albumApi';
 import { totalSong } from '../api/artistMusic';
-import { ConversationContext } from '../contextapi/ChatContext';
 
 const UserProfile = () => {
 
   const { user, userId, setUserId } = useContext(adminContext)
-  const { setChatInput, chatInput, sendMessage, conversation} = useContext(ConversationContext)
-  
+
   const { visibleParticular, setVisibleParticular, otherArtist, setOtherArtist } = useContext(authPlaylist)
   const [totalMusicByArtist, setTotalMusicByArtist] = useState(null)
-
+  
   const { id } = useParams()
   async function handleVisiblePlaylist() {
     try {
@@ -55,11 +53,11 @@ const UserProfile = () => {
     }
   }
 
-  useEffect(()=>{
-    if(id){
+  useEffect(() => {
+    if (id) {
       totalMusic()
     }
-  },[id])
+  }, [id])
 
   const profileData = id && id !== user?._id ? userId : user
 
@@ -79,6 +77,8 @@ const UserProfile = () => {
   }, [id])
 
 
+
+
   const trimname = profileData?.username ?
     ((profileData.username.trim().split(' ')[0][0] + profileData.username.trim().split(' ').pop()[0]).toUpperCase())
     : '';
@@ -93,25 +93,37 @@ const UserProfile = () => {
 
         {/* Avatar */}
         <div className=' flex items-center gap-6'>
-        <CheckOwn isown={isown} trimname={trimname} profileData={profileData} />
+          <CheckOwn isown={isown} trimname={trimname} profileData={profileData} />
 
-        {/* Info */}
-        <div>
-          <h1 className='text-sm font-medium text-[#cfcfcf]'>Profile</h1>
+          {/* Info */}
+          <div>
+            <h1 className='text-sm font-medium text-[#cfcfcf]'>Profile</h1>
 
-          <h1 className='text-4xl sm:text-5xl font-extrabold tracking-tight'>
-            {profileData?.username}
-          </h1>
+            <h1 className='text-4xl sm:text-5xl font-extrabold tracking-tight'>
+              {profileData?.username}
+            </h1>
 
-          <h1 className='pt-2 font-medium text-sm text-[#b5b5b5]'>
-            {visibleParticular.length} Playlists
-          </h1>
+            <h1 className='pt-2 font-medium text-sm text-[#b5b5b5]'>
+              {visibleParticular.length} Public Playlists
+            </h1>
+          </div>
         </div>
-        </div>
-        <div className=''>
-          <input type="text" value={chatInput} onChange={(elem) =>{setChatInput(elem.target.value)}} className=' border ' />
-          <button disabled={!conversation?._id || !chatInput} onClick={sendMessage}>Send</button>
-        </div>
+        {!isown && (
+          <>
+         
+          <div className='w-25 relative group'>
+            <Link to={`/conversation/${userId?._id}`}>
+            
+          <button
+            className="flex items-center cursor-pointer transition-all  duration-500      text-center rounded-lg">
+            <RiChat3Line />
+          </button>
+              </Link>
+            <h1 className='hidden max-sm:block  transition-all  duration-500 group-hover:block text-xs font-semibold absolute  -top-13  w-fit  rounded-lg   px-3 py-1.5 bg-zinc-900 '>Start Conversation</h1>
+          </div>
+            
+          </>
+        )}
       </div>
 
       {/* CONTENT */}

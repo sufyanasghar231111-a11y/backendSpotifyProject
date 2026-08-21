@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import React, { createContext, useContext, useEffect, useState } from 'react'
-import { conversationApi, messageApi } from '../api/chatApi'
-import { adminContext } from './AdminContext'
+import React, { createContext, useEffect, useRef, useState } from 'react'
+import { messageApi } from '../api/chatApi'
 import socket from '../socket/socket'
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -11,27 +10,22 @@ const ChatContext = ({ children }) => {
     const [messages, setMessages] = useState([])
     const [conversation, setConversation] = useState(null)
     const [chatInput, setChatInput] = useState('')
-    const { userId } = useContext(adminContext)
-    const createConversation = async () => {
-        try {
-            const res = await conversationApi({
-                userId: userId?._id
+
+
+    let scrollRef = useRef(null)
+
+    useEffect(()=>{
+        if(messages.length > 0){
+            scrollRef.current?.scrollIntoView({
+                behavior:'smooth'
             })
-            console.log('BEFORE SET:', res.data.conversation)
-            setConversation(res.data.conversation)
         }
-        catch (err) {
-            console.log(err);
-        }
-    }
-
-    useEffect(() => {
-        if (!userId?._id) return
-        createConversation()
-    }, [userId?._id])
+    },[messages])
 
 
-    const sendMessage = async () => {
+    const sendMessage = async (e) => {
+        e.preventDefault()
+        if (!chatInput) return
         try {
             const res = await messageApi(conversation._id, {
                 text: chatInput
@@ -43,6 +37,7 @@ const ChatContext = ({ children }) => {
                 ...prev,
                 newMessage
             ])
+            setChatInput('')
         }
         catch (err) {
             console.log(err);
@@ -63,8 +58,10 @@ const ChatContext = ({ children }) => {
 
     }, [])
 
+
+
     return (
-        <ConversationContext.Provider value={{ createConversation, setChatInput, chatInput, sendMessage, messages, conversation }}>
+        <ConversationContext.Provider value={{ setChatInput, chatInput, sendMessage, messages, setMessages, conversation, setConversation, scrollRef }}>
             {children}
         </ConversationContext.Provider>
     )

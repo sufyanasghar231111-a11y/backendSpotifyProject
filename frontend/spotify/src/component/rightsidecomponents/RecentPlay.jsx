@@ -156,7 +156,7 @@ const RecentPlay = () => {
                 type="button"
                 onClick={(e) => {
                   e.stopPropagation()
-                  deleteData(item.recentId || item._id)
+                  deleteData(item._id)
                 }}
                 aria-label="Remove from history"
                 className="

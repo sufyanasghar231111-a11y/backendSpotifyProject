@@ -32,6 +32,7 @@ import DashBoardRight from './component/adminPageComponent/dashBoardpageComponen
 import DemoProtectedRoute from './route/DemoProtectedRoute'
 import DemoPage from './pages/DemoPage'
 import Page404 from './pages/Page404'
+import ConversationPage from './pages/ConversationPage'
 
 
 function App() {
@@ -86,6 +87,7 @@ function App() {
             <Route path='profile' element={<UserProfile />} />
             <Route path='profile/:id' element={<UserProfile />} />
             <Route path='searchmusic' element={<Musicforsearch />} />
+            <Route path='conversation/:id' element={<ConversationPage />} />
           </Route>
         </Route>
         <Route path='*' element={<Page404 />} />
